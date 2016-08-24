@@ -1,5 +1,5 @@
+import { AppRegistry, StyleSheet, Text, TouchableHighlight, View, ViewPagerAndroid } from 'react-native';
 import React, { Component, PropTypes } from 'react';
-import {AppRegistry, StyleSheet, Text, View, TouchableHighlight, ViewPagerAndroid } from 'react-native';
 
 const styles = StyleSheet.create({
   bevColorPrimary: {
