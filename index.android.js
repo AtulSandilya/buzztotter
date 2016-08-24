@@ -6,44 +6,7 @@ const styles = StyleSheet.create({
     // Tealish Green
     backgroundColor: "#8ED0BA",
   },
-
-  bevColorSecondary: {
-    // Brown
-    backgroundColor: "#8B5E3C",
-  },
-
-  bevColorActiveSecondary: {
-    // Light Brown
-    backgroundColor: "#AC9774",
-  },
-
-  whiteText: {
-    color: "#ffffff",
-  }
-});
-
-class Branding extends Component {
-  static propTypes = {
-    title: React.PropTypes.string,
-  }
-
-  static defaultProps = {
-    title: "Bevegram"
-  }
-
-  render() {
-    return(
-      <View style={[{
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }, styles.bevColorPrimary]}>
-        <Text>{this.props.title}</Text>
-      </View>
-    );
-  }
-}
+import {styles} from './src/Styles'
 
 class MainNavigationButton extends Component {
 
