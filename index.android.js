@@ -1,11 +1,7 @@
 import { AppRegistry, StyleSheet, Text, TouchableHighlight, View, ViewPagerAndroid } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
-const styles = StyleSheet.create({
-  bevColorPrimary: {
-    // Tealish Green
-    backgroundColor: "#8ED0BA",
-  },
+import Branding from './src/Branding'
 import {styles} from './src/Styles'
 
 class MainNavigationButton extends Component {
