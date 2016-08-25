@@ -2,6 +2,7 @@ import { AppRegistry, StyleSheet, Text, TouchableHighlight, View, ViewPagerAndro
 import React, { Component, PropTypes } from 'react';
 
 import Branding from './src/Branding'
+import Contacts from './src/Contacts'
 import {styles} from './src/Styles'
 
 class MainNavigationButton extends Component {
@@ -41,22 +42,6 @@ class MainNavigationButton extends Component {
           {this.props.label}</Text>
         </View>
       </TouchableHighlight>
-    );
-  }
-}
-
-class Contacts extends Component {
-  render() {
-    return(
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-        <Text>
-          You Have No Contacts Yet!
-        </Text>
-      </View>
     );
   }
 }
