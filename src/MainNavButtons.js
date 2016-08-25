@@ -1,9 +1,16 @@
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
 import MainNavButton from './MainNavButton'
 
-import {colors, styles} from './Styles'
+import {colors} from './Styles'
+
+const styles = StyleSheet.create({
+    navContainer: {
+        flex: 1,
+        flexDirection: 'row',
+    }
+});
 
 export default class MainNavButtons extends Component {
   static propTypes = {
@@ -19,10 +26,7 @@ export default class MainNavButtons extends Component {
     let activeArray = [false, false, false, false];
     activeArray[this.props.activeButtonPos] = true;
     return(
-      <View style={[{
-        flex: 1,
-        flexDirection: 'row'
-      }, styles.bevColorSecondary]}>
+      <View style={styles.navContainer}>
         <MainNavButton
           label="Contacts"
           isActive={activeArray[0]}
