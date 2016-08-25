@@ -1,9 +1,16 @@
 // import React, { Component, PropTypes } from 'react';
 // import {AppRegistry, ListView, Dimensions, ScrollView, StyleSheet, Text, TextInput, Image, View, Navigator, TouchableHighlight, ViewPagerAndroid } from 'react-native';
-import {ListView, Text, View, } from 'react-native';
+import {ListView, StyleSheet, Text, View, } from 'react-native';
 import React, { Component} from 'react';
 
 import Contact from './Contact'
+
+const styles = StyleSheet.create({
+  rowSeparator: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: "#8E8E8E",
+  },
+});
 
 export default class Contacts extends Component {
   constructor(props){
@@ -50,6 +57,7 @@ export default class Contacts extends Component {
               imagePath={rowData.imagePath}
             />
           }
+          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.rowSeparator} />}
         />
       </View>
     );
