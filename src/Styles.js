@@ -1,19 +1,25 @@
 import { StyleSheet } from 'react-native';
 
+export const colors = {
+  // Tealish Green
+  bevColorPrimary: '#8ED0BA',
+  // Brown
+  bevColorSecondary: "#8B5E3C",
+  // Light Brown
+  bevColorActiveSecondary: "#AC9774",
+}
+
 export const styles = StyleSheet.create({
   bevColorPrimary: {
-    // Tealish Green
-    backgroundColor: "#8ED0BA",
+    backgroundColor: colors.bevColorPrimary,
   },
 
   bevColorSecondary: {
-    // Brown
-    backgroundColor: "#8B5E3C",
+    backgroundColor: colors.bevColorSecondary,
   },
 
   bevColorActiveSecondary: {
-    // Light Brown
-    backgroundColor: "#AC9774",
+    backgroundColor: colors.bevColorActiveSecondary,
   },
 
   whiteText: {
