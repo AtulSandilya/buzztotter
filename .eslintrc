@@ -15,9 +15,6 @@
     "rules": {
         "no-unused-vars": "off",
         "no-console": "off",
-        "sort-imports": ["error", {
-            "ignoreCase": true,
-        }]
     },
     "plugins": [
         "babel",
