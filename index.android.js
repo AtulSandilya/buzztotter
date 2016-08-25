@@ -3,48 +3,9 @@ import React, { Component, PropTypes } from 'react';
 
 import Branding from './src/Branding'
 import Contacts from './src/Contacts'
-import {styles} from './src/Styles'
+import MainNavButtons from './src/MainNavButtons'
 
-class MainNavigationButton extends Component {
-
-  static propTypes = {
-    label: React.PropTypes.string,
-    isActive: React.PropTypes.bool,
-    position: React.PropTypes.number,
-    updateMenuPosition: React.PropTypes.func,
-  }
-
-  static defaultProps = {
-    label: "Button",
-    isActive: false,
-    position: 0,
-  }
-
-  handlePress() {
-    // Send the clicked button position to the parent
-    this.props.updateMenuPosition(this.props.position);
-  }
-
-  render() {
-    return(
-      <TouchableHighlight
-        onPress={this.handlePress.bind(this)}
-        style={{flex: 1}}
-      >
-        <View style={[{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }, this.props.isActive ? styles.bevColorActiveSecondary : styles.bevColorSecondary]}>
-          <Text
-            style={styles.whiteText}
-          >
-          {this.props.label}</Text>
-        </View>
-      </TouchableHighlight>
-    );
-  }
-}
+import {colors, styles} from './src/Styles'
 
 class Drinks extends Component {
   render() {
@@ -89,53 +50,6 @@ class Deals extends Component {
         <Text>
           There are no deals yet!
         </Text>
-      </View>
-    );
-  }
-}
-
-class MainNavButtons extends Component {
-  static propTypes = {
-    activeButtonPos: React.PropTypes.number,
-    updateMenuPosition: React.PropTypes.func,
-  }
-
-  static defaultProps = {
-    activeButtonPos: 0,
-  }
-
-  render() {
-    let activeArray = [false, false, false, false];
-    activeArray[this.props.activeButtonPos] = true;
-    return(
-      <View style={[{
-        flex: 1,
-        flexDirection: 'row'
-      }, styles.bevColorSecondary]}>
-        <MainNavigationButton
-          label="Contacts"
-          isActive={activeArray[0]}
-          position={0}
-          updateMenuPosition={this.props.updateMenuPosition}
-        />
-        <MainNavigationButton
-          label="Bevegrams"
-          isActive={activeArray[1]}
-          position={1}
-          updateMenuPosition={this.props.updateMenuPosition}
-        />
-        <MainNavigationButton
-          label="Map"
-          isActive={activeArray[2]}
-          position={2}
-          updateMenuPosition={this.props.updateMenuPosition}
-        />
-        <MainNavigationButton
-          label="Deals"
-          isActive={activeArray[3]}
-          position={3}
-          updateMenuPosition={this.props.updateMenuPosition}
-        />
       </View>
     );
   }
