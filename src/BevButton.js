@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
 import { colors } from './Styles'
 
@@ -24,14 +24,20 @@ const styles = StyleSheet.create({
 export default class BevButton extends Component {
   static propTypes = {
     buttonText: React.PropTypes.string,
+    bevButtonPressed: React.PropTypes.func,
   }
 
   render() {
     return(
       <View style={styles.buttonContainer}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>{this.props.buttonText}</Text>
-        </View>
+        <TouchableHighlight
+          onPress={() => this.props.bevButtonPressed()}
+          underlayColor={"#ffffff"}
+        >
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>{this.props.buttonText}</Text>
+          </View>
+        </TouchableHighlight>
       </View>
     );
   }

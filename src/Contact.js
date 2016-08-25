@@ -34,6 +34,11 @@ export default class Contact extends Component {
     imagePath: React.PropTypes.string,
   }
 
+  buttonPressed(){
+    // Show BuyBeer Modal
+    alert(this.props.name + 's button was pressed');
+  }
+
   render() {
     return(
       <View style={styles.parentContainer}>
@@ -49,6 +54,7 @@ export default class Contact extends Component {
         <View style={styles.buttonContainer}>
           <BevButton
             buttonText={"Send " + this.props.name + " a Beer!"}
+            bevButtonPressed={this.buttonPressed.bind(this)}
           />
         </View>
       </View>
