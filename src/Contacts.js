@@ -3,12 +3,13 @@
 import {ListView, StyleSheet, Text, View, } from 'react-native';
 import React, { Component} from 'react';
 
+import {colors} from './Styles'
 import Contact from './Contact'
 
 const styles = StyleSheet.create({
   rowSeparator: {
     height: StyleSheet.hairlineWidth,
-    backgroundColor: "#8E8E8E",
+    backgroundColor: colors.lightSeparator,
   },
 });
 

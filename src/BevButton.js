@@ -5,7 +5,7 @@ import { colors } from './Styles'
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.bevColorSecondary,
+    backgroundColor: colors.bevSecondary,
     borderColor: "#000000",
     borderRadius: 10,
     flex: -1,
