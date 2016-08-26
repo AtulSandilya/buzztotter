@@ -1,4 +1,4 @@
-import { Dimensions, Modal, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Dimensions, Modal, ScrollView, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
 const styles = StyleSheet.create({
@@ -66,6 +66,7 @@ export default class CenteredModal extends Component {
                 height: height.full,
                 width: width.full,
               }}
+              underlayColor={'#222222'}
               onPress={() => this.props.closeFromParent()}
             >
               <Text> </Text>
