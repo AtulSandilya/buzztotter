@@ -16,6 +16,12 @@ export default class Branding extends Component {
     this.setState({modalVisible: visible});
   }
 
+  closeModal(){
+    this.setState({
+      modalVisible: false,
+    });
+  }
+
   static propTypes = {
     title: React.PropTypes.string,
   }
@@ -68,25 +74,12 @@ export default class Branding extends Component {
             />
           </TouchableHighlight>
         </View>
-        <Modal
-          animationType={"fade"}
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {}}
+        <CenteredModal
+          isVisible={this.state.modalVisible}
+          closeFromParent={this.closeModal.bind(this)}
         >
-          <View
-            style={{flex: 1}}
-          >
-            <TouchableHighlight
-              onPress={() => {
-                this.setModalVisible(!this.state.modalVisible)
-              }}
-            >
-              <Text>Close</Text>
-            </TouchableHighlight>
-            <Settings />
-          </View>
-        </Modal>
+          <Settings />
+        </CenteredModal>
       </View>
     );
   }
