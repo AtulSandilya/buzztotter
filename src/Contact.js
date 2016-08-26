@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 
 import BevButton from './BevButton'
 import CenteredModal from './CenteredModal'
+import PurchaseBeer from './PurchaseBeer'
 
 const styles = StyleSheet.create({
   parentContainer: {
@@ -77,11 +78,12 @@ export default class Contact extends Component {
           isVisible={this.state.buyBeerVisible}
           closeFromParent={this.closeModal.bind(this)}
         >
-          <TouchableHighlight
-            onPress={this.closeModal.bind(this)}
-          >
-            <Text style={{padding: 50}}>Send a beer to {this.props.name}</Text>
-          </TouchableHighlight>
+          <View style={{flex: 1}}>
+            <PurchaseBeer
+              name={this.props.name}
+              cancelPurchaseAction={this.closeModal.bind(this)}
+            />
+          </View>
         </CenteredModal>
       </View>
     );

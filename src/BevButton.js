@@ -25,6 +25,11 @@ export default class BevButton extends Component {
   static propTypes = {
     buttonText: React.PropTypes.string,
     bevButtonPressed: React.PropTypes.func,
+    buttonFontSize: React.PropTypes.number,
+  }
+
+  static defaultProps = {
+    buttonFontSize: 12,
   }
 
   render() {
@@ -35,7 +40,7 @@ export default class BevButton extends Component {
           underlayColor={"#ffffff"}
         >
           <View style={styles.button}>
-            <Text style={styles.buttonText}>{this.props.buttonText}</Text>
+            <Text style={[styles.buttonText, {fontSize: this.props.buttonFontSize}]}>{this.props.buttonText}</Text>
           </View>
         </TouchableHighlight>
       </View>
