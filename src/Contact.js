@@ -1,7 +1,8 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
 import BevButton from './BevButton'
+import CenteredModal from './CenteredModal'
 
 const styles = StyleSheet.create({
   parentContainer: {
@@ -28,6 +29,13 @@ const styles = StyleSheet.create({
 })
 
 export default class Contact extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      buyBeerVisible: false,
+    }
+  }
+
   static propTypes = {
     name: React.PropTypes.string,
     birthday: React.PropTypes.string,
@@ -36,7 +44,15 @@ export default class Contact extends Component {
 
   buttonPressed(){
     // Show BuyBeer Modal
-    alert(this.props.name + 's button was pressed');
+    this.setState({
+      buyBeerVisible: true,
+    });
+  }
+
+  closeModal(){
+    this.setState({
+      buyBeerVisible: false,
+    });
   }
 
   render() {
@@ -57,6 +73,16 @@ export default class Contact extends Component {
             bevButtonPressed={this.buttonPressed.bind(this)}
           />
         </View>
+        <CenteredModal
+          isVisible={this.state.buyBeerVisible}
+          closeFromParent={this.closeModal.bind(this)}
+        >
+          <TouchableHighlight
+            onPress={this.closeModal.bind(this)}
+          >
+            <Text style={{padding: 50}}>Send a beer to {this.props.name}</Text>
+          </TouchableHighlight>
+        </CenteredModal>
       </View>
     );
   }
