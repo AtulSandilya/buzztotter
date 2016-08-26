@@ -1,8 +1,9 @@
 import { Dimensions, Image, Modal, Text, TouchableHighlight, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
+import CenteredModal from './CenteredModal'
 import Settings from './Settings'
-import {styles} from './Styles'
+import {colors, styles} from './Styles'
 
 export default class Branding extends Component {
   constructor(props){
@@ -63,6 +64,7 @@ export default class Branding extends Component {
             onPress={() => {
               this.setModalVisible(!this.state.modalVisible)
             }}
+            underlayColor={colors.bevPrimary}
           >
             <Image
               source={require('../img/icons/settings-icon.png')}
