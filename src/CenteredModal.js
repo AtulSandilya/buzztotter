@@ -80,7 +80,9 @@ export default class CenteredModal extends Component {
             left: width.edge,
             zIndex: 100,
           }}>
-            {this.props.children}
+            <ScrollView style={{zIndex: 100, height: height.inner}}>
+              {this.props.children}
+            </ScrollView>
           </View>
         </View>
       </Modal>
