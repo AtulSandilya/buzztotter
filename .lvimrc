@@ -1,0 +1,68 @@
+function! RestartReactNative()
+    echo "Restarting React Native..."
+    call KillReactNative()
+    exe "Term adb uninstall com.bevegram && react-native run-android"
+    exe "startinsert"
+    call system('sleep 5 && osascript -e "tell application \"System Events\" to tell process \"Terminal\" to set visible to false"')
+    echo ""
+endfunction
+
+function! KillReactNative()
+    echo "Killing React Native..."
+    " From livioso/react-native-kill-packager
+    " Kill all the react processes
+    call system("lsof -n -iTCP:8081 | sed '1 d' | awk '{print $2}' | xargs kill -9")
+    " Close the terminal
+    call system("killall -9 Terminal")
+    echo ""
+endfunction
+
+function! BuildReactNativeForAndroid()
+    let build_dir = "app/build/outputs/apk/"
+    let release_dir = "ReleaseBuilds/"
+
+    " Get the version number for the apk filename
+    let release_version = ""
+    let version_file = "src/Global.js"
+    for line in readfile(version_file)
+        if line =~ "version:"
+            let release_version = matchstr(line, '".*"')
+            let release_version = release_version[1:-2]
+            let release_version = substitute(release_version, '\.', '-', 'g')
+            break
+        endif
+    endfor
+
+    let apk_name = "Bevegram-" . release_version . ".apk"
+
+    let install_cmd = ""
+    if confirm("Install apk on device?", "&Yes\n&No\n") == 1
+        let install_cmd = "adb uninstall com.bevegram && adb install " . release_dir . apk_name
+    endif
+
+    echo "Building android apk..."
+    exe ":Term cd android && ./gradlew assembleRelease && sleep 1 && cp " . build_dir . "app-release.apk " . release_dir . apk_name . " && " . install_cmd
+    exe "startinsert"
+    if confirm("Open release folder? ", "&Yes\n&No") == 1
+        call system("open android/" . release_dir)
+    endif
+endfunction
+
+function! BuildReactNative()
+    let build_platform = confirm("Build for which platform: ", "&Android\n&iOS")
+
+    " Android
+    if build_platform == 1
+        echo "\n"
+        call BuildReactNativeForAndroid()
+    elseif
+        echo "Invalid build choice!"
+    endif
+endfunction
+
+" Compile
+nnoremap <silent> cp :call BuildReactNative()<CR>
+" Compile dev
+nnoremap <silent> cd :call RestartReactNative()<CR>
+" Compile kill
+nnoremap <silent> ck :call KillReactNative()<CR>
