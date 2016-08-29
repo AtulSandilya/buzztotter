@@ -48,7 +48,7 @@ class Deals extends Component {
         alignItems: 'center',
       }}>
         <Text>
-          There are no deals yet!
+          Coming Soon!
         </Text>
       </View>
     );

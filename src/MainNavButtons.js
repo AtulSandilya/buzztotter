@@ -49,7 +49,7 @@ export default class MainNavButtons extends Component {
         />
         <MainNavSeparator />
         <MainNavButton
-          label="Deals"
+          label="History"
           isActive={activeArray[3]}
           position={3}
           updateMenuPosition={this.props.updateMenuPosition}
