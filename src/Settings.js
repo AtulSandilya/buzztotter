@@ -4,6 +4,7 @@ import { StyleSheet, Switch, Text, View } from 'react-native';
 import TitleText from './TitleText'
 
 import {colors} from './Styles'
+import {app} from './Global'
 
 const styles = StyleSheet.create({
   settingLine: {
@@ -61,6 +62,14 @@ export default class Settings extends Component {
               onValueChange={(value) => this.toggleSetting('location')}
               value={this.state.location}
             />
+          </SettingRight>
+        </SettingLine>
+        <SettingLine>
+          <SettingLeft>
+            <SettingName>Version:</SettingName>
+          </SettingLeft>
+          <SettingRight>
+            <Text>{app.version}</Text>
           </SettingRight>
         </SettingLine>
       </View>
