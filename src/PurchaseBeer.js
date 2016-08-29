@@ -184,7 +184,7 @@ export default class PurchaseBeer extends Component {
           <View style={styles.purchaseLineLeft}>
             <Text style={styles.purchaseLineTextTitle}>Payment Method:</Text>
           </View>
-          <View style={{flex: 1, justifyItems: 'center', top: -10}}>
+          <View style={{flex: 1, justifyContent: 'center'}}>
             <Picker
               selectedValue={this.state.paymentMethod}
               onValueChange={(paymentMethod) => this.setPaymentMethod(paymentMethod)}
