@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { StyleSheet, Switch, Text, View } from 'react-native';
 
+import { connect } from 'react-redux'
+
 import TitleText from './TitleText'
 
 import {colors} from './Styles'
@@ -16,19 +18,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class Settings extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      notifications: true,
-      location: true,
-    }
-  }
-
-  toggleSetting(keyValue){
-    var updateObject = {};
-    updateObject[keyValue] = !this.state[keyValue];
-    this.setState(updateObject);
+class Settings extends Component {
+  static propTypes = {
+    notifications: React.PropTypes.bool,
+    location: React.PropTypes.bool,
   }
 
   render() {
@@ -48,8 +41,8 @@ export default class Settings extends Component {
           </SettingLeft>
           <SettingRight>
             <Switch
-              onValueChange={(value) => this.toggleSetting('notifications')}
-              value={this.state.notifications}
+              onValueChange={this.props.onSettingToggle.bind(null, 'notifications')}
+              value={this.props.notifications}
             />
           </SettingRight>
         </SettingLine>
@@ -59,8 +52,8 @@ export default class Settings extends Component {
           </SettingLeft>
           <SettingRight>
             <Switch
-              onValueChange={(value) => this.toggleSetting('location')}
-              value={this.state.location}
+              onValueChange={this.props.onSettingToggle.bind(null, 'location')}
+              value={this.props.location}
             />
           </SettingRight>
         </SettingLine>
@@ -76,6 +69,34 @@ export default class Settings extends Component {
     );
   }
 }
+
+// Take the current state from the store and return an object. The keys of
+// this object become props in the component
+const mapStateToProps = (state) => {
+  return {
+    notifications: state.settings.notifications,
+    location: state.settings.location,
+  }
+}
+
+// The returned objects keys map to functions that happen when the prop is
+// called like a function.
+const mapDispatchToProps = (dispatch) => {
+    return {
+      // To pass a value from a component to this function via.
+      // this.props.onSettingsToggle the value is `bind` to the prop. Remember
+      // that the first arg to bind is `this` is necessary (here it is not
+      // used so it is `null`) and anything after is passed to the function in
+      // that order
+      onSettingToggle: (settingKey) => {
+        // The input to the dispatch function the action type (required) and any other
+        // value you want to use in the reducer
+        dispatch({type: 'TOGGLE_SETTING', settingName: settingKey})
+      },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
 
 class SettingLeft extends Component {
   render() {

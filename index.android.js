@@ -1,11 +1,31 @@
 import { AppRegistry, StyleSheet, Text, TouchableHighlight, View, ViewPagerAndroid } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+
 import Branding from './src/Branding'
 import Contacts from './src/Contacts'
 import MainNavButtons from './src/MainNavButtons'
 
 import {colors, styles} from './src/Styles'
+
+import settings from './src/reducers'
+
+function configureStore(settings){
+  const store = createStore(settings);
+
+  if(module.hot){
+    module.hot.accept(() => {
+      const nextRootReducer = require('./src/reducers/index').default;
+      store.replaceReducer(nextRootReducer);
+    });
+  }
+
+  return store;
+}
+
+let store = configureStore(settings)
 
 class Drinks extends Component {
   render() {
@@ -140,7 +160,9 @@ class MainViewPager extends Component {
 class Bevegram extends Component {
   render() {
     return (
-      <MainUi />
+      <Provider store={store}>
+        <MainUi />
+      </Provider>
     );
   }
 }
