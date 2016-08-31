@@ -60,9 +60,20 @@ function! BuildReactNative()
     endif
 endfunction
 
+function! RestartAndroidApp()
+    let package = "com.bevegram"
+    let activity = "MainActivity"
+    let stop_cmd = "adb shell am force-stop " . package
+    let start_cmd = "adb shell am start -n " . package . "/." . activity
+    echo "Restarting " . package . "..."
+    exe "! " . stop_cmd . " && " . start_cmd
+endfunction
+
 " Compile
 nnoremap <silent> cp :call BuildReactNative()<CR>
 " Compile dev
 nnoremap <silent> cd :call RestartReactNative()<CR>
 " Compile kill
 nnoremap <silent> ck :call KillReactNative()<CR>
+" Compile Open
+nnoremap <silent> co :call RestartAndroidApp()<CR>

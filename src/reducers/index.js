@@ -5,8 +5,6 @@ const initialState = {
   }
 }
 
-
-// toggleSettigs
 const toggleSetting = (state, key) => {
   // Create a cloned state object and assign the key the inverted value from the state
   let newState = Object.assign({}, state);
