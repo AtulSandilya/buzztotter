@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import Branding from './Branding'
 import MainNavButtons from './MainNavButtons'
-import MainViewPager from './MainViewPager.js'
+import MainViewPager from './MainViewPager'
 
 class MainUi extends Component {
   render() {
@@ -32,8 +32,10 @@ class MainUi extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log("Main ui map state to props");
+  console.log(state);
   return {
-    menuPosition: state.currentView,
+    menuPosition: state.view.currentView,
   }
 }
 

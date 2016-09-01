@@ -11,7 +11,7 @@ class MainNavButton extends Component {
     label: React.PropTypes.string,
     isActive: React.PropTypes.bool,
     position: React.PropTypes.number,
-    updateMenuPosition: React.PropTypes.func,
+    onButtonPress: React.PropTypes.func,
   }
 
   static defaultProps = {
@@ -20,12 +20,6 @@ class MainNavButton extends Component {
     position: 0,
   }
 
-  handlePress() {
-    // Send the clicked button position to the parent
-    this.props.updateMenuPosition(this.props.position);
-  }
-
-        // onPress={this.handlePress.bind(this)}
   render() {
     return(
       <TouchableHighlight

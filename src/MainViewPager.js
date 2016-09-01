@@ -16,8 +16,8 @@ class MainViewPager extends Component {
   }
 
   onPageSelected(event){
-    this.props.updateMenuPosition.bind(null, event.nativeEvent.position);
-    // this.props.updateMenuPosition(event.nativeEvent.position);
+    // This is explicitly called like a function
+    this.props.updateMenuPosition(event.nativeEvent.position);
   }
 
   componentWillReceiveProps(nextProps){
@@ -51,9 +51,9 @@ class MainViewPager extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateMenuPosition: (newPosition) => {
-      dispatch({type: 'GOTO_VIEW', newPosition: newPosition});
-    }
+    updateMenuPosition: (position) => {
+      dispatch({type: 'GOTO_VIEW', newPosition: position});
+    },
   }
 }
 
