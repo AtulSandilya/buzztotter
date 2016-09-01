@@ -1,9 +1,11 @@
 import { Text, TouchableHighlight, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
+import { connect } from 'react-redux';
+
 import {styles} from './Styles.js'
 
-export default class MainNavButton extends Component {
+class MainNavButton extends Component {
 
   static propTypes = {
     label: React.PropTypes.string,
@@ -23,10 +25,11 @@ export default class MainNavButton extends Component {
     this.props.updateMenuPosition(this.props.position);
   }
 
+        // onPress={this.handlePress.bind(this)}
   render() {
     return(
       <TouchableHighlight
-        onPress={this.handlePress.bind(this)}
+        onPress={this.props.onButtonPress.bind(null, this.props.position)}
         style={{flex: 1}}
       >
         <View style={[{
@@ -43,3 +46,13 @@ export default class MainNavButton extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onButtonPress: (position) => {
+      dispatch({type: 'GOTO_VIEW', newPosition: position});
+    },
+  }
+}
+
+export default connect(undefined, mapDispatchToProps)(MainNavButton);
