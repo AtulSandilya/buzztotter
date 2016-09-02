@@ -4,14 +4,8 @@ import {ListView, StyleSheet, Text, View, } from 'react-native';
 import {connect} from 'react-redux';
 
 import {colors} from './Styles'
+import {globalStyles} from './Global'
 import Contact from './Contact'
-
-const styles = StyleSheet.create({
-  rowSeparator: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: colors.lightSeparator,
-  },
-});
 
 class Contacts extends Component {
   render() {
@@ -27,7 +21,7 @@ class Contacts extends Component {
               imagePath={rowData.imagePath}
             />
           }
-          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.rowSeparator} />}
+          renderSeparator={(sectionId, rowId) => <View key={rowId} style={globalStyles.listRowSeparator} />}
         />
       </View>
     );
