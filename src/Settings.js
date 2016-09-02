@@ -3,6 +3,8 @@ import { StyleSheet, Switch, Text, View } from 'react-native';
 
 import { connect } from 'react-redux'
 
+import settingsKeys from './reducers/settings'
+
 import TitleText from './TitleText'
 
 import {colors} from './Styles'
@@ -41,7 +43,7 @@ class Settings extends Component {
           </SettingLeft>
           <SettingRight>
             <Switch
-              onValueChange={this.props.onSettingToggle.bind(null, 'notifications')}
+              onValueChange={this.props.onSettingToggle.bind(null, settingsKeys.notifications)}
               value={this.props.notifications}
             />
           </SettingRight>
@@ -52,7 +54,7 @@ class Settings extends Component {
           </SettingLeft>
           <SettingRight>
             <Switch
-              onValueChange={this.props.onSettingToggle.bind(null, 'location')}
+              onValueChange={this.props.onSettingToggle.bind(null, settingsKeys.location)}
               value={this.props.location}
             />
           </SettingRight>
@@ -88,10 +90,10 @@ const mapDispatchToProps = (dispatch) => {
       // that the first arg to bind is `this` is necessary (here it is not
       // used so it is `null`) and anything after is passed to the function in
       // that order
-      onSettingToggle: (settingKey) => {
+      onSettingToggle: (inputKey) => {
         // The input to the dispatch function the action type (required) and any other
         // value you want to use in the reducer
-        dispatch({type: 'TOGGLE_SETTING', settingName: settingKey})
+        dispatch({type: 'TOGGLE_SETTING', settingKey: inputKey})
       },
     }
 }

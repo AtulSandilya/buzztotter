@@ -1,7 +1,23 @@
-export const settings = (state = {notifications: false, location: true}, action) => {
+export const settingsKeys = {
+  notifications: 'notifications',
+  location: 'location',
+}
+
+const defaultSettings = {
+  notifications: true,
+  location: true,
+}
+
+export const settings = (state = defaultSettings, action) => {
   switch(action.type){
     case 'TOGGLE_SETTING':
-      return toggleSetting(state, action.settingName);
+      // Check if the settingKey passed is valid, if not return the original
+      // state, ie don't toggle anything
+      if(settingsKeys.hasOwnProperty(action.settingKey)){
+        return toggleSetting(state, action.settingKey);
+      } else {
+        return state;
+      }
     default:
       return state;
   }
