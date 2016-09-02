@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
 
 import Contacts from './Contacts'
+import Bevegrams from './Bevegrams'
 
 class MainViewPager extends Component {
   static propTypes = {
@@ -36,7 +37,7 @@ class MainViewPager extends Component {
           <Contacts />
         </View>
         <View style={{flex: 1}}>
-          <Drinks />
+          <Bevegrams />
         </View>
         <View style={{flex: 1}}>
           <BevegramLocations />
@@ -58,22 +59,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(undefined, mapDispatchToProps)(MainViewPager);
-
-class Drinks extends Component {
-  render() {
-    return(
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-        <Text>
-          No one has bought you a drink yet :(
-        </Text>
-      </View>
-    );
-  }
-}
 
 class BevegramLocations extends Component {
   render() {
