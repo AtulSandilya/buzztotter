@@ -38,7 +38,7 @@ export default class Contact extends Component {
   }
 
   static propTypes = {
-    name: React.PropTypes.string,
+    name: React.PropTypes.object,
     birthday: React.PropTypes.string,
     imagePath: React.PropTypes.string,
   }
@@ -56,6 +56,10 @@ export default class Contact extends Component {
     });
   }
 
+  getFullName() {
+    return this.props.name.first + " " + this.props.name.last;
+  }
+
   render() {
     return(
       <View style={styles.parentContainer}>
@@ -64,13 +68,13 @@ export default class Contact extends Component {
             source={require('../img/icons/bev-contact.png')}
           />
           <View style={styles.infoTextContainer}>
-            <Text style={{paddingLeft: 15, paddingBottom: 5}}>{this.props.name}</Text>
+            <Text style={{paddingLeft: 15, paddingBottom: 5}}>{this.getFullName()}</Text>
             <Text style={{paddingLeft: 15}}>{this.props.birthday}</Text>
           </View>
         </View>
         <View style={styles.buttonContainer}>
           <BevButton
-            buttonText={"Send " + this.props.name + " a Beer!"}
+            buttonText={"Send " + this.props.name.first + " a Beer!"}
             bevButtonPressed={this.buttonPressed.bind(this)}
           />
         </View>
@@ -80,7 +84,7 @@ export default class Contact extends Component {
         >
           <View style={{flex: 1}}>
             <PurchaseBeer
-              name={this.props.name}
+              name={this.getFullName()}
               cancelPurchaseAction={this.closeModal.bind(this)}
             />
           </View>

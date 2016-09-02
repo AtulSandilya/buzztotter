@@ -3,6 +3,8 @@
 import {ListView, StyleSheet, Text, View, } from 'react-native';
 import React, { Component} from 'react';
 
+import {connect} from 'react-redux';
+
 import {colors} from './Styles'
 import Contact from './Contact'
 
@@ -13,44 +15,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Contacts extends Component {
-  constructor(props){
-    super(props);
-
-    // For the demo this data is hardcoded
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.state = {
-      dataSource: ds.cloneWithRows([
-        {name: 'Fred', birthday: 'March 1', imagePath: 'test.jpg'},
-        {name: 'Thomas', birthday: 'September 2', imagePath: 'test.jpg'},
-        {name: 'Sara', birthday: 'December 3', imagePath: 'test.jpg'},
-        {name: 'Fred', birthday: 'March 1', imagePath: 'test.jpg'},
-        {name: 'Thomas', birthday: 'September 2', imagePath: 'test.jpg'},
-        {name: 'Sara', birthday: 'December 3', imagePath: 'test.jpg'},
-        {name: 'Fred', birthday: 'March 1', imagePath: 'test.jpg'},
-        {name: 'Thomas', birthday: 'September 2', imagePath: 'test.jpg'},
-        {name: 'Sara', birthday: 'December 3', imagePath: 'test.jpg'},
-        {name: 'Fred', birthday: 'March 1', imagePath: 'test.jpg'},
-        {name: 'Thomas', birthday: 'September 2', imagePath: 'test.jpg'},
-        {name: 'Sara', birthday: 'December 3', imagePath: 'test.jpg'},
-        {name: 'Fred', birthday: 'March 1', imagePath: 'test.jpg'},
-        {name: 'Thomas', birthday: 'September 2', imagePath: 'test.jpg'},
-        {name: 'Sara', birthday: 'December 3', imagePath: 'test.jpg'},
-        {name: 'Fred', birthday: 'March 1', imagePath: 'test.jpg'},
-        {name: 'Thomas', birthday: 'September 2', imagePath: 'test.jpg'},
-        {name: 'Sara', birthday: 'December 3', imagePath: 'test.jpg'},
-        {name: 'Fred', birthday: 'March 1', imagePath: 'test.jpg'},
-        {name: 'Thomas', birthday: 'September 2', imagePath: 'test.jpg'},
-        {name: 'Sara', birthday: 'December 3', imagePath: 'test.jpg'},
-      ])
-    }
-  }
-
+class Contacts extends Component {
   render() {
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return(
       <View style={{flex: 1}}>
         <ListView
-          dataSource={this.state.dataSource}
+          dataSource={ds.cloneWithRows(this.props.contacts)}
           renderRow={(rowData) =>
             <Contact
               name={rowData.name}
@@ -64,3 +35,11 @@ export default class Contacts extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    contacts: state.contacts,
+  }
+}
+
+export default connect(mapStateToProps)(Contacts);
