@@ -1,7 +1,5 @@
-// import React, { Component, PropTypes } from 'react';
-// import {AppRegistry, ListView, Dimensions, ScrollView, StyleSheet, Text, TextInput, Image, View, Navigator, TouchableHighlight, ViewPagerAndroid } from 'react-native';
-import {ListView, StyleSheet, Text, View, } from 'react-native';
 import React, { Component} from 'react';
+import {ListView, StyleSheet, Text, View, } from 'react-native';
 
 import {connect} from 'react-redux';
 
