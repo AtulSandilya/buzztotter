@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Picker, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 
+import { connect } from 'react-redux';
+
 import TitleText from './TitleText'
 import BevButton from './BevButton'
 
@@ -65,7 +67,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class RedeemBeer extends Component {
+class RedeemBeer extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -99,18 +101,15 @@ export default class RedeemBeer extends Component {
 
   static propTypes = {
     name: React.PropTypes.string,
-    pricePerDrink: React.PropTypes.number,
     cancelPurchaseAction: React.PropTypes.func,
-  }
-
-  static defaultProps = {
-    pricePerDrink: 6.00,
+    id: React.PropTypes.string.isRequired,
   }
 
   purchaseDrink() {
     this.setState({
       purchaseConfirmed: true,
     });
+    this.props.onRedeemClicked(this.props.id);
   }
 
   renderPurchaseConfirmed(){
@@ -222,3 +221,13 @@ export default class RedeemBeer extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onRedeemClicked: (inputId) => {
+      dispatch({type: 'REDEEM_BEVEGRAM', bevegramId: inputId})
+    }
+  }
+}
+
+export default connect(undefined, mapDispatchToProps)(RedeemBeer);

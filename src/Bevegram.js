@@ -42,6 +42,7 @@ export default class Bevegram extends Component {
     message: React.PropTypes.string.isRequired,
     date: React.PropTypes.string.isRequired,
     imagePath: React.PropTypes.string.isRequired,
+    id: React.PropTypes.string.isRequired,
   }
 
   buttonPressed(){
@@ -83,6 +84,7 @@ export default class Bevegram extends Component {
             <RedeemBeer
               name={this.props.from}
               cancelPurchaseAction={this.closeModal.bind(this)}
+              id={this.props.id}
             />
           </View>
         </CenteredModal>
