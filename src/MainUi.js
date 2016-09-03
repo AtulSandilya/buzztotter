@@ -32,8 +32,6 @@ class MainUi extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("Main ui map state to props");
-  console.log(state);
   return {
     menuPosition: state.view.currentView,
   }
