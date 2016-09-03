@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { ListView, View, Text } from 'react-native';
 
+import Bevegram from './Bevegram'
+
 import {globalStyles} from './Global';
 
 export default class Bevegrams extends Component {
@@ -15,20 +17,29 @@ export default class Bevegrams extends Component {
             {
               from: "Andrew Simms",
               message: "Have a cold one on me!",
-              date: "May 7 2016"
+              date: "September 5 2016",
+              imagePath: "test.jpg",
             },
             {
-              from: "Dave Simms",
+              from: "Travis Caldwell",
               message: "Have a cold one on me!",
-              date: "May 7 2016"
+              date: "September 8 2016",
+              imagePath: "test.jpg",
+            },
+            {
+              from: "Brian Ripley",
+              message: "Have a cold one on me!",
+              date: "September 12 2016",
+              imagePath: "test.jpg",
             },
           ])}
           renderRow={(rowData) =>
-            <View>
-              <Text>{rowData.from}</Text>
-              <Text>{rowData.message}</Text>
-              <Text>{rowData.date}</Text>
-            </View>
+            <Bevegram
+              from={rowData.from}
+              message={rowData.message}
+              date={rowData.date}
+              imagePath={rowData.imagePath}
+            />
           }
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={globalStyles.listRowSeparator} />}
         />

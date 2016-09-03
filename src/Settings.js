@@ -3,7 +3,7 @@ import { StyleSheet, Switch, Text, View } from 'react-native';
 
 import { connect } from 'react-redux'
 
-import settingsKeys from './reducers/settings'
+import {settingsKeys} from './reducers/settings'
 
 import TitleText from './TitleText'
 
@@ -27,6 +27,8 @@ class Settings extends Component {
   }
 
   render() {
+    console.log("SettingsKeys");
+    console.log(settingsKeys);
     return(
       <View
         style={{
