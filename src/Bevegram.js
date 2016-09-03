@@ -1,6 +1,9 @@
 import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
+import { connect } from 'react-redux';
+import { modalKeys } from './reducers/modals.js';
+
 import BevButton from './BevButton'
 import CenteredModal from './CenteredModal'
 import RedeemBeer from './RedeemBeer'
@@ -29,14 +32,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export default class Bevegram extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      buyBeerVisible: false,
-    }
-  }
-
+class Bevegram extends Component {
   static propTypes = {
     from: React.PropTypes.string.isRequired,
     message: React.PropTypes.string.isRequired,
@@ -45,17 +41,15 @@ export default class Bevegram extends Component {
     id: React.PropTypes.string.isRequired,
   }
 
-  buttonPressed(){
-    // Show BuyBeer Modal
-    this.setState({
-      buyBeerVisible: true,
+  openModal(){
+    this.props.onModalOpen(modalKeys.redeemBevegramModal, {
+      id: this.props.id,
+      name: this.props.from,
     });
   }
 
   closeModal(){
-    this.setState({
-      buyBeerVisible: false,
-    });
+    this.props.onModalClose(modalKeys.redeemBevegramModal);
   }
 
   render() {
@@ -73,18 +67,16 @@ export default class Bevegram extends Component {
         <View style={styles.buttonContainer}>
           <BevButton
             buttonText={"Redeem this Beer!"}
-            bevButtonPressed={this.buttonPressed.bind(this)}
+            bevButtonPressed={this.openModal.bind(this)}
           />
         </View>
         <CenteredModal
-          isVisible={this.state.buyBeerVisible}
+          isVisible={this.props.modalIsOpen}
           closeFromParent={this.closeModal.bind(this)}
         >
           <View style={{flex: 1}}>
             <RedeemBeer
-              name={this.props.from}
               cancelPurchaseAction={this.closeModal.bind(this)}
-              id={this.props.id}
             />
           </View>
         </CenteredModal>
@@ -92,3 +84,22 @@ export default class Bevegram extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    modalIsOpen: state.modals.redeemBevegramModal.isOpen,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onModalOpen: (inputKey, modalData) => {
+      dispatch({type: 'OPEN_MODAL', modalKey: inputKey, dataForModal: modalData});
+    },
+    onModalClose: (inputKey) => {
+      dispatch({type: 'CLOSE_MODAL', modalKey: inputKey});
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Bevegram);

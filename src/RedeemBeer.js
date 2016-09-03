@@ -72,25 +72,8 @@ class RedeemBeer extends Component {
     super(props);
     this.state = {
       numDrinks: 1,
-      purchaseConfirmed: false,
       paymentMethod: 'euclid_garden',
     };
-  }
-
-  increaseNumDrinks(){
-    this.updateNumDrinks(this.state.numDrinks + 1);
-  }
-
-  decreaseNumDrinks(){
-    this.updateNumDrinks(this.state.numDrinks - 1);
-  }
-
-  updateNumDrinks(input){
-    if(input >= 1 && input <= 10){
-      this.setState({
-        numDrinks: input
-      });
-    }
   }
 
   setPaymentMethod(input){
@@ -103,17 +86,18 @@ class RedeemBeer extends Component {
     name: React.PropTypes.string,
     cancelPurchaseAction: React.PropTypes.func,
     id: React.PropTypes.string.isRequired,
+    redeemConfirmed: React.PropTypes.bool,
   }
 
   purchaseDrink() {
-    this.setState({
-      purchaseConfirmed: true,
-    });
+    // this.setState({
+    //   purchaseConfirmed: true,
+    // });
     this.props.onRedeemClicked(this.props.id);
   }
 
   renderPurchaseConfirmed(){
-    if(this.state.purchaseConfirmed){
+    if(this.props.redeemConfirmed){
       return (
         <View>
           <View style={{flex: 1, alignItems: 'center', paddingTop: 20}}>
@@ -222,12 +206,21 @@ class RedeemBeer extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    id: state.modals.redeemBevegramModal.data.id,
+    name: state.modals.redeemBevegramModal.data.name,
+    redeemConfirmed: state.modals.redeemBevegramModal.confirmed,
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onRedeemClicked: (inputId) => {
-      dispatch({type: 'REDEEM_BEVEGRAM', bevegramId: inputId})
+      dispatch({type: 'REDEEM_BEVEGRAM', bevegramId: inputId});
+      dispatch({type: 'CONFIRM_MODAL', modalKey: 'redeemBevegramModal'});
     }
   }
 }
 
-export default connect(undefined, mapDispatchToProps)(RedeemBeer);
+export default connect(mapStateToProps, mapDispatchToProps)(RedeemBeer);

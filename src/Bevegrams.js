@@ -14,19 +14,25 @@ class Bevegrams extends Component {
       <View style={{
         flex: 1,
       }}>
-        <ListView
-          dataSource={ds.cloneWithRows(this.props.bevegramsList)}
-          renderRow={(rowData) =>
-            <Bevegram
-              from={rowData.from}
-              message={rowData.message}
-              date={rowData.date}
-              imagePath={rowData.imagePath}
-              id={rowData.id}
-            />
-          }
-          renderSeparator={(sectionId, rowId) => <View key={rowId} style={globalStyles.listRowSeparator} />}
-        />
+        { this.props.bevegramsList.length > 0 ?
+          <ListView
+            dataSource={ds.cloneWithRows(this.props.bevegramsList)}
+            renderRow={(rowData) =>
+              <Bevegram
+                from={rowData.from}
+                message={rowData.message}
+                date={rowData.date}
+                imagePath={rowData.imagePath}
+                id={rowData.id}
+              />
+            }
+            renderSeparator={(sectionId, rowId) => <View key={rowId} style={globalStyles.listRowSeparator} />}
+          />
+        :
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Text>You have no bevegrams! :(</Text>
+        </View>
+      }
       </View>
     );
   }
