@@ -2,9 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { StyleSheet } from 'react-native';
 
 import {colors} from './Styles';
+import {version} from '../package.json'
 
 export const app = {
-  version: "0.0.1",
+  "version": version,
 }
 
 export const globalStyles = StyleSheet.create({
