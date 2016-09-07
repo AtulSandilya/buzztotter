@@ -22,30 +22,33 @@ function! BuildReactNativeForAndroid()
     let release_dir = "ReleaseBuilds/"
 
     " Get the version number for the apk filename
-    let release_version = ""
-    let version_file = "src/Global.js"
-    for line in readfile(version_file)
-        if line =~ "version:"
-            let release_version = matchstr(line, '".*"')
-            let release_version = release_version[1:-2]
-            let release_version = substitute(release_version, '\.', '-', 'g')
-            break
-        endif
-    endfor
+    let release_version = GetPackageVersion()
+    " Substitute 1.2.3 -> 1-2-3 for compatible filenames
+    let sanitized_release_version = substitute(release_version, '\.', '-', 'g')
 
-    let apk_name = "Bevegram-" . release_version . ".apk"
+    let apk_name = "Bevegram-" . sanitized_release_version . ".apk"
 
     let install_cmd = ""
     if confirm("Install apk on device?", "&Yes\n&No\n") == 1
         let install_cmd = "adb uninstall com.bevegram && adb install " . release_dir . apk_name
     endif
 
-    echo "Building android apk..."
+    echo "Building Bevegram " . release_version . " android apk..."
     exe ":Term cd android && ./gradlew assembleRelease && sleep 1 && cp " . build_dir . "app-release.apk " . release_dir . apk_name . " && " . install_cmd
     exe "startinsert"
     if confirm("Open release folder? ", "&Yes\n&No") == 1
         call system("open android/" . release_dir)
     endif
+endfunction
+
+function! GetPackageVersion()
+    let version_file = "package.json"
+    for line in readfile(version_file)
+        if line =~ '"version"'
+            " Match semver version number ex (1.14.21 or 0.0.2)
+            return matchstr(line, '\d\+.\d\+.\d\+')
+        endif
+    endfor
 endfunction
 
 function! BuildReactNative()
@@ -69,8 +72,9 @@ function! RestartAndroidApp()
     exe "Term " . stop_cmd . " && " . start_cmd
 endfunction
 
-set shiftwidth=2
-set tabstop=2
+au FileType javascript set shiftwidth=2 tabstop=2
+" set shiftwidth=2
+" set tabstop=2
 
 " Compile
 nnoremap <silent> cp :call BuildReactNative()<CR>
