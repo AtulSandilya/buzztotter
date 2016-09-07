@@ -1,14 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { StyleSheet, Switch, Text, View } from 'react-native';
 
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
-import {settingsKeys} from './reducers/settings'
+import PushNotification from 'react-native-push-notification';
 
-import TitleText from './TitleText'
+import {settingsKeys} from './reducers/settings';
 
-import {colors} from './Styles'
-import {app} from './Global'
+import TitleText from './TitleText';
+import BevButton from './BevButton';
+
+import {colors} from './Styles';
+import {app} from './Global';
 
 const styles = StyleSheet.create({
   settingLine: {
@@ -26,9 +29,19 @@ class Settings extends Component {
     location: React.PropTypes.bool,
   }
 
+  sendNotification(){
+    PushNotification.localNotification({
+      message: "Travis Caldwell sent you a Bevegram!",
+      // Android Icons
+      // Icon that shows in the drop down
+      largeIcon: "ic_launcher",
+      // Icon that shows on the status bar
+      smallIcon: "ic_local_bar_black_48dp",
+      from: 'Travis Caldwell',
+    });
+  }
+
   render() {
-    console.log("SettingsKeys");
-    console.log(settingsKeys);
     return(
       <View
         style={{
@@ -60,6 +73,22 @@ class Settings extends Component {
               value={this.props.location}
             />
           </SettingRight>
+        </SettingLine>
+        <SettingLine>
+          <SettingLeft>
+            <SettingName>Test Notification:</SettingName>
+          </SettingLeft>
+          <View style={{
+            height: 100,
+            alignItems: 'center',
+            justifyContent: 'center',
+            top: -15,
+          }}>
+            <BevButton
+              buttonText={"Send Notification"}
+              bevButtonPressed={this.sendNotification.bind(this)}
+            />
+          </View>
         </SettingLine>
         <SettingLine>
           <SettingLeft>
@@ -124,6 +153,7 @@ class SettingRight extends Component {
         style={{
           flex: 1,
           alignItems: 'flex-end',
+          justifyContent: 'center',
         }}
       >
         {this.props.children}
