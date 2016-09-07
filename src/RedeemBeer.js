@@ -72,7 +72,7 @@ class RedeemBeer extends Component {
     super(props);
     this.state = {
       numDrinks: 1,
-      paymentMethod: 'euclid_garden',
+      paymentMethod: 'euclid_hall',
     };
   }
 
@@ -157,7 +157,7 @@ class RedeemBeer extends Component {
               style={{flex: 1}}
               mode={"dropdown"}
             >
-              <Picker.Item label="Euclid Garden" value="euclid_garden" />
+              <Picker.Item label="Euclid Hall" value="euclid_hall" />
               <Picker.Item label="Lowry Beer Garden" value="lowry_beer_garden" />
               <Picker.Item label="Hops & Pie" value="hops_and_pie" />
             </Picker>

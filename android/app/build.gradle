@@ -95,6 +95,8 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        // Store any api keys for the manifest in gradle.properties
+        manifestPlaceholders = [mapsApiKey: BEVEGRAM_MAPS_API_KEY]
     }
     signingConfigs {
         release {
@@ -135,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-maps')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules

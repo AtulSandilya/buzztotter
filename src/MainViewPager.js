@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 import Contacts from './Contacts'
 import Bevegrams from './Bevegrams'
+import BevegramLocations from './BevegramLocations'
 
 class MainViewPager extends Component {
   static propTypes = {
@@ -59,22 +60,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(undefined, mapDispatchToProps)(MainViewPager);
-
-class BevegramLocations extends Component {
-  render() {
-    return(
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-        <Text>
-          Coming Soon!
-        </Text>
-      </View>
-    );
-  }
-}
 
 class Deals extends Component {
   render() {
