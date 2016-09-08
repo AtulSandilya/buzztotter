@@ -8,16 +8,14 @@ import {styles} from './Styles.js'
 class MainNavButton extends Component {
 
   static propTypes = {
-    label: React.PropTypes.string,
-    isActive: React.PropTypes.bool,
+    label: React.PropTypes.string.isRequired,
+    activeButtonPos: React.PropTypes.number,
     position: React.PropTypes.number,
     onButtonPress: React.PropTypes.func,
   }
 
-  static defaultProps = {
-    label: "Button",
-    isActive: false,
-    position: 0,
+  isActive(){
+    return this.props.position === this.props.activeButtonPos;
   }
 
   render() {
@@ -30,7 +28,7 @@ class MainNavButton extends Component {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-        }, this.props.isActive ? styles.bevColorActiveSecondary : styles.bevColorSecondary]}>
+        }, this.isActive() ? styles.bevColorActiveSecondary : styles.bevColorSecondary]}>
           <Text
             style={styles.whiteText}
           >
@@ -38,6 +36,12 @@ class MainNavButton extends Component {
         </View>
       </TouchableHighlight>
     );
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    activeButtonPos: state.view.currentView,
   }
 }
 
@@ -49,4 +53,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(undefined, mapDispatchToProps)(MainNavButton);
+export default connect(mapStateToProps, mapDispatchToProps)(MainNavButton);

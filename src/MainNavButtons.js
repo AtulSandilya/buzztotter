@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
 export default class MainNavButtons extends Component {
   static propTypes = {
     activeButtonPos: React.PropTypes.number,
-    updateMenuPosition: React.PropTypes.func,
   }
 
   static defaultProps = {
@@ -23,36 +22,28 @@ export default class MainNavButtons extends Component {
   }
 
   render() {
-    let activeArray = [false, false, false, false];
-    activeArray[this.props.activeButtonPos] = true;
+    // let activeArray = [false, false, false, false];
+    // activeArray[this.props.activeButtonPos] = true;
     return(
       <View style={styles.navContainer}>
         <MainNavButton
           label="Contacts"
-          isActive={activeArray[0]}
           position={0}
-          updateMenuPosition={this.props.updateMenuPosition}
         />
         <MainNavSeparator />
         <MainNavButton
           label="Bevegrams"
-          isActive={activeArray[1]}
           position={1}
-          updateMenuPosition={this.props.updateMenuPosition}
         />
         <MainNavSeparator />
         <MainNavButton
           label="Map"
-          isActive={activeArray[2]}
           position={2}
-          updateMenuPosition={this.props.updateMenuPosition}
         />
         <MainNavSeparator />
         <MainNavButton
           label="History"
-          isActive={activeArray[3]}
           position={3}
-          updateMenuPosition={this.props.updateMenuPosition}
         />
       </View>
     );
