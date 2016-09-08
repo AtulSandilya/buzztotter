@@ -70,7 +70,6 @@ class Branding extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("Branding state: ", state);
   return {
     settingsModalVisible: state.modals.settingsModal.isOpen,
   }
@@ -79,7 +78,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     openSettings: () => {
-      console.log("Open settings pressed");
       dispatch({type: 'OPEN_MODAL', modalKey: modalKeys.settingsModal});
     },
     closeSettings: () => {
