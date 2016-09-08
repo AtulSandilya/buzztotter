@@ -1,34 +1,18 @@
 import { Dimensions, Image, Modal, Text, TouchableHighlight, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
-import CenteredModal from './CenteredModal'
-import Settings from './Settings'
-import {colors, styles} from './Styles'
+import {connect} from 'react-redux';
 
-export default class Branding extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      modalVisible: false,
-    };
-  }
+import {modalKeys} from './reducers/modals';
 
-  setModalVisible(visible){
-    this.setState({modalVisible: visible});
-  }
+import CenteredModal from './CenteredModal';
+import Settings from './Settings';
+import {colors, styles} from './Styles';
 
-  closeModal(){
-    this.setState({
-      modalVisible: false,
-    });
-  }
+class Branding extends Component {
 
   static propTypes = {
-    title: React.PropTypes.string,
-  }
-
-  static defaultProps = {
-    title: "Does this work?"
+    settingsModalVisible: React.PropTypes.bool.isRequired,
   }
 
   render() {
@@ -61,9 +45,7 @@ export default class Branding extends Component {
           }}
         >
           <TouchableHighlight
-            onPress={() => {
-              this.setModalVisible(!this.state.modalVisible)
-            }}
+            onPress={this.props.openSettings}
             underlayColor={colors.bevPrimary}
           >
             <Image
@@ -77,8 +59,8 @@ export default class Branding extends Component {
           </TouchableHighlight>
         </View>
         <CenteredModal
-          isVisible={this.state.modalVisible}
-          closeFromParent={this.closeModal.bind(this)}
+          isVisible={this.props.settingsModalVisible}
+          closeFromParent={this.props.closeSettings}
         >
           <Settings />
         </CenteredModal>
@@ -86,3 +68,24 @@ export default class Branding extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  console.log("Branding state: ", state);
+  return {
+    settingsModalVisible: state.modals.settingsModal.isOpen,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openSettings: () => {
+      console.log("Open settings pressed");
+      dispatch({type: 'OPEN_MODAL', modalKey: modalKeys.settingsModal});
+    },
+    closeSettings: () => {
+      dispatch({type: 'CLOSE_MODAL', modalKey: modalKeys.settingsModal});
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Branding);

@@ -1,9 +1,10 @@
-import { createStore } from 'redux'
+import { createStore } from 'redux';
+import {enableBatching} from 'redux-batched-actions';
 
-import appReducers from './reducers'
+import appReducers from './reducers';
 
 function configureStore(reducers){
-  let store = createStore(reducers);
+  let store = createStore(enableBatching(reducers));
 
   if(module.hot){
     module.hot.accept(() => {

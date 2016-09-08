@@ -1,6 +1,7 @@
 export const modalKeys = {
   purchaseBeerModal: 'purchaseBeerModal',
   redeemBevegramModal: 'redeemBevegramModal',
+  settingsModal: 'settingsModal',
 }
 
 const defaultModalState = {
@@ -13,6 +14,10 @@ const defaultModalState = {
     data: {},
     confirmed: false,
   },
+  settingsModal: {
+    isOpen: false,
+    data: {},
+  }
 }
 
 export const modals = (state = defaultModalState, action) => {
