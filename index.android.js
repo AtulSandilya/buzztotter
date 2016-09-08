@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import {batchActions} from 'redux-batched-actions';
 import PushNotification from 'react-native-push-notification';
 
-import MainUi from './src/MainUi';
+import InitialRouter from './src/InitialRouter.js';
 
 import store from './src/configureStore';
 
@@ -15,7 +15,7 @@ class Bevegram extends Component {
   render() {
     return (
       <Provider store={store}>
-        <MainUi />
+        <InitialRouter />
       </Provider>
     );
   }
