@@ -59,7 +59,7 @@ class Login extends Component {
             }}
             >
               * We only use your Contacts to send and receive Bevegrams.
-              Your privacy is important to us so we promise to never share your information with anyone for any reason.
+              Your privacy is important to us. We promise to never share your information with anyone for any reason.
             </Text>
           </View>
         </View>
