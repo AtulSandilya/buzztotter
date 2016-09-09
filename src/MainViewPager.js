@@ -1,65 +1,47 @@
-import { Text, ViewPagerAndroid, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
+import { BackAndroid, Text, View } from 'react-native';
 
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+
+import {sceneKeys} from './reducers/view';
+
+import { Actions, Router, Scene } from 'react-native-router-flux';
 
 import Contacts from './Contacts'
 import Bevegrams from './Bevegrams'
 import BevegramLocations from './BevegramLocations'
 
-class MainViewPager extends Component {
-  static propTypes = {
-    updateMenuPosition: React.PropTypes.func,
-    currentMenuPosition: React.PropTypes.number,
-  }
-
-  static defaultProps = {
-    currentMenuPosition: 3,
-  }
-
-  onPageSelected(event){
-    // This is explicitly called like a function
-    this.props.updateMenuPosition(event.nativeEvent.position);
-  }
-
-  componentWillReceiveProps(nextProps){
-    this.viewPager.setPageWithoutAnimation(nextProps.currentMenuPosition);
-  }
-
+export default class MainViewPager extends Component {
   render() {
     return(
-      <ViewPagerAndroid
-        style={{flex: 1}}
-        initialPage={0}
-        onPageSelected={this.onPageSelected.bind(this)}
-        ref={viewPager => {this.viewPager = viewPager; }}
-      >
-        <View style={{flex: 1}}>
-          <Contacts />
-        </View>
-        <View style={{flex: 1}}>
-          <Bevegrams />
-        </View>
-        <View style={{flex: 1}}>
-          <BevegramLocations />
-        </View>
-        <View style={{flex: 1}}>
-          <Deals />
-        </View>
-      </ViewPagerAndroid>
+      <Router>
+        <Scene key="mainUi">
+          <Scene
+            key={sceneKeys.contacts}
+            component={Contacts}
+            hideNavBar={true}
+            initial={true}
+          />
+          <Scene
+            key={sceneKeys.bevegrams}
+            component={Bevegrams}
+            hideNavBar={true}
+          />
+          <Scene
+            key={sceneKeys.bevegramLocations}
+            component={BevegramLocations}
+            hideNavBar={true}
+          />
+          <Scene
+            key={sceneKeys.history}
+            component={Deals}
+            hideNavBar={true}
+          />
+        </Scene>
+      </Router>
     );
   }
 }
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateMenuPosition: (position) => {
-      dispatch({type: 'GOTO_VIEW', newPosition: position});
-    },
-  }
-}
-
-export default connect(undefined, mapDispatchToProps)(MainViewPager);
 
 class Deals extends Component {
   render() {

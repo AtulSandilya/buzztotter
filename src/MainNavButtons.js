@@ -3,6 +3,8 @@ import React, { Component, PropTypes } from 'react';
 
 import MainNavButton from './MainNavButton'
 
+import {sceneKeys} from './reducers/view';
+
 import {colors} from './Styles'
 
 const styles = StyleSheet.create({
@@ -13,37 +15,27 @@ const styles = StyleSheet.create({
 });
 
 export default class MainNavButtons extends Component {
-  static propTypes = {
-    activeButtonPos: React.PropTypes.number,
-  }
-
-  static defaultProps = {
-    activeButtonPos: 0,
-  }
-
   render() {
-    // let activeArray = [false, false, false, false];
-    // activeArray[this.props.activeButtonPos] = true;
     return(
       <View style={styles.navContainer}>
         <MainNavButton
           label="Contacts"
-          position={0}
+          sceneKey={sceneKeys.contacts}
         />
         <MainNavSeparator />
         <MainNavButton
           label="Bevegrams"
-          position={1}
+          sceneKey={sceneKeys.bevegrams}
         />
         <MainNavSeparator />
         <MainNavButton
           label="Map"
-          position={2}
+          sceneKey={sceneKeys.bevegramLocations}
         />
         <MainNavSeparator />
         <MainNavButton
           label="History"
-          position={3}
+          sceneKey={sceneKeys.history}
         />
       </View>
     );

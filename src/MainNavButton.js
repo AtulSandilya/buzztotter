@@ -3,6 +3,10 @@ import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
 
+import { Actions } from 'react-native-router-flux';
+
+import {sceneOrder} from './reducers/view';
+
 import {styles} from './Styles.js'
 
 class MainNavButton extends Component {
@@ -14,14 +18,18 @@ class MainNavButton extends Component {
     onButtonPress: React.PropTypes.func,
   }
 
+  onPress(){
+    this.props.onButtonPress(this.props.sceneKey);
+  }
+
   isActive(){
-    return this.props.position === this.props.activeButtonPos;
+    return this.props.sceneKey === this.props.activeScene;
   }
 
   render() {
     return(
       <TouchableHighlight
-        onPress={this.props.onButtonPress.bind(null, this.props.position)}
+        onPress={this.onPress.bind(this)}
         style={{flex: 1}}
       >
         <View style={[{
@@ -41,14 +49,14 @@ class MainNavButton extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    activeButtonPos: state.view.currentView,
+    activeScene: state.view[0],
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onButtonPress: (position) => {
-      dispatch({type: 'GOTO_VIEW', newPosition: position});
+    onButtonPress: (nextViewKey) => {
+      dispatch({type: 'GOTO_VIEW', newScene: nextViewKey});
     },
   }
 }
