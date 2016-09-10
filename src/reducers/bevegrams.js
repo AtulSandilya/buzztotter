@@ -1,4 +1,4 @@
-import uuid from 'node-uuid'
+import uuid from 'react-native-uuid'
 
 const addBevegram = (from, message, date, imagePath) => {
   return {

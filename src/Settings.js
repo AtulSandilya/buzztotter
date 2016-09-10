@@ -3,7 +3,7 @@ import { StyleSheet, Switch, Text, View } from 'react-native';
 
 import { connect } from 'react-redux';
 
-import PushNotification from 'react-native-push-notification';
+import {isAndroid} from './Utilities';
 
 import {settingsKeys} from './reducers/settings';
 
@@ -30,15 +30,20 @@ class Settings extends Component {
   }
 
   sendNotification(){
-    PushNotification.localNotification({
-      message: "Travis Caldwell sent you a Bevegram!",
-      // Android Icons
-      // Icon that shows in the drop down
-      largeIcon: "ic_launcher",
-      // Icon that shows on the status bar
-      smallIcon: "ic_local_bar_black_48dp",
-      from: 'Travis Caldwell',
-    });
+    if(isAndroid){
+      const PushNotification = require('react-native-push-notification');
+      PushNotification.localNotification({
+        message: "Travis Caldwell sent you a Bevegram!",
+        // Android Icons
+        // Icon that shows in the drop down
+        largeIcon: "ic_launcher",
+        // Icon that shows on the status bar
+        smallIcon: "ic_local_bar_black_48dp",
+        from: 'Travis Caldwell',
+      });
+    } else {
+      alert("Notifications are only supported on Android");
+    }
   }
 
   render() {

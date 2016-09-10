@@ -20,7 +20,7 @@ class Login extends Component {
           source={require('../img/logos/main-logo-big.png')}
           />
           <Text style={{
-            fontSize: 35,
+            fontSize: 25,
             marginTop: 35,
             color: '#333',
           }}
@@ -38,7 +38,7 @@ class Login extends Component {
               }}
               onPress={this.props.logInAction}
             >
-              <Text style={{fontSize: 25, color: '#ffffff'}}>Import Contacts from Facebook</Text>
+              <Text style={{fontSize: 20, color: '#ffffff'}}>Import Contacts from Facebook</Text>
             </TouchableHighlight>
           </View>
           <View style={{flex: -1, alignItems: 'center', marginTop: 30}}>
@@ -50,14 +50,11 @@ class Login extends Component {
               }}
               onPress={this.props.logInAction}
             >
-              <Text style={{fontSize: 25, color: '#ffffff'}}>Import Contacts from Google</Text>
+              <Text style={{fontSize: 20, color: '#ffffff'}}>Import Contacts from Google</Text>
             </TouchableHighlight>
           </View>
-          <View style={{flex: -1, alignItems: 'center', marginTop: 30, marginHorizontal: 80}}>
-            <Text style={{
-              fontSize: 16,
-            }}
-            >
+          <View style={{flex: -1, alignItems: 'center', marginTop: 30, marginHorizontal: 30}}>
+            <Text>
               * We only use your Contacts to send and receive Bevegrams.
               Your privacy is important to us. We promise to never share your information with anyone for any reason.
             </Text>
