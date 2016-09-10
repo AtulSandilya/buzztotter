@@ -7,9 +7,10 @@ import {sceneKeys} from './reducers/view';
 
 import { Actions, Router, Scene } from 'react-native-router-flux';
 
-import Contacts from './Contacts'
-import Bevegrams from './Bevegrams'
-import BevegramLocations from './BevegramLocations'
+import Contacts from './Contacts';
+import Bevegrams from './Bevegrams';
+// import BevegramLocations from './BevegramLocations'
+import BevegramLocations from './containers/BevegramLocations';
 
 export default class MainViewPager extends Component {
   render() {
