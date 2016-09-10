@@ -6,7 +6,8 @@ import {connect} from 'react-redux';
 import {modalKeys} from './reducers/modals';
 
 import CenteredModal from './CenteredModal';
-import Settings from './Settings';
+import Settings from './containers/Settings';
+
 import {colors, styles} from './Styles';
 
 class Branding extends Component {
