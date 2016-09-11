@@ -3,6 +3,8 @@ import { Image, Linking, ListView, Text, TouchableHighlight, View } from 'react-
 
 import MapView from 'react-native-maps';
 
+import {isAndroid, isIOS} from '../Utilities';
+
 import TitleText from '../TitleText'
 import BevButton from '../BevButton'
 
@@ -10,10 +12,15 @@ import {colors, styles} from '../Styles'
 import {globalStyles} from '../Global'
 
 const openMapsToAddress = (latitude, longitude, name) => {
-  // Both Maps apps like properly encoded strings
-  let url = `geo:${latitude},${longitude}?q=${latitude},${longitude}(${encodeURIComponent(name)})`;
+  let url;
+  // encodeURIComponent properly converts characters into url format.
+  if(isAndroid){
+    url = `geo:${latitude},${longitude}?q=${latitude},${longitude}(${encodeURIComponent(name)})`;
+  } else if (isIOS){
+    url = `http://maps.apple.com/?ll=${latitude},${longitude}&q=${encodeURIComponent(name)}`;
+  }
+
   Linking.canOpenURL(url).then(supported => {
-    console.log(url);
     if(supported){
       Linking.openURL(url);
     } else {
