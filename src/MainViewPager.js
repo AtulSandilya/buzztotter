@@ -8,8 +8,7 @@ import {sceneKeys} from './reducers/view';
 import { Actions, Router, Scene } from 'react-native-router-flux';
 
 import Contacts from './Contacts';
-import Bevegrams from './Bevegrams';
-// import BevegramLocations from './BevegramLocations'
+import CBevegrams from './containers/CBevegrams';
 import BevegramLocations from './containers/BevegramLocations';
 
 export default class MainViewPager extends Component {
@@ -25,7 +24,7 @@ export default class MainViewPager extends Component {
           />
           <Scene
             key={sceneKeys.bevegrams}
-            component={Bevegrams}
+            component={CBevegrams}
             hideNavBar={true}
           />
           <Scene

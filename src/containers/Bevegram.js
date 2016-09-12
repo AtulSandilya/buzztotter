@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { Bevegram } from '../components/Bevegram';
+import Bevegram from '../components/Bevegram';
 
 const mapStateToProps = (state) => {
   return {

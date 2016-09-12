@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
-import { modalKeys } from './reducers/modals.js';
+import { modalKeys } from '../reducers/modals.js';
 
 import BevButton from './BevButton';
 import CenteredModal from '../CenteredModal';
@@ -36,7 +36,7 @@ const Bevegram = ({from, message, date, imagePath, id, modalIsOpen, openModal, c
   <View style={styles.parentContainer}>
     <View style={styles.infoContainer}>
       <Image
-        source={require('../img/icons/bev-contact.png')}
+        source={require('../../img/icons/bev-contact.png')}
       />
       <View style={styles.infoTextContainer}>
         <Text style={{paddingLeft: 15, paddingBottom: 5}}>From: {from}</Text>
@@ -46,18 +46,16 @@ const Bevegram = ({from, message, date, imagePath, id, modalIsOpen, openModal, c
     <View style={styles.buttonContainer}>
       <BevButton
         buttonText={"Redeem this Beer!"}
-        // bevButtonPressed={this.openModal.bind(this)}
-        bevButtonPressed={openModal(modalKeys.redeemBevegramModal, {id: id, from: from})}
+        bevButtonPressed={() => openModal(modalKeys.redeemBevegramModal, {id: id, from: from})}
       />
     </View>
     <CenteredModal
-      isVisible={this.props.modalIsOpen}
-      // closeFromParent={this.closeModal.bind(this)}
-      closeFromParent={closeModal(modalKeys.redeemBevegramModal)}
+      isVisible={modalIsOpen}
+      closeFromParent={() => closeModal(modalKeys.redeemBevegramModal)}
     >
       <View style={{flex: 1}}>
         <RedeemBeer
-          cancelPurchaseAction={closeModal(modalKeys.redeemBevegramModal)}
+          cancelPurchaseAction={() => closeModal(modalKeys.redeemBevegramModal)}
         />
       </View>
     </CenteredModal>
@@ -71,3 +69,5 @@ Bevegram.propTypes = {
   imagePath: React.PropTypes.string.isRequired,
   id: React.PropTypes.string.isRequired,
 }
+
+export default Bevegram;
