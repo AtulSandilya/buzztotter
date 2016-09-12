@@ -3,7 +3,7 @@ import { ListView, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 
-import Bevegram from './Bevegram'
+import CBevegram from './containers/CBevegram'
 
 import {globalStyles} from './Global';
 
@@ -18,7 +18,7 @@ class Bevegrams extends Component {
           <ListView
             dataSource={ds.cloneWithRows(this.props.bevegramsList)}
             renderRow={(rowData) =>
-              <Bevegram
+              <CBevegram
                 from={rowData.from}
                 message={rowData.message}
                 date={rowData.date}
