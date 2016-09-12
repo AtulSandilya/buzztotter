@@ -3,9 +3,9 @@ import { View } from 'react-native';
 
 import {connect} from 'react-redux';
 
-import Branding from './Branding'
-import MainNavButtons from './MainNavButtons'
-import MainViewPager from './MainViewPager'
+import CBranding from './containers/CBranding';
+import MainNavButtons from './MainNavButtons';
+import MainViewPager from './MainViewPager';
 
 class MainUi extends Component {
   render() {
@@ -14,7 +14,7 @@ class MainUi extends Component {
         flex: 1,
       }}>
         <View style={{flex: 1}}>
-          <Branding />
+          <CBranding />
         </View>
         <View style={{flex: 8}}>
           <MainViewPager
