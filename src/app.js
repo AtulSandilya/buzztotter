@@ -6,7 +6,7 @@ import {batchActions} from 'redux-batched-actions';
 
 import {isAndroid} from './Utilities';
 
-import InitialRouter from './InitialRouter.js';
+import InitialRouter from './routers/InitialRouter.js';
 
 import store from './configureStore';
 
