@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 
 import {connect} from 'react-redux';
 
-import CenteredModal from '../CenteredModal';
+import CenteredModal from './CenteredModal';
 import Settings from '../containers/Settings';
 
 import {colors, styles} from '../Styles';

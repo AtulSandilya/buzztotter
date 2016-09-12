@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { modalKeys } from '../reducers/modals.js';
 
 import BevButton from './BevButton';
-import CenteredModal from '../CenteredModal';
+import CenteredModal from './CenteredModal';
 import RedeemBeer from '../RedeemBeer';
 
 const styles = StyleSheet.create({
