@@ -4,7 +4,7 @@ import { Picker, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'r
 import { connect } from 'react-redux';
 
 import TitleText from './TitleText'
-import BevButton from './BevButton'
+import BevButton from './components/BevButton'
 
 import {colors} from './Styles'
 

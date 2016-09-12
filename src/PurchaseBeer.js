@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Picker, Slider, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 
-import TitleText from './TitleText'
-import BevButton from './BevButton'
+import TitleText from './TitleText';
+import BevButton from './components/BevButton';
 
-import {colors} from './Styles'
+import {colors} from './Styles';
 
 const styles = StyleSheet.create({
   purchaseContainer: {

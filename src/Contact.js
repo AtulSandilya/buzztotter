@@ -1,9 +1,9 @@
 import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
-import BevButton from './BevButton'
-import CenteredModal from './CenteredModal'
-import PurchaseBeer from './PurchaseBeer'
+import BevButton from './components/BevButton';
+import CenteredModal from './CenteredModal';
+import PurchaseBeer from './PurchaseBeer';
 
 const styles = StyleSheet.create({
   parentContainer: {

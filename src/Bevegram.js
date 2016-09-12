@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { modalKeys } from './reducers/modals.js';
 
-import BevButton from './BevButton'
+import BevButton from './components/BevButton'
 import CenteredModal from './CenteredModal'
 import RedeemBeer from './RedeemBeer'
 

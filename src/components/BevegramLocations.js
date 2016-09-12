@@ -6,7 +6,7 @@ import MapView from 'react-native-maps';
 import {isAndroid, isIOS} from '../Utilities';
 
 import TitleText from '../TitleText'
-import BevButton from '../BevButton'
+import BevButton from './BevButton'
 
 import {colors, styles} from '../Styles'
 import {globalStyles} from '../Global'
