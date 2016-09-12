@@ -17,14 +17,12 @@ function! KillReactNative()
     echo ""
 endfunction
 
-function! BuildReactNativeForAndroid()
+function! BuildReactNativeForAndroid(release_version)
     let build_dir = "app/build/outputs/apk/"
     let release_dir = "ReleaseBuilds/"
 
-    " Get the version number for the apk filename
-    let release_version = GetPackageVersion()
     " Substitute 1.2.3 -> 1-2-3 for compatible filenames
-    let sanitized_release_version = substitute(release_version, '\.', '-', 'g')
+    let sanitized_release_version = substitute(a:release_version, '\.', '-', 'g')
 
     let apk_name = "Bevegram-" . sanitized_release_version . ".apk"
 
@@ -33,7 +31,8 @@ function! BuildReactNativeForAndroid()
         let install_cmd = "adb uninstall com.bevegram && adb install " . release_dir . apk_name
     endif
 
-    echo "Building Bevegram " . release_version . " android apk..."
+    echo "Building Bevegram " . a
+    :release_version . " android apk..."
     exe ":Term cd android && ./gradlew assembleRelease && sleep 1 && cp " . build_dir . "app-release.apk " . release_dir . apk_name . " && " . install_cmd
     exe "startinsert"
     if confirm("Open release folder? ", "&Yes\n&No") == 1
@@ -57,7 +56,7 @@ function! BuildReactNative()
     " Android
     if build_platform == 1
         echo "\n"
-        call BuildReactNativeForAndroid()
+        call BuildReactNativeForAndroid(GetPackageVersion())
     elseif
         echo "Invalid build choice!"
     endif
@@ -84,3 +83,5 @@ nnoremap <silent> cd :call RestartReactNative()<CR>
 nnoremap <silent> ck :call KillReactNative()<CR>
 " Compile Open
 nnoremap <silent> co :call RestartAndroidApp()<CR>
+" Compile Latest
+nnoremap <silent> cl :call BuildReactNativeForAndroid('Latest')<CR>
