@@ -29,9 +29,23 @@ const openMapsToAddress = (latitude, longitude, name) => {
   })
 }
 
-export const BevegramLocations = ({markers}) => {
-  const locationDS = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-  return(
+export class BevegramLocations extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      renders: 0,
+    }
+  }
+
+  render() {
+    const locationDS = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+    if(this.state.renders > 0) {
+      return(
+        <View></View>
+      )
+    }
+    this.state.renders += 1;
+    return(
       <View style={{flex: 1}}>
         <MapView
             style={{flex: 6}}
@@ -42,7 +56,7 @@ export const BevegramLocations = ({markers}) => {
               longitudeDelta: 0.0421 * 1.75,
             }}
           >
-          {markers.map((markerData, id) => {
+          {this.props.markers.map((markerData, id) => {
             return (
               <MapView.Marker
                 key={id}
@@ -104,7 +118,7 @@ export const BevegramLocations = ({markers}) => {
             <Text style={styles.titleText}>Bevegram Accepted At:</Text>
           </View>
           <ListView
-            dataSource={locationDS.cloneWithRows(markers)}
+            dataSource={locationDS.cloneWithRows(this.props.markers)}
             renderRow={(rowData) =>
               <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 10}}>
                 <View style={{flex: 1}}>
@@ -131,5 +145,6 @@ export const BevegramLocations = ({markers}) => {
           />
         </View>
       </View>
-  );
+    );
+  }
 }
