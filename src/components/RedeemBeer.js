@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { Picker, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 
-import { connect } from 'react-redux';
+import snakeCase from 'snake-case';
 
-import TitleText from './TitleText'
-import BevButton from './components/BevButton'
+import TitleText from '../TitleText'
+import BevButton from './BevButton'
 
-import {colors} from './Styles'
+import {colors} from '../Styles'
 
 const styles = StyleSheet.create({
   purchaseContainer: {
@@ -67,13 +67,17 @@ const styles = StyleSheet.create({
   },
 });
 
-class RedeemBeer extends Component {
+export default class RedeemBeer extends Component {
   constructor(props){
     super(props);
     this.state = {
       numDrinks: 1,
-      paymentMethod: 'euclid_hall',
+      paymentMethod: this.toKey(this.props.locations[0].name),
     };
+  }
+
+  toKey(input){
+    return snakeCase(input);
   }
 
   setPaymentMethod(input){
@@ -90,9 +94,6 @@ class RedeemBeer extends Component {
   }
 
   purchaseDrink() {
-    // this.setState({
-    //   purchaseConfirmed: true,
-    // });
     this.props.onRedeemClicked(this.props.id);
   }
 
@@ -136,7 +137,7 @@ class RedeemBeer extends Component {
           <View style={{flex: 1, justifyContent: 'center'}}>
             <Picker
               selectedValue={this.state.paymentMethod}
-              onValueChange={(paymentMethod) => this.setPaymentMethod(paymentMethod)}
+              onValueChange={() => {}}
               style={{flex: 1}}
               mode={"dropdown"}
             >
@@ -157,9 +158,15 @@ class RedeemBeer extends Component {
               style={{flex: 1}}
               mode={"dropdown"}
             >
-              <Picker.Item label="Euclid Hall" value="euclid_hall" />
-              <Picker.Item label="Lowry Beer Garden" value="lowry_beer_garden" />
-              <Picker.Item label="Hops & Pie" value="hops_and_pie" />
+              {this.props.locations.map((locationData, id) => {
+                return (
+                  <Picker.Item
+                    key={id}
+                    label={locationData.name}
+                    value={this.toKey(locationData.name)}
+                  />
+                )
+              })}
             </Picker>
           </View>
         </View>
@@ -205,22 +212,3 @@ class RedeemBeer extends Component {
     );
   }
 }
-
-const mapStateToProps = (state) => {
-  return {
-    id: state.modals.redeemBevegramModal.data.id,
-    name: state.modals.redeemBevegramModal.data.name,
-    redeemConfirmed: state.modals.redeemBevegramModal.confirmed,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onRedeemClicked: (inputId) => {
-      dispatch({type: 'REDEEM_BEVEGRAM', bevegramId: inputId});
-      dispatch({type: 'CONFIRM_MODAL', modalKey: 'redeemBevegramModal'});
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RedeemBeer);

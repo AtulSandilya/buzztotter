@@ -6,7 +6,7 @@ import { modalKeys } from '../reducers/modals.js';
 
 import BevButton from './BevButton';
 import CenteredModal from './CenteredModal';
-import RedeemBeer from '../RedeemBeer';
+import CRedeemBeer from '../containers/CRedeemBeer';
 
 const styles = StyleSheet.create({
   parentContainer: {
@@ -54,7 +54,7 @@ const Bevegram = ({from, message, date, imagePath, id, modalIsOpen, openModal, c
       closeFromParent={() => closeModal(modalKeys.redeemBevegramModal)}
     >
       <View style={{flex: 1}}>
-        <RedeemBeer
+        <CRedeemBeer
           cancelPurchaseAction={() => closeModal(modalKeys.redeemBevegramModal)}
         />
       </View>
