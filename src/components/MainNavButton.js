@@ -1,4 +1,4 @@
-import { Text, TouchableHighlight, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
 import {globalStyles} from './GlobalStyles.js'
@@ -11,7 +11,7 @@ const MainNavButton = ({
 }) => {
   let isActive = sceneKey === activeScene;
   return(
-    <TouchableHighlight
+    <TouchableOpacity
       onPress={() => onButtonPress(sceneKey)}
       style={{flex: 1}}
     >
@@ -25,7 +25,7 @@ const MainNavButton = ({
         >
         {label}</Text>
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   )
 }
 
