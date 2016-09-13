@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import {connect} from 'react-redux';
 
 import CBranding from './containers/CBranding';
-import MainNavButtons from './MainNavButtons';
+import MainNavButtons from './components/MainNavButtons';
 import MainViewPager from './MainViewPager';
 
 class MainUi extends Component {
