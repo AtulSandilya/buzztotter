@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 
 import { Actions, Router, Scene } from 'react-native-router-flux';
 
-import MainUi from '../MainUi';
+import MainUi from '../components/MainUi';
 import CLogin from '../containers/CLogin';
 
 export default class InitialRouter extends Component {

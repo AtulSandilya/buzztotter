@@ -3,15 +3,15 @@ import { BackAndroid, Text, View } from 'react-native';
 
 import { connect } from 'react-redux';
 
-import {sceneKeys} from './reducers/view';
+import {sceneKeys} from '../reducers/view';
 
 import { Actions, Router, Scene } from 'react-native-router-flux';
 
-import Contacts from './Contacts';
-import CBevegrams from './containers/CBevegrams';
-import BevegramLocations from './containers/BevegramLocations';
+import Contacts from '../Contacts';
+import CBevegrams from '../containers/CBevegrams';
+import BevegramLocations from '../containers/BevegramLocations';
 
-export default class MainViewPager extends Component {
+export default class MainViewRouter extends Component {
   render() {
     return(
       <Router>
