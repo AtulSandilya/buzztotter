@@ -25,8 +25,8 @@ const CenteredModal = ({
   children,
   isVisible = false,
   bgOpacity = 0.6,
-  heightPercent = 0.7,
-  widthPercent = 0.7,
+  heightPercent = 0.8,
+  widthPercent = 0.9,
   animationType = 'fade',
   closeFromParent,
 }) => {
