@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const colors = {
+export const globalColors = {
   // Tealish Green
   bevPrimary: '#8ED0BA',
   // Brown
@@ -15,9 +15,13 @@ export const colors = {
   subtleSeparator: '#dddddd',
 }
 
-export const styles = StyleSheet.create({
+export const globalStyles = StyleSheet.create({
+  listRowSeparator: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: globalColors.lightSeparator,
+  },
   titleText: {
-    color: colors.bevPrimary,
+    color: globalColors.bevPrimary,
     fontSize: 30,
     paddingBottom: 10,
     fontWeight: '300',
@@ -28,18 +32,18 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 20,
     borderBottomWidth: 1,
-    borderColor: colors.subtleSeparator,
+    borderColor: globalColors.subtleSeparator,
   },
   bevColorPrimary: {
-    backgroundColor: colors.bevPrimary,
+    backgroundColor: globalColors.bevPrimary,
   },
 
   bevColorSecondary: {
-    backgroundColor: colors.bevSecondary,
+    backgroundColor: globalColors.bevSecondary,
   },
 
   bevColorActiveSecondary: {
-    backgroundColor: colors.bevActiveSecondary,
+    backgroundColor: globalColors.bevActiveSecondary,
   },
 
   whiteText: {

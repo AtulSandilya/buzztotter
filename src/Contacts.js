@@ -3,9 +3,8 @@ import {ListView, StyleSheet, Text, View, } from 'react-native';
 
 import {connect} from 'react-redux';
 
-import {colors} from './Styles'
-import {globalStyles} from './Global'
-import Contact from './Contact'
+import {globalStyles} from './components/GlobalStyles.js';
+import Contact from './Contact';
 
 class Contacts extends Component {
   render() {

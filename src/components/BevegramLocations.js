@@ -8,8 +8,7 @@ import {isAndroid, isIOS} from '../Utilities';
 import TitleText from '../TitleText'
 import BevButton from './BevButton'
 
-import {colors, styles} from '../Styles'
-import {globalStyles} from '../Global'
+import {globalColors, globalStyles} from './GlobalStyles';
 
 const openMapsToAddress = (latitude, longitude, name) => {
   let url;
@@ -67,7 +66,7 @@ export class BevegramLocations extends Component {
                 }}
               >
               <View style={{flex: 1, alignItems: 'center'}}>
-                <View style={{flex: -1, padding: 10, backgroundColor: colors.bevPrimary, borderRadius: 3, flexDirection: 'row', borderWidth: 1, borderColor: '#000000'}}>
+                <View style={{flex: -1, padding: 10, backgroundColor: globalColors.bevPrimary, borderRadius: 3, flexDirection: 'row', borderWidth: 1, borderColor: '#000000'}}>
                   <View style={{paddingLeft: 10, flex: -1, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
                     <Text style={{fontSize: 18, fontWeight: 'bold'}}>{markerData.name}</Text>
                     <Text>{markerData.typicalHours}</Text>
@@ -85,7 +84,7 @@ export class BevegramLocations extends Component {
                   borderTopWidth: 15,
                   borderLeftColor: 'transparent',
                   borderRightColor: 'transparent',
-                  borderTopColor: colors.bevPrimary,
+                  borderTopColor: globalColors.bevPrimary,
                   zIndex: 10,
                   top: -1,
                 }}>
@@ -114,8 +113,8 @@ export class BevegramLocations extends Component {
           })}
         </MapView>
         <View style={{flex: 4}}>
-          <View style={{margin: 10, marginBottom: 0, borderBottomWidth: 1, borderBottomColor: colors.subtleSeparator}}>
-            <Text style={styles.titleText}>Bevegram Accepted At:</Text>
+          <View style={{margin: 10, marginBottom: 0, borderBottomWidth: 1, borderBottomColor: globalColors.subtleSeparator}}>
+            <Text style={globalStyles.titleText}>Bevegram Accepted At:</Text>
           </View>
           <ListView
             dataSource={locationDS.cloneWithRows(this.props.markers)}

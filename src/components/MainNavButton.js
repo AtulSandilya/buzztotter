@@ -1,7 +1,7 @@
 import { Text, TouchableHighlight, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
-import {styles} from '../Styles.js'
+import {globalStyles} from './GlobalStyles.js'
 
 const MainNavButton = ({
   label,
@@ -19,9 +19,9 @@ const MainNavButton = ({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-      }, isActive ? styles.bevColorActiveSecondary : styles.bevColorSecondary]}>
+      }, isActive ? globalStyles.bevColorActiveSecondary : globalStyles.bevColorSecondary]}>
         <Text
-          style={styles.whiteText}
+          style={globalStyles.whiteText}
         >
         {label}</Text>
       </View>

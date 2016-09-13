@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { Image, Text, TouchableHighlight, View } from 'react-native';
 
-import {colors} from '../Styles';
+import {globalColors} from './GlobalStyles';
 
 const Login = ({isLoggedIn, logInAction}) => (
   <View style={{flex: 1}}>
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.bevPrimary}}>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: globalColors.bevPrimary}}>
       <Image
       source={require('../../img/logos/main-logo-big.png')}
       />

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import CBevegram from '../containers/Bevegram';
 
-import {globalStyles} from '../Global';
+import {globalStyles} from './GlobalStyles';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 

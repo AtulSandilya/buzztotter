@@ -8,15 +8,14 @@ import {isAndroid} from '../Utilities';
 import TitleText from '../TitleText';
 import BevButton from './BevButton';
 
-import {colors} from '../Styles';
-import {app} from '../Global';
+import {globalColors} from './GlobalStyles';
 
 const styles = StyleSheet.create({
   settingLine: {
       flex: 1,
       flexDirection: 'row',
       borderBottomWidth: 1,
-      borderColor: colors.subtleSeparator,
+      borderColor: globalColors.subtleSeparator,
       marginBottom: 20,
   }
 });

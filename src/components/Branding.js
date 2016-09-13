@@ -6,14 +6,14 @@ import {connect} from 'react-redux';
 import CenteredModal from './CenteredModal';
 import Settings from '../containers/Settings';
 
-import {colors, styles} from '../Styles';
+import {globalColors, globalStyles} from './GlobalStyles';
 
 const Branding = ({settingsModalVisible, openSettings, closeSettings}) => (
   <View
     style={[{
       flex: 1,
       flexDirection: 'row',
-    }, styles.bevColorPrimary]}
+    }, globalStyles.bevColorPrimary]}
   >
     <View
       style={{
@@ -38,7 +38,7 @@ const Branding = ({settingsModalVisible, openSettings, closeSettings}) => (
     >
       <TouchableHighlight
         onPress={openSettings}
-        underlayColor={colors.bevPrimary}
+        underlayColor={globalColors.bevPrimary}
       >
         <Image
           source={require('../../img/icons/settings-icon.png')}

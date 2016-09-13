@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
-import { colors } from '../Styles'
+import { globalColors } from './GlobalStyles';
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.bevSecondary,
+    backgroundColor: globalColors.bevSecondary,
     borderColor: "#000000",
     borderRadius: 10,
     flex: -1,

@@ -5,7 +5,7 @@ import CMainNavButton from '../containers/CMainNavButton'
 
 import {sceneKeys} from '../reducers/view';
 
-import {colors} from '../Styles'
+import {globalColors} from './GlobalStyles';
 
 const styles = StyleSheet.create({
     navContainer: {
@@ -41,7 +41,7 @@ const MainNavButtons = () => (
 const MainNavSeparator = () => (
   <View
     style={{
-      backgroundColor: colors.bevActiveSecondary,
+      backgroundColor: globalColors.bevActiveSecondary,
       opacity: 50,
       alignSelf: 'stretch',
       width: 1,

@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
-import {styles} from './Styles.js'
+import {globalStyles} from './components/GlobalStyles';
 
 export default class TitleText extends Component {
   static propTypes = {
@@ -10,8 +10,8 @@ export default class TitleText extends Component {
 
   render() {
     return(
-      <View style={styles.titleTextContainer}>
-        <Text style={styles.titleText}>
+      <View style={globalStyles.titleTextContainer}>
+        <Text style={globalStyles.titleText}>
           {this.props.title}
         </Text>
       </View>

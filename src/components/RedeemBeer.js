@@ -3,10 +3,10 @@ import { Picker, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'r
 
 import snakeCase from 'snake-case';
 
-import TitleText from '../TitleText'
-import BevButton from './BevButton'
+import TitleText from '../TitleText';
+import BevButton from './BevButton';
 
-import {colors} from '../Styles'
+import {globalColors} from './GlobalStyles';
 
 const styles = StyleSheet.create({
   purchaseContainer: {
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderColor: colors.subtleSeparator,
+    borderColor: globalColors.subtleSeparator,
     paddingBottom: 5,
     marginBottom: 10,
   },
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   numBeersButton: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: colors.bevPrimary,
+    backgroundColor: globalColors.bevPrimary,
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
@@ -102,7 +102,7 @@ export default class RedeemBeer extends Component {
       return (
         <View>
           <View style={{flex: 1, alignItems: 'center', paddingTop: 20}}>
-            <Text style={{color: colors.bevPrimary, fontSize: 30}}>1 Beer Redeemed!</Text>
+            <Text style={{color: globalColors.bevPrimary, fontSize: 30}}>1 Beer Redeemed!</Text>
           </View>
           <View style={{alignItems: 'flex-end', paddingTop: 10}}>
             <BevButton
