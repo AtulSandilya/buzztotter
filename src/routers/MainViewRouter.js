@@ -7,7 +7,7 @@ import {sceneKeys} from '../reducers/view';
 
 import { Actions, Router, Scene } from 'react-native-router-flux';
 
-import Contacts from '../Contacts';
+import CContacts from '../containers/CContacts';
 import CBevegrams from '../containers/CBevegrams';
 import BevegramLocations from '../containers/BevegramLocations';
 
@@ -18,7 +18,7 @@ export default class MainViewRouter extends Component {
         <Scene key="mainUi">
           <Scene
             key={sceneKeys.contacts}
-            component={Contacts}
+            component={CContacts}
             hideNavBar={true}
             initial={true}
           />

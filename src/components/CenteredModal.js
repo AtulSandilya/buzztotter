@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Dimensions, Modal, ScrollView, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
+import {globalColors} from './GlobalStyles';
+
 const styles = StyleSheet.create({
   outerView: {
     backgroundColor: '#222222',
@@ -32,6 +34,7 @@ const CenteredModal = ({
 }) => {
   const width = calcDimensions('width', widthPercent);
   const height = calcDimensions('height', heightPercent);
+  const cancelButtonSize = 25;
 
   return(
     <Modal

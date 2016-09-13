@@ -8,6 +8,7 @@ const defaultModalState = {
   purchaseBeerModal: {
     isOpen: false,
     data: {},
+    confirmed: false,
   },
   redeemBevegramModal: {
     isOpen: false,

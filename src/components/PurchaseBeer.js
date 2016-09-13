@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Picker, Slider, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 
-import TitleText from './components/TitleText';
-import BevButton from './components/BevButton';
+import TitleText from './TitleText';
+import BevButton from './BevButton';
 
-import {globalColors} from './components/GlobalStyles';
+import {globalColors} from './GlobalStyles';
 
 const styles = StyleSheet.create({
   purchaseContainer: {
@@ -71,6 +71,7 @@ export default class PurchaseBeer extends Component {
       purchaseConfirmed: false,
       paymentMethod: 'google_wallet',
     };
+    console.log("Purchase Beer constructor");
   }
 
   increaseNumDrinks(){
@@ -96,9 +97,10 @@ export default class PurchaseBeer extends Component {
   }
 
   static propTypes = {
-    name: React.PropTypes.string,
+    fullName: React.PropTypes.string,
+    firstName: React.PropTypes.string,
     pricePerDrink: React.PropTypes.number,
-    cancelPurchaseAction: React.PropTypes.func,
+    closePurchaseModal: React.PropTypes.func,
   }
 
   static defaultProps = {
@@ -111,7 +113,7 @@ export default class PurchaseBeer extends Component {
     });
     // Wait and close modal
     setTimeout(() => {
-      this.props.cancelPurchaseAction()
+      this.props.closePurchaseModal()
     }, 5000);
   }
 
@@ -120,11 +122,11 @@ export default class PurchaseBeer extends Component {
       return (
         <View>
           <View style={{flex: 1, alignItems: 'center', paddingTop: 20}}>
-            <Text style={{color: globalColors.bevPrimary, fontSize: 30}}>{this.state.numDrinks} {this.state.numDrinks > 1 ? "Beers" : "Beer"} sent to {this.props.name}!</Text>
+            <Text style={{color: globalColors.bevPrimary, fontSize: 30}}>{this.state.numDrinks} {this.state.numDrinks > 1 ? "Beers" : "Beer"} sent to {this.props.firstName}!</Text>
           </View>
           <View style={{alignItems: 'flex-end', paddingTop: 10}}>
             <BevButton
-              bevButtonPressed={this.props.cancelPurchaseAction}
+              bevButtonPressed={this.props.closePurchaseModal}
               buttonText={"Close"}
               buttonFontSize={20}
             />
@@ -145,7 +147,7 @@ export default class PurchaseBeer extends Component {
             <Text style={styles.purchaseLineTextTitle}>Receipent:</Text>
           </View>
           <View style={styles.purchaseLineRight}>
-            <Text style={styles.purchaseLineText}>{this.props.name}</Text>
+            <Text style={styles.purchaseLineText}>{this.props.fullName}</Text>
           </View>
         </View>
         <View style={styles.purchaseLine}>
@@ -187,6 +189,7 @@ export default class PurchaseBeer extends Component {
           <View style={{flex: 1, justifyContent: 'center'}}>
             <Picker
               selectedValue={this.state.paymentMethod}
+              mode="dropdown"
               onValueChange={(paymentMethod) => this.setPaymentMethod(paymentMethod)}
               style={{flex: 1}}
             >
@@ -208,7 +211,7 @@ export default class PurchaseBeer extends Component {
         <View style={{flexDirection: 'row', paddingTop: 20}}>
           <View style={{flex: 1, alignItems: 'flex-start'}}>
             <BevButton
-              bevButtonPressed={this.props.cancelPurchaseAction}
+              bevButtonPressed={this.props.closePurchaseModal}
               buttonText={"Cancel"}
               buttonFontSize={20}
             />
