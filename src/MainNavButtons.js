@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 
-import MainNavButton from './MainNavButton'
+import CMainNavButton from './containers/CMainNavButton'
 
 import {sceneKeys} from './reducers/view';
 
@@ -18,22 +18,22 @@ export default class MainNavButtons extends Component {
   render() {
     return(
       <View style={styles.navContainer}>
-        <MainNavButton
+        <CMainNavButton
           label="Contacts"
           sceneKey={sceneKeys.contacts}
         />
         <MainNavSeparator />
-        <MainNavButton
+        <CMainNavButton
           label="Bevegrams"
           sceneKey={sceneKeys.bevegrams}
         />
         <MainNavSeparator />
-        <MainNavButton
+        <CMainNavButton
           label="Map"
           sceneKey={sceneKeys.bevegramLocations}
         />
         <MainNavSeparator />
-        <MainNavButton
+        <CMainNavButton
           label="History"
           sceneKey={sceneKeys.history}
         />
