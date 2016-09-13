@@ -37,7 +37,7 @@ const sendNotification = () => {
   }
 }
 
-export const Settings = ({notifications, location, onSettingToggle}) => (
+export const Settings = ({notifications, location, version, onSettingToggle}) => (
   <View
     style={{
       flex: 1,
@@ -90,7 +90,7 @@ export const Settings = ({notifications, location, onSettingToggle}) => (
         <SettingName>Version:</SettingName>
       </SettingLeft>
       <SettingRight>
-        <Text>{app.version}</Text>
+        <Text>{version}</Text>
       </SettingRight>
     </SettingLine>
   </View>
