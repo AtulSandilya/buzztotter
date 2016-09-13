@@ -3,7 +3,7 @@ import { Picker, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'r
 
 import snakeCase from 'snake-case';
 
-import TitleText from '../TitleText';
+import TitleText from './TitleText';
 import BevButton from './BevButton';
 
 import {globalColors} from './GlobalStyles';

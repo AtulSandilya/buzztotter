@@ -5,7 +5,7 @@ import {settingsKeys} from '../reducers/settings';
 
 import {isAndroid} from '../Utilities';
 
-import TitleText from '../TitleText';
+import TitleText from './TitleText';
 import BevButton from './BevButton';
 
 import {globalColors} from './GlobalStyles';

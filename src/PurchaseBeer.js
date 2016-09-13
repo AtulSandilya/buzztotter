@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Picker, Slider, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 
-import TitleText from './TitleText';
+import TitleText from './components/TitleText';
 import BevButton from './components/BevButton';
 
 import {globalColors} from './components/GlobalStyles';
