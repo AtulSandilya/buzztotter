@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 
 import CenteredModal from './CenteredModal';
-import Settings from '../containers/Settings';
+import CSettings from '../containers/CSettings';
 
 import {globalColors, globalStyles} from './GlobalStyles';
 
@@ -54,7 +54,7 @@ const Branding = ({settingsModalVisible, openSettings, closeSettings}) => (
       isVisible={settingsModalVisible}
       closeFromParent={closeSettings}
     >
-      <Settings />
+      <CSettings />
     </CenteredModal>
   </View>
 )

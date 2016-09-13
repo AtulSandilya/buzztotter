@@ -5,7 +5,7 @@ import {modalKeys} from '../reducers/modals';
 
 import { connect } from 'react-redux';
 
-import CBevegram from '../containers/Bevegram';
+import CBevegram from '../containers/CBevegram';
 import CenteredModal from './CenteredModal';
 import CRedeemBeer from '../containers/CRedeemBeer';
 

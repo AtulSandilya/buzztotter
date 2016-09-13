@@ -12,8 +12,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-const ConnectedBevegramLocations = connect(
+const CBevegramLocations = connect(
   mapStateToProps,
 )(BevegramLocations);
 
-export default ConnectedBevegramLocations;
+export default CBevegramLocations;

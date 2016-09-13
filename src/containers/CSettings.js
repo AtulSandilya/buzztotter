@@ -13,15 +13,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onSettingToggle: (inputKey) => {
-      console.log("onSettingToggle called");
       dispatch({type: 'TOGGLE_SETTING', settingKey: inputKey});
     },
   }
 }
 
-const ConnectedSettings = connect(
+const CSettings = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Settings);
 
-export default ConnectedSettings;
+export default CSettings;

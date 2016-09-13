@@ -9,7 +9,7 @@ import { Actions, Router, Scene } from 'react-native-router-flux';
 
 import CContacts from '../containers/CContacts';
 import CBevegrams from '../containers/CBevegrams';
-import BevegramLocations from '../containers/BevegramLocations';
+import CBevegramLocations from '../containers/CBevegramLocations';
 
 export default class MainViewRouter extends Component {
   render() {
@@ -29,7 +29,7 @@ export default class MainViewRouter extends Component {
           />
           <Scene
             key={sceneKeys.bevegramLocations}
-            component={BevegramLocations}
+            component={CBevegramLocations}
             hideNavBar={true}
           />
           <Scene
