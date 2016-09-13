@@ -1,15 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import { ListView, View, Text } from 'react-native';
 
+import {modalKeys} from '../reducers/modals';
+
 import { connect } from 'react-redux';
 
 import CBevegram from '../containers/Bevegram';
+import CenteredModal from './CenteredModal';
+import CRedeemBeer from '../containers/CRedeemBeer';
 
 import {globalStyles} from './GlobalStyles';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-const Bevegrams = ({bevegramsList}) => (
+const Bevegrams = ({bevegramsList, redeemModalIsOpen, closeModal}) => (
   <View style={{
     flex: 1,
   }}>
@@ -32,6 +36,16 @@ const Bevegrams = ({bevegramsList}) => (
       <Text>You have no bevegrams! :(</Text>
     </View>
   }
+    <CenteredModal
+      isVisible={redeemModalIsOpen}
+      closeFromParent={() => closeModal(modalKeys.redeemBevegramModal)}
+    >
+      <View style={{flex: 1}}>
+        <CRedeemBeer
+          cancelPurchaseAction={() => closeModal(modalKeys.redeemBevegramModal)}
+        />
+      </View>
+    </CenteredModal>
   </View>
 )
 

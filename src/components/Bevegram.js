@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import { modalKeys } from '../reducers/modals.js';
 
 import BevButton from './BevButton';
-import CenteredModal from './CenteredModal';
-import CRedeemBeer from '../containers/CRedeemBeer';
 
 const styles = StyleSheet.create({
   parentContainer: {
@@ -32,7 +30,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const Bevegram = ({from, message, date, imagePath, id, modalIsOpen, openModal, closeModal}) => (
+const Bevegram = ({from, message, date, imagePath, id, openModal}) => (
   <View style={styles.parentContainer}>
     <View style={styles.infoContainer}>
       <Image
@@ -49,16 +47,6 @@ const Bevegram = ({from, message, date, imagePath, id, modalIsOpen, openModal, c
         bevButtonPressed={() => openModal(modalKeys.redeemBevegramModal, {id: id, from: from})}
       />
     </View>
-    <CenteredModal
-      isVisible={modalIsOpen}
-      closeFromParent={() => closeModal(modalKeys.redeemBevegramModal)}
-    >
-      <View style={{flex: 1}}>
-        <CRedeemBeer
-          cancelPurchaseAction={() => closeModal(modalKeys.redeemBevegramModal)}
-        />
-      </View>
-    </CenteredModal>
   </View>
 )
 
