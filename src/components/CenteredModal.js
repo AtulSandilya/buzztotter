@@ -47,8 +47,7 @@ const CenteredModal = ({
         <View style={{
           height: height.full,
           width: width.full,
-          backgroundColor: '#222222',
-          opacity: bgOpacity,
+          backgroundColor: 'rgba(34, 34, 34, ' + bgOpacity.toString() + ')',
           zIndex: 1,
         }}>
           <TouchableHighlight style={{
@@ -58,7 +57,7 @@ const CenteredModal = ({
             underlayColor={'#222222'}
             onPress={() => closeFromParent()}
           >
-            <Text> </Text>
+          <Text> </Text>
           </TouchableHighlight>
         </View>
         <View style={{
