@@ -3,6 +3,8 @@ import { BackAndroid, Text, View } from 'react-native';
 
 import { connect } from 'react-redux';
 
+import store from '../configureStore.js';
+
 import {sceneKeys} from '../reducers/view';
 
 import { Actions, Router, Scene } from 'react-native-router-flux';
@@ -14,7 +16,9 @@ import CBevegramLocations from '../containers/CBevegramLocations';
 export default class MainViewRouter extends Component {
   render() {
     return(
-      <Router>
+      <Router
+        backAndroidHandler={() => {store.dispatch({type: 'GOBACK_VIEW'}); return true}}
+      >
         <Scene key="mainUi">
           <Scene
             key={sceneKeys.contacts}
