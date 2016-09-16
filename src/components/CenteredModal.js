@@ -41,7 +41,7 @@ const CenteredModal = ({
       animationType={animationType}
       transparent={true}
       visible={isVisible}
-      onRequestClose={() => {}}
+      onRequestClose={() => closeFromParent()}
     >
       <View style={{
         height: height.full,
