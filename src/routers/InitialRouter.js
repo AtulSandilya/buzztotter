@@ -13,7 +13,7 @@ import CLogin from '../containers/CLogin';
 const scenes = Actions.create(
   <Scene key="root" hideNavBar={true}>
     <Scene key="loginScene" hideNavBar={true} component={CLogin} initial={true}/>
-    <Scene key="mainScene" hideNavBar={true} component={MainUi} />
+    <Scene key="mainScene" hideNavBar={true} component={MainUi} panHandlers={null}/>
   </Scene>
 )
 
@@ -24,6 +24,7 @@ export default class InitialRouter extends Component {
     return(
       <CRouter
         scenes={scenes}
+        backAndroidHandler={() => {return true;}}
       />
     );
   }

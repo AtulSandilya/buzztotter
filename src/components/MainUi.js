@@ -4,8 +4,7 @@ import { View } from 'react-native';
 import {connect} from 'react-redux';
 
 import CBranding from '../containers/CBranding';
-import MainNavButtons from './MainNavButtons';
-import MainViewRouter from '../routers/MainViewRouter';
+import CMainViewRouter from '../containers/CMainViewRouter';
 
 const MainUi = () => (
   <View style={{
@@ -14,11 +13,8 @@ const MainUi = () => (
     <View style={{flex: 1}}>
       <CBranding />
     </View>
-    <View style={{flex: 8}}>
-      <MainViewRouter />
-    </View>
-    <View style={{flex: 1}}>
-      <MainNavButtons />
+    <View style={{flex: 9}}>
+      <CMainViewRouter />
     </View>
   </View>
 )

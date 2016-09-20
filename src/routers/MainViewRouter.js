@@ -1,48 +1,106 @@
 import React, { Component, PropTypes } from 'react';
-import { BackAndroid, Text, View } from 'react-native';
+import { BackAndroid, Dimensions, Text, TouchableOpacity, View } from 'react-native';
 
-import { connect } from 'react-redux';
+import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 
-import store from '../configureStore.js';
-
-import {sceneKeys} from '../reducers/view';
-
-import { Actions, Router, Scene } from 'react-native-router-flux';
+import {globalColors} from '../components/GlobalStyles';
 
 import CContacts from '../containers/CContacts';
 import CBevegrams from '../containers/CBevegrams';
 import CBevegramLocations from '../containers/CBevegramLocations';
 
-export default class MainViewRouter extends Component {
+export default class CMainViewRouter extends Component {
+
+  constructor(props){
+    super(props);
+    BackAndroid.addEventListener('hardwareBackPress', () => {
+      this.props.goBackPage();
+    });
+  }
+
   render() {
+    // ScrollableTabView is a cross platform `ViewPagerAndroid`
+
+    // The way `ScrollableTabView` is structured you cannot easily use flex to
+    // set the height of the button, This is a way to set the height to 10% of
+    // the device height, a psuedo flex.
+    const buttonHeight = Dimensions.get('window').height * 0.1;
+    const buttonBgColor = globalColors.bevSecondary;
+    const buttonSeparatorColor = globalColors.bevActiveSecondary;
+    const buttonActiveColor = globalColors.bevActiveSecondary;
+    const textSize = 14;
+    const textColor = "#eeeeee";
+    const activeTextColor = "#ffffff";
+    // DefaultTabBar -> renderTab is a hack based on the original renderTab method to add separators between the buttons
     return(
-      <Router
-        backAndroidHandler={() => {store.dispatch({type: 'GOBACK_VIEW'}); return true}}
+      <ScrollableTabView
+        renderTabBar={() => {
+          return (
+            <DefaultTabBar
+              style={{
+                height: buttonHeight,
+                flexDirection: 'row',
+                borderWidth: 0,
+                backgroundColor: buttonBgColor,
+              }}
+              renderTab={(name, page, isTabActive, onPressHandler) => {
+                return (
+                  <TouchableOpacity
+                    key={name}
+                    style={{
+                      flex: 1,
+                    }}
+                    onPress={() => onPressHandler(page)}
+                  >
+                    <View
+                      style={[{
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }, page !== this.props.maxScene ? {
+                        borderRightWidth: 1,
+                        borderRightColor: buttonSeparatorColor,
+                      } : {borderWidth: 0}]}
+                    >
+                      <Text
+                      style={[
+                        {
+                          fontSize: textSize,
+                          backgroundColor: 'rgba(0, 0, 0, 0.0)',
+                        },
+                        isTabActive ?
+                          {color: activeTextColor, fontWeight: 'bold'}
+                        :
+                          {color: textColor}
+                      ]}
+                      >
+                        {name}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                )
+              }}
+            />
+          )
+        }}
+        tabBarPosition="bottom"
+        onChangeTab={(input) => {
+          this.props.onPageChange(input.i);
+        }}
+        initialPage={0}
+        page={this.props.currentPage}
+        preRenderSiblingsNumber={Infinity}
+        tabBarUnderlineStyle={{
+          height: buttonHeight,
+          backgroundColor: buttonActiveColor,
+          zIndex: -1,
+        }}
       >
-        <Scene key="mainUi">
-          <Scene
-            key={sceneKeys.contacts}
-            component={CContacts}
-            hideNavBar={true}
-            initial={true}
-          />
-          <Scene
-            key={sceneKeys.bevegrams}
-            component={CBevegrams}
-            hideNavBar={true}
-          />
-          <Scene
-            key={sceneKeys.bevegramLocations}
-            component={CBevegramLocations}
-            hideNavBar={true}
-          />
-          <Scene
-            key={sceneKeys.history}
-            component={Deals}
-            hideNavBar={true}
-          />
-        </Scene>
-      </Router>
+        <CContacts tabLabel="Contacts" />
+        <CBevegrams tabLabel="Bevegrams" />
+        <CBevegramLocations tabLabel="Map" />
+        <Deals tabLabel="History" />
+      </ScrollableTabView>
     );
   }
 }
