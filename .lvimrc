@@ -31,8 +31,7 @@ function! BuildReactNativeForAndroid(release_version)
         let install_cmd = "adb uninstall com.bevegram && adb install " . release_dir . apk_name
     endif
 
-    echo "Building Bevegram " . a
-    :release_version . " android apk..."
+    echo "Building Bevegram " . a:release_version . " android apk..."
     exe ":Term cd android && ./gradlew assembleRelease && sleep 1 && cp " . build_dir . "app-release.apk " . release_dir . apk_name . " && " . install_cmd
     exe "startinsert"
     if confirm("Open release folder? ", "&Yes\n&No") == 1
@@ -48,6 +47,7 @@ function! GetPackageVersion()
             return matchstr(line, '\d\+.\d\+.\d\+')
         endif
     endfor
+    echoerr "Could not parse version number from '" . version_file . "'"
 endfunction
 
 function! BuildReactNative()
