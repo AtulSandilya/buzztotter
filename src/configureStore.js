@@ -1,10 +1,15 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import {enableBatching} from 'redux-batched-actions';
 
 import appReducers from './reducers';
+import mySaga from './sagas/sagas';
+
+const sagaMiddleware = createSagaMiddleware();
 
 function configureStore(reducers){
-  let store = createStore(enableBatching(reducers));
+  let store = createStore(enableBatching(reducers), applyMiddleware(sagaMiddleware));
+  sagaMiddleware.run(mySaga);
 
   if(module.hot){
     module.hot.accept(() => {

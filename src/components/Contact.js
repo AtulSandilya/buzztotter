@@ -27,13 +27,15 @@ const styles = StyleSheet.create({
   },
 })
 
-const Contact = ({name, birthday, openPurchaseModal, closePurchaseModal}) => {
+const Contact = ({name, birthday, imagePath, openPurchaseModal, closePurchaseModal}) => {
   const fullName = name.first + " " + name.last;
+  console.log("imagePath: ", imagePath);
   return (
     <View style={styles.parentContainer}>
       <View style={styles.infoContainer}>
         <Image
-          source={require('../../img/icons/bev-contact.png')}
+          source={{uri: imagePath}}
+          style={{height: 50, width: 50}}
         />
         <View style={styles.infoTextContainer}>
           <Text style={{paddingLeft: 15, paddingBottom: 5}}>{fullName}</Text>

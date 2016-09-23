@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { Image, Text, TouchableHighlight, View } from 'react-native';
 
+import { LoginButton, AccessToken } from 'react-native-fbsdk';
+
 import {globalColors} from './GlobalStyles';
 
-const Login = ({isLoggedIn, logInAction}) => (
+const Login = ({isLoggedIn, facebookLogin, googleLogin}) => (
   <View style={{flex: 1}}>
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: globalColors.bevPrimary}}>
       <Image
@@ -20,16 +22,23 @@ const Login = ({isLoggedIn, logInAction}) => (
     </View>
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <View style={{flex: -1, alignItems: 'center'}}>
-        <TouchableHighlight
-          style={{
-            backgroundColor: '#3b5998',
-            padding: 15,
-            borderRadius: 3,
+        <LoginButton
+          readPermissions={['public_profile', 'user_friends', 'email']}
+          onLoginFinished={(error, result) => {
+            if(error){
+              alert("Login error: " + result.error);
+            } else if (result.isCancelled){
+              alert("Login cancelled");
+            } else {
+              AccessToken.getCurrentAccessToken().then(
+                (data) => {
+                  facebookLogin(data.accessToken.toString());
+                }
+              )
+            }
           }}
-          onPress={logInAction}
-        >
-          <Text style={{fontSize: 20, color: '#ffffff'}}>Import Contacts from Facebook</Text>
-        </TouchableHighlight>
+          onLogoutFinished={() => alert("Logout Complete")}
+        />
       </View>
       <View style={{flex: -1, alignItems: 'center', marginTop: 30}}>
         <TouchableHighlight
@@ -38,7 +47,7 @@ const Login = ({isLoggedIn, logInAction}) => (
             padding: 15,
             borderRadius: 3,
           }}
-          onPress={logInAction}
+          onPress={googleLogin}
         >
           <Text style={{fontSize: 20, color: '#ffffff'}}>Import Contacts from Google</Text>
         </TouchableHighlight>

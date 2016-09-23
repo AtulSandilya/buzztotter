@@ -7,6 +7,7 @@ import { bevegrams } from './bevegrams';
 import { modals }    from './modals';
 import { login }     from './login';
 import { locations } from './locations';
+import { user }      from './user';
 
 export default combineReducers({
   settings,
@@ -16,4 +17,5 @@ export default combineReducers({
   modals,
   login,
   locations,
+  user,
 })

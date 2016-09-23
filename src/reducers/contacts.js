@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-const addContact = (firstName, lastName, bdayStr, imagePath) => {
+const formatContact = (firstName, lastName, bdayStr, imagePath) => {
   var bday = moment(bdayStr, "MMM DD YYYY");
   var bdayFormattedStr = bday.format("MMMM Do");
   var bdayNumber = bday.dayOfYear();
@@ -22,21 +22,7 @@ const addContact = (firstName, lastName, bdayStr, imagePath) => {
   }
 }
 
-const initialState = [
-  addContact('Travis', 'Caldwell', 'October 1 1987', 'test.jpg'),
-  addContact('Brian', 'Ripley', 'September 15 1987', 'test.jpg'),
-  addContact('Andrew', 'Simms', 'January 2 1987', 'test.jpg'),
-  addContact('Scott', 'Jones', 'May 2 1987', 'test.jpg'),
-  addContact('Sarah', 'Johnson', 'April 3 1987', 'test.jpg'),
-  addContact('Mike', 'Thomas', 'March 2 1987', 'test.jpg'),
-  addContact('Jen', 'Smith', 'April 22 1987', 'test.jpg'),
-  addContact('Jerry', 'Martinez', 'February 12 1987', 'test.jpg'),
-  addContact('Jack', 'Sorenson', 'June 12 1987', 'test.jpg'),
-  addContact('Fred', 'Jackson', 'July 29 1987', 'test.jpg'),
-  addContact('John', 'Erickson', 'August 9 1987', 'test.jpg'),
-  addContact('Tom', 'Blackstone', 'December 14 1987', 'test.jpg'),
-  addContact('Brooke', 'Zapato', 'Juneteenth 38 1987', 'test.jpg'),
-]
+const initialState = [];
 
 const sortContactsByBirthday = (contacts) => {
 
@@ -58,9 +44,21 @@ const sortContactsByBirthday = (contacts) => {
   return newContacts;
 }
 
+
+const addContactsFromFacebook = (state, contacts) => {
+  console.log("addContactsFromFacebook", contacts);
+  const newContacts = contacts.data.map(function(contact){
+    return formatContact(contact.first_name, contact.last_name, "unknown", contact.picture.data.url);
+  })
+  console.log("newContacts", newContacts);
+  return newContacts;
+}
+
 export const contacts = (state = initialState, action) => {
   switch(action.type){
+    case 'POPULATE_CONTACTS_FROM_FACEBOOK':
+      return addContactsFromFacebook(state, action.payload.contacts);
     default:
-      return sortContactsByBirthday(state);
+      return state;
   }
 }
