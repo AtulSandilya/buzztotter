@@ -19,5 +19,8 @@
     "plugins": [
         "babel",
         "react"
-    ]
+    ],
+    "globals": {
+      "Promise": true,
+    }
 }
