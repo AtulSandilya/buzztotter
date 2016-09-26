@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
 
 const Contact = ({name, birthday, imagePath, openPurchaseModal, closePurchaseModal}) => {
   const fullName = name.first + " " + name.last;
-  console.log("imagePath: ", imagePath);
   return (
     <View style={styles.parentContainer}>
       <View style={styles.infoContainer}>

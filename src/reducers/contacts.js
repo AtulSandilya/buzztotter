@@ -22,7 +22,11 @@ const formatContact = (firstName, lastName, bdayStr, imagePath) => {
   }
 }
 
-const initialState = [];
+const initialState = {
+  loadingFromFacebook: false,
+  loadingFromFacebookFailed: false,
+  contactList: [],
+}
 
 const sortContactsByBirthday = (contacts) => {
 
@@ -46,18 +50,18 @@ const sortContactsByBirthday = (contacts) => {
 
 
 const addContactsFromFacebook = (state, contacts) => {
-  console.log("addContactsFromFacebook", contacts);
   const newContacts = contacts.data.map(function(contact){
     return formatContact(contact.first_name, contact.last_name, "unknown", contact.picture.data.url);
   })
-  console.log("newContacts", newContacts);
-  return newContacts;
+  return {...state, contactList: newContacts, loadingFromFacebook: false};
 }
 
 export const contacts = (state = initialState, action) => {
   switch(action.type){
     case 'POPULATE_CONTACTS_FROM_FACEBOOK':
       return addContactsFromFacebook(state, action.payload.contacts);
+    case 'LOADING_CONTACTS_FROM_FACEBOOK':
+      return {...state, loadingFromFacebook: true};
     default:
       return state;
   }

@@ -6,7 +6,9 @@ import Contacts from '../components/Contacts';
 
 const mapStateToProps = (state) => {
   return {
-    contacts: state.contacts,
+    contacts: state.contacts.contactList,
+    loading: state.contacts.loadingFromFacebook,
+    loadingFailed: state.contacts.loadingFromFacebookFailed,
     purchaseModalIsOpen: state.modals.purchaseBeerModal.isOpen,
   }
 }

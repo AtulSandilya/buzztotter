@@ -16,7 +16,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     facebookLogin: (token) => {
-      dispatch({type: 'USER_FETCH_REQUESTED', payload: {token: token}});
+      dispatch({type: 'ALL_FACEBOOK_DATA_FETCH_REQUESTED', payload: {token: token}});
       Actions.mainScene();
     },
     googleLogin: () => {
