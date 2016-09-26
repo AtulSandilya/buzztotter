@@ -17,7 +17,10 @@ export function* fetchContacts(action) {
 export function* fetchUser(action) {
   try{
     const userData = yield call(promiseUserInfoFromFacebook, action.payload.token);
-    yield put({type: 'POPULATE_USER_DATA_FROM_FACEBOOK', payload: {userData: userData}});
+    yield put({type: 'POPULATE_USER_DATA_FROM_FACEBOOK', payload: {
+      userData: userData,
+      token: action.payload.token,
+    }});
     fetchContacts(action);
   } catch(e){
     yield put({type: 'POPULATE_USER_DATA_FROM_FACEBOOK_FAILED'});
