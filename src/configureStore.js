@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import {enableBatching} from 'redux-batched-actions';
 
 import appReducers from './reducers';
-import rootSaga from './sagas/sagas';
+import rootSaga from './sagas/index';
 
 const sagaMiddleware = createSagaMiddleware();
 

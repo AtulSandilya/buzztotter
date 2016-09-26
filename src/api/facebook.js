@@ -1,6 +1,3 @@
-import { takeEvery, takeLatest } from 'redux-saga';
-import { call, put, fork } from 'redux-saga/effects';
-
 import { GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 
 const graphRequest = (token, urlString, parameterString, callback) => {
@@ -44,7 +41,7 @@ const getFriendsRequest = (token, callback) => {
   return graphRequest(token, urlString, parameterString, callback);
 }
 
-const promiseContactsFromFacebook = (token) => {
+export const promiseContactsFromFacebook = (token) => {
   return promiseFunctionFromFacebook(token, getFriendsRequest);
 }
 
@@ -54,43 +51,6 @@ const userInfoRequest = (token, callback) => {
   return graphRequest(token, urlString, parameterString, callback);
 }
 
-const promiseUserInfoFromFacebook = (token) => {
+export const promiseUserInfoFromFacebook = (token) => {
   return promiseFunctionFromFacebook(token, userInfoRequest);
-}
-
-function* fetchContacts(action) {
-  try{
-    // Each yield completes before the other starts
-    yield put({type: 'LOADING_CONTACTS_FROM_FACEBOOK'});
-    const contacts = yield call(promiseContactsFromFacebook, action.payload.token);
-    yield put({type: "POPULATE_CONTACTS_FROM_FACEBOOK", payload: {contacts: contacts}});
-  } catch(e) {
-    console.log("Fetch contacts failed: ", e);
-    yield put({type: "LOADING_CONTACTS_FROM_FACEBOOK_FAILED"});
-  }
-}
-
-function* fetchUser(action) {
-  try{
-    const userData = yield call(promiseUserInfoFromFacebook, action.payload.token);
-    yield put({type: 'POPULATE_USER_DATA_FROM_FACEBOOK', payload: {userData: userData}});
-    fetchContacts(action);
-  } catch(e){
-    yield put({type: 'POPULATE_USER_DATA_FROM_FACEBOOK_FAILED'});
-  }
-}
-
-function* fetchAllFacebookData(action){
-  // Execute these in parallel
-  yield [
-    fetchUser(action),
-    fetchContacts(action),
-  ]
-}
-
-// Like combine reducers
-export default function* rootSaga() {
-  yield fork(takeEvery, 'USER_FETCH_REQUESTED', fetchUser);
-  yield fork(takeEvery, 'CONTACTS_FETCH_REQUESTED', fetchContacts);
-  yield fork(takeEvery, 'ALL_FACEBOOK_DATA_FETCH_REQUESTED', fetchAllFacebookData);
 }
