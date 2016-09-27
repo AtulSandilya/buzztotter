@@ -47,6 +47,26 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+    <false/>
+    <key>CFBundleURLTypes</key>
+    <array>
+    <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>fb2123077871249760</string>
+      </array>
+    </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>2123077871249760</string>
+    <key>FacebookDisplayName</key>
+    <string>Bevegra</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+    <string>fbapi</string>
+    <string>fb-messenger-api</string>
+    <string>fbauth2</string>
+    <string>fbshareextension</string>
+    </array>
 </dict>
 </plist>
