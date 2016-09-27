@@ -43,3 +43,6 @@ android/keystores/debug.keystore
 
 # Android Builds
 android/ReleaseBuilds
+
+# Api keys
+secrets.js
