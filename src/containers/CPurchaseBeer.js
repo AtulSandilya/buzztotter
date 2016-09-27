@@ -15,6 +15,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     closePurchaseModal: () => {
       dispatch({type: 'CLOSE_MODAL', modalKey: modalKeys.purchaseBeerModal});
+    },
+    purchaseBeer: () => {
+      dispatch({type: 'REQUEST_CREDIT_CARD_TOKEN'});
     }
   }
 }

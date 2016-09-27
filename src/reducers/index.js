@@ -8,6 +8,7 @@ import { modals }    from './modals';
 import { login }     from './login';
 import { locations } from './locations';
 import { user }      from './user';
+import { purchase }  from './purchase';
 
 export default combineReducers({
   settings,
@@ -18,4 +19,5 @@ export default combineReducers({
   login,
   locations,
   user,
+  purchase,
 })

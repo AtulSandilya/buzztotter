@@ -108,6 +108,7 @@ export default class PurchaseBeer extends Component {
   }
 
   purchaseDrink() {
+    this.props.purchaseBeer();
     this.setState({
       purchaseConfirmed: true,
     });
