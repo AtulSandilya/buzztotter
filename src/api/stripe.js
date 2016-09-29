@@ -3,6 +3,14 @@ import secrets from '../../secrets';
 const stripe_url = 'https://api.stripe.com/v1/';
 const apiKey = secrets.stripeApiKey;
 
+const uriEncodeObjectToString = (inputObj, separator = "&") => {
+  let result = [];
+  Object.keys(inputObj).forEach(function(key){
+    result.push(encodeURIComponent(key) + "=" + encodeURIComponent(inputObj[key]));
+  })
+  return result.join("&");
+}
+
 export const promiseCreditCardToken = (cardNumber, expMonth, expYear, cvc) => {
   const cardDetails = {
     "card[number]": cardNumber,
@@ -11,26 +19,46 @@ export const promiseCreditCardToken = (cardNumber, expMonth, expYear, cvc) => {
     "card[cvc]": cvc,
   }
 
-  let formBody = [];
-
-  for(var prop in cardDetails){
-    const encodedKey = encodeURIComponent(prop);
-    const encodedValue = encodeURIComponent(cardDetails[prop]);
-    formBody.push(encodedKey + "=" + encodedValue);
-  }
-
-  formBody = formBody.join("&");
-
-  return fetch('https://api.stripe.com/v1/balance', {
-    method: 'GET',
+  return fetch('https://api.stripe.com/v1/tokens', {
+    method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Bearer ' + secrets.stripeApiKey,
-    }
-  }).then((response) => {return response.json()})
+    },
+    body: uriEncodeObjectToString(cardDetails),
+  })
+  .then((response) => {
+    return response.json();
+  })
   .catch((error) => {
     console.error("Error fetching creditCardToken: ", error);
+    throw new "Error fetching credit card token: " + error;
   })
 }
 
+export const promiseCreditCardPurchase = (token, amount, description) => {
+  const purchaseDetails = {
+    "amount": amount,
+    "currency": "usd",
+    "source": token,
+    "description": description,
+  }
+
+  return fetch('https://api.stripe.com/v1/charges', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer ' + secrets.stripeApiKey,
+    },
+    body: uriEncodeObjectToString(purchaseDetails),
+  })
+  .then((response) => {
+    // How to return success?
+    return response.json();
+  })
+  .catch((error) => {
+    console.error("Error with card purchase: ", error);
+  })
+}

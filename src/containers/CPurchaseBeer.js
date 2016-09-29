@@ -8,6 +8,7 @@ const mapStateToProps = (state) => {
   return {
     fullName: state.modals.purchaseBeerModal.data.fullName,
     firstName: state.modals.purchaseBeerModal.data.firstName,
+    purchase: state.purchase,
   }
 }
 
@@ -16,8 +17,11 @@ const mapDispatchToProps = (dispatch) => {
     closePurchaseModal: () => {
       dispatch({type: 'CLOSE_MODAL', modalKey: modalKeys.purchaseBeerModal});
     },
-    purchaseBeer: () => {
-      dispatch({type: 'REQUEST_CREDIT_CARD_TOKEN'});
+    startCreditCardPurchase: (cardData, purchaseData) => {
+      dispatch({type: 'REQUEST_CREDIT_CARD_TOKEN', payload: {
+        cardData: cardData,
+        purchaseData: purchaseData,
+      }});
     }
   }
 }
