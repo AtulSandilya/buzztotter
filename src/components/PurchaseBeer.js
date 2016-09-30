@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { ActivityIndicator, Picker, Slider, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 
+import {isIOS} from '../Utilities';
+
 import TitleText from './TitleText';
 import BevButton from './BevButton';
 
@@ -269,8 +271,9 @@ export default class PurchaseBeer extends Component {
           </View>
           <View style={[styles.purchaseLineRight, {
             flex: 1,
-            alignItems: 'flex-end',
-            justifyContent: 'center',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            flexDirection: 'row',
           }]}>
             <CreditCardInput
               ref="7"
@@ -443,6 +446,7 @@ class CreditCardInput extends Component {
         style={{
           width: this.props.width,
           textAlign: 'center',
+          height: isIOS ? 45 : undefined,
         }}
         ref="textInput"
         keyboardType="numeric"
