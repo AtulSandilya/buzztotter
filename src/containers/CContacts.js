@@ -1,5 +1,7 @@
 import {connect} from 'react-redux';
 
+import {batchActions} from 'redux-batched-actions';
+
 import { modalKeys } from '../reducers/modals';
 
 import Contacts from '../components/Contacts';
@@ -16,7 +18,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     closePurchaseModal: () => {
-      dispatch({type: 'CLOSE_MODAL', modalKey: modalKeys.purchaseBeerModal});
+      dispatch(batchActions([
+        {type: 'END_CREDIT_CARD_PURCHASE'},
+        {type: 'CLOSE_MODAL', modalKey: modalKeys.purchaseBeerModal},
+      ]));
     }
   }
 }

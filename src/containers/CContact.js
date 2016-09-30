@@ -14,7 +14,6 @@ const mapDispatchToProps = (dispatch) => {
       })
     },
     closePurchaseModal: () => {
-      console.log("CContact closePurchase Modal");
       dispatch({type: 'CLOSE_MODAL', modalKey: modalKeys.purchaseBeerModal});
     }
   }

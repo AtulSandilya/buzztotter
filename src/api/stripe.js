@@ -33,7 +33,7 @@ export const promiseCreditCardToken = (cardNumber, expMonth, expYear, cvc) => {
   })
   .catch((error) => {
     console.error("Error fetching creditCardToken: ", error);
-    throw new "Error fetching credit card token: " + error;
+    throw new Error("Error verifying credit card: " + error);
   })
 }
 
@@ -55,10 +55,10 @@ export const promiseCreditCardPurchase = (token, amount, description) => {
     body: uriEncodeObjectToString(purchaseDetails),
   })
   .then((response) => {
-    // How to return success?
     return response.json();
   })
   .catch((error) => {
-    console.error("Error with card purchase: ", error);
+    console.error("Error with card transaction: ", error);
+    throw new Error("Error processing credit card transaction: ", error);
   })
 }

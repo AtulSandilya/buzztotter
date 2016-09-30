@@ -9,7 +9,6 @@ export function* fetchContacts(action) {
     const contacts = yield call(promiseContactsFromFacebook, action.payload.token);
     yield put({type: "POPULATE_CONTACTS_FROM_FACEBOOK", payload: {contacts: contacts}});
   } catch(e) {
-    console.log("Fetch contacts failed: ", e);
     yield put({type: "LOADING_CONTACTS_FROM_FACEBOOK_FAILED"});
   }
 }

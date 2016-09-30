@@ -9,36 +9,47 @@ export function* fetchCreditCardToken(action){
     yield put({type: 'ATTEMPING_CREDIT_CARD_PURCHASE'});
     const creditCardTokenResponse = yield call(promiseCreditCardToken, cardData.cardNumber, cardData.cardExpMonth, cardData.cardExpYear, cardData.cardCvc);
 
-    const creditCardToken = handleTokenResponse(creditCardTokenResponse);
-    console.log(creditCardToken);
+    const tokenResponse = yield call(handleTokenResponse, creditCardTokenResponse);
 
-    yield put({type: 'HANDLE_CREDIT_CARD_VERIFIED', payload: creditCardToken});
-    const creditCardPurchaseResponse = yield call(promiseCreditCardPurchase, creditCardToken, purchaseData.amount, purchaseData.description);
+    yield put({type: 'HANDLE_CREDIT_CARD_VERIFIED', payload: tokenResponse});
+    const creditCardPurchaseResponse = yield call(promiseCreditCardPurchase, tokenResponse.token, purchaseData.amount, purchaseData.description);
 
-    const purchaseResult = handleTransactionResponse(creditCardPurchaseResponse);
+    const purchaseResult = yield call(handleTransactionResponse, creditCardPurchaseResponse);
     yield put({type: 'HANDLE_CREDIT_CARD_PURCHASE_SUCESSFUL', payload: purchaseResult});
   } catch(e){
-    yield put({type: 'HANDLE_FAILED_CREDIT_CARD_RESPONSE', payload: e});
+    yield put({type: 'HANDLE_CREDIT_CARD_FAILED', payload: e.message});
   }
 }
 
-const handleTokenResponse = (response) => {
-  console.log("tokenResponse: ", response);
+function* handleTokenResponse(response) {
   if(response.error !== undefined){
-    throw new CreditCardException("Could not get credit card token: " + response.error.message);
+    let err = response.error.message;
+    yield put({type: 'HANDLE_CREDIT_CARD_VERIFICATION_FAILED', payload: err});
+    throw new CreditCardException("Unable to verify credit card: " + err);
   }
-  return response.id;
+
+  return {
+    token: response.id,
+    brand: response.card.brand,
+    last4: response.card.last4,
+  }
 }
 
-const handleTransactionResponse = (response) => {
+function* handleTransactionResponse (response) {
   if(response.error !== undefined){
-    throw new CreditCardException("Error with transaction: " + response.error.message);
+    let err = response.error.message;
+    yield put({type: 'HANDLE_CREDIT_CARD_PURCHASE_FAILED', payload: err});
+    throw new CreditCardException("Error with transaction: " + err);
   } else if (response.status !== "succeeded"){
-    throw new CreditCardException("Payment did not succeed: " + response.failure_message);
+    let err = response.failure_message
+    yield put({type: 'HANDLE_CREDIT_CARD_PURCHASE_FAILED', payload: err});
+    throw new CreditCardException("Payment did not succeed: " + err);
   }
+
   return response;
 }
 
-const CreditCardException = (message) => {
-  return "Processing Credit Card Exception: " + message;
+function CreditCardException(message){
+  this.message = message;
+  this.name = "CreditCardException";
 }
