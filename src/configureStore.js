@@ -6,11 +6,21 @@ import {enableBatching} from 'redux-batched-actions';
 
 import * as persistentStorage from 'redux-storage';
 import createEngine from 'redux-storage-engine-reactnativeasyncstorage';
+import filter from 'redux-storage-decorator-filter';
 
 import appReducers from './reducers';
 import rootSaga from './sagas/index';
 
-const engine = createEngine('BevStorage');
+let engine = createEngine('BevStorage');
+engine = filter(engine,
+  [
+    // Explicitly save these state keys
+  ],
+  [
+    // Don't save these state keys
+    'purchase'
+  ]
+)
 const storageMiddleware = persistentStorage.createMiddleware(engine);
 const storageReducer = persistentStorage.reducer(appReducers);
 
