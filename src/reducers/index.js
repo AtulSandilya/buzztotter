@@ -9,6 +9,7 @@ import { login }     from './login';
 import { locations } from './locations';
 import { user }      from './user';
 import { purchase }  from './purchase';
+import { app }       from './app';
 
 export default combineReducers({
   settings,
@@ -20,4 +21,5 @@ export default combineReducers({
   locations,
   user,
   purchase,
+  app,
 })

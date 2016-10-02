@@ -1,6 +1,9 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
+
 import createSagaMiddleware from 'redux-saga';
+
 import {enableBatching} from 'redux-batched-actions';
+
 import * as persistentStorage from 'redux-storage';
 import createEngine from 'redux-storage-engine-reactnativeasyncstorage';
 
@@ -33,6 +36,9 @@ function configureStore(reducers){
 let store = configureStore(storageReducer);
 
 const load = persistentStorage.createLoader(engine);
-load(store);
+load(store)
+  .then((newState) => {
+    store.dispatch({type: 'LOADING_COMPLETE'})
+  });
 
 export default store;

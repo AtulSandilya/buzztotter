@@ -6,7 +6,7 @@ import {batchActions} from 'redux-batched-actions';
 
 import {isAndroid} from './Utilities';
 
-import InitialRouter from './routers/InitialRouter.js';
+import CInitialRouter from './containers/CInitialRouter.js';
 
 import store from './configureStore';
 
@@ -33,7 +33,7 @@ export default class Bevegram extends Component {
   render() {
     return (
       <Provider store={store}>
-        <InitialRouter />
+        <CInitialRouter />
       </Provider>
     );
   }
