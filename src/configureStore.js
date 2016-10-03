@@ -18,7 +18,9 @@ engine = filter(engine,
   ],
   [
     // Don't save these state keys
-    'purchase'
+    'purchase',
+    'view',
+    'modals',
   ]
 )
 const storageMiddleware = persistentStorage.createMiddleware(engine);
