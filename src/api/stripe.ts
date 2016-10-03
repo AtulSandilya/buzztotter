@@ -1,4 +1,4 @@
-import secrets from '../../secrets';
+import secrets from '../secrets';
 
 const stripe_url = 'https://api.stripe.com/v1/';
 const apiKey = secrets.stripeApiKey;

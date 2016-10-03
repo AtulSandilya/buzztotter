@@ -1,6 +1,6 @@
 import { AppRegistry } from 'react-native';
 
-import Bevegram from './build/src/app.js';
+import Bevegram from './build/app.js';
 
 AppRegistry.registerComponent('Bevegram', () => Bevegram);
 
