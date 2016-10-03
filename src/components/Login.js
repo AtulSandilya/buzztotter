@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Image, Text, TouchableHighlight, View } from 'react-native';
 
-import { LoginButton, AccessToken } from 'react-native-fbsdk';
+import FacebookLoginButton from './FacebookLoginButton';
 
 import {globalColors} from './GlobalStyles';
 
@@ -22,22 +22,8 @@ const Login = ({isLoggedIn, facebookLogin, googleLogin}) => (
     </View>
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <View style={{flex: -1, alignItems: 'center'}}>
-        <LoginButton
-          readPermissions={['public_profile', 'user_friends', 'email']}
-          onLoginFinished={(error, result) => {
-            if(error){
-              alert("Login error: " + result.error);
-            } else if (result.isCancelled){
-              alert("Login cancelled");
-            } else {
-              AccessToken.getCurrentAccessToken().then(
-                (data) => {
-                  facebookLogin(data.accessToken.toString());
-                }
-              )
-            }
-          }}
-          onLogoutFinished={() => alert("Logout Complete")}
+        <FacebookLoginButton
+          loginDispatch={facebookLogin}
         />
       </View>
       <View style={{flex: -1, alignItems: 'center', marginTop: 30}}>

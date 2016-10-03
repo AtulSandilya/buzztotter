@@ -7,6 +7,7 @@ import {isAndroid} from '../Utilities';
 
 import TitleText from './TitleText';
 import BevButton from './BevButton';
+import FacebookLoginButton from './FacebookLoginButton';
 
 import {globalColors} from './GlobalStyles';
 
@@ -37,7 +38,7 @@ const sendNotification = () => {
   }
 }
 
-export const Settings = ({notifications, location, version, onSettingToggle}) => (
+export const Settings = ({notifications, location, version, onSettingToggle, onFacebookLogout}) => (
   <View
     style={{
       flex: 1,
@@ -92,6 +93,17 @@ export const Settings = ({notifications, location, version, onSettingToggle}) =>
       <SettingRight>
         <Text>{version}</Text>
       </SettingRight>
+    </SettingLine>
+    <SettingLine>
+      <View style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <FacebookLoginButton
+          logoutDispatch={onFacebookLogout}
+        />
+      </View>
     </SettingLine>
   </View>
 )

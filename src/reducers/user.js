@@ -34,6 +34,10 @@ export const user = (state = defaultState, action) => {
   switch(action.type){
     case('POPULATE_USER_DATA_FROM_FACEBOOK'):
       return mapFacebookDataToState(state, action);
+    case 'LOGOUT_FACEBOOK':
+      return {...state,
+        isLoggedIn: false,
+      }
     default:
       return state;
   }
