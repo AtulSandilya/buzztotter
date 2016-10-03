@@ -46,3 +46,7 @@ android/ReleaseBuilds
 
 # Api keys
 secrets.js
+
+# Typescript
+build/
+typings/
