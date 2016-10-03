@@ -53,7 +53,12 @@ const addContactsFromFacebook = (state, contacts) => {
   const newContacts = contacts.data.map(function(contact){
     return formatContact(contact.first_name, contact.last_name, "unknown", contact.picture.data.url);
   })
-  return {...state, contactList: newContacts, loadingFromFacebook: false};
+  return Object.assign({}, state,
+    {
+      contactList: newContacts,
+      loadingFromFacebook: false
+    }
+  );
 }
 
 export const contacts = (state = initialState, action) => {
@@ -61,7 +66,11 @@ export const contacts = (state = initialState, action) => {
     case 'POPULATE_CONTACTS_FROM_FACEBOOK':
       return addContactsFromFacebook(state, action.payload.contacts);
     case 'LOADING_CONTACTS_FROM_FACEBOOK':
-      return {...state, loadingFromFacebook: true};
+      return Object.assign({}, state,
+        {
+          loadingFromFacebook: true,
+        }
+      );
     default:
       return state;
   }

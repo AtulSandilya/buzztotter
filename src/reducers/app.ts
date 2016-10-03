@@ -5,9 +5,11 @@ const initialAppState = {
 export const app = (state = initialAppState, action) => {
   switch(action.type){
     case 'LOADING_COMPLETE':
-      return {...state,
-        isLoading: false,
-      }
+      return Object.assign({}, state,
+        {
+          isLoading: false
+        }
+      );
     default:
       return state;
   }
