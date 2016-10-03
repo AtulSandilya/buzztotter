@@ -71,7 +71,7 @@ function! RestartAndroidApp()
     exe "Term " . stop_cmd . " && " . start_cmd
 endfunction
 
-au FileType javascript set shiftwidth=2 tabstop=2
+au FileType javascript,typescript set shiftwidth=2 tabstop=2
 " set shiftwidth=2
 " set tabstop=2
 
