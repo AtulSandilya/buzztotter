@@ -357,9 +357,9 @@ export default class PurchaseBeer extends Component {
         />
         {this.props.purchase.failed ?
         <View>
-          <View style={[styles.purchaseLine], {
+          <View style={[styles.purchaseLine, {
             flex: -1,
-          }}>
+          }]}>
             <Text style={{fontWeight: 'bold', paddingBottom: 10, color: 'red'}}>Unable to complete purchase:</Text>
             <Text>{this.props.purchase.failMessage}</Text>
           </View>

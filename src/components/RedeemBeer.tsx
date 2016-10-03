@@ -182,7 +182,7 @@ export default class RedeemBeer extends Component {
           <View style={styles.purchaseLineLeft}>
             <Text style={styles.purchaseLineTextTitle}>Vendor Id:</Text>
           </View>
-          <View style={[styles.purchaseLineRight], {flex: 1, maxWidth: 125}}>
+          <View style={[styles.purchaseLineRight, {flex: 1, maxWidth: 125}]}>
             <TextInput
               placeholder={"1234"}
               placeholderTextColor={"#bbbbbb"}
