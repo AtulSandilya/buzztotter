@@ -12,7 +12,11 @@ import FacebookLoginButton from './FacebookLoginButton';
 
 import {globalColors} from './GlobalStyles';
 
-const styles = StyleSheet.create({
+interface Style {
+  settingLine: React.ViewStyle;
+}
+
+const styles = StyleSheet.create<Style>({
   settingLine: {
       flex: 1,
       flexDirection: 'row',
@@ -39,7 +43,15 @@ const sendNotification = () => {
   }
 }
 
-export const Settings = ({notifications, location, version, onSettingToggle, onFacebookLogout}) => (
+interface SettingsProps {
+  notifications: boolean;
+  location: boolean;
+  version: number;
+  onSettingToggle(string): void;
+  onFacebookLogout(): void;
+}
+
+export const Settings: React.StatelessComponent<SettingsProps> = ({notifications, location, version, onSettingToggle, onFacebookLogout}) => (
   <View
     style={{
       flex: 1,
@@ -108,11 +120,6 @@ export const Settings = ({notifications, location, version, onSettingToggle, onF
     </SettingLine>
   </View>
 )
-
-Settings.propTypes = {
-  notifications: React.PropTypes.bool.isRequired,
-  location: React.PropTypes.bool.isRequired,
-}
 
 const SettingLeft = (props) => (
   <View
