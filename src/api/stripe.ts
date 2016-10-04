@@ -1,4 +1,4 @@
-/// <reference path="../../typings/globals/whatwg-fetch/index.d.ts"/>
+/// <reference path="../../typings/modules/fetch.d.ts"/>
 
 import secrets from '../secrets';
 
