@@ -4,12 +4,47 @@ import { ActivityIndicator, Picker, Slider, StyleSheet, Text, TextInput, Touchab
 
 import {isIOS} from '../Utilities';
 
+import { CardResponseData, PurchaseState } from '../reducers/purchase';
+
 import TitleText from './TitleText';
 import BevButton from './BevButton';
 
 import {globalColors} from './GlobalStyles';
 
-export default class PurchaseBeer extends Component {
+interface CardData {
+  cardNumber: string;
+  cardExpMonth: string;
+  cardExpYear: string;
+  cardCvc: string;
+}
+
+interface PurchaseData {
+  amount: number;
+  description: string;
+}
+
+interface VProps {
+  fullName: string;
+  firstName: string;
+  purchase: PurchaseState;
+  resetPurchase();
+  closePurchaseModal();
+  startCreditCardPurchase(CardData, PurchaseData);
+}
+
+interface VState {
+  numDrinks: number;
+  cardNum1: string;
+  cardNum2: string;
+  cardNum3: string;
+  cardNum4: string;
+  cardExpMonth: string;
+  cardExpYear: string;
+  cardCvc: string;
+}
+
+export default class PurchaseBeer extends Component<VProps, VState> {
+
   constructor(props){
     super(props);
     this.state = {
@@ -24,17 +59,6 @@ export default class PurchaseBeer extends Component {
     };
   }
 
-  static propTypes = {
-    fullName: React.PropTypes.string,
-    firstName: React.PropTypes.string,
-    pricePerDrink: React.PropTypes.number,
-    closePurchaseModal: React.PropTypes.func,
-  }
-
-  static defaultProps = {
-    pricePerDrink: 6.00,
-  }
-
   increaseNumDrinks(){
     this.updateNumDrinks(this.state.numDrinks + 1);
   }
@@ -45,18 +69,17 @@ export default class PurchaseBeer extends Component {
 
   updateNumDrinks(input){
     if(input >= 1 && input <= 10){
-      this.setState({
-        numDrinks: input
-      });
+      this.updateState("numDrinks", input);
     }
   }
 
   attemptCreditCardPurchase(){
-    let cardData = {}
-    cardData.cardNumber = this.state.cardNum1 + this.state.cardNum2 + this.state.cardNum3 + this.state.cardNum4;
-    cardData.cardExpMonth = this.state.cardExpMonth;
-    cardData.cardExpYear = this.state.cardExpYear;
-    cardData.cardCvc = this.state.cardCvc;
+    let cardData = {
+      cardNumber: this.state.cardNum1 + this.state.cardNum2 + this.state.cardNum3 + this.state.cardNum4,
+      cardExpMonth: this.state.cardExpMonth,
+      cardExpYear: this.state.cardExpYear,
+      cardCvc: this.state.cardCvc,
+    }
 
     if(
       this.isValidCardNumber(cardData.cardNumber)
@@ -66,7 +89,7 @@ export default class PurchaseBeer extends Component {
     ){
       let purchaseData = {
         // Stripe likes the payment value to be cents, (100 cents = 1 dollar)
-        amount: (this.state.numDrinks * this.props.pricePerDrink) * 100,
+        amount: (this.state.numDrinks * this.props.purchase.pricePerDrink) * 100,
         description: "Sent " + this.state.numDrinks + " Bevegram" + (this.state.numDrinks > 1 ? "s" : "") + " to " + this.props.fullName,
       }
       this.props.startCreditCardPurchase(cardData, purchaseData);
@@ -107,12 +130,6 @@ export default class PurchaseBeer extends Component {
       let nextState = Object.assign({}, prevState);
       nextState[property] = value;
       return nextState;
-    });
-  }
-
-  setPaymentMethod(input){
-    this.setState({
-      paymentMethod: input,
     });
   }
 
@@ -163,10 +180,10 @@ export default class PurchaseBeer extends Component {
             <Text style={styles.purchaseLineTextTitle}>Cost:</Text>
           </View>
           <View style={[styles.purchaseLineRight, {flex: 1}]}>
-            <Text style={styles.purchaseLineText}>$ {(this.props.pricePerDrink * this.state.numDrinks).toFixed(2)}</Text>
+            <Text style={styles.purchaseLineText}>$ {(this.props.purchase.pricePerDrink * this.state.numDrinks).toFixed(2)}</Text>
           </View>
         </View>
-        <View style={styles.purchaseLine}>
+        <View style={styles.purchaseLine} ref="test">
           <View style={styles.purchaseLineLeft}>
             <Text style={styles.purchaseLineTextTitle}>Card Number:</Text>
           </View>
@@ -175,45 +192,44 @@ export default class PurchaseBeer extends Component {
           }]}>
             <CreditCardInput
               ref="1"
+              nextRef={this.refs["2"]}
               maxChars={4}
               placeholder="1234"
               width={40}
+              returnKeyType="next"
               onChangeText={(text) => {
                 this.updateState("cardNum1", text);
-              }}
-              onSubmit={() => {
-                this.refs["2"].defaultProps.focus();
               }}
             />
             <CreditCardInput
               ref="2"
+              nextRef={this.refs["3"]}
               maxChars={4}
               placeholder="5678"
               width={40}
               onChangeText={(text) => {
                 this.updateState("cardNum2", text);
               }}
-              onSubmit={() => this.refs["3"].defaultProps.focus()}
             />
             <CreditCardInput
               ref="3"
+              nextRef={this.refs["4"]}
               maxChars={4}
               placeholder="1234"
               width={40}
               onChangeText={(text) => {
                 this.updateState("cardNum3", text);
               }}
-              onSubmit={() => this.refs["4"].defaultProps.focus()}
             />
             <CreditCardInput
               ref="4"
+              nextRef={this.refs["5"]}
               maxChars={4}
               placeholder="5678"
               width={40}
               onChangeText={(text) => {
                 this.updateState("cardNum4", text);
               }}
-              onSubmit={() => this.refs["5"].defaultProps.focus()}
             />
           </View>
         </View>
@@ -237,13 +253,13 @@ export default class PurchaseBeer extends Component {
             >
               <CreditCardInput
                 ref="5"
+                nextRef={this.refs["6"]}
                 maxChars={2}
                 placeholder="01"
                 width={30}
                 onChangeText={(text) => {
                   this.updateState("cardExpMonth", text);
                 }}
-                onSubmit={() => this.refs["6"].defaultProps.focus()}
               />
               <View style={{
                 width: 2,
@@ -255,13 +271,13 @@ export default class PurchaseBeer extends Component {
               }}></View>
               <CreditCardInput
                 ref="6"
+                nextRef={this.refs["7"]}
                 maxChars={2}
                 placeholder="20"
                 width={30}
                 onChangeText={(text) => {
                   this.updateState("cardExpYear", text);
                 }}
-                onSubmit={() => this.refs["7"].defaultProps.focus()}
               />
             </View>
           </View>
@@ -433,14 +449,36 @@ export default class PurchaseBeer extends Component {
   }
 }
 
-class CreditCardInput extends Component {
-  defaultProps = {
-    returnKeyType: "search",
-    onSubmit: () => {},
-    focus: () => {
-      this.refs.textInput.focus()
+interface CreditCardInputProps {
+  ref: string,
+  nextRef?: any,
+  width: number;
+  maxChars: number;
+  placeholder: string;
+  returnKeyType?: "next" | "done";
+  onChangeText(string): void;
+}
+
+interface CreditCardInputState {}
+
+class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputState> {
+
+  public static defaultProps: CreditCardInputProps = {
+    ref: undefined,
+    nextRef: undefined,
+    width: undefined,
+    maxChars: undefined,
+    placeholder: "",
+    onChangeText: undefined,
+    returnKeyType: "next",
+  }
+
+  onSubmit() {
+    if(this.props.nextRef){
+      this.props.nextRef.refs["textInput"].focus();
     }
   }
+
   render() {
     return(
       <TextInput
@@ -451,12 +489,12 @@ class CreditCardInput extends Component {
         }}
         ref="textInput"
         keyboardType="numeric"
-        returnKeyType="next"
+        returnKeyType={this.props.returnKeyType}
         maxLength={this.props.maxChars}
         placeholder={this.props.placeholder}
         placeholderTextColor={"#cccccc"}
         onChangeText={this.props.onChangeText}
-        onSubmitEditing={this.props.onSubmit}
+        onSubmitEditing={this.onSubmit.bind(this)}
       />
     );
   }
@@ -512,7 +550,20 @@ const StatusLine = ({title, input, allFailed, waiting = false}) => {
   )
 }
 
-const styles = StyleSheet.create({
+interface Style {
+  purchaseContainer: React.ViewStyle;
+  purchaseLine: React.ViewStyle;
+  purchaseLineTextTitle: React.ViewStyle;
+  purchaseLineText: React.ViewStyle;
+  purchaseLineLeft: React.ViewStyle;
+  purchaseLineRight: React.ViewStyle;
+  purchaseLineSliderContainer: React.ViewStyle;
+  numBeersButtonContainer: React.ViewStyle;
+  numBeersButton: React.ViewStyle;
+  numBeersButtonText: React.ViewStyle;
+}
+
+const styles = StyleSheet.create<Style>({
   purchaseContainer: {
     flex: 1,
     padding: 20,

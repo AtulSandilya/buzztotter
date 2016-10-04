@@ -1,11 +1,33 @@
+export interface PurchaseState {
+  pricePerDrink: number,
+  attempting: boolean,
+  paymentMethod: boolean, // tristate
+  creditCardVerified: boolean, // tristate
+  confirmed: boolean; // tristate
+  failed: boolean;
+  failMessage: string;
+  data: CardResponseData;
+}
+
+export interface CardResponseData {
+  token: string;
+  brand: string;
+  last4: string;
+}
+
 const initialPurchaseState = {
+  pricePerDrink: 6.00,
   attempting: false,
   paymentMethod: undefined,
   creditCardVerified: undefined, // three values undef, true, false
   confirmed: undefined,
   failed: false,
   failMessage: "",
-  data: {},
+  data: {
+    token: undefined,
+    brand: undefined,
+    last4: undefined,
+  },
 };
 
 export const purchase = (state = initialPurchaseState, action) => {
