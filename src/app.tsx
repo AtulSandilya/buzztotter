@@ -13,7 +13,7 @@ import store from './configureStore';
 
 import {modalKeys} from './reducers/modals';
 
-export default class Bevegram extends Component {
+export default class Bevegram extends Component<{}, {}> {
   constructor(props){
     super(props);
 

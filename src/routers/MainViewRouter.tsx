@@ -106,7 +106,7 @@ export default class CMainViewRouter extends Component {
   }
 }
 
-class Deals extends Component {
+class Deals extends Component<{}, {}> {
   render() {
     return(
       <View style={{
