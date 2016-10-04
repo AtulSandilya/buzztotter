@@ -7,7 +7,14 @@ import { modalKeys } from '../reducers/modals.js';
 
 import BevButton from './BevButton';
 
-const styles = StyleSheet.create({
+interface Style {
+  parentContainer: React.ViewStyle;
+  infoContainer: React.ViewStyle;
+  infoTextContainer: React.ViewStyle;
+  buttonContainer: React.ViewStyle;
+}
+
+const styles = StyleSheet.create<Style>({
   parentContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -31,7 +38,19 @@ const styles = StyleSheet.create({
   },
 })
 
-const Bevegram = ({from, message, date, imagePath, id, openModal}) => (
+interface DataForModal {
+  id: string;
+  from: string;
+}
+
+interface BevegramProps {
+  from: string;
+  date: string;
+  id: string;
+  openModal(string, DataForModal): void;
+}
+
+const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, openModal}) => (
   <View style={styles.parentContainer}>
     <View style={styles.infoContainer}>
       <Image
@@ -50,13 +69,5 @@ const Bevegram = ({from, message, date, imagePath, id, openModal}) => (
     </View>
   </View>
 )
-
-Bevegram.propTypes = {
-  from: React.PropTypes.string.isRequired,
-  message: React.PropTypes.string.isRequired,
-  date: React.PropTypes.string.isRequired,
-  imagePath: React.PropTypes.string.isRequired,
-  id: React.PropTypes.string.isRequired,
-}
 
 export default Bevegram;
