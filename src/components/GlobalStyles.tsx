@@ -15,7 +15,17 @@ export const globalColors = {
   subtleSeparator: '#dddddd',
 }
 
-export const globalStyles = StyleSheet.create({
+interface Styles {
+  listRowSeparator: React.ViewStyle;
+  titleText: React.TextStyle;
+  titleTextContainer: React.ViewStyle;
+  bevColorPrimary: React.ViewStyle;
+  bevColorSecondary: React.ViewStyle;
+  bevColorActiveSecondary: React.ViewStyle;
+  whiteText: React.TextStyle;
+}
+
+export const globalStyles = StyleSheet.create<Styles>({
   listRowSeparator: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: globalColors.lightSeparator,
