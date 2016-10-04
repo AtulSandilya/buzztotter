@@ -4,7 +4,13 @@ import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
 import { globalColors } from './GlobalStyles';
 
-const styles = StyleSheet.create({
+interface Style {
+  button: React.ViewStyle;
+  buttonContainer: React.ViewStyle;
+  buttonText: React.TextStyle;
+}
+
+const styles = StyleSheet.create<Style>({
   button: {
     backgroundColor: globalColors.bevSecondary,
     borderColor: "#000000",
@@ -34,11 +40,5 @@ const BevButton  = ({buttonText, buttonFontSize = 12, bevButtonPressed}) => (
     </TouchableHighlight>
   </View>
 );
-
-BevButton.propTypes = {
-  buttonText: React.PropTypes.string,
-  bevButtonPressed: React.PropTypes.func,
-  buttonFontSize: React.PropTypes.number,
-}
 
 export default BevButton;
