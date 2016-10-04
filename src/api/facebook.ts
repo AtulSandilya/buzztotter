@@ -5,7 +5,7 @@ const graphRequest = (token, urlString, parameterString, callback) => {
   // empty object else the graph api returns an error
   let requestParams = {}
   if(parameterString){
-    requestParams.fields = {
+    requestParams["fields"] = {
       string: parameterString,
     }
   }
