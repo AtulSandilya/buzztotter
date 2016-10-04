@@ -1,7 +1,16 @@
 {
   "name": "Bevegram",
-  "dependencies": {},
+  "dependencies": {
+    "redux-storage": "registry:npm/redux-storage#4.0.0+20160310030142",
+    "redux-storage-decorator-filter": "registry:npm/redux-storage-decorator-filter#1.1.1+20160310030142",
+    "redux-storage-engine-reactnativeasyncstorage": "registry:npm/redux-storage-engine-reactnativeasyncstorage#1.0.1+20160821085120"
+  },
   "globalDependencies": {
-    "react-native": "registry:dt/react-native#0.29.0+20160928135220"
+    "moment": "registry:dt/moment#2.11.1+20160829143156",
+    "react": "registry:dt/react#0.14.0+20160927082313",
+    "react-native": "registry:dt/react-native#0.29.0+20160928135220",
+    "react-redux": "registry:dt/react-redux#4.4.0+20160908183346",
+    "redux": "registry:dt/redux#3.5.2+20160703092728",
+    "redux-saga": "registry:dt/redux-saga#0.9.1+20160703120921"
   }
 }

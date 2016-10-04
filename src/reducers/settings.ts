@@ -1,4 +1,5 @@
-import {version} from '../../package.json';
+const nodePackage = require('../../package.json');
+const version = nodePackage.version;
 
 export const settingsKeys = {
   notifications: 'notifications',
