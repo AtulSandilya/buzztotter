@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import * as React from "react";
+import { Component, PropTypes } from 'react';
 import { ListView, View, Text } from 'react-native';
 
 import {modalKeys} from '../reducers/modals';

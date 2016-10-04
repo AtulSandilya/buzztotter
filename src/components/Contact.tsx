@@ -1,5 +1,6 @@
+import * as React from "react";
+import { Component, PropTypes } from 'react';
 import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-import React, { Component, PropTypes } from 'react';
 
 import BevButton from './BevButton';
 

@@ -1,5 +1,6 @@
+import * as React from "react";
+import { Component, PropTypes } from 'react';
 import { Dimensions, Image, Modal, Text, TouchableHighlight, View } from 'react-native';
-import React, { Component, PropTypes } from 'react';
 
 import {connect} from 'react-redux';
 

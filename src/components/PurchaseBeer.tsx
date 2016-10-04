@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import * as React from "react";
+import { Component, PropTypes } from 'react';
 import { ActivityIndicator, Picker, Slider, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 
 import {isIOS} from '../Utilities';

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import * as React from "react";
+import { Component, PropTypes } from 'react';
 import { Image, Linking, ListView, Text, TouchableHighlight, View } from 'react-native';
 
 import MapView from 'react-native-maps';

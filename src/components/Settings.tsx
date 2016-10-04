@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import * as React from "react";
+import { Component, PropTypes } from 'react';
 import { StyleSheet, Switch, Text, View } from 'react-native';
 
 import {settingsKeys} from '../reducers/settings';

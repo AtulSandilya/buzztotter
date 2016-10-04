@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import * as React from 'react';
+import { Component, PropTypes } from 'react';
 import { Platform } from 'react-native';
 
 import { Provider } from 'react-redux'
