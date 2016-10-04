@@ -1,3 +1,5 @@
+/// <reference path="../../typings/globals/whatwg-fetch/index.d.ts"/>
+
 import secrets from '../secrets';
 
 const stripe_url = 'https://api.stripe.com/v1/';
