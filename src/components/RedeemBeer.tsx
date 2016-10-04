@@ -2,6 +2,8 @@ import * as React from "react";
 import { Component, PropTypes } from 'react';
 import { Picker, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 
+import {Location} from '../reducers/locations';
+
 import snakeCase from 'snake-case';
 
 import TitleText from './TitleText';
@@ -9,7 +11,20 @@ import BevButton from './BevButton';
 
 import {globalColors} from './GlobalStyles';
 
-const styles = StyleSheet.create({
+interface Styles {
+  purchaseContainer: React.ViewStyle;
+  purchaseLine: React.ViewStyle;
+  purchaseLineTextTitle: React.TextStyle;
+  purchaseLineText: React.TextStyle;
+  purchaseLineLeft: React.ViewStyle;
+  purchaseLineRight: React.ViewStyle;
+  purchaseLineSliderContainer: React.ViewStyle;
+  numBeersButtonContainer: React.ViewStyle;
+  numBeersButton: React.ViewStyle;
+  numBeersButtonText: React.TextStyle;
+}
+
+const styles = StyleSheet.create<Styles>({
   purchaseContainer: {
     flex: 1,
     padding: 20,
@@ -68,7 +83,21 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class RedeemBeer extends Component {
+interface RedeemBeerProps {
+  id: string;
+  name: string;
+  redeemConfirmed: boolean;
+  locations: [Location];
+  onRedeemClicked(string): void;
+  cancelPurchaseAction(): void;
+}
+
+interface RedeemBeerState {
+  numDrinks?: number;
+  paymentMethod?: string;
+}
+
+export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerState> {
   constructor(props){
     super(props);
     this.state = {
@@ -85,13 +114,6 @@ export default class RedeemBeer extends Component {
     this.setState({
       paymentMethod: input,
     });
-  }
-
-  static propTypes = {
-    name: React.PropTypes.string,
-    cancelPurchaseAction: React.PropTypes.func,
-    id: React.PropTypes.string.isRequired,
-    redeemConfirmed: React.PropTypes.bool,
   }
 
   purchaseDrink() {
