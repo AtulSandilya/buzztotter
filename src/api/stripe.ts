@@ -61,6 +61,6 @@ export const promiseCreditCardPurchase = (token, amount, description) => {
   })
   .catch((error) => {
     console.error("Error with card transaction: ", error);
-    throw new Error("Error processing credit card transaction: ", error);
+    throw new Error("Error processing credit card transaction!");
   })
 }
