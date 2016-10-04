@@ -6,6 +6,8 @@ import MapView from 'react-native-maps';
 
 import {isAndroid, isIOS} from '../Utilities';
 
+import {Location} from '../reducers/locations';
+
 import TitleText from './TitleText';
 import BevButton from './BevButton';
 
@@ -29,7 +31,16 @@ const openMapsToAddress = (latitude, longitude, name) => {
   })
 }
 
-export class BevegramLocations extends Component {
+interface Props {
+  markers: [Location];
+  numRenders: number;
+}
+
+interface State {
+  renders: number;
+}
+
+export class BevegramLocations extends Component<Props, State> {
   constructor(props){
     super(props);
     this.state = {

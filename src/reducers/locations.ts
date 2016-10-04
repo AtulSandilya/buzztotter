@@ -1,3 +1,11 @@
+export interface Location {
+  name: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  typicalHours: string;
+}
+
 const defaultState = [
   {
     name: "Lowry Beer Garden",
