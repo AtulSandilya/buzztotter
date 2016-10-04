@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 
-import { CardData } from '../reducers/purchase';
+import { CardResponseData } from '../reducers/purchase';
 
 import { promiseCreditCardToken, promiseCreditCardPurchase } from '../api/stripe';
 
@@ -23,7 +23,7 @@ export function* fetchCreditCardToken(action){
   }
 }
 
-function* handleTokenResponse(response): CardData {
+function* handleTokenResponse(response): CardResponseData {
   if(response.error !== undefined){
     let err = response.error.message;
     yield put({type: 'HANDLE_CREDIT_CARD_VERIFICATION_FAILED', payload: err});
