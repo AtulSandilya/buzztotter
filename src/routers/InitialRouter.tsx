@@ -24,12 +24,12 @@ const scenes = (showLogin) => {
 
 const CRouter = connect()(Router);
 
-interface Props {
-  showLogin: boolean;
-  isLoading: boolean;
+export interface InitialRouterProps {
+  showLogin?: boolean;
+  isLoading?: boolean;
 }
 
-export default class InitialRouter extends Component<Props, {}> {
+export default class InitialRouter extends Component<InitialRouterProps, {}> {
   render() {
     if(this.props.isLoading) {
       return (
