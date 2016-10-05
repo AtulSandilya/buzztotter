@@ -113,7 +113,11 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
   }
 }
 
-class Deals extends Component<{}, {}> {
+interface DealsProps {
+  tabLabel: string;
+}
+
+class Deals extends Component<DealsProps, {}> {
   render() {
     return(
       <View style={{
