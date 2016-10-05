@@ -4,16 +4,16 @@ import { Text, View } from 'react-native';
 
 import {globalStyles} from './GlobalStyles';
 
-const TitleText = ({title}) => (
+interface TitleTextProps {
+  title: string;
+}
+
+const TitleText: React.StatelessComponent<TitleTextProps> = ({title}) => (
   <View style={globalStyles.titleTextContainer}>
     <Text style={globalStyles.titleText}>
       {title}
     </Text>
   </View>
 )
-
-TitleText.propTypes = {
-  title: React.PropTypes.string.isRequired,
-}
 
 export default TitleText;
