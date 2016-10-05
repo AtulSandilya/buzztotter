@@ -11,11 +11,11 @@ import CPurchaseBeer from '../containers/CPurchaseBeer';
 import {Contact} from '../reducers/contacts';
 
 export interface ContactsProps {
-  contacts?: [Contact];
-  loading?: boolean;
-  loadingFailed?: boolean;
-  purchaseModalIsOpen?: boolean;
-  closePurchaseModal?(): void;
+  contacts: [Contact];
+  loading: boolean;
+  loadingFailed: boolean;
+  purchaseModalIsOpen: boolean;
+  closePurchaseModal(): void;
 }
 
 const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, loadingFailed, purchaseModalIsOpen, closePurchaseModal}) => {
