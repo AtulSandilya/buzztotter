@@ -261,14 +261,13 @@ export default class PurchaseBeer extends Component<VProps, VState> {
                   this.updateState("cardExpMonth", text);
                 }}
               />
-              <View style={{
+              <View style={[{
                 width: 2,
                 backgroundColor: '#999999',
-                transform: [{rotate: '15deg'}],
                 marginRight: 5,
                 marginLeft: 10,
                 marginVertical: 8,
-              }}></View>
+              }, styles.rotateSlash]}></View>
               <CreditCardInput
                 ref="6"
                 nextRef={this.refs["7"]}
@@ -561,9 +560,13 @@ interface Style {
   numBeersButtonContainer: React.ViewStyle;
   numBeersButton: React.ViewStyle;
   numBeersButtonText: React.TextStyle;
+  rotateSlash: React.TransformsStyle;
 }
 
 const styles = StyleSheet.create<Style>({
+  rotateSlash: {
+    transform: [{rotate: '15deg'}],
+  },
   purchaseContainer: {
     flex: 1,
     padding: 20,
