@@ -24,13 +24,21 @@ const calcDimensions = (dimensionProperty, innerSize) => {
   }
 }
 
-const CenteredModal = ({
+interface CenteredModalProps {
+  isVisible: boolean;
+  bgOpacity?: number;
+  heightPercent?: number;
+  widthPercent?: number;
+  children?: React.ReactChild;
+  closeFromParent?(): void;
+}
+
+const CenteredModal:React.StatelessComponent<CenteredModalProps> = ({
   children,
   isVisible = false,
   bgOpacity = 0.6,
   heightPercent = 0.8,
   widthPercent = 0.9,
-  animationType = 'fade',
   closeFromParent,
 }) => {
   const width = calcDimensions('width', widthPercent);
@@ -39,7 +47,7 @@ const CenteredModal = ({
 
   return(
     <Modal
-      animationType={animationType}
+      animationType={'fade'}
       transparent={true}
       visible={isVisible}
       onRequestClose={() => closeFromParent()}
@@ -82,14 +90,5 @@ const CenteredModal = ({
   );
 }
 
-CenteredModal.propTypes = {
-  isVisible: React.PropTypes.bool,
-  closeFromParent: React.PropTypes.func,
-  bgOpacity: React.PropTypes.number,
-  children: React.PropTypes.element.isRequired,
-  heightPercent: React.PropTypes.number,
-  widthPercent: React.PropTypes.number,
-  animationType: React.PropTypes.string,
-}
 
 export default CenteredModal;
