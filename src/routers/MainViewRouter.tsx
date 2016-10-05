@@ -17,7 +17,7 @@ export interface MainViewRouterProps {
   goBackPage?(): void;
 }
 
-export default class CMainViewRouter extends Component<MainViewRouterProps, {}> {
+export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
 
   constructor(props){
     super(props);
