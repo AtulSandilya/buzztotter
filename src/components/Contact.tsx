@@ -35,7 +35,20 @@ const styles = StyleSheet.create<Styles>({
   },
 })
 
-const Contact = ({name, birthday, imagePath, openPurchaseModal, closePurchaseModal}) => {
+interface Name {
+  first: string;
+  last: string;
+}
+
+export interface ContactProps {
+  name: Name;
+  birthday: string;
+  imagePath: string;
+  openPurchaseModal(Object): void;
+  closePurchaseModal(): void;
+}
+
+const Contact: React.StatelessComponent<ContactProps> = ({name, birthday, imagePath, openPurchaseModal, closePurchaseModal}) => {
   const fullName = name.first + " " + name.last;
   return (
     <View style={styles.parentContainer}>

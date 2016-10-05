@@ -2,7 +2,11 @@ import { connect } from 'react-redux';
 
 import { modalKeys } from '../reducers/modals';
 
-import Contact from '../components/Contact';
+import Contact, {ContactProps} from '../components/Contact';
+
+interface DispatchProps {
+  openPurchaseModal(modalData: any): void;
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -19,7 +23,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const CContact = connect(
+const CContact = connect<{}, DispatchProps, ContactProps>(
   undefined,
   mapDispatchToProps
 )(Contact);
