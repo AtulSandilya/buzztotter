@@ -4,7 +4,14 @@ import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 
 import BevButton from './BevButton';
 
-const styles = StyleSheet.create({
+interface Styles {
+  parentContainer: React.ViewStyle;
+  infoContainer: React.ViewStyle;
+  infoTextContainer: React.ViewStyle;
+  buttonContainer: React.ViewStyle;
+}
+
+const styles = StyleSheet.create<Styles>({
   parentContainer: {
     flex: 1,
     flexDirection: 'row',
