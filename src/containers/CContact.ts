@@ -5,7 +5,8 @@ import { modalKeys } from '../reducers/modals';
 import Contact, {ContactProps} from '../components/Contact';
 
 interface DispatchProps {
-  openPurchaseModal(modalData: any): void;
+  openPurchaseModal?(modalData: any): void;
+  closePurchaseModal?(): void;
 }
 
 const mapDispatchToProps = (dispatch) => {
