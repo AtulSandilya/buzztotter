@@ -1,8 +1,12 @@
 import { connect } from 'react-redux';
 
-import Bevegram from '../components/Bevegram';
+import Bevegram, {BevegramProps} from '../components/Bevegram';
 
-const mapDispatchToProps = (dispatch) => {
+interface DispatchProps {
+  openModal?(inputKey: string, modalData: Object): void;
+}
+
+const mapDispatchToProps = (dispatch): DispatchProps  => {
   return {
     openModal: (inputKey, modalData) => {
       dispatch({type: 'OPEN_MODAL', modalKey: inputKey, dataForModal: modalData});
@@ -10,7 +14,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const CBevegram = connect(
+const CBevegram = connect<{}, DispatchProps, BevegramProps>(
   undefined,
   mapDispatchToProps
 )(Bevegram);

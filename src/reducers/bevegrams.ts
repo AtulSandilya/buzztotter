@@ -1,6 +1,14 @@
 import uuid from 'react-native-uuid'
 
-const addBevegram = (from, message, date, imagePath) => {
+export interface Bevegram {
+  from: string;
+  message: string;
+  date: string;
+  imagePath: string;
+  id: string;
+}
+
+const addBevegram = (from: string, message: string, date: string, imagePath: string): Bevegram => {
   return {
     from: from,
     message: message,

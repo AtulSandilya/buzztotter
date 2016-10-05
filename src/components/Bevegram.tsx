@@ -43,14 +43,15 @@ interface DataForModal {
   from: string;
 }
 
-interface BevegramProps {
+export interface BevegramProps {
   from: string;
   date: string;
   id: string;
-  openModal(string, DataForModal): void;
+  imagePath: string;
+  openModal?(inputKey: string, modalData: DataForModal): void;
 }
 
-const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, openModal}) => (
+const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, openModal, imagePath}) => (
   <View style={styles.parentContainer}>
     <View style={styles.infoContainer}>
       <Image
