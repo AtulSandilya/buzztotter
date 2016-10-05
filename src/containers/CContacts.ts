@@ -9,10 +9,10 @@ import {Contact} from '../reducers/contacts';
 import Contacts, {ContactsProps} from '../components/Contacts';
 
 interface StateProps {
-  contacts: [Contact];
-  loading: boolean;
-  loadingFailed: boolean;
-  purchaseModalIsOpen: boolean;
+  contacts?: [Contact];
+  loading?: boolean;
+  loadingFailed?: boolean;
+  purchaseModalIsOpen?: boolean;
 }
 
 const mapStateToProps = (state): StateProps => {
@@ -25,7 +25,7 @@ const mapStateToProps = (state): StateProps => {
 }
 
 interface DispatchProps {
-  closePurchaseModal(): void;
+  closePurchaseModal?(): void;
 }
 
 const mapDispatchToProps = (dispatch) => {
