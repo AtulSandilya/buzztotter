@@ -9,7 +9,13 @@ import CSettings from '../containers/CSettings';
 
 import {globalColors, globalStyles} from './GlobalStyles';
 
-const Branding = ({settingsModalVisible, openSettings, closeSettings}) => (
+interface BrandingProps {
+  settingsModalVisible: boolean;
+  openSettings(): void;
+  closeSettings(): void;
+}
+
+const Branding: React.StatelessComponent<BrandingProps> = ({settingsModalVisible, openSettings, closeSettings}) => (
   <View
     style={[{
       flex: 1,
@@ -59,9 +65,5 @@ const Branding = ({settingsModalVisible, openSettings, closeSettings}) => (
     </CenteredModal>
   </View>
 )
-
-Branding.propTypes = {
-  settingsModalVisible: React.PropTypes.bool.isRequired,
-}
 
 export default Branding;
