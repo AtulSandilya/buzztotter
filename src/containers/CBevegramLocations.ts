@@ -1,9 +1,16 @@
 import {connect} from 'react-redux';
 
 import {sceneKeys} from '../reducers/view';
-import {BevegramLocations} from '../components/BevegramLocations';
+import BevegramLocations, {BevegramLocationsProps} from '../components/BevegramLocations';
 
-const mapStateToProps = (state) => {
+import {Location} from '../reducers/locations';
+
+interface StateProps {
+  markers?: [Location];
+  numRenders?: number;
+}
+
+const mapStateToProps = (state): StateProps => {
   return {
     markers: state.locations,
     // Somehow this prevents multiple renders of the MapView, this prop is
@@ -12,8 +19,9 @@ const mapStateToProps = (state) => {
   }
 }
 
-const CBevegramLocations = connect(
+const CBevegramLocations = connect<StateProps, {}, BevegramLocationsProps>(
   mapStateToProps,
+  undefined,
 )(BevegramLocations);
 
 export default CBevegramLocations;

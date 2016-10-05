@@ -31,16 +31,17 @@ const openMapsToAddress = (latitude, longitude, name) => {
   })
 }
 
-interface Props {
-  markers: [Location];
-  numRenders: number;
+export interface BevegramLocationsProps {
+  markers?: [Location];
+  numRenders?: number;
+  tabLabel?: string;
 }
 
-interface State {
+interface BevegramLocationsState {
   renders: number;
 }
 
-export class BevegramLocations extends Component<Props, State> {
+export default class BevegramLocations extends Component<BevegramLocationsProps, BevegramLocationsState> {
   constructor(props){
     super(props);
     this.state = {
