@@ -4,16 +4,26 @@ import { batchActions } from 'redux-batched-actions';
 
 import { Actions } from 'react-native-router-flux';
 
-import Login from '../components/Login';
+import Login, {LoginProps} from '../components/Login';
 
-const mapStateToProps = (state) => {
+interface StateProps {
+  token: string,
+  isLoggedIn: boolean;
+}
+
+const mapStateToProps = (state): StateProps => {
   return {
     token: state.user.facebook.token,
     isLoggedIn: state.user.isLoggedIn,
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+interface DispatchProps {
+  facebookLogin(token: string): void;
+  googleLogin(): void;
+}
+
+const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
     facebookLogin: (token) => {
       dispatch({type: 'ALL_FACEBOOK_DATA_FETCH_REQUESTED', payload: {token: token}});
@@ -25,7 +35,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const CLogin = connect(
+const CLogin = connect<StateProps, DispatchProps, LoginProps>(
   mapStateToProps,
   mapDispatchToProps,
 )(Login);

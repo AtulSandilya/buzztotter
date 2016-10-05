@@ -6,7 +6,14 @@ import FacebookLoginButton from './FacebookLoginButton';
 
 import {globalColors} from './GlobalStyles';
 
-const Login = ({isLoggedIn, facebookLogin, googleLogin}) => (
+export interface LoginProps {
+  token: string;
+  isLoggedIn: boolean;
+  facebookLogin(token: string): void;
+  googleLogin(): void;
+}
+
+const Login: React.StatelessComponent<LoginProps> = ({isLoggedIn, facebookLogin, googleLogin}) => (
   <View style={{flex: 1}}>
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: globalColors.bevPrimary}}>
       <Image
@@ -49,8 +56,5 @@ const Login = ({isLoggedIn, facebookLogin, googleLogin}) => (
   </View>
 )
 
-Login.propTypes = {
-  isLoggedIn: React.PropTypes.bool.isRequired,
-}
 
 export default Login;
