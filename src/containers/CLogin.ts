@@ -27,10 +27,10 @@ const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
     facebookLogin: (token) => {
       dispatch({type: 'ALL_FACEBOOK_DATA_FETCH_REQUESTED', payload: {token: token}});
-      Actions.mainScene();
+      Actions["mainScene"]();
     },
     googleLogin: () => {
-      Actions.mainScene();
+      Actions["mainScene"]();
     }
   }
 }

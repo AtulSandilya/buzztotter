@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch) => {
         {type: 'LOGOUT_FACEBOOK'},
         {type: 'CLOSE_MODAL', modalKey: modalKeys.settingsModal},
       ]));
-      Actions.loginScene();
+      Actions["loginScene"]();
     }
   }
 }
