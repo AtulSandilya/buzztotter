@@ -10,14 +10,14 @@ import CContacts from '../containers/CContacts';
 import CBevegrams from '../containers/CBevegrams';
 import CBevegramLocations from '../containers/CBevegramLocations';
 
-interface Props {
-  currentPage: string;
-  maxScene: number;
-  onPageChange(newScene: number): void;
-  goBackPage(): void;
+export interface MainViewRouterProps {
+  currentPage?: string;
+  maxScene?: number;
+  onPageChange?(newScene: number): void;
+  goBackPage?(): void;
 }
 
-export default class CMainViewRouter extends Component<Props, any> {
+export default class CMainViewRouter extends Component<MainViewRouterProps, {}> {
 
   constructor(props){
     super(props);

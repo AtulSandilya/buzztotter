@@ -1,9 +1,14 @@
 import { connect } from 'react-redux';
 
-import MainViewRouter from '../routers/MainViewRouter.js';
+import MainViewRouter, {MainViewRouterProps} from '../routers/MainViewRouter.js';
 import {sceneOrder} from '../reducers/view';
 
-const mapStateToProps = (state) => {
+interface StateProps {
+  currentPage?: string;
+  maxScene?: number;
+}
+
+const mapStateToProps = (state): StateProps => {
   const sceneValues = Object.keys(sceneOrder).map(key => sceneOrder[key]);
   return {
     currentPage: state.view[0],
@@ -12,7 +17,12 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+interface DispatchProps {
+  onPageChange?(number): void;
+  goBackPage?(): void;
+}
+
+const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
     onPageChange: (newScenePos) => {
       dispatch({type: 'GOTO_VIEW', newScene: newScenePos});
@@ -23,7 +33,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const CMainViewRouter = connect(
+const CMainViewRouter = connect<StateProps, DispatchProps, MainViewRouterProps>(
   mapStateToProps,
   mapDispatchToProps,
 )(MainViewRouter);
