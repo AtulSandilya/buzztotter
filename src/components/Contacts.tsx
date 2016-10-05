@@ -2,13 +2,23 @@ import * as React from "react";
 import { Component} from 'react';
 import {ActivityIndicator, ListView, StyleSheet, Text, View, } from 'react-native';
 
-
 import {globalStyles, globalColors} from './GlobalStyles.js';
+
 import CContact from '../containers/CContact';
 import CenteredModal from './CenteredModal';
 import CPurchaseBeer from '../containers/CPurchaseBeer';
 
-const Contacts = ({contacts, loading, loadingFailed, purchaseModalIsOpen, closePurchaseModal}) => {
+import {Contact} from '../reducers/contacts';
+
+export interface ContactsProps {
+  contacts?: [Contact];
+  loading?: boolean;
+  loadingFailed?: boolean;
+  purchaseModalIsOpen?: boolean;
+  closePurchaseModal?(): void;
+}
+
+const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, loadingFailed, purchaseModalIsOpen, closePurchaseModal}) => {
   const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   if(loading){
     return (

@@ -41,11 +41,11 @@ interface Name {
 }
 
 export interface ContactProps {
-  name: Name;
-  birthday: string;
-  imagePath: string;
-  openPurchaseModal(Object): void;
-  closePurchaseModal(): void;
+  name?: Name;
+  birthday?: string;
+  imagePath?: string;
+  openPurchaseModal?(Object): void;
+  closePurchaseModal?(): void;
 }
 
 const Contact: React.StatelessComponent<ContactProps> = ({name, birthday, imagePath, openPurchaseModal, closePurchaseModal}) => {

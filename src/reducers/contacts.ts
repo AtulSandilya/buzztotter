@@ -1,5 +1,17 @@
 import moment from 'moment';
 
+export interface Name {
+  first: string;
+  last: string;
+}
+
+export interface Contact {
+  name: Name;
+  birthday: string,
+  birthDayOfYear: number,
+  imagePath: string,
+}
+
 const formatContact = (firstName, lastName, bdayStr, imagePath) => {
   var bday = moment(bdayStr, "MMM DD YYYY");
   var bdayFormattedStr = bday.format("MMMM Do");

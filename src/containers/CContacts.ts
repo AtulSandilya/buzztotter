@@ -4,15 +4,28 @@ import {batchActions} from 'redux-batched-actions';
 
 import { modalKeys } from '../reducers/modals';
 
-import Contacts from '../components/Contacts';
+import {Contact} from '../reducers/contacts';
 
-const mapStateToProps = (state) => {
+import Contacts, {ContactsProps} from '../components/Contacts';
+
+interface StateProps {
+  contacts: [Contact];
+  loading: boolean;
+  loadingFailed: boolean;
+  purchaseModalIsOpen: boolean;
+}
+
+const mapStateToProps = (state): StateProps => {
   return {
     contacts: state.contacts.contactList,
     loading: state.contacts.loadingFromFacebook,
     loadingFailed: state.contacts.loadingFromFacebookFailed,
     purchaseModalIsOpen: state.modals.purchaseBeerModal.isOpen,
   }
+}
+
+interface DispatchProps {
+  closePurchaseModal(): void;
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -26,7 +39,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const CContacts = connect(
+const CContacts = connect<StateProps, DispatchProps, ContactsProps>(
   mapStateToProps,
   mapDispatchToProps,
 )(Contacts);
