@@ -1,15 +1,26 @@
 import { connect } from 'react-redux';
 
-import Bevegrams from '../components/Bevegrams';
+import Bevegrams, {BevegramsProps} from '../components/Bevegrams';
 
-const mapStateToProps = (state) => {
+import {Bevegram} from '../reducers/bevegrams';
+
+interface StateProps {
+  bevegramsList?: [Bevegram];
+  redeemModalIsOpen?: boolean;
+}
+
+const mapStateToProps = (state): StateProps => {
   return {
     bevegramsList: state.bevegrams,
     redeemModalIsOpen: state.modals.redeemBevegramModal.isOpen,
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+interface DispatchProps {
+  closeModal?(string): void;
+}
+
+const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
     closeModal: (inputKey) => {
       dispatch({type: 'CLOSE_MODAL', modalKey: inputKey});
@@ -17,7 +28,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const CBevegrams = connect(
+const CBevegrams = connect<StateProps, DispatchProps, BevegramsProps>(
   mapStateToProps,
   mapDispatchToProps,
 )(Bevegrams);

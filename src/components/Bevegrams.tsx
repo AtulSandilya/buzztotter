@@ -16,10 +16,11 @@ import {globalStyles} from './GlobalStyles';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-interface BevegramsProps {
-  bevegramsList: [Bevegram];
-  redeemModalIsOpen: boolean;
-  closeModal(string): void;
+export interface BevegramsProps {
+  bevegramsList?: [Bevegram];
+  redeemModalIsOpen?: boolean;
+  tabLabel?: string;
+  closeModal?(string): void;
 }
 
 const Bevegrams: React.StatelessComponent<BevegramsProps> = ({bevegramsList, redeemModalIsOpen, closeModal}) => (
