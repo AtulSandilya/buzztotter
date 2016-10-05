@@ -553,14 +553,14 @@ const StatusLine = ({title, input, allFailed, waiting = false}) => {
 interface Style {
   purchaseContainer: React.ViewStyle;
   purchaseLine: React.ViewStyle;
-  purchaseLineTextTitle: React.ViewStyle;
-  purchaseLineText: React.ViewStyle;
+  purchaseLineTextTitle: React.TextStyle;
+  purchaseLineText: React.TextStyle;
   purchaseLineLeft: React.ViewStyle;
   purchaseLineRight: React.ViewStyle;
   purchaseLineSliderContainer: React.ViewStyle;
   numBeersButtonContainer: React.ViewStyle;
   numBeersButton: React.ViewStyle;
-  numBeersButtonText: React.ViewStyle;
+  numBeersButtonText: React.TextStyle;
 }
 
 const styles = StyleSheet.create<Style>({
