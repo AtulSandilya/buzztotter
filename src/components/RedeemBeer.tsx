@@ -83,13 +83,13 @@ const styles = StyleSheet.create<Styles>({
   },
 });
 
-interface RedeemBeerProps {
-  id: string;
-  name: string;
-  redeemConfirmed: boolean;
-  locations: [Location];
-  onRedeemClicked(string): void;
-  cancelPurchaseAction(): void;
+export interface RedeemBeerProps {
+  id?: string;
+  name?: string;
+  redeemConfirmed?: boolean;
+  locations?: [Location];
+  onRedeemClicked?(string): void;
+  cancelPurchaseAction?(): void;
 }
 
 interface RedeemBeerState {

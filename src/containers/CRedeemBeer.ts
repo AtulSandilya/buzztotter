@@ -2,9 +2,18 @@ import { connect } from 'react-redux';
 
 import {batchActions} from 'redux-batched-actions';
 
-import RedeemBeer from '../components/RedeemBeer';
+import RedeemBeer, {RedeemBeerProps} from '../components/RedeemBeer';
 
-const mapStateToProps = (state) => {
+import {Location} from '../reducers/locations';
+
+interface StateProps {
+  id: string;
+  name: string;
+  redeemConfirmed: boolean;
+  locations: [Location];
+}
+
+const mapStateToProps = (state): StateProps => {
   return {
     id: state.modals.redeemBevegramModal.data.id,
     name: state.modals.redeemBevegramModal.data.from,
@@ -13,7 +22,11 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+interface DispatchProps {
+  onRedeemClicked(inputId: string): void;
+}
+
+const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
     onRedeemClicked: (inputId) => {
       dispatch(batchActions([
@@ -24,7 +37,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const CRedeemBeer = connect(
+const CRedeemBeer = connect<StateProps, DispatchProps, RedeemBeerProps>(
   mapStateToProps,
   mapDispatchToProps,
 )(RedeemBeer);
