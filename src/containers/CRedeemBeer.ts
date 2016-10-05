@@ -7,10 +7,10 @@ import RedeemBeer, {RedeemBeerProps} from '../components/RedeemBeer';
 import {Location} from '../reducers/locations';
 
 interface StateProps {
-  id: string;
-  name: string;
-  redeemConfirmed: boolean;
-  locations: [Location];
+  id?: string;
+  name?: string;
+  redeemConfirmed?: boolean;
+  locations?: [Location];
 }
 
 const mapStateToProps = (state): StateProps => {
@@ -23,7 +23,7 @@ const mapStateToProps = (state): StateProps => {
 }
 
 interface DispatchProps {
-  onRedeemClicked(inputId: string): void;
+  onRedeemClicked?(inputId: string): void;
 }
 
 const mapDispatchToProps = (dispatch): DispatchProps => {
