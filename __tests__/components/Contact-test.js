@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import Contact from '../../src/components/Contact';
+import Contact from '../../build/components/Contact';
 
 import renderer from 'react-test-renderer';
 

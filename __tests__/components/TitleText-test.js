@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import TitleText from '../../src/components/TitleText';
+import TitleText from '../../build/components/TitleText';
 
 import renderer from 'react-test-renderer';
 

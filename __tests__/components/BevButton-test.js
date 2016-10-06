@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import BevButton from '../../src/components/BevButton';
+import BevButton from '../../build/components/BevButton';
 
 import renderer from 'react-test-renderer';
 
