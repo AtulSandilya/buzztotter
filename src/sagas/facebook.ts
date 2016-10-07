@@ -20,7 +20,6 @@ export function* fetchUser(action) {
       userData: userData,
       token: action.payload.token,
     }});
-    fetchContacts(action);
   } catch(e){
     yield put({type: 'POPULATE_USER_DATA_FROM_FACEBOOK_FAILED'});
   }
