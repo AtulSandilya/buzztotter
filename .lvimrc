@@ -71,9 +71,15 @@ function! RestartAndroidApp()
     exe "Term " . stop_cmd . " && " . start_cmd
 endfunction
 
+function! RunJsTests()
+    let l:test_cmd = "npm test"
+    exe "Term " . l:test_cmd
+    exe "startinsert"
+    exe "winc p"
+    call feedkeys("\<Esc>")
+endfunction
+
 au FileType javascript,typescript set shiftwidth=2 tabstop=2
-" set shiftwidth=2
-" set tabstop=2
 
 " Compile
 nnoremap <silent> cp :call BuildReactNative()<CR>
@@ -85,3 +91,5 @@ nnoremap <silent> ck :call KillReactNative()<CR>
 nnoremap <silent> co :call RestartAndroidApp()<CR>
 " Compile Latest
 nnoremap <silent> cl :call BuildReactNativeForAndroid('Latest')<CR>
+" Make tests
+nnoremap <silent> mt :call RunJsTests()<CR>
