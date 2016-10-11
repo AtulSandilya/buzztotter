@@ -23,7 +23,7 @@ export function* fetchCreditCardToken(action){
   }
 }
 
-function* handleTokenResponse(response) {
+export function* handleTokenResponse(response) {
   if(response.error !== undefined){
     let err = response.error.message;
     yield put({type: 'HANDLE_CREDIT_CARD_VERIFICATION_FAILED', payload: err});
