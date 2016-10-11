@@ -97,7 +97,7 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
         }}
         initialPage={0}
         page={this.props.currentPage}
-        preRenderSiblingsNumber={Infinity}
+        prerenderingSiblingsNumber={Infinity}
         tabBarUnderlineStyle={{
           height: buttonHeight,
           backgroundColor: buttonActiveColor,
