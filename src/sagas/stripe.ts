@@ -37,8 +37,8 @@ function* handleTokenResponse(response) {
   }
 }
 
-function* handleTransactionResponse (response) {
-  if(response.error !== undefined){
+export function* handleTransactionResponse (response) {
+  if(response.error !== undefined || response.status !== "succeeded"){
     let err = response.error.message;
     yield put({type: 'HANDLE_CREDIT_CARD_PURCHASE_FAILED', payload: err});
     throw CreditCardException("Error with transaction: " + err);
