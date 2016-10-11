@@ -27,7 +27,7 @@ function* handleTokenResponse(response) {
   if(response.error !== undefined){
     let err = response.error.message;
     yield put({type: 'HANDLE_CREDIT_CARD_VERIFICATION_FAILED', payload: err});
-    throw new CreditCardException("Unable to verify credit card: " + err);
+    throw CreditCardException("Unable to verify credit card: " + err);
   }
 
   return {
@@ -41,17 +41,17 @@ function* handleTransactionResponse (response) {
   if(response.error !== undefined){
     let err = response.error.message;
     yield put({type: 'HANDLE_CREDIT_CARD_PURCHASE_FAILED', payload: err});
-    throw new CreditCardException("Error with transaction: " + err);
-  } else if (response.status !== "succeeded"){
-    let err = response.failure_message
-    yield put({type: 'HANDLE_CREDIT_CARD_PURCHASE_FAILED', payload: err});
-    throw new CreditCardException("Payment did not succeed: " + err);
+    throw CreditCardException("Error with transaction: " + err);
   }
 
   return response;
 }
 
 function CreditCardException(message){
-  this.message = message;
   this.name = "CreditCardException";
+  this.message = this.name + ": " + message;
+  this.toString = () => {
+    return this.message;
+  }
+  return this.toString();
 }
