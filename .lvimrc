@@ -93,3 +93,5 @@ nnoremap <silent> co :call RestartAndroidApp()<CR>
 nnoremap <silent> cl :call BuildReactNativeForAndroid('Latest')<CR>
 " Make tests
 nnoremap <silent> mt :call RunJsTests()<CR>
+" Make reload
+nnoremap <silent> mr :Term react-native run-android<CR>
