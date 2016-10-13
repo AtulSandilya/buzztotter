@@ -4,8 +4,6 @@ import { ListView, View, Text } from 'react-native';
 
 import {modalKeys} from '../reducers/modals';
 
-import { connect } from 'react-redux';
-
 import {Bevegram} from '../reducers/bevegrams';
 
 import CBevegram from '../containers/CBevegram';
