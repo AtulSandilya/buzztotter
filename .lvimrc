@@ -79,6 +79,13 @@ function! RunJsTests()
     call feedkeys("\<Esc>")
 endfunction
 
+function! EditTest(subdir)
+    let current_file = expand("%:t:r")
+    " echo current_file
+    " sleep 2
+    exe "vs __tests__/" . a:subdir . "/" . current_file . ".js"
+endfunction
+
 au FileType javascript,typescript set shiftwidth=2 tabstop=2
 
 " Compile
@@ -95,3 +102,5 @@ nnoremap <silent> cl :call BuildReactNativeForAndroid('Latest')<CR>
 nnoremap <silent> mt :call RunJsTests()<CR>
 " Make reload
 nnoremap <silent> mr :Term react-native run-android<CR>
+" Edit test
+nnoremap <silent> <Leader>ct :call EditTest("components")<CR>
