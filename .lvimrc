@@ -104,3 +104,5 @@ nnoremap <silent> mt :call RunJsTests()<CR>
 nnoremap <silent> mr :Term react-native run-android<CR>
 " Edit test
 nnoremap <silent> <Leader>ct :call EditTest("components")<CR>
+" Kill test
+nnoremap <silent> mk :bd! *term*test*<CR>
