@@ -81,9 +81,7 @@ endfunction
 
 function! EditTest(subdir)
     let current_file = expand("%:t:r")
-    " echo current_file
-    " sleep 2
-    exe "vs __tests__/" . a:subdir . "/" . current_file . ".js"
+    exe "vs __tests__/" . a:subdir . "/" . current_file . "-test.js"
 endfunction
 
 au FileType javascript,typescript set shiftwidth=2 tabstop=2
