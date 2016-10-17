@@ -1,132 +1,64 @@
-import { handleTokenResponse, handleTransactionResponse, CreditCardException} from '../../build/sagas/stripe.js';
+import fetchMock from 'fetch-mock';
 
-// Setup Variables ----------------------------------------------------- {{{
+import { fetchCreditCardToken, handleTokenResponse, handleTransactionResponse, CreditCardException} from '../../build/sagas/stripe.js';
+import { promiseCreditCardToken, promiseCreditCardPurchase } from '../../build/api/stripe';
+import {sampleTokenResponse, sampleTransactionResponse, sampleErrorResponse} from '../api/stripe-test';
 
-const sampleTokenResponse = {
-  "id": "tok_18y8HSK6oDSgnbJR3lVp3sPE",
-  "object": "token",
-  "card": {
-    "id": "card_18y8HSK6oDSgnbJRe4luQYRa",
-    "object": "card",
-    "address_city": null,
-    "address_country": null,
-    "address_line1": null,
-    "address_line1_check": null,
-    "address_line2": null,
-    "address_state": null,
-    "address_zip": null,
-    "address_zip_check": null,
-    "brand": "Visa",
-    "country": "US",
-    "cvc_check": null,
-    "dynamic_last4": null,
-    "exp_month": 8,
-    "exp_year": 2017,
-    "funding": "credit",
-    "last4": "4242",
-    "metadata": {
-    },
-    "name": null,
-    "tokenization_method": null
-  },
-  "client_ip": null,
-  "created": 1474931582,
-  "livemode": false,
-  "type": "card",
-  "used": false
-}
-
-const sampleErrorResponse = {
-  error: {
-    message: "Your card's expiration month is invalid.",
-    type: "card_error",
-    param: "exp_month",
-    code: "invalid_expiry_month",
-  }
-}
-
-const sampleTransactionResponse = {
-  "id": "ch_191KR4K6oDSgnbJRa65alA64",
-  "object": "charge",
-  "amount": 600,
-  "amount_refunded": 0,
-  "application_fee": null,
-  "balance_transaction": "txn_18zAJUK6oDSgnbJRQ7oyeztZ",
-  "captured": true,
-  "created": 1475693290,
-  "currency": "usd",
-  "customer": null,
-  "description": "Sent 1 Bevegram to W Travis Caldwell",
-  "destination": null,
-  "dispute": null,
-  "failure_code": null,
-  "failure_message": null,
-  "fraud_details": {
-  },
-  "invoice": null,
-  "livemode": false,
-  "metadata": {
-  },
-  "order": null,
-  "paid": true,
-  "receipt_email": null,
-  "receipt_number": null,
-  "refunded": false,
-  "refunds": {
-    "object": "list",
-    "data": [
-
-    ],
-    "has_more": false,
-    "total_count": 0,
-    "url": "/v1/charges/ch_191KR4K6oDSgnbJRa65alA64/refunds"
-  },
-  "shipping": null,
-  "source": {
-    "id": "card_191KR4K6oDSgnbJRTCJJSgBX",
-    "object": "card",
-    "address_city": null,
-    "address_country": null,
-    "address_line1": null,
-    "address_line1_check": null,
-    "address_line2": null,
-    "address_state": null,
-    "address_zip": null,
-    "address_zip_check": null,
-    "brand": "Visa",
-    "country": "US",
-    "customer": null,
-    "cvc_check": "pass",
-    "dynamic_last4": null,
-    "exp_month": 11,
-    "exp_year": 2020,
-    "funding": "credit",
-    "last4": "4242",
-    "metadata": {
-    },
-    "name": null,
-    "tokenization_method": null
-  },
-  "source_transfer": null,
-  "statement_descriptor": null,
-  "status": "succeeded"
-}
-
-const cardData = {
+export const cardData = {
   cardNumber: "4242424242424242",
   cardExpMonth: "12",
   cardExpYear: "20",
   cardCvc: "123",
 };
 
-const purchaseData = {
+export const purchaseData = {
   amount: 600,
   description: "test description",
 }
 
-// End Setup Variables ------------------------------------------------- }}}
+const getAction = (input) => {
+  return input.value.PUT.action;
+}
 
 describe('stripe saga', () => {
+  const stripeApiUrl = "https://api.stripe.com/v1/"
+
+
+  it('fetches credit card token successfully', () => {
+
+    fetchMock.postOnce(stripeApiUrl + "tokens", sampleTokenResponse);
+
+    const gen = fetchCreditCardToken({payload: {cardData: cardData, purchaseData: purchaseData}});
+
+    let result = gen.next();
+    expect(getAction(result).type).toEqual('ATTEMPING_CREDIT_CARD_PURCHASE');
+
+    // Anytime the "return value" of yield via assignment (`val = yield thing`)
+    // the result of the generator must be passed to the `next` generator
+    result = gen.next(result);
+    expect(result.value.CALL.fn).toEqual(promiseCreditCardToken);
+
+    result = gen.next(result);
+    expect(result.value.CALL.fn).toEqual(handleTokenResponse);
+
+    result = gen.next(result);
+    expect(result.value.PUT.action.type).toEqual('HANDLE_CREDIT_CARD_VERIFIED');
+
+    result = gen.next(result);
+    expect(result.value.CALL.fn).toEqual(promiseCreditCardPurchase);
+
+    result = gen.next(result);
+    expect(result.value.CALL.fn).toEqual(handleTransactionResponse);
+
+    result = gen.next(result);
+    expect(result.value.PUT.action.type).toEqual('HANDLE_CREDIT_CARD_PURCHASE_SUCESSFUL');
+
+    result = gen.next(result);
+    expect(result.done).toEqual(true);
+
+  })
+// Handle Token Response ---------------------------------------------- {{{
+
   it('should handle token response', () => {
 
     // To test a generator functions returned value you have to explicitly
@@ -148,6 +80,9 @@ describe('stripe saga', () => {
     expect(result.done).toBe(true);
   })
 
+// End Handle Token Response ------------------------------------------ }}}
+// Handle Token Response Error ---------------------------------------- {{{
+
   it('should handle token response error', () => {
     let gen = handleTokenResponse(sampleErrorResponse);
 
@@ -166,6 +101,9 @@ describe('stripe saga', () => {
 
   })
 
+// End Handle Token Response Error ------------------------------------ }}}
+// Handle Transaction Response ----------------------------------------- {{{
+
   it('should handle transaction response', () => {
     let gen = handleTransactionResponse(sampleTransactionResponse);
 
@@ -173,5 +111,7 @@ describe('stripe saga', () => {
     expect(result.value).toEqual(sampleTransactionResponse);
     expect(result.done).toEqual(true);
   })
+
+// End Handle Transaction Response ------------------------------------- }}}
 })
 
