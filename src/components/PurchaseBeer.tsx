@@ -23,7 +23,7 @@ interface PurchaseData {
   description: string;
 }
 
-interface VProps {
+interface PurchaseBeerProps {
   fullName: string;
   firstName: string;
   purchase: PurchaseState;
@@ -32,7 +32,7 @@ interface VProps {
   startCreditCardPurchase(CardData, PurchaseData);
 }
 
-interface VState {
+interface PurchaseBeerState {
   numDrinks: number;
   cardNum1: string;
   cardNum2: string;
@@ -43,7 +43,7 @@ interface VState {
   cardCvc: string;
 }
 
-export default class PurchaseBeer extends Component<VProps, VState> {
+export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseBeerState> {
 
   constructor(props){
     super(props);
