@@ -6,7 +6,7 @@ export interface Location {
   typicalHours: string;
 }
 
-const defaultState = [
+export const defaultLocationsState = [
   {
     name: "Lowry Beer Garden",
     address: "7577 E Academy Blvd, Denver, CO 80230",
@@ -37,7 +37,7 @@ const defaultState = [
   },
 ]
 
-export const locations = (state = defaultState, action) => {
+export const locations = (state = defaultLocationsState, action) => {
   switch(action.type){
     default:
       return state;
