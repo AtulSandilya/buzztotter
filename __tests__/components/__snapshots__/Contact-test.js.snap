@@ -1,4 +1,4 @@
-exports[`test renders correctly 1`] = `
+exports[`Contact component renders correctly 1`] = `
 <View
   style={
     Object {
