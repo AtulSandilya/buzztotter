@@ -1,21 +1,19 @@
 import React from 'react';
 import { Modal } from 'react-native';
-
-import { shallow } from 'enzyme';
+import renderer from 'react-test-renderer';
 
 import CenteredModal from '../../build/components/CenteredModal';
 
 jest.mock('react-native-fbsdk', () => '');
 
 describe('CenteredModal component', () => {
-  it('renders with no bevegrams', () => {
-    const wrapper = shallow(
+
+  it('renders correctly', () => {
+    const tree = renderer.create(
       <CenteredModal
         isVisible={true}
       />
-    )
-
-    expect(wrapper.find(Modal).length).toEqual(1);
-  })
+    ).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 })
-

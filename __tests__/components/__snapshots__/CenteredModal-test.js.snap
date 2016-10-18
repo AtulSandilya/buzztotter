@@ -1,0 +1,78 @@
+exports[`CenteredModal component renders correctly 1`] = `
+<Modal
+  animationType="fade"
+  onRequestClose={[Function]}
+  transparent={true}
+  visible={true}>
+  <View
+    style={
+      Object {
+        "height": 667,
+        "width": 375,
+      }
+    }>
+    <View
+      style={
+        Object {
+          "backgroundColor": "rgba(34, 34, 34, 0.6)",
+          "height": 667,
+          "width": 375,
+          "zIndex": 1,
+        }
+      }>
+      <View
+        accessibilityComponentType={undefined}
+        accessibilityLabel={undefined}
+        accessibilityTraits={undefined}
+        accessible={true}
+        hitSlop={undefined}
+        onLayout={undefined}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+            },
+            Object {
+              "height": 667,
+              "width": 375,
+            },
+          ]
+        }
+        testID={undefined}>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail">
+           
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "backgroundColor": "#ffffff",
+          "height": 533.6,
+          "left": 18.75,
+          "position": "absolute",
+          "top": 66.69999999999999,
+          "width": 337.5,
+          "zIndex": 100,
+        }
+      }>
+      <ScrollView
+        style={
+          Object {
+            "height": 533.6,
+            "zIndex": 100,
+          }
+        } />
+    </View>
+  </View>
+</Modal>
+`;
