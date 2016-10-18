@@ -46,7 +46,7 @@ const sendNotification = () => {
 interface SettingsProps {
   notifications: boolean;
   location: boolean;
-  version: number;
+  version: string;
   onSettingToggle(string): void;
   onFacebookLogout(): void;
 }
