@@ -15,7 +15,7 @@ export interface CardResponseData {
   last4: string;
 }
 
-const initialPurchaseState = {
+export const initialPurchaseState = {
   pricePerDrink: 6.00,
   attempting: false,
   paymentMethod: undefined,
