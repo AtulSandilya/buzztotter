@@ -12,9 +12,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import java.lang.InterruptedException;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.pressBack;
+import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
@@ -25,12 +28,8 @@ public class InitialTest {
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void attemptLogin() {
-        try{
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void attemptLogin() throws InterruptedException {
+        Thread.sleep(5000);
 
         try {
             onView(withText("Log in with Facebook")).perform(click());
@@ -47,20 +46,14 @@ public class InitialTest {
         for(String button : NavButtons){
             onView(withText(button)).perform(click());
 
-            try{
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Thread.sleep(500);
         }
 
         for(int i = 0; i < NavButtons.size(); i++){
             onView(withText("Bevegrams")).perform(pressBack());
-            try{
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Thread.sleep(50);
         }
+
+        Thread.sleep(1500);
     }
 }
