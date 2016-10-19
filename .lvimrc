@@ -104,3 +104,5 @@ nnoremap <silent> mr :Term react-native run-android<CR>
 nnoremap <silent> <Leader>ct :call EditTest("components")<CR>
 " Kill test
 nnoremap <silent> mk :bd! *term*test*<CR>
+" Make an'd'roid test
+nnoremap <silent> md :Term cd android && ./gradlew connectedAndroidTest<CR>
