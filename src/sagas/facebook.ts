@@ -1,3 +1,4 @@
+import { delay } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
 import { promiseUserInfoFromFacebook, promiseContactsFromFacebook } from '../api/facebook';
@@ -33,6 +34,7 @@ export function *reloadContacts(action){
     yield call(fetchUser, action);
     yield put({type: 'COMPLETED_RELOADING_CONTACTS_FROM_FACEBOOK'});
     yield put({type: 'TOAST_CONTACTS_RELOADED'});
+    yield delay(500);
     yield put({type: 'END_TOAST_CONTACTS_RELOADED'});
   } catch(e){
     yield put({type: 'FAILED_RELOADING_CONTACTS_FROM_FACEBOOK'});
