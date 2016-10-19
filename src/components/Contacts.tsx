@@ -4,6 +4,8 @@ import {ActivityIndicator, ListView, RefreshControl, StyleSheet, Text, ToastAndr
 
 import {globalStyles, globalColors} from './GlobalStyles.js';
 
+import { isAndroid } from '../Utilities';
+
 import CContact from '../containers/CContact';
 import CenteredModal from './CenteredModal';
 import CPurchaseBeer from '../containers/CPurchaseBeer';
@@ -28,7 +30,9 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, l
   const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
   if(toastContactsReloaded){
-    ToastAndroid.show("Contacts Reloaded", ToastAndroid.SHORT);
+    if(isAndroid){
+      ToastAndroid.show("Contacts Reloaded", ToastAndroid.SHORT);
+    }
   }
 
   if(loading){
