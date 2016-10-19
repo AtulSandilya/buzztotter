@@ -21,6 +21,10 @@ engine = filter(engine,
     'purchase',
     'view',
     'modals',
+    ['contacts', 'loadingFromFacebook'],
+    ['contacts', 'loadingFromFacebookFailed'],
+    ['contacts', 'reloadingFromFacebookFailed'],
+    ['contacts', 'reloadingFromFacebookFailed'],
   ]
 )
 const storageMiddleware = persistentStorage.createMiddleware(engine);

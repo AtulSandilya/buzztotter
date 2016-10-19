@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component} from 'react';
-import {ActivityIndicator, ListView, StyleSheet, Text, View, } from 'react-native';
+import {ActivityIndicator, ListView, RefreshControl, StyleSheet, Text, ToastAndroid, View, } from 'react-native';
 
 import {globalStyles, globalColors} from './GlobalStyles.js';
 
@@ -15,12 +15,22 @@ export interface ContactsProps {
   contacts?: [Contact];
   loading?: boolean;
   loadingFailed?: boolean;
+  reloading?: boolean;
+  reloadingFailed?: boolean;
   purchaseModalIsOpen?: boolean;
+  facebookToken?: string;
+  toastContactsReloaded?: boolean;
   closePurchaseModal?(): void;
+  reloadContacts?(token: string);
 }
 
-const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, loadingFailed, purchaseModalIsOpen, closePurchaseModal}) => {
+const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, loadingFailed, reloading, reloadingFailed, facebookToken, toastContactsReloaded, purchaseModalIsOpen, closePurchaseModal, reloadContacts}) => {
   const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+  if(toastContactsReloaded){
+    ToastAndroid.show("Contacts Reloaded", ToastAndroid.SHORT);
+  }
+
   if(loading){
     return (
       <View
@@ -46,6 +56,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, l
     return (
       <View style={{flex: 1}}>
         <ListView
+          accessibilityLabel="Contacts List"
           dataSource={ds.cloneWithRows(contacts)}
           renderRow={(rowData) =>
             <CContact
@@ -55,6 +66,20 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, l
             />
           }
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={globalStyles.listRowSeparator} />}
+          refreshControl={
+            <RefreshControl
+              refreshing={reloading}
+              onRefresh={() => {
+                if(!reloading){
+                  reloadContacts(facebookToken);
+                }
+              }}
+              title="Reloading Contacts"
+              tintColor={globalColors.bevPrimary}
+              progressViewOffset={50}
+              colors={[globalColors.bevPrimary]}
+            />
+          }
         />
         <CenteredModal
           isVisible={purchaseModalIsOpen}

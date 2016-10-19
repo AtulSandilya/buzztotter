@@ -37,6 +37,9 @@ const formatContact = (firstName, lastName, bdayStr, imagePath) => {
 const initialState = {
   loadingFromFacebook: false,
   loadingFromFacebookFailed: false,
+  reloadingFromFacebook: false,
+  reloadingFromFacebookFailed: false,
+  toastContactsReloaded: false,
   contactList: [],
 }
 
@@ -78,11 +81,33 @@ export const contacts = (state = initialState, action) => {
     case 'POPULATE_CONTACTS_FROM_FACEBOOK':
       return addContactsFromFacebook(state, action.payload.contacts);
     case 'LOADING_CONTACTS_FROM_FACEBOOK':
-      return Object.assign({}, state,
-        {
+      return Object.assign({}, state, {
           loadingFromFacebook: true,
-        }
-      );
+      });
+    case 'FAILED_LOADING_CONTACTS_FROM_FACEBOOK':
+      return Object.assign({}, state, {
+          loadingFromFacebookFailed: true,
+      });
+    case 'RELOADING_CONTACTS_FROM_FACEBOOK':
+      return Object.assign({}, state, {
+          reloadingFromFacebook: true,
+      });
+    case 'COMPLETED_RELOADING_CONTACTS_FROM_FACEBOOK':
+      return Object.assign({}, state, {
+          reloadingFromFacebook: false,
+      });
+    case 'FAILED_RELOADING_CONTACTS_FROM_FACEBOOK':
+      return Object.assign({}, state, {
+          reloadingFromFacebookFailed: true,
+      });
+    case 'TOAST_CONTACTS_RELOADED':
+      return Object.assign({}, state, {
+          toastContactsReloaded: true,
+      });
+    case 'END_TOAST_CONTACTS_RELOADED':
+      return Object.assign({}, state, {
+          toastContactsReloaded: false,
+      });
     default:
       return state;
   }

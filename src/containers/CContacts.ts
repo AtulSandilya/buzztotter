@@ -13,6 +13,10 @@ interface StateProps {
   loading?: boolean;
   loadingFailed?: boolean;
   purchaseModalIsOpen?: boolean;
+  reloading?: boolean;
+  reloadingFailed?: boolean;
+  facebookToken?: string;
+  toastContactsReloaded?: boolean;
 }
 
 const mapStateToProps = (state): StateProps => {
@@ -21,11 +25,16 @@ const mapStateToProps = (state): StateProps => {
     loading: state.contacts.loadingFromFacebook,
     loadingFailed: state.contacts.loadingFromFacebookFailed,
     purchaseModalIsOpen: state.modals.purchaseBeerModal.isOpen,
+    reloading: state.contacts.reloadingFromFacebook,
+    reloadingFailed: state.contacts.reloadingFromFacebookFailed,
+    facebookToken: state.user.facebook.token,
+    toastContactsReloaded: state.contacts.toastContactsReloaded,
   }
 }
 
 interface DispatchProps {
   closePurchaseModal?(): void;
+  reloadContacts?(string);
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -35,6 +44,9 @@ const mapDispatchToProps = (dispatch) => {
         {type: 'END_CREDIT_CARD_PURCHASE'},
         {type: 'CLOSE_MODAL', modalKey: modalKeys.purchaseBeerModal},
       ]));
+    },
+    reloadContacts: (fbToken) => {
+      dispatch({type: 'FACEBOOK_CONTACTS_RELOAD_REQUEST', payload: {token: fbToken}});
     }
   }
 }
