@@ -18,6 +18,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.pressBack;
 import static android.support.test.espresso.action.ViewActions.swipeDown;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
@@ -55,5 +56,10 @@ public class InitialTest {
         }
 
         Thread.sleep(1500);
+
+        // Test Pull down to refresh
+        onView(withContentDescription("Contacts List")).perform(swipeDown());
+
+        Thread.sleep(5000);
     }
 }
