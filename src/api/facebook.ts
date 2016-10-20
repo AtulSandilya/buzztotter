@@ -36,7 +36,7 @@ const promiseFunctionFromFacebook = (token, inputFunction) => {
 }
 
 const getFriendsRequest = (token, callback) => {
-  const urlString = '/me/taggable_friends?fields=picture.type(square),first_name,last_name,name&limit=5000';
+  const urlString = '/me/friends?fields=picture.type(square),first_name,last_name,name,birthday,email&limit=5000';
   const parameterString = "";
   return graphRequest(token, urlString, parameterString, callback);
 }
