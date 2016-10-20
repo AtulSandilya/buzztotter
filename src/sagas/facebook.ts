@@ -31,7 +31,8 @@ export function* fetchUser(action) {
 export function *reloadContacts(action){
   try{
     yield put({type: 'RELOADING_CONTACTS_FROM_FACEBOOK'});
-    yield call(fetchUser, action);
+    const contacts = yield call(promiseContactsFromFacebook, action.payload.token);
+    yield put({type: "POPULATE_CONTACTS_FROM_FACEBOOK", payload: {contacts: contacts}});
     yield put({type: 'COMPLETED_RELOADING_CONTACTS_FROM_FACEBOOK'});
     yield put({type: 'TOAST_CONTACTS_RELOADED'});
     yield delay(500);
