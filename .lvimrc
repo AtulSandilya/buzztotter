@@ -18,6 +18,10 @@ function! KillReactNative()
 endfunction
 
 function! BuildReactNativeForAndroid(release_version)
+    if(a:release_version == "")
+        return
+    endif
+
     let build_dir = "app/build/outputs/apk/"
     let release_dir = "ReleaseBuilds/"
 
@@ -48,6 +52,7 @@ function! GetPackageVersion()
         endif
     endfor
     echoerr "Could not parse version number from '" . version_file . "'"
+    return ""
 endfunction
 
 function! BuildReactNative()
