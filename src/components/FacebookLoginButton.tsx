@@ -10,7 +10,7 @@ interface FacebookLoginButtonProps {
 
 const FacebookLoginButton: React.StatelessComponent<FacebookLoginButtonProps> = ({loginDispatch, logoutDispatch}) => (
   <LoginButton
-    readPermissions={['public_profile', 'user_friends', 'email']}
+    readPermissions={['public_profile', 'user_friends', 'email', 'user_birthday']}
     onLoginFinished={(error, result) => {
       if(error){
         alert("Login error: " + result.error);
