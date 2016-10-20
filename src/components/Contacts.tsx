@@ -9,6 +9,7 @@ import { isAndroid } from '../Utilities';
 import CContact from '../containers/CContact';
 import CenteredModal from './CenteredModal';
 import CPurchaseBeer from '../containers/CPurchaseBeer';
+import FacebookAppInviteButton from './FacebookAppInviteButton';
 
 import {Contact} from '../reducers/contacts';
 
@@ -84,6 +85,11 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, l
               colors={[globalColors.bevPrimary]}
             />
           }
+          renderFooter={() => {
+            return (
+              <FacebookAppInviteButton />
+            )
+          }}
         />
         <CenteredModal
           isVisible={purchaseModalIsOpen}
