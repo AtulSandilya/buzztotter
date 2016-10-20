@@ -66,7 +66,13 @@ const sortContactsByBirthday = (contacts) => {
 
 const addContactsFromFacebook = (state, contacts) => {
   const newContacts = contacts.data.map(function(contact){
-    return formatContact(contact.first_name, contact.last_name, "unknown", contact.picture.data.url);
+
+    let birthday = "unknown";
+    if(contact.birthday){
+      birthday = contact.birthday;
+    }
+
+    return formatContact(contact.first_name, contact.last_name, birthday, contact.picture.data.url);
   })
   return Object.assign({}, state,
     {
