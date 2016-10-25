@@ -51,11 +51,13 @@ export default class BevegramLocations extends Component<BevegramLocationsProps,
 
   render() {
     const locationDS = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-    if(this.state.renders > 0) {
+
+    if(this.state.renders > 1) {
       return(
         <View></View>
       )
     }
+
     this.state.renders += 1;
     return(
       <View style={{flex: 1}}>
