@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component, PropTypes } from 'react';
-import { ActivityIndicator, Picker, Slider, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import { ActivityIndicator, Picker, ScrollView, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 
 import {isIOS} from '../Utilities';
 
@@ -28,7 +28,7 @@ interface PurchaseBeerProps {
   firstName: string;
   purchase: PurchaseState;
   resetPurchase();
-  closePurchaseModal();
+  closePurchaseRoute();
   startCreditCardPurchase(CardData, PurchaseData);
 }
 
@@ -139,10 +139,8 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
 
   renderPurchaseOptions(){
     return(
-      <View style={styles.purchaseContainer}>
-        <View>
-          <TitleText title={"Purchase Beer"}></TitleText>
-        </View>
+      <ScrollView style={styles.purchaseContainer}>
+        <View style={{height: 64}}></View>
         <View style={styles.purchaseLine}>
           <View style={styles.purchaseLineLeft}>
             <Text style={styles.purchaseLineTextTitle}>Receipent:</Text>
@@ -316,7 +314,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
         <View style={{flexDirection: 'row', paddingTop: 20}}>
           <View style={{flex: 1, alignItems: 'flex-start'}}>
             <BevButton
-              bevButtonPressed={this.props.closePurchaseModal}
+              bevButtonPressed={this.props.closePurchaseRoute}
               buttonText={"Cancel"}
               buttonFontSize={20}
             />
@@ -329,16 +327,14 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
             />
           </View>
         </View>
-      </View>
+        <View style={{height: 20}}></View>
+      </ScrollView>
     );
   }
 
   renderPurchaseAttempting(){
     return (
       <View style={styles.purchaseContainer}>
-        <View>
-          <TitleText title={"Purchase Beer"}></TitleText>
-        </View>
         <View style={styles.purchaseLine}>
           <Text>
             Sending {this.state.numDrinks} {this.state.numDrinks > 1 ? "Beers" : "Beer"} to {this.props.firstName}!
@@ -386,7 +382,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
             }}>
               <View style={{flex: 1, alignItems: 'flex-start', paddingTop: 10}}>
                 <BevButton
-                  bevButtonPressed={this.props.closePurchaseModal}
+                  bevButtonPressed={this.props.closePurchaseRoute}
                   buttonText={"Close"}
                   buttonFontSize={20}
                 />
@@ -427,7 +423,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
         <View>
           <View style={{alignItems: 'flex-end', paddingTop: 10}}>
             <BevButton
-              bevButtonPressed={this.props.closePurchaseModal}
+              bevButtonPressed={this.props.closePurchaseRoute}
               buttonText={"Close"}
               buttonFontSize={20}
             />

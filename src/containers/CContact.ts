@@ -1,26 +1,22 @@
 import { connect } from 'react-redux';
 
-import { modalKeys } from '../reducers/modals';
-
 import Contact, {ContactProps} from '../components/Contact';
 
 interface DispatchProps {
-  openPurchaseModal?(modalData: any): void;
-  closePurchaseModal?(): void;
+  openPurchaseRoute?(routeData: any): void;
 }
 
-export const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
-    openPurchaseModal: (modalData) => {
+    openPurchaseRoute: (routeData) => {
       dispatch({
-        type: 'OPEN_MODAL',
-        modalKey: modalKeys.purchaseBeerModal,
-        dataForModal: modalData,
+        type: 'GO_TO_ROUTE',
+        payload: {
+          route: "PurchaseBeer",
+          routeData: routeData,
+        },
       })
     },
-    closePurchaseModal: () => {
-      dispatch({type: 'CLOSE_MODAL', modalKey: modalKeys.purchaseBeerModal});
-    }
   }
 }
 

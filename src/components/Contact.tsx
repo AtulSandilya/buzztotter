@@ -44,11 +44,11 @@ export interface ContactProps {
   name?: Name;
   birthday?: string;
   imagePath?: string;
-  openPurchaseModal?(Object): void;
-  closePurchaseModal?(): void;
+  openPurchaseRoute?(Object): void;
+  closePurchaseRoute?(): void;
 }
 
-const Contact: React.StatelessComponent<ContactProps> = ({name, birthday, imagePath, openPurchaseModal, closePurchaseModal}) => {
+const Contact: React.StatelessComponent<ContactProps> = ({name, birthday, imagePath, openPurchaseRoute, closePurchaseRoute}) => {
   const fullName = name.first + " " + name.last;
   return (
     <View style={styles.parentContainer}>
@@ -65,7 +65,7 @@ const Contact: React.StatelessComponent<ContactProps> = ({name, birthday, imageP
       <View style={styles.buttonContainer}>
         <BevButton
           buttonText={"Send " + name.first + " a Beer!"}
-          bevButtonPressed={() => openPurchaseModal({fullName: fullName, firstName: name.first})}
+          bevButtonPressed={() => openPurchaseRoute({fullName: fullName, firstName: name.first})}
         />
       </View>
     </View>
