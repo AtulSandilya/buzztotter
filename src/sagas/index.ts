@@ -3,6 +3,7 @@ import { fork } from 'redux-saga/effects';
 
 import { fetchUser, fetchContacts, fetchAllFacebookData, reloadContacts } from './facebook';
 import { fetchCreditCardToken } from './stripe';
+import { goToRoute, goBackRoute } from './routes';
 
 // Like combine reducers
 export default function* rootSaga() {
@@ -11,4 +12,6 @@ export default function* rootSaga() {
   yield fork(takeEvery, 'FACEBOOK_CONTACTS_RELOAD_REQUEST', reloadContacts);
   yield fork(takeEvery, 'ALL_FACEBOOK_DATA_FETCH_REQUESTED', fetchAllFacebookData);
   yield fork(takeEvery, 'REQUEST_CREDIT_CARD_TOKEN', fetchCreditCardToken);
+  yield fork(takeEvery, 'GO_TO_ROUTE', goToRoute);
+  yield fork(takeEvery, 'GO_BACK_ROUTE', goBackRoute);
 }
