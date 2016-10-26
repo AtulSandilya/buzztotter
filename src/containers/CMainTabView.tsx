@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import MainViewRouter, {MainViewRouterProps} from '../routers/MainViewRouter.js';
+import MainTabView, {MainViewRouterProps} from '../components/MainTabView';
 import {sceneOrder} from '../reducers/view';
 
 interface StateProps {
@@ -36,6 +36,6 @@ const mapDispatchToProps = (dispatch): DispatchProps => {
 const CMainViewRouter = connect<StateProps, DispatchProps, MainViewRouterProps>(
   mapStateToProps,
   mapDispatchToProps,
-)(MainViewRouter);
+)(MainTabView);
 
 export default CMainViewRouter;

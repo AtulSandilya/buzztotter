@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import {connect} from 'react-redux';
 
 import CBranding from '../containers/CBranding';
-import CMainViewRouter from '../containers/CMainViewRouter';
+import CMainTabView from '../containers/CMainTabView';
 
 const MainUi = () => (
   <View style={{
@@ -15,7 +15,7 @@ const MainUi = () => (
       <CBranding />
     </View>
     <View style={{flex: 9}}>
-      <CMainViewRouter />
+      <CMainTabView />
     </View>
   </View>
 )
