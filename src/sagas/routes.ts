@@ -37,11 +37,11 @@ export function *goBackRoute(action) {
 
   const nextRoute = payload.nextRoute;
 
+  Actions[nextRoute]({type: ActionConst.BACK});
+
   yield put({type: 'CLOSE_ROUTE', payload: {
       route: payload.route,
   }});
-
-  Actions[nextRoute]({type: ActionConst.BACK});
 
   if(payload.postActions){
     for(let index in payload.postActions){
