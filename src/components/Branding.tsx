@@ -9,13 +9,11 @@ import CSettings from '../containers/CSettings';
 
 import {globalColors, globalStyles} from './GlobalStyles';
 
-interface BrandingProps {
-  settingsModalVisible: boolean;
-  openSettings(): void;
-  closeSettings(): void;
+export interface BrandingProps {
+  goToSettings?(): void;
 }
 
-const Branding: React.StatelessComponent<BrandingProps> = ({settingsModalVisible, openSettings, closeSettings}) => (
+const Branding: React.StatelessComponent<BrandingProps> = ({goToSettings}) => (
   <View
     style={[{
       flex: 1,
@@ -44,7 +42,7 @@ const Branding: React.StatelessComponent<BrandingProps> = ({settingsModalVisible
       }}
     >
       <TouchableHighlight
-        onPress={openSettings}
+        onPress={goToSettings}
         underlayColor={globalColors.bevPrimary}
       >
         <Image
@@ -57,12 +55,6 @@ const Branding: React.StatelessComponent<BrandingProps> = ({settingsModalVisible
         />
       </TouchableHighlight>
     </View>
-    <CenteredModal
-      isVisible={settingsModalVisible}
-      closeFromParent={closeSettings}
-    >
-      <CSettings />
-    </CenteredModal>
   </View>
 )
 

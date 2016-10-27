@@ -1,28 +1,21 @@
 import { connect } from 'react-redux';
 
-import Branding from '../components/Branding';
+import Branding, {BrandingProps} from '../components/Branding';
 
-import {modalKeys} from '../reducers/modals';
-
-const mapStateToProps = (state) => {
-  return {
-    settingsModalVisible: state.modals.settingsModal.isOpen,
-  }
+interface DispatchProps {
+  goToSettings?(): void;
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openSettings: () => {
-      dispatch({type: 'OPEN_MODAL', modalKey: modalKeys.settingsModal});
-    },
-    closeSettings: () => {
-      dispatch({type: 'CLOSE_MODAL', modalKey: modalKeys.settingsModal});
+    goToSettings: () => {
+      dispatch({type: 'GO_TO_ROUTE', payload: {route: "Settings"}});
     },
   }
 }
 
-const CBranding = connect(
-  mapStateToProps,
+const CBranding = connect<{}, DispatchProps, BrandingProps>(
+  undefined,
   mapDispatchToProps,
 )(Branding);
 

@@ -13,6 +13,7 @@ import {globalColors} from '../components/GlobalStyles';
 import MainUi from '../components/MainUi';
 import CLogin from '../containers/CLogin';
 import CPurchaseBeer from '../containers/CPurchaseBeer';
+import CSettings from '../containers/CSettings';
 
 interface Style {
   navBarStyle: React.ViewStyle;
@@ -39,6 +40,16 @@ const scenes = (showLogin) => {
           title="Purchase Beer"
           component={CPurchaseBeer}
           backTitle="Contacts"
+          hideNavBar={false}
+          navigationBarStyle={styles.navBarStyle}
+          titleStyle={styles.titleStyle}
+          backButtonTextStyle={styles.titleStyle}
+        />
+        <Scene
+          key="Settings"
+          title="Settings"
+          component={CSettings}
+          backTitle=""
           hideNavBar={false}
           navigationBarStyle={styles.navBarStyle}
           titleStyle={styles.titleStyle}
