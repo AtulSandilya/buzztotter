@@ -6,6 +6,7 @@ import {isIOS} from '../Utilities';
 
 import { CardResponseData, PurchaseState } from '../reducers/purchase';
 
+import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
 import TitleText from './TitleText';
 import BevButton from './BevButton';
 
@@ -139,196 +140,197 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
 
   renderPurchaseOptions(){
     return(
-      <ScrollView style={styles.purchaseContainer}>
-        <View style={{height: 64}}></View>
-        <View style={styles.purchaseLine}>
-          <View style={styles.purchaseLineLeft}>
-            <Text style={styles.purchaseLineTextTitle}>Receipent:</Text>
+      <RouteWithNavBarWrapper>
+        <View style={styles.purchaseContainer}>
+          <View style={styles.purchaseLine}>
+            <View style={styles.purchaseLineLeft}>
+              <Text style={styles.purchaseLineTextTitle}>Receipent:</Text>
+            </View>
+            <View style={styles.purchaseLineRight}>
+              <Text style={styles.purchaseLineText}>{this.props.fullName}</Text>
+            </View>
           </View>
-          <View style={styles.purchaseLineRight}>
-            <Text style={styles.purchaseLineText}>{this.props.fullName}</Text>
-          </View>
-        </View>
-        <View style={styles.purchaseLine}>
-          <View style={styles.purchaseLineLeft}>
-            <Text style={styles.purchaseLineTextTitle}>Number of Beers:</Text>
-          </View>
-          <View style={styles.purchaseLineSliderContainer}>
-            <View style={styles.numBeersButtonContainer}>
-              <TouchableHighlight
-                onPress={() => this.increaseNumDrinks()}
-                hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-                style={[styles.numBeersButton, {marginRight: 15}]}>
-                  <Text style={styles.numBeersButtonText}>+</Text>
-                </TouchableHighlight>
+          <View style={styles.purchaseLine}>
+            <View style={styles.purchaseLineLeft}>
+              <Text style={styles.purchaseLineTextTitle}>Number of Beers:</Text>
+            </View>
+            <View style={styles.purchaseLineSliderContainer}>
+              <View style={styles.numBeersButtonContainer}>
                 <TouchableHighlight
-                  onPress={() => this.decreaseNumDrinks()}
+                  onPress={() => this.increaseNumDrinks()}
                   hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-                  style={styles.numBeersButton}>
-                  <Text style={styles.numBeersButtonText}>-</Text>
-                </TouchableHighlight>
+                  style={[styles.numBeersButton, {marginRight: 15}]}>
+                    <Text style={styles.numBeersButtonText}>+</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    onPress={() => this.decreaseNumDrinks()}
+                    hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
+                    style={styles.numBeersButton}>
+                    <Text style={styles.numBeersButtonText}>-</Text>
+                  </TouchableHighlight>
+              </View>
+              <View style={{flex: 1, alignItems: 'flex-end'}}>
+                <Text style={styles.purchaseLineTextTitle}>{this.state.numDrinks}</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.purchaseLine}>
+            <View style={styles.purchaseLineLeft}>
+              <Text style={styles.purchaseLineTextTitle}>Cost:</Text>
+            </View>
+            <View style={[styles.purchaseLineRight, {flex: 1}]}>
+              <Text style={styles.purchaseLineText}>$ {(this.props.purchase.pricePerDrink * this.state.numDrinks).toFixed(2)}</Text>
+            </View>
+          </View>
+          <View style={styles.purchaseLine} ref="test">
+            <View style={styles.purchaseLineLeft}>
+              <Text style={styles.purchaseLineTextTitle}>Card Number:</Text>
+            </View>
+            <View style={[styles.purchaseLineRight, {
+              flexDirection: 'row'
+            }]}>
+              <CreditCardInput
+                ref="1"
+                nextRef={this.refs["2"]}
+                maxChars={4}
+                placeholder="1234"
+                width={40}
+                returnKeyType="next"
+                onChangeText={(text) => {
+                  this.updateState("cardNum1", text);
+                }}
+              />
+              <CreditCardInput
+                ref="2"
+                nextRef={this.refs["3"]}
+                maxChars={4}
+                placeholder="5678"
+                width={40}
+                onChangeText={(text) => {
+                  this.updateState("cardNum2", text);
+                }}
+              />
+              <CreditCardInput
+                ref="3"
+                nextRef={this.refs["4"]}
+                maxChars={4}
+                placeholder="1234"
+                width={40}
+                onChangeText={(text) => {
+                  this.updateState("cardNum3", text);
+                }}
+              />
+              <CreditCardInput
+                ref="4"
+                nextRef={this.refs["5"]}
+                maxChars={4}
+                placeholder="5678"
+                width={40}
+                onChangeText={(text) => {
+                  this.updateState("cardNum4", text);
+                }}
+              />
+            </View>
+          </View>
+          <View style={styles.purchaseLine}>
+            <View style={styles.purchaseLineLeft}>
+              <Text style={styles.purchaseLineTextTitle}>Exp Date:</Text>
+            </View>
+            <View style={[styles.purchaseLineRight,
+              {
+                flex: 1,
+                flexDirection: 'row',
+                alignItems: 'flex-end',
+                justifyContent: 'flex-end',
+              }]}
+            >
+              <View
+              style={{
+                flex: -1,
+                flexDirection: 'row',
+              }}
+              >
+                <CreditCardInput
+                  ref="5"
+                  nextRef={this.refs["6"]}
+                  maxChars={2}
+                  placeholder="01"
+                  width={30}
+                  onChangeText={(text) => {
+                    this.updateState("cardExpMonth", text);
+                  }}
+                />
+                <View style={[{
+                  width: 2,
+                  backgroundColor: '#999999',
+                  marginRight: 5,
+                  marginLeft: 10,
+                  marginVertical: 8,
+                }, styles.rotateSlash]}></View>
+                <CreditCardInput
+                  ref="6"
+                  nextRef={this.refs["7"]}
+                  maxChars={2}
+                  placeholder="20"
+                  width={30}
+                  onChangeText={(text) => {
+                    this.updateState("cardExpYear", text);
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+          <View style={styles.purchaseLine}>
+            <View style={styles.purchaseLineLeft}>
+              <Text style={styles.purchaseLineTextTitle}>CVC:</Text>
+            </View>
+            <View style={[styles.purchaseLineRight, {
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              flexDirection: 'row',
+            }]}>
+              <CreditCardInput
+                ref="7"
+                maxChars={3}
+                placeholder="123"
+                width={45}
+                onChangeText={(text) => {
+                  this.updateState("cardCvc", text);
+                }}
+                returnKeyType="done"
+              />
+            </View>
+          </View>
+          <View>
+            <Text style={styles.purchaseLineTextTitle}>Message:</Text>
+          </View>
+          <View>
+            <TextInput
+              placeholder={"Happy Birthday! Have a cold one on me!"}
+              placeholderTextColor={"#cccccc"}
+              style={{flex: 1}}
+            />
+          </View>
+          <View style={{flexDirection: 'row', paddingTop: 20}}>
+            <View style={{flex: 1, alignItems: 'flex-start'}}>
+              <BevButton
+                bevButtonPressed={this.props.closePurchaseRoute}
+                buttonText={"Cancel"}
+                buttonFontSize={20}
+              />
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
-              <Text style={styles.purchaseLineTextTitle}>{this.state.numDrinks}</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.purchaseLine}>
-          <View style={styles.purchaseLineLeft}>
-            <Text style={styles.purchaseLineTextTitle}>Cost:</Text>
-          </View>
-          <View style={[styles.purchaseLineRight, {flex: 1}]}>
-            <Text style={styles.purchaseLineText}>$ {(this.props.purchase.pricePerDrink * this.state.numDrinks).toFixed(2)}</Text>
-          </View>
-        </View>
-        <View style={styles.purchaseLine} ref="test">
-          <View style={styles.purchaseLineLeft}>
-            <Text style={styles.purchaseLineTextTitle}>Card Number:</Text>
-          </View>
-          <View style={[styles.purchaseLineRight, {
-            flexDirection: 'row'
-          }]}>
-            <CreditCardInput
-              ref="1"
-              nextRef={this.refs["2"]}
-              maxChars={4}
-              placeholder="1234"
-              width={40}
-              returnKeyType="next"
-              onChangeText={(text) => {
-                this.updateState("cardNum1", text);
-              }}
-            />
-            <CreditCardInput
-              ref="2"
-              nextRef={this.refs["3"]}
-              maxChars={4}
-              placeholder="5678"
-              width={40}
-              onChangeText={(text) => {
-                this.updateState("cardNum2", text);
-              }}
-            />
-            <CreditCardInput
-              ref="3"
-              nextRef={this.refs["4"]}
-              maxChars={4}
-              placeholder="1234"
-              width={40}
-              onChangeText={(text) => {
-                this.updateState("cardNum3", text);
-              }}
-            />
-            <CreditCardInput
-              ref="4"
-              nextRef={this.refs["5"]}
-              maxChars={4}
-              placeholder="5678"
-              width={40}
-              onChangeText={(text) => {
-                this.updateState("cardNum4", text);
-              }}
-            />
-          </View>
-        </View>
-        <View style={styles.purchaseLine}>
-          <View style={styles.purchaseLineLeft}>
-            <Text style={styles.purchaseLineTextTitle}>Exp Date:</Text>
-          </View>
-          <View style={[styles.purchaseLineRight,
-            {
-              flex: 1,
-              flexDirection: 'row',
-              alignItems: 'flex-end',
-              justifyContent: 'flex-end',
-            }]}
-          >
-            <View
-            style={{
-              flex: -1,
-              flexDirection: 'row',
-            }}
-            >
-              <CreditCardInput
-                ref="5"
-                nextRef={this.refs["6"]}
-                maxChars={2}
-                placeholder="01"
-                width={30}
-                onChangeText={(text) => {
-                  this.updateState("cardExpMonth", text);
-                }}
-              />
-              <View style={[{
-                width: 2,
-                backgroundColor: '#999999',
-                marginRight: 5,
-                marginLeft: 10,
-                marginVertical: 8,
-              }, styles.rotateSlash]}></View>
-              <CreditCardInput
-                ref="6"
-                nextRef={this.refs["7"]}
-                maxChars={2}
-                placeholder="20"
-                width={30}
-                onChangeText={(text) => {
-                  this.updateState("cardExpYear", text);
-                }}
+              <BevButton
+                bevButtonPressed={this.purchaseDrink.bind(this)}
+                buttonText={"Confirm Purchase"}
+                buttonFontSize={20}
               />
             </View>
           </View>
+          <View style={{height: 20}}></View>
         </View>
-        <View style={styles.purchaseLine}>
-          <View style={styles.purchaseLineLeft}>
-            <Text style={styles.purchaseLineTextTitle}>CVC:</Text>
-          </View>
-          <View style={[styles.purchaseLineRight, {
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            flexDirection: 'row',
-          }]}>
-            <CreditCardInput
-              ref="7"
-              maxChars={3}
-              placeholder="123"
-              width={45}
-              onChangeText={(text) => {
-                this.updateState("cardCvc", text);
-              }}
-              returnKeyType="done"
-            />
-          </View>
-        </View>
-        <View>
-          <Text style={styles.purchaseLineTextTitle}>Message:</Text>
-        </View>
-        <View>
-          <TextInput
-            placeholder={"Happy Birthday! Have a cold one on me!"}
-            placeholderTextColor={"#cccccc"}
-            style={{flex: 1}}
-          />
-        </View>
-        <View style={{flexDirection: 'row', paddingTop: 20}}>
-          <View style={{flex: 1, alignItems: 'flex-start'}}>
-            <BevButton
-              bevButtonPressed={this.props.closePurchaseRoute}
-              buttonText={"Cancel"}
-              buttonFontSize={20}
-            />
-          </View>
-          <View style={{flex: 1, alignItems: 'flex-end'}}>
-            <BevButton
-              bevButtonPressed={this.purchaseDrink.bind(this)}
-              buttonText={"Confirm Purchase"}
-              buttonFontSize={20}
-            />
-          </View>
-        </View>
-        <View style={{height: 20}}></View>
-      </ScrollView>
+      </RouteWithNavBarWrapper>
     );
   }
 

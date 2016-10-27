@@ -6,6 +6,7 @@ import {settingsKeys} from '../reducers/settings';
 
 import {isAndroid} from '../Utilities';
 
+import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
 import TitleText from './TitleText';
 import BevButton from './BevButton';
 import FacebookLoginButton from './FacebookLoginButton';
@@ -52,73 +53,72 @@ interface SettingsProps {
 }
 
 export const Settings: React.StatelessComponent<SettingsProps> = ({notifications, location, version, onSettingToggle, onFacebookLogout}) => (
-  <View
-    style={{
-      flex: 1,
-      padding: 20,
-    }}
-  >
-    <View>
-      <TitleText title="Settings" />
-    </View>
-    <SettingLine>
-      <SettingLeft>
-        <SettingName>Notifications:</SettingName>
-      </SettingLeft>
-      <SettingRight>
-        <Switch
-          onValueChange={() => onSettingToggle(settingsKeys.notifications)}
-          value={notifications}
-        />
-      </SettingRight>
-    </SettingLine>
-    <SettingLine>
-      <SettingLeft>
-        <SettingName>Location:</SettingName>
-      </SettingLeft>
-      <SettingRight>
-        <Switch
-          onValueChange={() => onSettingToggle(settingsKeys.location)}
-          value={location}
-        />
-      </SettingRight>
-    </SettingLine>
-    <SettingLine>
-      <SettingLeft>
-        <SettingName>Test Notification:</SettingName>
-      </SettingLeft>
-      <View style={{
-        height: 100,
-        alignItems: 'center',
-        justifyContent: 'center',
-        top: -15,
-      }}>
-        <BevButton
-          buttonText={"Send Notification"}
-          bevButtonPressed={sendNotification}
-        />
-      </View>
-    </SettingLine>
-    <SettingLine>
-      <SettingLeft>
-        <SettingName>Version:</SettingName>
-      </SettingLeft>
-      <SettingRight>
-        <Text>{version}</Text>
-      </SettingRight>
-    </SettingLine>
-    <SettingLine>
-      <View style={{
+  <RouteWithNavBarWrapper>
+    <View
+      style={{
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-        <FacebookLoginButton
-          logoutDispatch={onFacebookLogout}
-        />
-      </View>
-    </SettingLine>
-  </View>
+        padding: 20,
+      }}
+    >
+      <SettingLine>
+        <SettingLeft>
+          <SettingName>Notifications:</SettingName>
+        </SettingLeft>
+        <SettingRight>
+          <Switch
+            onValueChange={() => onSettingToggle(settingsKeys.notifications)}
+            value={notifications}
+          />
+        </SettingRight>
+      </SettingLine>
+      <SettingLine>
+        <SettingLeft>
+          <SettingName>Location:</SettingName>
+        </SettingLeft>
+        <SettingRight>
+          <Switch
+            onValueChange={() => onSettingToggle(settingsKeys.location)}
+            value={location}
+          />
+        </SettingRight>
+      </SettingLine>
+      <SettingLine>
+        <SettingLeft>
+          <SettingName>Test Notification:</SettingName>
+        </SettingLeft>
+        <View style={{
+          height: 100,
+          alignItems: 'center',
+          justifyContent: 'center',
+          top: -15,
+        }}>
+          <BevButton
+            buttonText={"Send Notification"}
+            bevButtonPressed={sendNotification}
+          />
+        </View>
+      </SettingLine>
+      <SettingLine>
+        <SettingLeft>
+          <SettingName>Version:</SettingName>
+        </SettingLeft>
+        <SettingRight>
+          <Text>{version}</Text>
+        </SettingRight>
+      </SettingLine>
+      <SettingLine>
+        <View style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <FacebookLoginButton
+            logoutDispatch={onFacebookLogout}
+          />
+        </View>
+      </SettingLine>
+    </View>
+  </RouteWithNavBarWrapper>
 )
 
 const SettingLeft = (props) => (
