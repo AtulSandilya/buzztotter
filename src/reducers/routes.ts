@@ -34,7 +34,7 @@ export const routes = (state = defaultRouteState, action) => {
     case 'ADD_ROUTE':
       return goToRoute(state, action.payload.route, action.payload.data);
     case 'CLOSE_ROUTE':
-      return closeRoute(state, action.route);
+      return closeRoute(state, action.payload.route);
     case 'CONFIRM_ROUTE':
       return confirmRoute(state, action.route);
     default:
