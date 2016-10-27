@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component, PropTypes } from 'react';
-import { View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -14,6 +14,20 @@ import MainUi from '../components/MainUi';
 import CLogin from '../containers/CLogin';
 import CPurchaseBeer from '../containers/CPurchaseBeer';
 
+interface Style {
+  navBarStyle: React.ViewStyle;
+  titleStyle: React.TextStyle;
+}
+
+const styles = StyleSheet.create<Style>({
+  navBarStyle: {
+    backgroundColor: globalColors.bevPrimary,
+  },
+  titleStyle: {
+    color: '#ffffff',
+  },
+})
+
 const scenes = (showLogin) => {
   return (
     Actions.create(
@@ -23,16 +37,12 @@ const scenes = (showLogin) => {
         <Scene
           key="PurchaseBeer"
           title="Purchase Beer"
-          hideNavBar={false}
           component={CPurchaseBeer}
-          navigationBarStyle={{
-            backgroundColor: globalColors.bevPrimary,
-          }}
-          titleStyle={{
-            color: '#ffffff',
-          }}
           backTitle="Contacts"
-          backButtonTextStyle={{color: '#ffffff'}}
+          hideNavBar={false}
+          navigationBarStyle={styles.navBarStyle}
+          titleStyle={styles.titleStyle}
+          backButtonTextStyle={styles.titleStyle}
         />
       </Scene>
     )
