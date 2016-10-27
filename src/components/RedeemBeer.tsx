@@ -89,7 +89,7 @@ export interface RedeemBeerProps {
   redeemConfirmed?: boolean;
   locations?: [Location];
   onRedeemClicked?(string): void;
-  cancelPurchaseAction?(): void;
+  closeRedeem?(): void;
 }
 
 interface RedeemBeerState {
@@ -129,7 +129,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
           </View>
           <View style={{alignItems: 'flex-end', paddingTop: 10}}>
             <BevButton
-              bevButtonPressed={this.props.cancelPurchaseAction}
+              bevButtonPressed={this.props.closeRedeem}
               buttonText={"Close"}
               buttonFontSize={20}
             />
@@ -217,7 +217,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
         <View style={{flexDirection: 'row', paddingTop: 20}}>
           <View style={{flex: 1, alignItems: 'flex-start'}}>
             <BevButton
-              bevButtonPressed={this.props.cancelPurchaseAction}
+              bevButtonPressed={this.props.closeRedeem}
               buttonText={"Cancel"}
               buttonFontSize={20}
             />

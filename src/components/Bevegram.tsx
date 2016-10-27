@@ -38,7 +38,7 @@ const styles = StyleSheet.create<Style>({
   },
 })
 
-interface DataForModal {
+interface DataForRoute {
   id: string;
   from: string;
 }
@@ -48,10 +48,10 @@ export interface BevegramProps {
   date: string;
   id: string;
   imagePath: string;
-  openModal?(inputKey: string, modalData: DataForModal): void;
+  goToRedeem?(routeData: DataForRoute): void;
 }
 
-const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, openModal, imagePath}) => (
+const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, goToRedeem, imagePath}) => (
   <View style={styles.parentContainer}>
     <View style={styles.infoContainer}>
       <Image
@@ -65,7 +65,7 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, open
     <View style={styles.buttonContainer}>
       <BevButton
         buttonText={"Redeem this Beer!"}
-        bevButtonPressed={() => openModal(modalKeys.redeemBevegramModal, {id: id, from: from})}
+        bevButtonPressed={() => goToRedeem({id: id, from: from})}
       />
     </View>
   </View>

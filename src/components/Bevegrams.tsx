@@ -43,16 +43,6 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({bevegramsList, red
       <Text>You have no bevegrams! :(</Text>
     </View>
   }
-    <CenteredModal
-      isVisible={redeemModalIsOpen}
-      closeFromParent={() => closeModal(modalKeys.redeemBevegramModal)}
-    >
-      <View style={{flex: 1}}>
-        <CRedeemBeer
-          cancelPurchaseAction={() => closeModal(modalKeys.redeemBevegramModal)}
-        />
-      </View>
-    </CenteredModal>
   </View>
 )
 

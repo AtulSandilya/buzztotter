@@ -3,14 +3,17 @@ import { connect } from 'react-redux';
 import Bevegram, {BevegramProps} from '../components/Bevegram';
 
 interface DispatchProps {
-  openModal?(inputKey: string, modalData: Object): void;
+  goToRedeem?(routeData: Object): void;
 }
 
 const mapDispatchToProps = (dispatch): DispatchProps  => {
   return {
-    openModal: (inputKey, modalData) => {
-      dispatch({type: 'OPEN_MODAL', modalKey: inputKey, dataForModal: modalData});
-    },
+    goToRedeem: (routeData) => {
+      dispatch({type: 'GO_TO_ROUTE', payload: {
+        route: 'RedeemBeer',
+        routeData: routeData,
+      }})
+    }
   }
 }
 

@@ -1,7 +1,5 @@
 import { connect } from 'react-redux';
 
-import {batchActions} from 'redux-batched-actions';
-
 import RedeemBeer, {RedeemBeerProps} from '../components/RedeemBeer';
 
 import {Location} from '../reducers/locations';
@@ -15,24 +13,29 @@ interface StateProps {
 
 const mapStateToProps = (state): StateProps => {
   return {
-    id: state.modals.redeemBevegramModal.data.id,
-    name: state.modals.redeemBevegramModal.data.from,
-    redeemConfirmed: state.modals.redeemBevegramModal.confirmed,
+    id: state.routes.RedeemBeer.data.id,
+    name: state.routes.RedeemBeer.data.from,
+    redeemConfirmed: state.routes.RedeemBeer.confirmed,
     locations: state.locations,
   }
 }
 
 interface DispatchProps {
   onRedeemClicked?(inputId: string): void;
+  closeRedeem?(): void;
 }
 
 const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
     onRedeemClicked: (inputId) => {
-      dispatch(batchActions([
-        {type: 'REDEEM_BEVEGRAM', bevegramId: inputId},
-        {type: 'CONFIRM_MODAL', modalKey: 'redeemBevegramModal'},
-      ]));
+      dispatch({type: 'REDEEM_BEVEGRAM', bevegramId: inputId});
+      dispatch({type: 'CONFIRM_ROUTE', route: "RedeemBeer"});
+    },
+    closeRedeem: () => {
+      dispatch({type: 'GO_BACK_ROUTE', payload: {
+        route: "RedeemBeer",
+        nextRoute: "MainUi"
+      }});
     }
   }
 }

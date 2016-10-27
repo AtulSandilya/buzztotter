@@ -14,6 +14,7 @@ import MainUi from '../components/MainUi';
 import CLogin from '../containers/CLogin';
 import CPurchaseBeer from '../containers/CPurchaseBeer';
 import CSettings from '../containers/CSettings';
+import CRedeemBeer from '../containers/CRedeemBeer';
 
 interface Style {
   navBarStyle: React.ViewStyle;
@@ -50,6 +51,16 @@ const scenes = (showLogin) => {
           title="Settings"
           component={CSettings}
           backTitle=""
+          hideNavBar={false}
+          navigationBarStyle={styles.navBarStyle}
+          titleStyle={styles.titleStyle}
+          backButtonTextStyle={styles.titleStyle}
+        />
+        <Scene
+          key="RedeemBeer"
+          title="Redeem Beer"
+          component={CRedeemBeer}
+          backTitle="Bevegrams"
           hideNavBar={false}
           navigationBarStyle={styles.navBarStyle}
           titleStyle={styles.titleStyle}
