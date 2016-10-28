@@ -13,14 +13,13 @@ describe('RedeemBeer component', () => {
       <RedeemBeer
         id="1234"
         name="Testy"
-        redeemConfirmed={false}
         locations={defaultLocationsState}
       />
     )
 
-    const titleText = wrapper.find(View).find('TitleText').props("children").title;
-
-    expect(titleText).toEqual("Redeem Beer");
+    const numButtons = wrapper.find(View).find('BevButton').length;
+    // Redeem Beer should have 2 buttons
+    expect(numButtons).toEqual(2);
   })
 })
 
