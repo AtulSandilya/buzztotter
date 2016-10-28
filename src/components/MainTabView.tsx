@@ -4,6 +4,10 @@ import { BackAndroid, Dimensions, Text, TouchableOpacity, View } from 'react-nat
 
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+
+import {isIOS} from '../Utilities';
+
 import {globalColors} from '../components/GlobalStyles';
 
 import CContacts from '../containers/CContacts';
@@ -36,9 +40,17 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
     const buttonBgColor = globalColors.bevSecondary;
     const buttonSeparatorColor = globalColors.bevActiveSecondary;
     const buttonActiveColor = globalColors.bevActiveSecondary;
-    const textSize = 14;
+    const textSize = 12;
     const textColor = "#eeeeee";
     const activeTextColor = "#ffffff";
+    const iconPrefix = isIOS ? "ios-" : "md-";
+    const iconMap = {
+      // Keys must match tabLabel
+      Contacts: iconPrefix + "people",
+      Bevegrams: "ios-beer", // Material design beer looks like trash
+      Map: iconPrefix + "pin",
+      History: iconPrefix + "refresh",
+    }
     // DefaultTabBar -> renderTab is a hack based on the original renderTab method to add separators between the buttons
     return(
       <ScrollableTabView
@@ -63,6 +75,7 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
                     <View
                       style={[{
                         flex: 1,
+                        flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
                       }, page !== this.props.maxScene ? {
@@ -70,6 +83,13 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
                         borderRightColor: buttonSeparatorColor,
                       } : {borderWidth: 0}]}
                     >
+                      <Icon
+                        name={iconMap[name]}
+                        style={{
+                          color: "#ffffff",
+                          fontSize: textSize * 3,
+                        }}
+                      />
                       <Text
                       style={[
                         {
