@@ -1,251 +1,38 @@
 exports[`test renders correctly 1`] = `
-<View
+<ScrollView
   style={
     Object {
       "flex": 1,
-      "padding": 20,
     }
   }>
-  <View>
+  <View
+    style={
+      Object {
+        "height": 64,
+      }
+    } />
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "padding": 20,
+      }
+    }>
     <View
       style={
         Object {
-          "alignItems": "flex-start",
           "borderBottomWidth": 1,
           "borderColor": "#dddddd",
           "flex": 1,
           "flexDirection": "row",
           "marginBottom": 20,
-        }
-      }>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "color": "#8ED0BA",
-            "fontSize": 30,
-            "fontWeight": "300",
-            "paddingBottom": 10,
-          }
-        }>
-        Purchase Beer
-      </Text>
-    </View>
-  </View>
-  <View
-    style={
-      Object {
-        "borderBottomWidth": 1,
-        "borderColor": "#dddddd",
-        "flex": 1,
-        "flexDirection": "row",
-        "marginBottom": 20,
-        "paddingBottom": 10,
-      }
-    }>
-    <View
-      style={
-        Object {
-          "alignItems": "flex-start",
-          "flex": 1,
-        }
-      }>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontSize": 20,
-            "fontWeight": "bold",
-          }
-        }>
-        Receipent:
-      </Text>
-    </View>
-    <View
-      style={
-        Object {
-          "alignItems": "flex-end",
-          "flex": 1,
-          "paddingRight": 10,
-        }
-      }>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontSize": 20,
-          }
-        }>
-        Testy McTest
-      </Text>
-    </View>
-  </View>
-  <View
-    style={
-      Object {
-        "borderBottomWidth": 1,
-        "borderColor": "#dddddd",
-        "flex": 1,
-        "flexDirection": "row",
-        "marginBottom": 20,
-        "paddingBottom": 10,
-      }
-    }>
-    <View
-      style={
-        Object {
-          "alignItems": "flex-start",
-          "flex": 1,
-        }
-      }>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontSize": 20,
-            "fontWeight": "bold",
-          }
-        }>
-        Number of Beers:
-      </Text>
-    </View>
-    <View
-      style={
-        Object {
-          "alignItems": "stretch",
-          "flex": 1,
-          "flexDirection": "row",
-          "justifyContent": "center",
-          "paddingRight": 10,
+          "paddingBottom": 10,
         }
       }>
       <View
         style={
           Object {
-            "alignItems": "flex-end",
-            "flex": 2,
-            "flexDirection": "row",
-            "justifyContent": "flex-end",
-          }
-        }>
-        <View
-          accessibilityComponentType={undefined}
-          accessibilityLabel={undefined}
-          accessibilityTraits={undefined}
-          accessible={true}
-          hitSlop={
-            Object {
-              "bottom": 10,
-              "left": 10,
-              "right": 10,
-              "top": 10,
-            }
-          }
-          onLayout={undefined}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Array [
-              Object {
-                "backgroundColor": "transparent",
-              },
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "alignSelf": "center",
-                  "backgroundColor": "#8ED0BA",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                Object {
-                  "marginRight": 15,
-                },
-              ],
-            ]
-          }
-          testID={undefined}>
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            ellipsizeMode="tail"
-            style={
-              Object {
-                "fontSize": 25,
-                "fontWeight": "bold",
-              }
-            }>
-            +
-          </Text>
-        </View>
-        <View
-          accessibilityComponentType={undefined}
-          accessibilityLabel={undefined}
-          accessibilityTraits={undefined}
-          accessible={true}
-          hitSlop={
-            Object {
-              "bottom": 10,
-              "left": 10,
-              "right": 10,
-              "top": 10,
-            }
-          }
-          onLayout={undefined}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Array [
-              Object {
-                "backgroundColor": "transparent",
-              },
-              Object {
-                "alignItems": "center",
-                "alignSelf": "center",
-                "backgroundColor": "#8ED0BA",
-                "borderRadius": 100,
-                "flex": 1,
-                "flexDirection": "row",
-                "justifyContent": "center",
-              },
-            ]
-          }
-          testID={undefined}>
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            ellipsizeMode="tail"
-            style={
-              Object {
-                "fontSize": 25,
-                "fontWeight": "bold",
-              }
-            }>
-            -
-          </Text>
-        </View>
-      </View>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-end",
+            "alignItems": "flex-start",
             "flex": 1,
           }
         }>
@@ -259,299 +46,543 @@ exports[`test renders correctly 1`] = `
               "fontWeight": "bold",
             }
           }>
-          1
+          Receipent:
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "flex": 1,
+            "paddingRight": 10,
+          }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "fontSize": 20,
+            }
+          }>
+          Testy McTest
         </Text>
       </View>
     </View>
-  </View>
-  <View
-    style={
-      Object {
-        "borderBottomWidth": 1,
-        "borderColor": "#dddddd",
-        "flex": 1,
-        "flexDirection": "row",
-        "marginBottom": 20,
-        "paddingBottom": 10,
-      }
-    }>
     <View
       style={
         Object {
-          "alignItems": "flex-start",
+          "borderBottomWidth": 1,
+          "borderColor": "#dddddd",
           "flex": 1,
+          "flexDirection": "row",
+          "marginBottom": 20,
+          "paddingBottom": 10,
         }
-      }>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontSize": 20,
-            "fontWeight": "bold",
-          }
-        }>
-        Cost:
-      </Text>
-    </View>
-    <View
-      style={
-        Array [
-          Object {
-            "alignItems": "flex-end",
-            "flex": 1,
-            "paddingRight": 10,
-          },
-          Object {
-            "flex": 1,
-          },
-        ]
-      }>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontSize": 20,
-          }
-        }>
-        $ 
-        6.00
-      </Text>
-    </View>
-  </View>
-  <View
-    style={
-      Object {
-        "borderBottomWidth": 1,
-        "borderColor": "#dddddd",
-        "flex": 1,
-        "flexDirection": "row",
-        "marginBottom": 20,
-        "paddingBottom": 10,
-      }
-    }>
-    <View
-      style={
-        Object {
-          "alignItems": "flex-start",
-          "flex": 1,
-        }
-      }>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontSize": 20,
-            "fontWeight": "bold",
-          }
-        }>
-        Card Number:
-      </Text>
-    </View>
-    <View
-      style={
-        Array [
-          Object {
-            "alignItems": "flex-end",
-            "flex": 1,
-            "paddingRight": 10,
-          },
-          Object {
-            "flexDirection": "row",
-          },
-        ]
-      }>
-      <TextInput
-        keyboardType="numeric"
-        maxLength={4}
-        onChangeText={[Function]}
-        onSubmitEditing={[Function]}
-        placeholder="1234"
-        placeholderTextColor="#cccccc"
-        returnKeyType="next"
-        style={
-          Object {
-            "height": 45,
-            "textAlign": "center",
-            "width": 40,
-          }
-        } />
-      <TextInput
-        keyboardType="numeric"
-        maxLength={4}
-        onChangeText={[Function]}
-        onSubmitEditing={[Function]}
-        placeholder="5678"
-        placeholderTextColor="#cccccc"
-        returnKeyType="next"
-        style={
-          Object {
-            "height": 45,
-            "textAlign": "center",
-            "width": 40,
-          }
-        } />
-      <TextInput
-        keyboardType="numeric"
-        maxLength={4}
-        onChangeText={[Function]}
-        onSubmitEditing={[Function]}
-        placeholder="1234"
-        placeholderTextColor="#cccccc"
-        returnKeyType="next"
-        style={
-          Object {
-            "height": 45,
-            "textAlign": "center",
-            "width": 40,
-          }
-        } />
-      <TextInput
-        keyboardType="numeric"
-        maxLength={4}
-        onChangeText={[Function]}
-        onSubmitEditing={[Function]}
-        placeholder="5678"
-        placeholderTextColor="#cccccc"
-        returnKeyType="next"
-        style={
-          Object {
-            "height": 45,
-            "textAlign": "center",
-            "width": 40,
-          }
-        } />
-    </View>
-  </View>
-  <View
-    style={
-      Object {
-        "borderBottomWidth": 1,
-        "borderColor": "#dddddd",
-        "flex": 1,
-        "flexDirection": "row",
-        "marginBottom": 20,
-        "paddingBottom": 10,
-      }
-    }>
-    <View
-      style={
-        Object {
-          "alignItems": "flex-start",
-          "flex": 1,
-        }
-      }>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontSize": 20,
-            "fontWeight": "bold",
-          }
-        }>
-        Exp Date:
-      </Text>
-    </View>
-    <View
-      style={
-        Array [
-          Object {
-            "alignItems": "flex-end",
-            "flex": 1,
-            "paddingRight": 10,
-          },
-          Object {
-            "alignItems": "flex-end",
-            "flex": 1,
-            "flexDirection": "row",
-            "justifyContent": "flex-end",
-          },
-        ]
       }>
       <View
         style={
           Object {
-            "flex": -1,
-            "flexDirection": "row",
+            "alignItems": "flex-start",
+            "flex": 1,
           }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "fontSize": 20,
+              "fontWeight": "bold",
+            }
+          }>
+          Number of Beers:
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "stretch",
+            "flex": 1,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "paddingRight": 10,
+          }
+        }>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-end",
+              "flex": 2,
+              "flexDirection": "row",
+              "justifyContent": "flex-end",
+            }
+          }>
+          <View
+            accessibilityComponentType={undefined}
+            accessibilityLabel={undefined}
+            accessibilityTraits={undefined}
+            accessible={true}
+            hitSlop={
+              Object {
+                "bottom": 10,
+                "left": 10,
+                "right": 10,
+                "top": 10,
+              }
+            }
+            onLayout={undefined}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "transparent",
+                },
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "alignSelf": "center",
+                    "backgroundColor": "#8ED0BA",
+                    "borderRadius": 100,
+                    "flex": 1,
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                  Object {
+                    "marginRight": 15,
+                  },
+                ],
+              ]
+            }
+            testID={undefined}>
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "fontSize": 25,
+                  "fontWeight": "bold",
+                }
+              }>
+              +
+            </Text>
+          </View>
+          <View
+            accessibilityComponentType={undefined}
+            accessibilityLabel={undefined}
+            accessibilityTraits={undefined}
+            accessible={true}
+            hitSlop={
+              Object {
+                "bottom": 10,
+                "left": 10,
+                "right": 10,
+                "top": 10,
+              }
+            }
+            onLayout={undefined}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "transparent",
+                },
+                Object {
+                  "alignItems": "center",
+                  "alignSelf": "center",
+                  "backgroundColor": "#8ED0BA",
+                  "borderRadius": 100,
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+              ]
+            }
+            testID={undefined}>
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "fontSize": 25,
+                  "fontWeight": "bold",
+                }
+              }>
+              -
+            </Text>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-end",
+              "flex": 1,
+            }
+          }>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "fontSize": 20,
+                "fontWeight": "bold",
+              }
+            }>
+            1
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "borderBottomWidth": 1,
+          "borderColor": "#dddddd",
+          "flex": 1,
+          "flexDirection": "row",
+          "marginBottom": 20,
+          "paddingBottom": 10,
+        }
+      }>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "flex": 1,
+          }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "fontSize": 20,
+              "fontWeight": "bold",
+            }
+          }>
+          Cost:
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "flex-end",
+              "flex": 1,
+              "paddingRight": 10,
+            },
+            Object {
+              "flex": 1,
+            },
+          ]
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "fontSize": 20,
+            }
+          }>
+          $ 
+          6.00
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "borderBottomWidth": 1,
+          "borderColor": "#dddddd",
+          "flex": 1,
+          "flexDirection": "row",
+          "marginBottom": 20,
+          "paddingBottom": 10,
+        }
+      }>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "flex": 1,
+          }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "fontSize": 20,
+              "fontWeight": "bold",
+            }
+          }>
+          Card Number:
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "flex-end",
+              "flex": 1,
+              "paddingRight": 10,
+            },
+            Object {
+              "flexDirection": "row",
+            },
+          ]
         }>
         <TextInput
           keyboardType="numeric"
-          maxLength={2}
+          maxLength={4}
           onChangeText={[Function]}
           onSubmitEditing={[Function]}
-          placeholder="01"
+          placeholder="1234"
           placeholderTextColor="#cccccc"
           returnKeyType="next"
           style={
             Object {
               "height": 45,
               "textAlign": "center",
-              "width": 30,
+              "width": 40,
             }
-          } />
-        <View
-          style={
-            Array [
-              Object {
-                "backgroundColor": "#999999",
-                "marginLeft": 10,
-                "marginRight": 5,
-                "marginVertical": 8,
-                "width": 2,
-              },
-              Object {
-                "transform": Array [
-                  Object {
-                    "rotate": "15deg",
-                  },
-                ],
-              },
-            ]
           } />
         <TextInput
           keyboardType="numeric"
-          maxLength={2}
+          maxLength={4}
           onChangeText={[Function]}
           onSubmitEditing={[Function]}
-          placeholder="20"
+          placeholder="5678"
           placeholderTextColor="#cccccc"
           returnKeyType="next"
           style={
             Object {
               "height": 45,
               "textAlign": "center",
-              "width": 30,
+              "width": 40,
+            }
+          } />
+        <TextInput
+          keyboardType="numeric"
+          maxLength={4}
+          onChangeText={[Function]}
+          onSubmitEditing={[Function]}
+          placeholder="1234"
+          placeholderTextColor="#cccccc"
+          returnKeyType="next"
+          style={
+            Object {
+              "height": 45,
+              "textAlign": "center",
+              "width": 40,
+            }
+          } />
+        <TextInput
+          keyboardType="numeric"
+          maxLength={4}
+          onChangeText={[Function]}
+          onSubmitEditing={[Function]}
+          placeholder="5678"
+          placeholderTextColor="#cccccc"
+          returnKeyType="next"
+          style={
+            Object {
+              "height": 45,
+              "textAlign": "center",
+              "width": 40,
             }
           } />
       </View>
     </View>
-  </View>
-  <View
-    style={
-      Object {
-        "borderBottomWidth": 1,
-        "borderColor": "#dddddd",
-        "flex": 1,
-        "flexDirection": "row",
-        "marginBottom": 20,
-        "paddingBottom": 10,
-      }
-    }>
     <View
       style={
         Object {
-          "alignItems": "flex-start",
+          "borderBottomWidth": 1,
+          "borderColor": "#dddddd",
           "flex": 1,
+          "flexDirection": "row",
+          "marginBottom": 20,
+          "paddingBottom": 10,
         }
       }>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "flex": 1,
+          }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "fontSize": 20,
+              "fontWeight": "bold",
+            }
+          }>
+          Exp Date:
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "flex-end",
+              "flex": 1,
+              "paddingRight": 10,
+            },
+            Object {
+              "alignItems": "flex-end",
+              "flex": 1,
+              "flexDirection": "row",
+              "justifyContent": "flex-end",
+            },
+          ]
+        }>
+        <View
+          style={
+            Object {
+              "flex": -1,
+              "flexDirection": "row",
+            }
+          }>
+          <TextInput
+            keyboardType="numeric"
+            maxLength={2}
+            onChangeText={[Function]}
+            onSubmitEditing={[Function]}
+            placeholder="01"
+            placeholderTextColor="#cccccc"
+            returnKeyType="next"
+            style={
+              Object {
+                "height": 45,
+                "textAlign": "center",
+                "width": 30,
+              }
+            } />
+          <View
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "#999999",
+                  "marginLeft": 10,
+                  "marginRight": 5,
+                  "marginVertical": 8,
+                  "width": 2,
+                },
+                Object {
+                  "transform": Array [
+                    Object {
+                      "rotate": "15deg",
+                    },
+                  ],
+                },
+              ]
+            } />
+          <TextInput
+            keyboardType="numeric"
+            maxLength={2}
+            onChangeText={[Function]}
+            onSubmitEditing={[Function]}
+            placeholder="20"
+            placeholderTextColor="#cccccc"
+            returnKeyType="next"
+            style={
+              Object {
+                "height": 45,
+                "textAlign": "center",
+                "width": 30,
+              }
+            } />
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "borderBottomWidth": 1,
+          "borderColor": "#dddddd",
+          "flex": 1,
+          "flexDirection": "row",
+          "marginBottom": 20,
+          "paddingBottom": 10,
+        }
+      }>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "flex": 1,
+          }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "fontSize": 20,
+              "fontWeight": "bold",
+            }
+          }>
+          CVC:
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "flex-end",
+              "flex": 1,
+              "paddingRight": 10,
+            },
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+              "flexDirection": "row",
+              "justifyContent": "flex-end",
+            },
+          ]
+        }>
+        <TextInput
+          keyboardType="numeric"
+          maxLength={3}
+          onChangeText={[Function]}
+          onSubmitEditing={[Function]}
+          placeholder="123"
+          placeholderTextColor="#cccccc"
+          returnKeyType="done"
+          style={
+            Object {
+              "height": 45,
+              "textAlign": "center",
+              "width": 45,
+            }
+          } />
+      </View>
+    </View>
+    <View>
       <Text
         accessible={true}
         allowFontScaling={true}
@@ -562,207 +593,173 @@ exports[`test renders correctly 1`] = `
             "fontWeight": "bold",
           }
         }>
-        CVC:
+        Message:
       </Text>
     </View>
-    <View
-      style={
-        Array [
-          Object {
-            "alignItems": "flex-end",
-            "flex": 1,
-            "paddingRight": 10,
-          },
-          Object {
-            "alignItems": "center",
-            "flex": 1,
-            "flexDirection": "row",
-            "justifyContent": "flex-end",
-          },
-        ]
-      }>
+    <View>
       <TextInput
-        keyboardType="numeric"
-        maxLength={3}
-        onChangeText={[Function]}
-        onSubmitEditing={[Function]}
-        placeholder="123"
+        placeholder="Happy Birthday! Have a cold one on me!"
         placeholderTextColor="#cccccc"
-        returnKeyType="done"
         style={
           Object {
-            "height": 45,
-            "textAlign": "center",
-            "width": 45,
+            "flex": 1,
           }
         } />
     </View>
-  </View>
-  <View>
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
+    <View
       style={
         Object {
-          "fontSize": 20,
-          "fontWeight": "bold",
+          "flexDirection": "row",
+          "paddingTop": 20,
         }
       }>
-      Message:
-    </Text>
-  </View>
-  <View>
-    <TextInput
-      placeholder="Happy Birthday! Have a cold one on me!"
-      placeholderTextColor="#cccccc"
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "flex": 1,
+          }
+        }>
+        <View
+          style={
+            Object {
+              "flex": 1,
+              "flexDirection": "row-reverse",
+            }
+          }>
+          <View
+            accessibilityComponentType={undefined}
+            accessibilityLabel={undefined}
+            accessibilityTraits={undefined}
+            accessible={true}
+            hitSlop={undefined}
+            onLayout={undefined}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "transparent",
+                },
+                undefined,
+              ]
+            }
+            testID={undefined}>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#8B5E3C",
+                  "borderColor": "#000000",
+                  "borderRadius": 10,
+                  "flex": -1,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "margin": 15,
+                  "padding": 15,
+                }
+              }>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Array [
+                    Object {
+                      "color": "#ffffff",
+                    },
+                    Object {
+                      "fontSize": 20,
+                    },
+                  ]
+                }>
+                Cancel
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "flex": 1,
+          }
+        }>
+        <View
+          style={
+            Object {
+              "flex": 1,
+              "flexDirection": "row-reverse",
+            }
+          }>
+          <View
+            accessibilityComponentType={undefined}
+            accessibilityLabel={undefined}
+            accessibilityTraits={undefined}
+            accessible={true}
+            hitSlop={undefined}
+            onLayout={undefined}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "transparent",
+                },
+                undefined,
+              ]
+            }
+            testID={undefined}>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#8B5E3C",
+                  "borderColor": "#000000",
+                  "borderRadius": 10,
+                  "flex": -1,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "margin": 15,
+                  "padding": 15,
+                }
+              }>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Array [
+                    Object {
+                      "color": "#ffffff",
+                    },
+                    Object {
+                      "fontSize": 20,
+                    },
+                  ]
+                }>
+                Confirm Purchase
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
       style={
         Object {
-          "flex": 1,
+          "height": 20,
         }
       } />
   </View>
-  <View
-    style={
-      Object {
-        "flexDirection": "row",
-        "paddingTop": 20,
-      }
-    }>
-    <View
-      style={
-        Object {
-          "alignItems": "flex-start",
-          "flex": 1,
-        }
-      }>
-      <View
-        style={
-          Object {
-            "flex": 1,
-            "flexDirection": "row-reverse",
-          }
-        }>
-        <View
-          accessibilityComponentType={undefined}
-          accessibilityLabel={undefined}
-          accessibilityTraits={undefined}
-          accessible={true}
-          hitSlop={undefined}
-          onLayout={undefined}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Array [
-              Object {
-                "backgroundColor": "transparent",
-              },
-              undefined,
-            ]
-          }
-          testID={undefined}>
-          <View
-            style={
-              Object {
-                "backgroundColor": "#8B5E3C",
-                "borderColor": "#000000",
-                "borderRadius": 10,
-                "flex": -1,
-                "margin": 15,
-                "padding": 15,
-              }
-            }>
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
-              style={
-                Array [
-                  Object {
-                    "color": "#ffffff",
-                  },
-                  Object {
-                    "fontSize": 20,
-                  },
-                ]
-              }>
-              Cancel
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
-    <View
-      style={
-        Object {
-          "alignItems": "flex-end",
-          "flex": 1,
-        }
-      }>
-      <View
-        style={
-          Object {
-            "flex": 1,
-            "flexDirection": "row-reverse",
-          }
-        }>
-        <View
-          accessibilityComponentType={undefined}
-          accessibilityLabel={undefined}
-          accessibilityTraits={undefined}
-          accessible={true}
-          hitSlop={undefined}
-          onLayout={undefined}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Array [
-              Object {
-                "backgroundColor": "transparent",
-              },
-              undefined,
-            ]
-          }
-          testID={undefined}>
-          <View
-            style={
-              Object {
-                "backgroundColor": "#8B5E3C",
-                "borderColor": "#000000",
-                "borderRadius": 10,
-                "flex": -1,
-                "margin": 15,
-                "padding": 15,
-              }
-            }>
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
-              style={
-                Array [
-                  Object {
-                    "color": "#ffffff",
-                  },
-                  Object {
-                    "fontSize": 20,
-                  },
-                ]
-              }>
-              Confirm Purchase
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
-  </View>
-</View>
+</ScrollView>
 `;

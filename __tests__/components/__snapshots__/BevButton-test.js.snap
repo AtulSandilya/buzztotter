@@ -35,10 +35,13 @@ exports[`test renders correctly 1`] = `
     <View
       style={
         Object {
+          "alignItems": "center",
           "backgroundColor": "#8B5E3C",
           "borderColor": "#000000",
           "borderRadius": 10,
           "flex": -1,
+          "flexDirection": "row",
+          "justifyContent": "center",
           "margin": 15,
           "padding": 15,
         }
@@ -97,10 +100,13 @@ exports[`test renders correctly with button size 1`] = `
     <View
       style={
         Object {
+          "alignItems": "center",
           "backgroundColor": "#8B5E3C",
           "borderColor": "#000000",
           "borderRadius": 10,
           "flex": -1,
+          "flexDirection": "row",
+          "justifyContent": "center",
           "margin": 15,
           "padding": 15,
         }

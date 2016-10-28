@@ -94,10 +94,13 @@ exports[`test renders correctly 1`] = `
         <View
           style={
             Object {
+              "alignItems": "center",
               "backgroundColor": "#8B5E3C",
               "borderColor": "#000000",
               "borderRadius": 10,
               "flex": -1,
+              "flexDirection": "row",
+              "justifyContent": "center",
               "margin": 15,
               "padding": 15,
             }
@@ -117,6 +120,35 @@ exports[`test renders correctly 1`] = `
               ]
             }>
             Redeem this Beer!
+          </Text>
+          <Text
+            accessible={true}
+            allowFontScaling={false}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "color": undefined,
+                  "fontSize": 12,
+                },
+                Array [
+                  Object {
+                    "color": "#ffffff",
+                  },
+                  Object {
+                    "fontSize": 24,
+                    "paddingLeft": 10,
+                    "paddingVertical": -3,
+                  },
+                ],
+                Object {
+                  "fontFamily": "Ionicons",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+              ]
+            }>
+            
           </Text>
         </View>
       </View>

@@ -22,28 +22,79 @@ exports[`Facebook App Invite Button renders correctly 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "#3b5998",
-        "borderRadius": 3,
-        "flex": -1,
-        "justifyContent": "center",
-        "opacity": 1,
-      }
+      Array [
+        Object {
+          "backgroundColor": "transparent",
+        },
+        Array [
+          Object {
+            "overflow": "hidden",
+          },
+          Object {
+            "backgroundColor": "#3b5988",
+            "borderRadius": 5,
+          },
+        ],
+      ]
     }
     testID={undefined}>
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
+    <View
       style={
-        Object {
-          "color": "#ffffff",
-          "padding": 10,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+            "padding": 8,
+          },
+          Object {
+            "backgroundColor": "#3b5988",
+            "borderRadius": 5,
+          },
+          undefined,
+        ]
       }>
-      Invite Friends
-    </Text>
+      <Text
+        accessible={true}
+        allowFontScaling={false}
+        ellipsizeMode="tail"
+        onPress={[Function]}
+        style={
+          Array [
+            Object {
+              "color": "white",
+              "fontSize": 20,
+            },
+            Object {
+              "marginRight": 10,
+            },
+            Object {
+              "fontFamily": "Ionicons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+          ]
+        }>
+        
+      </Text>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "fontWeight": "600",
+            },
+            Object {
+              "color": "white",
+            },
+          ]
+        }>
+        Invite Friends
+      </Text>
+    </View>
   </View>
 </View>
 `;
