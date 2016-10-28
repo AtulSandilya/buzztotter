@@ -4,6 +4,8 @@ import {Text, TouchableOpacity, View, } from 'react-native';
 
 import { AppInviteDialog } from 'react-native-fbsdk';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+
 const FacebookAppInviteButton: React.StatelessComponent<{}> = () => {
   // TODO: Link this to the actual website
   const appLinkUrl = "https://fb.me/2145387155685498";
@@ -17,14 +19,9 @@ const FacebookAppInviteButton: React.StatelessComponent<{}> = () => {
         marginTop: 15,
       }}
     >
-      <TouchableOpacity
-        style={{
-          flex: -1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#3b5998',
-          borderRadius: 3,
-        }}
+      <Icon.Button
+        name="logo-facebook"
+        backgroundColor="#3b5988"
         onPress={() => {
           AppInviteDialog.show({
             applinkUrl: appLinkUrl,
@@ -34,15 +31,8 @@ const FacebookAppInviteButton: React.StatelessComponent<{}> = () => {
           })
         }}
       >
-        <Text
-          style={{
-            color: '#ffffff',
-            padding: 10,
-          }}
-        >
-          Invite Friends
-        </Text>
-      </TouchableOpacity>
+        Invite Friends
+      </Icon.Button>
     </View>
   )
 }

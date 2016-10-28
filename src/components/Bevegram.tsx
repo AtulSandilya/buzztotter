@@ -66,6 +66,7 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, goTo
       <BevButton
         buttonText={"Redeem this Beer!"}
         bevButtonPressed={() => goToRedeem({id: id, from: from})}
+        rightIcon={true}
       />
     </View>
   </View>

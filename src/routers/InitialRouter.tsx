@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component, PropTypes } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -9,6 +9,8 @@ import { Actions, Router, Scene } from 'react-native-router-flux';
 import store from '../configureStore';
 
 import {globalColors} from '../components/GlobalStyles';
+
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import MainUi from '../components/MainUi';
 import CLogin from '../containers/CLogin';
@@ -30,6 +32,45 @@ const styles = StyleSheet.create<Style>({
   },
 })
 
+const backIcon = (text) => {
+  let hitSlop = 10;
+  return (
+    <TouchableOpacity
+      onPress={Actions.pop}
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: 115,
+      }}
+      hitSlop={{
+        top: hitSlop,
+        right: hitSlop,
+        bottom: hitSlop,
+        left: hitSlop,
+      }}
+    >
+      <Icon
+        name="ios-arrow-back"
+        style={{
+          color: "#ffffff",
+          fontSize: 32,
+          paddingRight: 10
+        }}
+      />
+      <Text style={{
+        fontSize: 16,
+        color: "#ffffff",
+        paddingRight: 15,
+        overflow: "visible",
+      }}
+      >
+        {text}
+      </Text>
+    </TouchableOpacity>
+  )
+}
+
 const scenes = (showLogin) => {
   return (
     Actions.create(
@@ -45,6 +86,9 @@ const scenes = (showLogin) => {
           navigationBarStyle={styles.navBarStyle}
           titleStyle={styles.titleStyle}
           backButtonTextStyle={styles.titleStyle}
+          renderBackButton={(input) => {
+            return backIcon(input.backTitle);
+          }}
         />
         <Scene
           key="Settings"
@@ -55,6 +99,9 @@ const scenes = (showLogin) => {
           navigationBarStyle={styles.navBarStyle}
           titleStyle={styles.titleStyle}
           backButtonTextStyle={styles.titleStyle}
+          renderBackButton={(input) => {
+            return backIcon(input.backTitle);
+          }}
         />
         <Scene
           key="RedeemBeer"
@@ -65,6 +112,9 @@ const scenes = (showLogin) => {
           navigationBarStyle={styles.navBarStyle}
           titleStyle={styles.titleStyle}
           backButtonTextStyle={styles.titleStyle}
+          renderBackButton={(input) => {
+            return backIcon(input.backTitle);
+          }}
         />
       </Scene>
     )

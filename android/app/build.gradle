@@ -148,6 +148,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
     compile 'com.android.support:support-annotations:23.0.1'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile project(':react-native-fbsdk')
