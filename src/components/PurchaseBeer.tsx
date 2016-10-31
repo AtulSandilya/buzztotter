@@ -154,7 +154,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
             <View style={styles.purchaseLineLeft}>
               <Text style={styles.purchaseLineTextTitle}>Number of Beers:</Text>
             </View>
-            <View style={styles.purchaseLineSliderContainer}>
+            <View style={styles.numBeersContainer}>
               <View style={styles.numBeersButtonContainer}>
                 <TouchableHighlight
                   onPress={() => this.increaseNumDrinks()}
@@ -554,7 +554,7 @@ interface Style {
   purchaseLineText: React.TextStyle;
   purchaseLineLeft: React.ViewStyle;
   purchaseLineRight: React.ViewStyle;
-  purchaseLineSliderContainer: React.ViewStyle;
+  numBeersContainer: React.ViewStyle;
   numBeersButtonContainer: React.ViewStyle;
   numBeersButton: React.ViewStyle;
   numBeersButtonText: React.TextStyle;
@@ -593,7 +593,7 @@ const styles = StyleSheet.create<Style>({
     alignItems: 'flex-end',
     paddingRight: 10,
   },
-  purchaseLineSliderContainer: {
+  numBeersContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'stretch',
