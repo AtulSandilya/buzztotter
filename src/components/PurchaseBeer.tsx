@@ -10,7 +10,7 @@ import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
 import TitleText from './TitleText';
 import BevButton from './BevButton';
 
-import {globalColors} from './GlobalStyles';
+import {globalColors, globalStyles} from './GlobalStyles';
 
 interface CardData {
   cardNumber: string;
@@ -141,18 +141,18 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
   renderPurchaseOptions(){
     return(
       <RouteWithNavBarWrapper>
-        <View style={styles.purchaseContainer}>
-          <View style={styles.purchaseLine}>
-            <View style={styles.purchaseLineLeft}>
-              <Text style={styles.purchaseLineTextTitle}>Receipent:</Text>
+        <View style={globalStyles.bevContainer}>
+          <View style={globalStyles.bevLine}>
+            <View style={globalStyles.bevLineLeft}>
+              <Text style={globalStyles.bevLineTextTitle}>Receipent:</Text>
             </View>
-            <View style={styles.purchaseLineRight}>
-              <Text style={styles.purchaseLineText}>{this.props.fullName}</Text>
+            <View style={globalStyles.bevLineRight}>
+              <Text style={globalStyles.bevLineText}>{this.props.fullName}</Text>
             </View>
           </View>
-          <View style={styles.purchaseLine}>
-            <View style={styles.purchaseLineLeft}>
-              <Text style={styles.purchaseLineTextTitle}>Number of Beers:</Text>
+          <View style={globalStyles.bevLine}>
+            <View style={globalStyles.bevLineLeft}>
+              <Text style={globalStyles.bevLineTextTitle}>Number of Beers:</Text>
             </View>
             <View style={styles.numBeersContainer}>
               <View style={styles.numBeersButtonContainer}>
@@ -170,23 +170,23 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
                   </TouchableHighlight>
               </View>
               <View style={{flex: 1, alignItems: 'flex-end'}}>
-                <Text style={styles.purchaseLineTextTitle}>{this.state.numDrinks}</Text>
+                <Text style={globalStyles.bevLineTextTitle}>{this.state.numDrinks}</Text>
               </View>
             </View>
           </View>
-          <View style={styles.purchaseLine}>
-            <View style={styles.purchaseLineLeft}>
-              <Text style={styles.purchaseLineTextTitle}>Cost:</Text>
+          <View style={globalStyles.bevLine}>
+            <View style={globalStyles.bevLineLeft}>
+              <Text style={globalStyles.bevLineTextTitle}>Cost:</Text>
             </View>
-            <View style={[styles.purchaseLineRight, {flex: 1}]}>
-              <Text style={styles.purchaseLineText}>$ {(this.props.purchase.pricePerDrink * this.state.numDrinks).toFixed(2)}</Text>
+            <View style={[globalStyles.bevLineRight, {flex: 1}]}>
+              <Text style={globalStyles.bevLineText}>$ {(this.props.purchase.pricePerDrink * this.state.numDrinks).toFixed(2)}</Text>
             </View>
           </View>
-          <View style={styles.purchaseLine} ref="test">
-            <View style={styles.purchaseLineLeft}>
-              <Text style={styles.purchaseLineTextTitle}>Card Number:</Text>
+          <View style={globalStyles.bevLine} ref="test">
+            <View style={globalStyles.bevLineLeft}>
+              <Text style={globalStyles.bevLineTextTitle}>Card Number:</Text>
             </View>
-            <View style={[styles.purchaseLineRight, {
+            <View style={[globalStyles.bevLineRight, {
               flexDirection: 'row'
             }]}>
               <CreditCardInput
@@ -232,11 +232,11 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
               />
             </View>
           </View>
-          <View style={styles.purchaseLine}>
-            <View style={styles.purchaseLineLeft}>
-              <Text style={styles.purchaseLineTextTitle}>Exp Date:</Text>
+          <View style={globalStyles.bevLine}>
+            <View style={globalStyles.bevLineLeft}>
+              <Text style={globalStyles.bevLineTextTitle}>Exp Date:</Text>
             </View>
-            <View style={[styles.purchaseLineRight,
+            <View style={[globalStyles.bevLineRight,
               {
                 flex: 1,
                 flexDirection: 'row',
@@ -280,11 +280,11 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
               </View>
             </View>
           </View>
-          <View style={styles.purchaseLine}>
-            <View style={styles.purchaseLineLeft}>
-              <Text style={styles.purchaseLineTextTitle}>CVC:</Text>
+          <View style={globalStyles.bevLine}>
+            <View style={globalStyles.bevLineLeft}>
+              <Text style={globalStyles.bevLineTextTitle}>CVC:</Text>
             </View>
-            <View style={[styles.purchaseLineRight, {
+            <View style={[globalStyles.bevLineRight, {
               flex: 1,
               alignItems: 'center',
               justifyContent: 'flex-end',
@@ -303,7 +303,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
             </View>
           </View>
           <View>
-            <Text style={styles.purchaseLineTextTitle}>Message:</Text>
+            <Text style={globalStyles.bevLineTextTitle}>Message:</Text>
           </View>
           <View>
             <TextInput
@@ -336,8 +336,8 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
 
   renderPurchaseAttempting(){
     return (
-      <View style={styles.purchaseContainer}>
-        <View style={styles.purchaseLine}>
+      <View style={globalStyles.bevContainer}>
+        <View style={globalStyles.bevLine}>
           <Text>
             Sending {this.state.numDrinks} {this.state.numDrinks > 1 ? "Beers" : "Beer"} to {this.props.firstName}!
           </Text>
@@ -347,11 +347,11 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
           input={this.props.purchase.creditCardVerified}
           allFailed={this.props.purchase.failed}
         />
-        <View style={styles.purchaseLine}>
-          <View style={styles.purchaseLineLeft}>
-            <Text style={styles.purchaseLineTextTitle}>Card Used:</Text>
+        <View style={globalStyles.bevLine}>
+          <View style={globalStyles.bevLineLeft}>
+            <Text style={globalStyles.bevLineTextTitle}>Card Used:</Text>
           </View>
-          <View style={styles.purchaseLineRight}>
+          <View style={globalStyles.bevLineRight}>
             {this.props.purchase.creditCardVerified ?
               <Text>
                 {this.props.purchase.data.brand} ... {this.props.purchase.data.last4}
@@ -371,7 +371,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
         />
         {this.props.purchase.failed ?
         <View>
-          <View style={[styles.purchaseLine, {
+          <View style={[globalStyles.bevLine, {
             flex: -1,
           }]}>
             <Text style={{fontWeight: 'bold', paddingBottom: 10, color: 'red'}}>Unable to complete purchase:</Text>
@@ -411,7 +411,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
     if(this.props.purchase.confirmed){
       return (
       <View>
-        <View style={styles.purchaseLine}>
+        <View style={globalStyles.bevLine}>
           <View style={{flex: 1}}>
             <Text
               style={{
@@ -516,13 +516,13 @@ const StatusLine = ({title, input, allFailed, waiting = false}) => {
   }
 
   return (
-    <View style={styles.purchaseLine}>
-      <View style={styles.purchaseLineLeft}>
-        <Text style={styles.purchaseLineTextTitle}>
+    <View style={globalStyles.bevLine}>
+      <View style={globalStyles.bevLineLeft}>
+        <Text style={globalStyles.bevLineTextTitle}>
           {title}:
         </Text>
       </View>
-      <View style={styles.purchaseLineRight}>
+      <View style={globalStyles.bevLineRight}>
         <View
           style={{
             flex: 1,
@@ -548,12 +548,6 @@ const StatusLine = ({title, input, allFailed, waiting = false}) => {
 }
 
 interface Style {
-  purchaseContainer: React.ViewStyle;
-  purchaseLine: React.ViewStyle;
-  purchaseLineTextTitle: React.TextStyle;
-  purchaseLineText: React.TextStyle;
-  purchaseLineLeft: React.ViewStyle;
-  purchaseLineRight: React.ViewStyle;
   numBeersContainer: React.ViewStyle;
   numBeersButtonContainer: React.ViewStyle;
   numBeersButton: React.ViewStyle;
@@ -564,34 +558,6 @@ interface Style {
 const styles = StyleSheet.create<Style>({
   rotateSlash: {
     transform: [{rotate: '15deg'}],
-  },
-  purchaseContainer: {
-    flex: 1,
-    padding: 20,
-  },
-  purchaseLine: {
-    flex: 1,
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderColor: globalColors.subtleSeparator,
-    paddingBottom: 10,
-    marginBottom: 20,
-  },
-  purchaseLineTextTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  purchaseLineText: {
-    fontSize: 20,
-  },
-  purchaseLineLeft: {
-    flex: 1,
-    alignItems: 'flex-start',
-  },
-  purchaseLineRight: {
-    flex: 1,
-    alignItems: 'flex-end',
-    paddingRight: 10,
   },
   numBeersContainer: {
     flex: 1,

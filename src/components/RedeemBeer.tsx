@@ -10,79 +10,7 @@ import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
 import TitleText from './TitleText';
 import BevButton from './BevButton';
 
-import {globalColors} from './GlobalStyles';
-
-interface Styles {
-  purchaseContainer: React.ViewStyle;
-  purchaseLine: React.ViewStyle;
-  purchaseLineTextTitle: React.TextStyle;
-  purchaseLineText: React.TextStyle;
-  purchaseLineLeft: React.ViewStyle;
-  purchaseLineRight: React.ViewStyle;
-  purchaseLineSliderContainer: React.ViewStyle;
-  numBeersButtonContainer: React.ViewStyle;
-  numBeersButton: React.ViewStyle;
-  numBeersButtonText: React.TextStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
-  purchaseContainer: {
-    flex: 1,
-    padding: 20,
-  },
-  purchaseLine: {
-    flex: 1,
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderColor: globalColors.subtleSeparator,
-    paddingBottom: 5,
-    marginBottom: 10,
-  },
-  purchaseLineTextTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  purchaseLineText: {
-    fontSize: 20,
-  },
-  purchaseLineLeft: {
-    flex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-  },
-  purchaseLineRight: {
-    flex: 1,
-    alignItems: 'flex-end',
-    paddingRight: 10,
-    justifyContent: 'center',
-  },
-  purchaseLineSliderContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    paddingRight: 10,
-  },
-  numBeersButtonContainer: {
-    flex: 2,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-  },
-  numBeersButton: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: globalColors.bevPrimary,
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 100,
-  },
-  numBeersButtonText: {
-    fontSize: 25,
-    fontWeight: 'bold',
-  },
-});
+import {globalColors, globalStyles} from './GlobalStyles';
 
 export interface RedeemBeerProps {
   id?: string;
@@ -143,18 +71,18 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
   render() {
     return(
       <RouteWithNavBarWrapper>
-        <View style={styles.purchaseContainer}>
-          <View style={styles.purchaseLine}>
-            <View style={styles.purchaseLineLeft}>
-              <Text style={styles.purchaseLineTextTitle}>From:</Text>
+        <View style={globalStyles.bevContainer}>
+          <View style={globalStyles.bevLine}>
+            <View style={globalStyles.bevLineLeft}>
+              <Text style={globalStyles.bevLineTextTitle}>From:</Text>
             </View>
-            <View style={styles.purchaseLineRight}>
-              <Text style={styles.purchaseLineText}>{this.props.name}</Text>
+            <View style={globalStyles.bevLineRight}>
+              <Text style={globalStyles.bevLineText}>{this.props.name}</Text>
             </View>
           </View>
-          <View style={styles.purchaseLine}>
-            <View style={styles.purchaseLineLeft}>
-              <Text style={styles.purchaseLineTextTitle}>Your City:</Text>
+          <View style={globalStyles.bevLine}>
+            <View style={globalStyles.bevLineLeft}>
+              <Text style={globalStyles.bevLineTextTitle}>Your City:</Text>
             </View>
             <View style={{flex: 1, justifyContent: 'center'}}>
               <Picker
@@ -169,9 +97,9 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
               </Picker>
             </View>
           </View>
-          <View style={styles.purchaseLine}>
-            <View style={styles.purchaseLineLeft}>
-              <Text style={styles.purchaseLineTextTitle}>Your Bar:</Text>
+          <View style={globalStyles.bevLine}>
+            <View style={globalStyles.bevLineLeft}>
+              <Text style={globalStyles.bevLineTextTitle}>Your Bar:</Text>
             </View>
             <View style={{flex: 1, justifyContent: 'center'}}>
               <Picker
@@ -200,11 +128,11 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
               <Text>3. You enjoy a nice cold beverage.</Text>
             </View>
           </View>
-          <View style={styles.purchaseLine}>
-            <View style={styles.purchaseLineLeft}>
-              <Text style={styles.purchaseLineTextTitle}>Vendor Id:</Text>
+          <View style={globalStyles.bevLine}>
+            <View style={globalStyles.bevLineLeft}>
+              <Text style={globalStyles.bevLineTextTitle}>Vendor Id:</Text>
             </View>
-            <View style={[styles.purchaseLineRight, {flex: 1, maxWidth: 125}]}>
+            <View style={[globalStyles.bevLineRight, {flex: 1, maxWidth: 125}]}>
               <TextInput
                 placeholder={"1234"}
                 placeholderTextColor={"#bbbbbb"}
