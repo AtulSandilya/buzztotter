@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Component, PropTypes } from 'react';
-import { ActivityIndicator, Picker, ScrollView, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import { ActivityIndicator, Picker, ScrollView, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import {isIOS} from '../Utilities';
 
@@ -31,6 +33,7 @@ interface PurchaseBeerProps {
   resetPurchase();
   closePurchaseRoute();
   startCreditCardPurchase(CardData, PurchaseData);
+  goToAddCreditCardRoute();
 }
 
 interface PurchaseBeerState {
@@ -181,6 +184,24 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
             <View style={[globalStyles.bevLineRight, {flex: 1}]}>
               <Text style={globalStyles.bevLineText}>$ {(this.props.purchase.pricePerDrink * this.state.numDrinks).toFixed(2)}</Text>
             </View>
+          </View>
+          <View style={globalStyles.bevLine}>
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+              }}
+              onPress={() => {
+                this.props.goToAddCreditCardRoute();
+              }}
+            >
+              <View style={globalStyles.bevLineLeft}>
+                <Text style={[globalStyles.bevLineTextTitle, {fontWeight: "normal"}]}>Add Credit Card</Text>
+              </View>
+              <View style={globalStyles.bevLineRight}>
+                <Icon name="ios-arrow-forward" size={35} />
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={globalStyles.bevLine} ref="test">
             <View style={globalStyles.bevLineLeft}>

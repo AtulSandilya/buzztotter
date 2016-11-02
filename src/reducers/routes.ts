@@ -5,6 +5,7 @@ const routeKeys = {
   PurchaseBeer: "PurchaseBeer",
   RedeemBeer: "RedeemBeer",
   Settings: "Settings",
+  AddCreditCard: "AddCreditCard",
 }
 
 const defaultRouteState = {
@@ -19,6 +20,10 @@ const defaultRouteState = {
     confirmed: false,
   },
   Settings: {
+    isActive: false,
+    data: {},
+  },
+  AddCreditCard: {
     isActive: false,
     data: {},
   },

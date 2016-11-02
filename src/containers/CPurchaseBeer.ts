@@ -34,6 +34,9 @@ const mapDispatchToProps = (dispatch) => {
         cardData: cardData,
         purchaseData: purchaseData,
       }});
+    },
+    goToAddCreditCardRoute: () => {
+      dispatch({type: 'GO_TO_ROUTE', payload: {route: "AddCreditCard"}});
     }
   }
 }

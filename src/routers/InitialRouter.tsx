@@ -17,6 +17,7 @@ import CLogin from '../containers/CLogin';
 import CPurchaseBeer from '../containers/CPurchaseBeer';
 import CSettings from '../containers/CSettings';
 import CRedeemBeer from '../containers/CRedeemBeer';
+import AddCreditCard from '../components/AddCreditCard';
 
 interface Style {
   navBarStyle: React.ViewStyle;
@@ -108,6 +109,19 @@ const scenes = (showLogin) => {
           title="Redeem Beer"
           component={CRedeemBeer}
           backTitle="Bevegrams"
+          hideNavBar={false}
+          navigationBarStyle={styles.navBarStyle}
+          titleStyle={styles.titleStyle}
+          backButtonTextStyle={styles.titleStyle}
+          renderBackButton={(input) => {
+            return backIcon(input.backTitle);
+          }}
+        />
+        <Scene
+          key="AddCreditCard"
+          title="Add Credit Card"
+          component={AddCreditCard}
+          backTitle="Purchase"
           hideNavBar={false}
           navigationBarStyle={styles.navBarStyle}
           titleStyle={styles.titleStyle}
