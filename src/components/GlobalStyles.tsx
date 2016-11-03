@@ -70,7 +70,7 @@ export const globalStyles = StyleSheet.create<Styles>({
     padding: 20,
   },
   bevLine: {
-    flex: 1,
+    flex: -1,
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderColor: globalColors.subtleSeparator,
