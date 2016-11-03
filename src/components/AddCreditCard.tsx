@@ -4,6 +4,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import {isIOS} from '../Utilities';
 
+import BevButton from './BevButton';
 import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
 import {globalStyles} from './GlobalStyles';
 
@@ -17,7 +18,11 @@ interface AddCreditCardState {
   cardCvc: string;
 }
 
-export default class AddCreditCard extends Component<{}, {}> {
+export interface AddCreditCardProps {
+  goBackToPurchase(): void;
+}
+
+export default class AddCreditCard extends Component<AddCreditCardProps, AddCreditCardState> {
   constructor(props){
     super(props);
     this.state = {
@@ -76,7 +81,9 @@ export default class AddCreditCard extends Component<{}, {}> {
               <Text style={globalStyles.bevLineTextTitle}>Card Number:</Text>
             </View>
             <View style={[globalStyles.bevLineRight, {
-              flexDirection: 'row'
+              flexDirection: 'row',
+              flex: -1,
+              alignItems: 'flex-end',
             }]}>
               <CreditCardInput
                 ref="1"
@@ -191,6 +198,24 @@ export default class AddCreditCard extends Component<{}, {}> {
               />
             </View>
           </View>
+          <View style={globalStyles.bevLastLine}>
+            <View style={globalStyles.bevLineLeft}>
+              <BevButton
+                buttonText="Cancel"
+                bevButtonPressed={this.props.goBackToPurchase.bind(this)}
+                buttonFontSize={20}
+                margin={0}
+              />
+            </View>
+            <View style={globalStyles.bevLineRight}>
+              <BevButton
+                buttonText="Verify Card"
+                bevButtonPressed={() => alert("Verify")}
+                buttonFontSize={20}
+                margin={0}
+              />
+            </View>
+          </View>
         </View>
       </RouteWithNavBarWrapper>
     )
@@ -232,7 +257,7 @@ class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputSta
         style={{
           width: this.props.width,
           textAlign: 'center',
-          height: isIOS ? 45 : undefined,
+          height: 45,
         }}
         ref="textInput"
         keyboardType="numeric"

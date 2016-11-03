@@ -34,13 +34,13 @@ const styles = StyleSheet.create<Style>({
   },
 })
 
-const BevButton  = ({buttonText, buttonFontSize = 12, bevButtonPressed, rightIcon = false}) => (
+const BevButton  = ({buttonText, buttonFontSize = 12, bevButtonPressed, rightIcon = false, margin = 15}) => (
   <View style={styles.buttonContainer}>
     <TouchableHighlight
       onPress={bevButtonPressed}
       underlayColor={"#ffffff"}
     >
-      <View style={styles.button}>
+      <View style={[styles.button, {margin: margin}]}>
         <Text style={[styles.buttonText, {fontSize: buttonFontSize}]}>{buttonText}</Text>
         {rightIcon ?
           <Icon name={"ios-arrow-forward"} style={[styles.buttonText, {fontSize: buttonFontSize * 2, paddingLeft: 10, paddingVertical: -3}]} />

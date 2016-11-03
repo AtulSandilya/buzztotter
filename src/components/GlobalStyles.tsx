@@ -25,6 +25,7 @@ interface Styles {
   whiteText: React.TextStyle;
   bevContainer: React.ViewStyle;
   bevLine: React.ViewStyle;
+  bevLastLine: React.ViewStyle;
   bevLineTextTitle: React.TextStyle;
   bevLineText: React.TextStyle;
   bevLineLeft: React.ViewStyle;
@@ -75,7 +76,11 @@ export const globalStyles = StyleSheet.create<Styles>({
     borderBottomWidth: 1,
     borderColor: globalColors.subtleSeparator,
     paddingBottom: 10,
-    marginBottom: 20,
+    marginBottom: 15,
+  },
+  bevLastLine: {
+    flex: -1,
+    flexDirection: 'row',
   },
   bevLineTextTitle: {
     fontSize: 20,
