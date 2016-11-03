@@ -1,13 +1,12 @@
 import * as React from "react";
 import { Component, PropTypes } from 'react';
-import { ActivityIndicator, Picker, ScrollView, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {isIOS} from '../Utilities';
-
 import { CardResponseData, PurchaseState } from '../reducers/purchase';
 
+import StatusLine from './StatusLine';
 import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
 import TitleText from './TitleText';
 import BevButton from './BevButton';
@@ -38,13 +37,6 @@ interface PurchaseBeerProps {
 
 interface PurchaseBeerState {
   numDrinks: number;
-  cardNum1: string;
-  cardNum2: string;
-  cardNum3: string;
-  cardNum4: string;
-  cardExpMonth: string;
-  cardExpYear: string;
-  cardCvc: string;
 }
 
 export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseBeerState> {
@@ -53,13 +45,6 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
     super(props);
     this.state = {
       numDrinks: 1,
-      cardNum1: "",
-      cardNum2: "",
-      cardNum3: "",
-      cardNum4: "",
-      cardExpMonth: "",
-      cardExpYear: "",
-      cardCvc: "",
     };
   }
 
@@ -78,55 +63,27 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
   }
 
   attemptCreditCardPurchase(){
-    let cardData = {
-      cardNumber: this.state.cardNum1 + this.state.cardNum2 + this.state.cardNum3 + this.state.cardNum4,
-      cardExpMonth: this.state.cardExpMonth,
-      cardExpYear: this.state.cardExpYear,
-      cardCvc: this.state.cardCvc,
-    }
+    // let cardData = {
+    //   cardNumber: this.state.cardNum1 + this.state.cardNum2 + this.state.cardNum3 + this.state.cardNum4,
+    //   cardExpMonth: this.state.cardExpMonth,
+    //   cardExpYear: this.state.cardExpYear,
+    //   cardCvc: this.state.cardCvc,
+    // }
 
-    if(
-      this.isValidCardNumber(cardData.cardNumber)
-      && this.isValidCardExp(cardData.cardExpMonth)
-      && this.isValidCardExp(cardData.cardExpYear)
-      && this.isValidCardCvc(cardData.cardCvc)
-    ){
-      let purchaseData = {
-        // Stripe likes the payment value to be cents, (100 cents = 1 dollar)
-        amount: (this.state.numDrinks * this.props.purchase.pricePerDrink) * 100,
-        description: "Sent " + this.state.numDrinks + " Bevegram" + (this.state.numDrinks > 1 ? "s" : "") + " to " + this.props.fullName,
-      }
-      this.props.startCreditCardPurchase(cardData, purchaseData);
-    }
+    // if(
+    //   this.isValidCardNumber(cardData.cardNumber)
+    //   && this.isValidCardExp(cardData.cardExpMonth)
+    //   && this.isValidCardExp(cardData.cardExpYear)
+    //   && this.isValidCardCvc(cardData.cardCvc)
+    // ){
+    //   let purchaseData = {
+    //     // Stripe likes the payment value to be cents, (100 cents = 1 dollar)
+    //     amount: (this.state.numDrinks * this.props.purchase.pricePerDrink) * 100,
+    //     description: "Sent " + this.state.numDrinks + " Bevegram" + (this.state.numDrinks > 1 ? "s" : "") + " to " + this.props.fullName,
+    //   }
+    //   this.props.startCreditCardPurchase(cardData, purchaseData);
+    // }
 
-  }
-
-  isValidCardNumber(cardNum) {
-    if(cardNum.length !== 16){
-      this.creditCardErrorAlert("Invalid card number!");
-      return false;
-    }
-    return true;
-  }
-
-  isValidCardExp(cardExp){
-    if(cardExp.length < 1){
-      this.creditCardErrorAlert("Invalid expiration date!");
-      return false;
-    }
-    return true;
-  }
-
-  isValidCardCvc(cvc){
-    if(cvc.length !== 3){
-      this.creditCardErrorAlert("Invalid CVC!");
-      return false;
-    }
-    return true;
-  }
-
-  creditCardErrorAlert(message){
-    alert("Credit Card Error: " + message);
   }
 
   updateState(property, value){
@@ -203,126 +160,6 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
               </View>
             </TouchableOpacity>
           </View>
-          <View style={globalStyles.bevLine} ref="test">
-            <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Card Number:</Text>
-            </View>
-            <View style={[globalStyles.bevLineRight, {
-              flexDirection: 'row'
-            }]}>
-              <CreditCardInput
-                ref="1"
-                nextRef={this.refs["2"]}
-                maxChars={4}
-                placeholder="1234"
-                width={40}
-                returnKeyType="next"
-                onChangeText={(text) => {
-                  this.updateState("cardNum1", text);
-                }}
-              />
-              <CreditCardInput
-                ref="2"
-                nextRef={this.refs["3"]}
-                maxChars={4}
-                placeholder="5678"
-                width={40}
-                onChangeText={(text) => {
-                  this.updateState("cardNum2", text);
-                }}
-              />
-              <CreditCardInput
-                ref="3"
-                nextRef={this.refs["4"]}
-                maxChars={4}
-                placeholder="1234"
-                width={40}
-                onChangeText={(text) => {
-                  this.updateState("cardNum3", text);
-                }}
-              />
-              <CreditCardInput
-                ref="4"
-                nextRef={this.refs["5"]}
-                maxChars={4}
-                placeholder="5678"
-                width={40}
-                onChangeText={(text) => {
-                  this.updateState("cardNum4", text);
-                }}
-              />
-            </View>
-          </View>
-          <View style={globalStyles.bevLine}>
-            <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Exp Date:</Text>
-            </View>
-            <View style={[globalStyles.bevLineRight,
-              {
-                flex: 1,
-                flexDirection: 'row',
-                alignItems: 'flex-end',
-                justifyContent: 'flex-end',
-              }]}
-            >
-              <View
-              style={{
-                flex: -1,
-                flexDirection: 'row',
-              }}
-              >
-                <CreditCardInput
-                  ref="5"
-                  nextRef={this.refs["6"]}
-                  maxChars={2}
-                  placeholder="01"
-                  width={30}
-                  onChangeText={(text) => {
-                    this.updateState("cardExpMonth", text);
-                  }}
-                />
-                <View style={[{
-                  width: 2,
-                  backgroundColor: '#999999',
-                  marginRight: 5,
-                  marginLeft: 10,
-                  marginVertical: 8,
-                }, styles.rotateSlash]}></View>
-                <CreditCardInput
-                  ref="6"
-                  nextRef={this.refs["7"]}
-                  maxChars={2}
-                  placeholder="20"
-                  width={30}
-                  onChangeText={(text) => {
-                    this.updateState("cardExpYear", text);
-                  }}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={globalStyles.bevLine}>
-            <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>CVC:</Text>
-            </View>
-            <View style={[globalStyles.bevLineRight, {
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              flexDirection: 'row',
-            }]}>
-              <CreditCardInput
-                ref="7"
-                maxChars={3}
-                placeholder="123"
-                width={45}
-                onChangeText={(text) => {
-                  this.updateState("cardCvc", text);
-                }}
-                returnKeyType="done"
-              />
-            </View>
-          </View>
           <View>
             <Text style={globalStyles.bevLineTextTitle}>Message:</Text>
           </View>
@@ -379,7 +216,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
               </Text>
               :
               <Text>
-                ... {this.state.cardNum4}
+                ... Null
               </Text>
             }
           </View>
@@ -467,119 +304,14 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
   }
 }
 
-interface CreditCardInputProps {
-  ref: string,
-  nextRef?: any,
-  width: number;
-  maxChars: number;
-  placeholder: string;
-  returnKeyType?: "next" | "done";
-  onChangeText(string): void;
-}
-
-interface CreditCardInputState {}
-
-class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputState> {
-
-  public static defaultProps: CreditCardInputProps = {
-    ref: undefined,
-    nextRef: undefined,
-    width: undefined,
-    maxChars: undefined,
-    placeholder: "",
-    onChangeText: undefined,
-    returnKeyType: "next",
-  }
-
-  onSubmit() {
-    if(this.props.nextRef){
-      this.props.nextRef.refs["textInput"].focus();
-    }
-  }
-
-  render() {
-    return(
-      <TextInput
-        style={{
-          width: this.props.width,
-          textAlign: 'center',
-          height: isIOS ? 45 : undefined,
-        }}
-        ref="textInput"
-        keyboardType="numeric"
-        returnKeyType={this.props.returnKeyType}
-        maxLength={this.props.maxChars}
-        placeholder={this.props.placeholder}
-        placeholderTextColor={"#cccccc"}
-        onChangeText={this.props.onChangeText}
-        onSubmitEditing={this.onSubmit.bind(this)}
-      />
-    );
-  }
-}
-
-const StatusLine = ({title, input, allFailed, waiting = false}) => {
-  let text = "";
-  let color = "#000000";
-  if(allFailed){
-    text = "Failure"
-    color = "red";
-  } else if(waiting){
-    text = "Waiting"
-  } else if(input === undefined){
-    text = "Pending"
-  } else if (input === true) {
-    text = "Success!"
-    color = "green"
-  } else if (input === false) {
-    text = "Failure"
-    color = "red";
-  }
-
-  return (
-    <View style={globalStyles.bevLine}>
-      <View style={globalStyles.bevLineLeft}>
-        <Text style={globalStyles.bevLineTextTitle}>
-          {title}:
-        </Text>
-      </View>
-      <View style={globalStyles.bevLineRight}>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            alignItems: 'flex-end',
-            justifyContent: 'center',
-          }}
-        >
-          <View>
-            {input === undefined && waiting === false && allFailed !== true ? <ActivityIndicator style={{marginRight: 10}}/> : <View />}
-          </View>
-          <Text
-            style={{
-              color: color,
-            }}
-          >
-            {text}
-          </Text>
-        </View>
-      </View>
-    </View>
-  )
-}
-
 interface Style {
   numBeersContainer: React.ViewStyle;
   numBeersButtonContainer: React.ViewStyle;
   numBeersButton: React.ViewStyle;
   numBeersButtonText: React.TextStyle;
-  rotateSlash: React.TransformsStyle;
 }
 
 const styles = StyleSheet.create<Style>({
-  rotateSlash: {
-    transform: [{rotate: '15deg'}],
-  },
   numBeersContainer: {
     flex: 1,
     flexDirection: 'row',
