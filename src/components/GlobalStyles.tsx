@@ -87,6 +87,7 @@ export const globalStyles = StyleSheet.create<Styles>({
   bevLineLeft: {
     flex: 1,
     alignItems: 'flex-start',
+    justifyContent: 'center',
   },
   bevLineRight: {
     flex: 1,
