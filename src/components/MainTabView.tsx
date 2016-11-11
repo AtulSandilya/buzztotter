@@ -88,6 +88,7 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
                         style={{
                           color: "#ffffff",
                           fontSize: textSize * 3,
+                          backgroundColor: 'rgba(0, 0, 0, 0)'
                         }}
                       />
                       <Text
