@@ -12,6 +12,7 @@ it('renders correctly', () => {
       fullName="Testy McTest"
       firstName="Testy"
       purchase={initialPurchaseState}
+      creditCards={[]}
     />
   ).toJSON();
   expect(tree).toMatchSnapshot();
