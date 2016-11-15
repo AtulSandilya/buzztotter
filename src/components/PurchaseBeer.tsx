@@ -276,6 +276,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
                   buttonText={"Add Credit Card"}
                   buttonFontSize={20}
                   rightIcon={true}
+                  adjacentButton={true}
                 />
               :
                 <BevButton

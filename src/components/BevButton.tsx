@@ -42,13 +42,21 @@ const BevButton  = ({
   margin = 12,
   showSpinner = false,
   showDisabled = false,
+  // In a row with two buttons if one has an icon it will be taller than the
+  // button without the icon, this prop makes the icon button shorter, trying
+  // to match the height of the adjacentButton
+  adjacentButton = false,
 }) => (
   <View style={styles.buttonContainer}>
     <TouchableHighlight
       onPress={bevButtonPressed}
       underlayColor={"#ffffff"}
     >
-      <View style={[styles.button, {margin: margin}, showDisabled ? {backgroundColor: 'rgba(128, 128, 128, 0.5)'} : null, rightIcon ? {paddingVertical: 10} : null, ]}>
+      <View style={[styles.button,
+        {margin: margin},
+        showDisabled ? {backgroundColor: 'rgba(128, 128, 128, 0.5)'} : null,
+        rightIcon && adjacentButton ? {paddingVertical: 11} : null
+      ]}>
         {showSpinner ?
           <ActivityIndicator
             color="#ffffff"
