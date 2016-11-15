@@ -23,9 +23,9 @@ exports[`test renders correctly 1`] = `
         Object {
           "borderBottomWidth": 1,
           "borderColor": "#dddddd",
-          "flex": 1,
+          "flex": -1,
           "flexDirection": "row",
-          "marginBottom": 20,
+          "marginBottom": 15,
           "paddingBottom": 10,
         }
       }>
@@ -34,6 +34,7 @@ exports[`test renders correctly 1`] = `
           Object {
             "alignItems": "flex-start",
             "flex": 1,
+            "justifyContent": "center",
           }
         }>
         <Text
@@ -75,9 +76,9 @@ exports[`test renders correctly 1`] = `
         Object {
           "borderBottomWidth": 1,
           "borderColor": "#dddddd",
-          "flex": 1,
+          "flex": -1,
           "flexDirection": "row",
-          "marginBottom": 20,
+          "marginBottom": 15,
           "paddingBottom": 10,
         }
       }>
@@ -86,6 +87,7 @@ exports[`test renders correctly 1`] = `
           Object {
             "alignItems": "flex-start",
             "flex": 1,
+            "justifyContent": "center",
           }
         }>
         <Text
@@ -253,9 +255,9 @@ exports[`test renders correctly 1`] = `
         Object {
           "borderBottomWidth": 1,
           "borderColor": "#dddddd",
-          "flex": 1,
+          "flex": -1,
           "flexDirection": "row",
-          "marginBottom": 20,
+          "marginBottom": 15,
           "paddingBottom": 10,
         }
       }>
@@ -264,6 +266,70 @@ exports[`test renders correctly 1`] = `
           Object {
             "alignItems": "flex-start",
             "flex": 1,
+            "justifyContent": "center",
+          }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "fontSize": 20,
+              "fontWeight": "bold",
+            }
+          }>
+          Coupon:
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "flex": 1,
+            "paddingRight": 10,
+          }
+        }>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-end",
+              "flex": 1,
+              "justifyContent": "center",
+            }
+          }>
+          <TextInput
+            maxLength={4}
+            onChangeText={[Function]}
+            placeholder="ABCD"
+            placeholderTextColor="#cccccc"
+            style={
+              Object {
+                "height": 40,
+                "textAlign": "center",
+                "width": 65,
+              }
+            } />
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "borderBottomWidth": 1,
+          "borderColor": "#dddddd",
+          "flex": -1,
+          "flexDirection": "row",
+          "marginBottom": 15,
+          "paddingBottom": 10,
+        }
+      }>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "flex": 1,
+            "justifyContent": "center",
           }
         }>
         <Text
@@ -311,275 +377,93 @@ exports[`test renders correctly 1`] = `
         Object {
           "borderBottomWidth": 1,
           "borderColor": "#dddddd",
-          "flex": 1,
+          "flex": -1,
           "flexDirection": "row",
-          "marginBottom": 20,
+          "marginBottom": 15,
           "paddingBottom": 10,
         }
       }>
       <View
+        accessibilityComponentType={undefined}
+        accessibilityLabel={undefined}
+        accessibilityTraits={undefined}
+        accessible={true}
+        hitSlop={undefined}
+        onLayout={undefined}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "alignItems": "flex-start",
             "flex": 1,
+            "flexDirection": "row",
+            "opacity": 1,
           }
-        }>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "fontSize": 20,
-              "fontWeight": "bold",
-            }
-          }>
-          Card Number:
-        </Text>
-      </View>
-      <View
-        style={
-          Array [
-            Object {
-              "alignItems": "flex-end",
-              "flex": 1,
-              "paddingRight": 10,
-            },
-            Object {
-              "flexDirection": "row",
-            },
-          ]
-        }>
-        <TextInput
-          keyboardType="numeric"
-          maxLength={4}
-          onChangeText={[Function]}
-          onSubmitEditing={[Function]}
-          placeholder="1234"
-          placeholderTextColor="#cccccc"
-          returnKeyType="next"
-          style={
-            Object {
-              "height": 45,
-              "textAlign": "center",
-              "width": 40,
-            }
-          } />
-        <TextInput
-          keyboardType="numeric"
-          maxLength={4}
-          onChangeText={[Function]}
-          onSubmitEditing={[Function]}
-          placeholder="5678"
-          placeholderTextColor="#cccccc"
-          returnKeyType="next"
-          style={
-            Object {
-              "height": 45,
-              "textAlign": "center",
-              "width": 40,
-            }
-          } />
-        <TextInput
-          keyboardType="numeric"
-          maxLength={4}
-          onChangeText={[Function]}
-          onSubmitEditing={[Function]}
-          placeholder="1234"
-          placeholderTextColor="#cccccc"
-          returnKeyType="next"
-          style={
-            Object {
-              "height": 45,
-              "textAlign": "center",
-              "width": 40,
-            }
-          } />
-        <TextInput
-          keyboardType="numeric"
-          maxLength={4}
-          onChangeText={[Function]}
-          onSubmitEditing={[Function]}
-          placeholder="5678"
-          placeholderTextColor="#cccccc"
-          returnKeyType="next"
-          style={
-            Object {
-              "height": 45,
-              "textAlign": "center",
-              "width": 40,
-            }
-          } />
-      </View>
-    </View>
-    <View
-      style={
-        Object {
-          "borderBottomWidth": 1,
-          "borderColor": "#dddddd",
-          "flex": 1,
-          "flexDirection": "row",
-          "marginBottom": 20,
-          "paddingBottom": 10,
         }
-      }>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-start",
-            "flex": 1,
-          }
-        }>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "fontSize": 20,
-              "fontWeight": "bold",
-            }
-          }>
-          Exp Date:
-        </Text>
-      </View>
-      <View
-        style={
-          Array [
-            Object {
-              "alignItems": "flex-end",
-              "flex": 1,
-              "paddingRight": 10,
-            },
-            Object {
-              "alignItems": "flex-end",
-              "flex": 1,
-              "flexDirection": "row",
-              "justifyContent": "flex-end",
-            },
-          ]
-        }>
+        testID={undefined}>
         <View
           style={
-            Object {
-              "flex": -1,
-              "flexDirection": "row",
-            }
-          }>
-          <TextInput
-            keyboardType="numeric"
-            maxLength={2}
-            onChangeText={[Function]}
-            onSubmitEditing={[Function]}
-            placeholder="01"
-            placeholderTextColor="#cccccc"
-            returnKeyType="next"
-            style={
+            Array [
               Object {
-                "height": 45,
-                "textAlign": "center",
-                "width": 30,
-              }
-            } />
-          <View
+                "alignItems": "flex-start",
+                "flex": 1,
+                "justifyContent": "center",
+              },
+              Object {
+                "flex": 2,
+              },
+            ]
+          }>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
             style={
               Array [
                 Object {
-                  "backgroundColor": "#999999",
-                  "marginLeft": 10,
-                  "marginRight": 5,
-                  "marginVertical": 8,
-                  "width": 2,
+                  "fontSize": 20,
+                  "fontWeight": "bold",
                 },
                 Object {
-                  "transform": Array [
-                    Object {
-                      "rotate": "15deg",
-                    },
-                  ],
+                  "fontWeight": "normal",
                 },
               ]
-            } />
-          <TextInput
-            keyboardType="numeric"
-            maxLength={2}
-            onChangeText={[Function]}
-            onSubmitEditing={[Function]}
-            placeholder="20"
-            placeholderTextColor="#cccccc"
-            returnKeyType="next"
-            style={
-              Object {
-                "height": 45,
-                "textAlign": "center",
-                "width": 30,
-              }
-            } />
+            }>
+            Add Credit Card
+          </Text>
         </View>
-      </View>
-    </View>
-    <View
-      style={
-        Object {
-          "borderBottomWidth": 1,
-          "borderColor": "#dddddd",
-          "flex": 1,
-          "flexDirection": "row",
-          "marginBottom": 20,
-          "paddingBottom": 10,
-        }
-      }>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-start",
-            "flex": 1,
-          }
-        }>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
+        <View
           style={
-            Object {
-              "fontSize": 20,
-              "fontWeight": "bold",
-            }
-          }>
-          CVC:
-        </Text>
-      </View>
-      <View
-        style={
-          Array [
             Object {
               "alignItems": "flex-end",
               "flex": 1,
               "paddingRight": 10,
-            },
-            Object {
-              "alignItems": "center",
-              "flex": 1,
-              "flexDirection": "row",
-              "justifyContent": "flex-end",
-            },
-          ]
-        }>
-        <TextInput
-          keyboardType="numeric"
-          maxLength={3}
-          onChangeText={[Function]}
-          onSubmitEditing={[Function]}
-          placeholder="123"
-          placeholderTextColor="#cccccc"
-          returnKeyType="done"
-          style={
-            Object {
-              "height": 45,
-              "textAlign": "center",
-              "width": 45,
             }
-          } />
+          }>
+          <Text
+            accessible={true}
+            allowFontScaling={false}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "color": undefined,
+                  "fontSize": 35,
+                },
+                undefined,
+                Object {
+                  "fontFamily": "Ionicons",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+              ]
+            }>
+            
+          </Text>
+        </View>
       </View>
     </View>
     <View>
@@ -651,17 +535,24 @@ exports[`test renders correctly 1`] = `
             testID={undefined}>
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#8B5E3C",
-                  "borderColor": "#000000",
-                  "borderRadius": 10,
-                  "flex": -1,
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                  "margin": 15,
-                  "padding": 15,
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#8B5E3C",
+                    "borderColor": "#000000",
+                    "borderRadius": 10,
+                    "flex": -1,
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "margin": 15,
+                    "padding": 15,
+                  },
+                  Object {
+                    "margin": 12,
+                  },
+                  null,
+                  null,
+                ]
               }>
               <Text
                 accessible={true}
@@ -721,17 +612,26 @@ exports[`test renders correctly 1`] = `
             testID={undefined}>
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#8B5E3C",
-                  "borderColor": "#000000",
-                  "borderRadius": 10,
-                  "flex": -1,
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                  "margin": 15,
-                  "padding": 15,
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#8B5E3C",
+                    "borderColor": "#000000",
+                    "borderRadius": 10,
+                    "flex": -1,
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "margin": 15,
+                    "padding": 15,
+                  },
+                  Object {
+                    "margin": 12,
+                  },
+                  null,
+                  Object {
+                    "paddingVertical": 10,
+                  },
+                ]
               }>
               <Text
                 accessible={true}
@@ -747,7 +647,36 @@ exports[`test renders correctly 1`] = `
                     },
                   ]
                 }>
-                Confirm Purchase
+                Add Credit Card
+              </Text>
+              <Text
+                accessible={true}
+                allowFontScaling={false}
+                ellipsizeMode="tail"
+                style={
+                  Array [
+                    Object {
+                      "color": undefined,
+                      "fontSize": 12,
+                    },
+                    Array [
+                      Object {
+                        "color": "#ffffff",
+                      },
+                      Object {
+                        "fontSize": 40,
+                        "paddingLeft": 10,
+                        "paddingTop": 2,
+                      },
+                    ],
+                    Object {
+                      "fontFamily": "Ionicons",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                  ]
+                }>
+                
               </Text>
             </View>
           </View>

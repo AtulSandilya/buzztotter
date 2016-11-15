@@ -34,17 +34,24 @@ exports[`test renders correctly 1`] = `
     testID={undefined}>
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "backgroundColor": "#8B5E3C",
-          "borderColor": "#000000",
-          "borderRadius": 10,
-          "flex": -1,
-          "flexDirection": "row",
-          "justifyContent": "center",
-          "margin": 15,
-          "padding": 15,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#8B5E3C",
+            "borderColor": "#000000",
+            "borderRadius": 10,
+            "flex": -1,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "margin": 15,
+            "padding": 15,
+          },
+          Object {
+            "margin": 12,
+          },
+          null,
+          null,
+        ]
       }>
       <Text
         accessible={true}
@@ -99,17 +106,24 @@ exports[`test renders correctly with button size 1`] = `
     testID={undefined}>
     <View
       style={
-        Object {
-          "alignItems": "center",
-          "backgroundColor": "#8B5E3C",
-          "borderColor": "#000000",
-          "borderRadius": 10,
-          "flex": -1,
-          "flexDirection": "row",
-          "justifyContent": "center",
-          "margin": 15,
-          "padding": 15,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#8B5E3C",
+            "borderColor": "#000000",
+            "borderRadius": 10,
+            "flex": -1,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "margin": 15,
+            "padding": 15,
+          },
+          Object {
+            "margin": 12,
+          },
+          null,
+          null,
+        ]
       }>
       <Text
         accessible={true}

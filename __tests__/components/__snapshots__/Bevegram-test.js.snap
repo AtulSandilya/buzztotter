@@ -93,17 +93,26 @@ exports[`test renders correctly 1`] = `
         testID={undefined}>
         <View
           style={
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "#8B5E3C",
-              "borderColor": "#000000",
-              "borderRadius": 10,
-              "flex": -1,
-              "flexDirection": "row",
-              "justifyContent": "center",
-              "margin": 15,
-              "padding": 15,
-            }
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#8B5E3C",
+                "borderColor": "#000000",
+                "borderRadius": 10,
+                "flex": -1,
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "margin": 15,
+                "padding": 15,
+              },
+              Object {
+                "margin": 12,
+              },
+              null,
+              Object {
+                "paddingVertical": 10,
+              },
+            ]
           }>
           <Text
             accessible={true}
@@ -138,7 +147,7 @@ exports[`test renders correctly 1`] = `
                   Object {
                     "fontSize": 24,
                     "paddingLeft": 10,
-                    "paddingVertical": -3,
+                    "paddingTop": 2,
                   },
                 ],
                 Object {
