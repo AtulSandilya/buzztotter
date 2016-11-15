@@ -1,16 +1,17 @@
 import { combineReducers } from 'redux';
 
-import { settings }  from './settings';
-import { view }      from './view';
-import { contacts }  from './contacts';
-import { bevegrams } from './bevegrams';
-import { modals }    from './modals';
-import { login }     from './login';
-import { locations } from './locations';
-import { user }      from './user';
-import { purchase }  from './purchase';
-import { app }       from './app';
-import { routes }    from './routes';
+import { settings }      from './settings';
+import { view }          from './view';
+import { contacts }      from './contacts';
+import { bevegrams }     from './bevegrams';
+import { modals }        from './modals';
+import { login }         from './login';
+import { locations }     from './locations';
+import { user }          from './user';
+import { purchase }      from './purchase';
+import { app }           from './app';
+import { routes }        from './routes';
+import { addCreditCard } from './addCreditCard';
 
 export default combineReducers({
   settings,
@@ -24,4 +25,5 @@ export default combineReducers({
   purchase,
   app,
   routes,
+  addCreditCard,
 })

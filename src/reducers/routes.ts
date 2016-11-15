@@ -9,6 +9,7 @@ const routeKeys = {
 }
 
 const defaultRouteState = {
+  currentRoute: "",
   PurchaseBeer: {
     isActive: false,
     data: {},
@@ -42,6 +43,10 @@ export const routes = (state = defaultRouteState, action) => {
       return closeRoute(state, action.payload.route);
     case 'CONFIRM_ROUTE':
       return confirmRoute(state, action.route);
+    case 'UPDATE_CURRENT_ROUTE':
+      return Object.assign({}, state, {
+        currentRoute: action.payload.currentRoute,
+      });
     default:
       return state;
   }

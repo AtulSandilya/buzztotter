@@ -1,82 +1,81 @@
+export interface PurchaseData {
+  amount: number;
+  description: string;
+}
+
 export interface PurchaseState {
   pricePerDrink: number,
-  attempting: boolean,
-  paymentMethod: boolean, // tristate
-  creditCardVerified: boolean, // tristate
+  attemptingPurchase: boolean,
+  paymentMethod: string,
   confirmed: boolean; // tristate
   failed: boolean;
   failMessage: string;
-  data: CardResponseData;
+  attemptingStripeUpdate: boolean;
 }
 
 export interface CardResponseData {
   token: string;
   brand: string;
   last4: string;
+  id: string;
 }
 
-export const initialPurchaseState = {
+export const initialPurchaseState: PurchaseState = {
   pricePerDrink: 6.00,
-  attempting: false,
+  attemptingPurchase: false,
   paymentMethod: undefined,
-  creditCardVerified: undefined, // three values undef, true, false
   confirmed: undefined,
   failed: false,
   failMessage: "",
-  data: {
-    token: undefined,
-    brand: undefined,
-    last4: undefined,
-  },
+  attemptingStripeUpdate: false,
 };
 
 export const purchase = (state = initialPurchaseState, action) => {
   switch(action.type){
-    case 'ATTEMPING_CREDIT_CARD_PURCHASE':
-      return Object.assign({}, state,
-        {
+    case 'ATTEMPTING_CREDIT_CARD_PURCHASE':
+      return Object.assign({}, state, {
           paymentMethod: 'creditCard',
-          attempting: true,
-        }
-      );
-    case 'HANDLE_CREDIT_CARD_VERIFIED':
-      return Object.assign({}, state,
-        {
-          creditCardVerified: true,
-          data: action.payload,
-        }
-      );
-    case 'HANDLE_CREDIT_CARD_VERIFICATION_FAILED':
-      return Object.assign({}, state,
-        {
-          creditCardVerified: false,
-          failed: true,
-          failMessage: action.payload,
-        }
-      );
-    case 'HANDLE_CREDIT_CARD_PURCHASE_SUCESSFUL':
-      return Object.assign({}, state,
-        {
+          attemptingPurchase: true,
+        });
+    case 'SUCCESSFUL_CREDIT_CARD_PURCHASE':
+      return Object.assign({}, state, {
           confirmed: true,
-        }
-      );
-    case 'HANDLE_CREDIT_CARD_PURCHASE_FAILED':
-      return Object.assign({}, state,
-        {
+        });
+    case 'FAILED_CREDIT_CARD_PURCHASE':
+      return Object.assign({}, state, {
           confirmed: false,
           failed: true,
-          failMessage: action.payload,
-        }
-      );
+          failMessage: action.payload.error,
+        });
     case 'HANDLE_CREDIT_CARD_FAILED':
-      return Object.assign({}, state,
-        {
+      return Object.assign({}, state, {
           failed: true,
           // Only update failMessage if there is no message, other messages are
           // more specific
-          failMessage: state.failMessage.length > 0 ? state.failMessage : action.payload,
-        }
-      );
+          failMessage: state.failMessage.length > 0 ? state.failMessage : action.payload.error,
+        });
+    case 'ATTEMPTING_STRIPE_DEFAULT_CARD_UPDATE':
+      return Object.assign({}, state, {
+        attemptingStripeUpdate: true,
+      });
+    case 'RENDER_SUCCESSFUL_STRIPE_DEFAULT_CARD_UPDATE':
+      return Object.assign({}, state, {
+        attemptingStripeUpdate: false,
+      });
+    case 'ATTEMPTING_STRIPE_REMOVE_CARD':
+      return Object.assign({}, state, {
+        attemptingStripeUpdate: true,
+      });
+    case 'RENDER_SUCCESSFUL_STRIPE_REMOVE_CARD':
+      return Object.assign({}, state, {
+        attemptingStripeUpdate: false,
+      });
+    case 'END_CREDIT_CARD_PURCHASE_IF_NOT_ATTEMPTING':
+      if(state.attemptingPurchase && (state.confirmed !== true)){
+        return state;
+      } else {
+        return initialPurchaseState;
+      }
     case 'END_CREDIT_CARD_PURCHASE':
     case 'RESET_CREDIT_CARD_PURCHASE':
       // Reset everything

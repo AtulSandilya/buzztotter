@@ -1,10 +1,11 @@
 import * as React from "react";
 import { Component, PropTypes } from 'react';
-import { StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import { CardResponseData, PurchaseState } from '../reducers/purchase';
+import { CardResponseData, PurchaseData, PurchaseState } from '../reducers/purchase';
 
 import StatusLine from './StatusLine';
 import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
@@ -13,30 +14,25 @@ import BevButton from './BevButton';
 
 import {globalColors, globalStyles} from './GlobalStyles';
 
-interface CardData {
-  cardNumber: string;
-  cardExpMonth: string;
-  cardExpYear: string;
-  cardCvc: string;
-}
-
-interface PurchaseData {
-  amount: number;
-  description: string;
-}
-
 interface PurchaseBeerProps {
   fullName: string;
   firstName: string;
   purchase: PurchaseState;
+  creditCards: CardResponseData[];
+  activeCard: string;
+  attemptingUpdate: boolean;
+  attemptingVerification: boolean;
   resetPurchase();
   closePurchaseRoute();
-  startCreditCardPurchase(CardData, PurchaseData);
+  startCreditCardPurchase(PurchaseData);
   goToAddCreditCardRoute();
+  removeCard(id, index): void;
+  updateDefaultCard(newDefaultCardId): void;
 }
 
 interface PurchaseBeerState {
   numDrinks: number;
+  couponCode: string;
 }
 
 export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseBeerState> {
@@ -45,6 +41,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
     super(props);
     this.state = {
       numDrinks: 1,
+      couponCode: "",
     };
   }
 
@@ -62,30 +59,6 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
     }
   }
 
-  attemptCreditCardPurchase(){
-    // let cardData = {
-    //   cardNumber: this.state.cardNum1 + this.state.cardNum2 + this.state.cardNum3 + this.state.cardNum4,
-    //   cardExpMonth: this.state.cardExpMonth,
-    //   cardExpYear: this.state.cardExpYear,
-    //   cardCvc: this.state.cardCvc,
-    // }
-
-    // if(
-    //   this.isValidCardNumber(cardData.cardNumber)
-    //   && this.isValidCardExp(cardData.cardExpMonth)
-    //   && this.isValidCardExp(cardData.cardExpYear)
-    //   && this.isValidCardCvc(cardData.cardCvc)
-    // ){
-    //   let purchaseData = {
-    //     // Stripe likes the payment value to be cents, (100 cents = 1 dollar)
-    //     amount: (this.state.numDrinks * this.props.purchase.pricePerDrink) * 100,
-    //     description: "Sent " + this.state.numDrinks + " Bevegram" + (this.state.numDrinks > 1 ? "s" : "") + " to " + this.props.fullName,
-    //   }
-    //   this.props.startCreditCardPurchase(cardData, purchaseData);
-    // }
-
-  }
-
   updateState(property, value){
     this.setState(function(prevState, currentProps){
       let nextState = Object.assign({}, prevState);
@@ -95,7 +68,15 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
   }
 
   purchaseDrink() {
-    this.attemptCreditCardPurchase();
+    if(this.props.creditCards.length === 0){
+      alert("Please Add a Credit Card!");
+      return;
+    }
+    this.props.startCreditCardPurchase({
+      // Stripe likes the amount to be cents.
+      amount: this.state.numDrinks * 100 * this.props.purchase.pricePerDrink,
+      description: `Sending ${this.state.numDrinks} Bevegram${this.state.numDrinks > 1 ? "s" : ""} to ${this.props.fullName}`
+    })
   }
 
   renderPurchaseOptions(){
@@ -136,12 +117,113 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
           </View>
           <View style={globalStyles.bevLine}>
             <View style={globalStyles.bevLineLeft}>
+              <Text style={globalStyles.bevLineTextTitle}>Coupon:</Text>
+            </View>
+            <View style={globalStyles.bevLineRight}>
+              <View style={{
+                flex: 1,
+                alignItems: 'flex-end',
+                justifyContent: 'center',
+              }}>
+                <TextInput
+                  style={{
+                    width: 65,
+                    textAlign: 'center',
+                    height: 40,
+                  }}
+                  ref="couponInput"
+                  maxLength={4}
+                  placeholder={"ABCD"}
+                  placeholderTextColor={"#cccccc"}
+                  onChangeText={(text) => {
+                    this.updateState("couponCode", text);
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+          <View style={globalStyles.bevLine}>
+            <View style={globalStyles.bevLineLeft}>
               <Text style={globalStyles.bevLineTextTitle}>Cost:</Text>
             </View>
             <View style={[globalStyles.bevLineRight, {flex: 1}]}>
               <Text style={globalStyles.bevLineText}>$ {(this.props.purchase.pricePerDrink * this.state.numDrinks).toFixed(2)}</Text>
             </View>
           </View>
+          {this.props.creditCards ? this.props.creditCards.map((card, index) => {
+            return (
+              <View style={globalStyles.bevLine} key={card.id}>
+                <TouchableOpacity
+                  onPress={() => {
+                    if(!this.props.attemptingUpdate
+                       && this.props.creditCards.length > 1
+                       && card.id !== this.props.activeCard
+                      ){
+                      this.props.updateDefaultCard(card.id);
+                    }
+                  }}
+                  style={[globalStyles.bevLineLeft, {
+                    flexDirection: 'row',
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                }]}>
+                  <View
+                    style={{
+                    paddingRight: 15,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flex: -1,
+                    marginTop: 4,
+                  }}>
+                    {this.props.attemptingUpdate ?
+                        <ActivityIndicator style={{height: 28, width: 28}} />
+                    :
+                      card.id === this.props.activeCard ?
+                        <FontAwesome
+                          name="check-square-o"
+                          size={25}
+                          color="green"
+                          style={{
+                            flex: -1,
+                            width: 28,
+                            height: 28,
+                          }}
+                        />
+                      :
+                        <FontAwesome
+                          name="square-o"
+                          size={25}
+                          color="#999"
+                          style={{
+                            flex: -1,
+                            width: 28,
+                            height: 28,
+                          }}
+                        />
+                    }
+                  </View>
+                  <View style={{flex: -1, flexDirection: "row", justifyContent: 'center', alignItems: 'center'}}>
+                    <FontAwesome name={"cc-" + card.brand.toLowerCase()} size={30} style={{paddingRight: 10}}/>
+                    <Text style={globalStyles.bevLineText}>.... {card.last4}</Text>
+                  </View>
+                </TouchableOpacity>
+                <View style={globalStyles.bevLineRight}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      if(!this.props.attemptingUpdate){
+                        this.props.removeCard(card.id, index);
+                      }
+                    }}
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center'
+                    }}>
+                    <Text style={{color: '#999'}}>{this.props.attemptingUpdate ? "Updating..." : "Remove"}</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )
+          }) : <View/>}
           <View style={globalStyles.bevLine}>
             <TouchableOpacity
               style={{
@@ -152,11 +234,20 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
                 this.props.goToAddCreditCardRoute();
               }}
             >
-              <View style={globalStyles.bevLineLeft}>
-                <Text style={[globalStyles.bevLineTextTitle, {fontWeight: "normal"}]}>Add Credit Card</Text>
+              <View style={[globalStyles.bevLineLeft, {flex: 2}]}>
+                <Text
+                  style={[globalStyles.bevLineTextTitle, {
+                    fontWeight: "normal"
+                  }]}>
+                  {this.props.attemptingVerification ?
+                    "Adding Credit Card..."
+                    :
+                    "Add Credit Card"
+                  }
+                </Text>
               </View>
               <View style={globalStyles.bevLineRight}>
-                <Icon name="ios-arrow-forward" size={35} />
+                <Ionicon name="ios-arrow-forward" size={35} />
               </View>
             </TouchableOpacity>
           </View>
@@ -179,11 +270,20 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
               />
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
-              <BevButton
-                bevButtonPressed={this.purchaseDrink.bind(this)}
-                buttonText={"Confirm Purchase"}
-                buttonFontSize={20}
-              />
+              {this.props.creditCards.length === 0 ?
+                <BevButton
+                  bevButtonPressed={this.props.goToAddCreditCardRoute}
+                  buttonText={"Add Credit Card"}
+                  buttonFontSize={20}
+                  rightIcon={true}
+                />
+              :
+                <BevButton
+                  bevButtonPressed={this.purchaseDrink.bind(this)}
+                  buttonText={"Confirm Purchase"}
+                  buttonFontSize={20}
+                />
+              }
             </View>
           </View>
           <View style={{height: 20}}></View>
@@ -193,75 +293,75 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
   }
 
   renderPurchaseAttempting(){
+    let card;
+    for(const i in this.props.creditCards){
+      if(this.props.activeCard === this.props.creditCards[i].id){
+        card = this.props.creditCards[i];
+      }
+    }
+    const cardBrandIcon = (card && card.brand) ? "cc-" + card.brand.toLowerCase() : "question";
+    const cardNumber = (card && card.last4) ? card.last4 : "Not Found";
     return (
-      <View style={globalStyles.bevContainer}>
-        <View style={globalStyles.bevLine}>
-          <Text>
-            Sending {this.state.numDrinks} {this.state.numDrinks > 1 ? "Beers" : "Beer"} to {this.props.firstName}!
-          </Text>
-        </View>
-        <StatusLine
-          title="Verify Card"
-          input={this.props.purchase.creditCardVerified}
-          allFailed={this.props.purchase.failed}
-        />
-        <View style={globalStyles.bevLine}>
-          <View style={globalStyles.bevLineLeft}>
-            <Text style={globalStyles.bevLineTextTitle}>Card Used:</Text>
+      <RouteWithNavBarWrapper>
+        <View style={globalStyles.bevContainer}>
+          <View style={globalStyles.bevLine}>
+            <Text>
+              Sending {this.state.numDrinks} {this.state.numDrinks > 1 ? "Beers" : "Beer"} to {this.props.firstName}!
+            </Text>
           </View>
-          <View style={globalStyles.bevLineRight}>
-            {this.props.purchase.creditCardVerified ?
-              <Text>
-                {this.props.purchase.data.brand} ... {this.props.purchase.data.last4}
-              </Text>
-              :
-              <Text>
-                ... Null
-              </Text>
-            }
-          </View>
-        </View>
-        <StatusLine
-          title="Verify Purchase"
-          input={this.props.purchase.confirmed}
-          waiting={this.props.purchase.creditCardVerified === undefined}
-          allFailed={this.props.purchase.failed}
-        />
-        {this.props.purchase.failed ?
-        <View>
-          <View style={[globalStyles.bevLine, {
-            flex: -1,
-          }]}>
-            <Text style={{fontWeight: 'bold', paddingBottom: 10, color: 'red'}}>Unable to complete purchase:</Text>
-            <Text>{this.props.purchase.failMessage}</Text>
-          </View>
-          <View>
-            <View style={{
-              flex: 1,
-              flexDirection: 'row',
-            }}>
-              <View style={{flex: 1, alignItems: 'flex-start', paddingTop: 10}}>
-                <BevButton
-                  bevButtonPressed={this.props.closePurchaseRoute}
-                  buttonText={"Close"}
-                  buttonFontSize={20}
-                />
-              </View>
-              <View style={{flex: 1, alignItems: 'flex-end', paddingTop: 10}}>
-                <BevButton
-                  bevButtonPressed={this.props.resetPurchase}
-                  buttonText={"Try Again"}
-                  buttonFontSize={20}
-                />
+          <View style={globalStyles.bevLine}>
+            <View style={globalStyles.bevLineLeft}>
+              <Text style={globalStyles.bevLineTextTitle}>Card Used:</Text>
+            </View>
+            <View style={globalStyles.bevLineRight}>
+              <View style={{flex: -1, flexDirection: "row", justifyContent: 'center', alignItems: 'center'}}>
+                <FontAwesome name={cardBrandIcon} size={30} style={{paddingRight: 10}}/>
+                <Text style={globalStyles.bevLineText}>.... {cardNumber}</Text>
               </View>
             </View>
           </View>
+          <StatusLine
+            title="Verify Purchase"
+            input={this.props.purchase.confirmed}
+            waiting={false}
+            allFailed={this.props.purchase.failed}
+          />
+          {this.props.purchase.failed ?
+          <View>
+            <View style={globalStyles.bevLineNoSep}>
+              <Text style={[globalStyles.bevLineTextTitle, {color: 'red'}]}>Purchase Error:</Text>
+            </View>
+            <View style={globalStyles.bevLine}>
+              <Text style={globalStyles.bevLineText}numberOfLines={5}>{this.props.purchase.failMessage}</Text>
+            </View>
+            <View>
+              <View style={{
+                flex: 1,
+                flexDirection: 'row',
+              }}>
+                <View style={{flex: 1, alignItems: 'flex-start', paddingTop: 10}}>
+                  <BevButton
+                    bevButtonPressed={this.props.closePurchaseRoute}
+                    buttonText={"Close"}
+                    buttonFontSize={20}
+                  />
+                </View>
+                <View style={{flex: 1, alignItems: 'flex-end', paddingTop: 10}}>
+                  <BevButton
+                    bevButtonPressed={this.props.resetPurchase}
+                    buttonText={"Try Again"}
+                    buttonFontSize={20}
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+          :
+          <View/>
+          }
+          {this.renderPurchaseConfirmed()}
         </View>
-        :
-        <View/>
-        }
-        {this.renderPurchaseConfirmed()}
-      </View>
+      </RouteWithNavBarWrapper>
     )
   }
 
@@ -296,7 +396,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
   }
 
   render() {
-    if(this.props.purchase.attempting){
+    if(this.props.purchase.attemptingPurchase){
       return this.renderPurchaseAttempting();
     }
 

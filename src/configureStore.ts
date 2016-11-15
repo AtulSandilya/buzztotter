@@ -19,6 +19,7 @@ engine = filter(engine,
   [
     // Don't save these state keys
     'purchase',
+    'addCreditCard',
     'view',
     'modals',
     ['contacts', 'loadingFromFacebook'],

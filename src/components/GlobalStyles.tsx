@@ -25,11 +25,13 @@ interface Styles {
   whiteText: React.TextStyle;
   bevContainer: React.ViewStyle;
   bevLine: React.ViewStyle;
+  bevLineNoSep: React.ViewStyle;
   bevLastLine: React.ViewStyle;
   bevLineTextTitle: React.TextStyle;
   bevLineText: React.TextStyle;
   bevLineLeft: React.ViewStyle;
   bevLineRight: React.ViewStyle;
+  bevLineWideRight: React.ViewStyle;
 }
 
 export const globalStyles = StyleSheet.create<Styles>({
@@ -78,6 +80,11 @@ export const globalStyles = StyleSheet.create<Styles>({
     paddingBottom: 10,
     marginBottom: 15,
   },
+  bevLineNoSep: {
+    flex: -1,
+    flexDirection: 'row',
+    paddingBottom: 10,
+  },
   bevLastLine: {
     flex: -1,
     flexDirection: 'row',
@@ -96,6 +103,11 @@ export const globalStyles = StyleSheet.create<Styles>({
   },
   bevLineRight: {
     flex: 1,
+    alignItems: 'flex-end',
+    paddingRight: 10,
+  },
+  bevLineWideRight: {
+    flex: 2,
     alignItems: 'flex-end',
     paddingRight: 10,
   },

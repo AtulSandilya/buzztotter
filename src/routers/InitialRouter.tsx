@@ -37,7 +37,9 @@ const backIcon = (text) => {
   let hitSlop = 10;
   return (
     <TouchableOpacity
-      onPress={Actions.pop}
+      onPress={() => {
+        Actions.pop();
+      }}
       style={{
         flex: 1,
         flexDirection: 'row',
