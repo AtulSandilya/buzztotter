@@ -84,7 +84,7 @@ function *fetchNewCustomer(action) {
 //  fetchAddCardToCustomer ----------------------------------------------{{{
 
 // Adds a credit card, but does not make it the default
-function *fetchAddCardToCustomer(action){
+export function *fetchAddCardToCustomer(action){
   yield put({type: 'ATTEMPTING_STRIPE_ADD_CARD_TO_CUSTOMER'});
   try {
     const customerId: string = yield select((state) => state.user.stripe.customerId);
@@ -116,7 +116,7 @@ function *fetchAddCardToCustomer(action){
 
 // Update the active card, verify that the cards in the state match the cards
 // stripe has registered
-function *fetchVerifyCustomer() {
+export function *fetchVerifyCustomer() {
   yield put({type: 'ATTEMPTING_STRIPE_CUSTOMER_VERIFICATION'});
 
   try {
@@ -265,7 +265,7 @@ export function *fetchDeleteCustomerCard(action){
 
 //  End fetchDeleteCustomerCard -----------------------------------------}}}
 
-function *checkResponseForError(response, actionTypeForError){
+export function *checkResponseForError(response, actionTypeForError){
   if(response.error !== undefined) {
     // Extract the user relevant error message
     const err = response.error.message;

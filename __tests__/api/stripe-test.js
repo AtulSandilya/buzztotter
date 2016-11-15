@@ -1,6 +1,9 @@
 import fetchMock from 'fetch-mock';
 
-import {promiseCreditCardToken, promiseCreditCardPurchase} from '../../build/api/stripe';
+import {
+  promiseCreditCardToken,
+  promiseCreditCardPurchase,
+} from '../../build/api/stripe';
 
 // Stripe Responses ---------------------------------------------------- {{{
 
@@ -120,23 +123,12 @@ describe('stripe api', () => {
 
   const stripeApiUrl = "https://api.stripe.com/v1/"
 
-  fetchMock.postOnce(stripeApiUrl + "tokens", sampleTokenResponse);
+  fetchMock.post(stripeApiUrl + "tokens", sampleTokenResponse);
 
   it('fetches token successfully', () => {
-
     return promiseCreditCardToken("424242424242", "12", "22", "123")
       .then((result) => {
         expect(result).toEqual(sampleTokenResponse);
      });
-  })
-
-  fetchMock.postOnce(stripeApiUrl + "charges", sampleTokenResponse);
-
-  it('fetches transaction successfully', () => {
-
-    return promiseCreditCardPurchase(sampleTokenResponse.id, "600", "Sample Transaction")
-      .then((result) => {
-        expect(result).toEqual(sampleTokenResponse);
-      });
   })
 })

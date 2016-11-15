@@ -1,8 +1,127 @@
 import fetchMock from 'fetch-mock';
 
-import { fetchCreditCardToken, handleTokenResponse, handleTransactionResponse, CreditCardException} from '../../build/sagas/stripe.js';
+import {
+  checkResponseForError,
+  fetchAddCardToCustomer,
+  fetchVerifyCreditCard,
+  fetchVerifyCustomer,
+} from '../../build/sagas/stripe.js';
+
 import { promiseCreditCardToken, promiseCreditCardPurchase } from '../../build/api/stripe';
-import {sampleTokenResponse, sampleTransactionResponse, sampleErrorResponse} from '../api/stripe-test';
+
+// Stripe Responses ---------------------------------------------------- {{{
+
+export const sampleTokenResponse = {
+  "id": "tok_18y8HSK6oDSgnbJR3lVp3sPE",
+  "object": "token",
+  "card": {
+    "id": "card_18y8HSK6oDSgnbJRe4luQYRa",
+    "object": "card",
+    "address_city": null,
+    "address_country": null,
+    "address_line1": null,
+    "address_line1_check": null,
+    "address_line2": null,
+    "address_state": null,
+    "address_zip": null,
+    "address_zip_check": null,
+    "brand": "Visa",
+    "country": "US",
+    "cvc_check": null,
+    "dynamic_last4": null,
+    "exp_month": 8,
+    "exp_year": 2017,
+    "funding": "credit",
+    "last4": "4242",
+    "metadata": {
+    },
+    "name": null,
+    "tokenization_method": null
+  },
+  "client_ip": null,
+  "created": 1474931582,
+  "livemode": false,
+  "type": "card",
+  "used": false
+}
+
+export const sampleErrorResponse = {
+  error: {
+    message: "Your card's expiration month is invalid.",
+    type: "card_error",
+    param: "exp_month",
+    code: "invalid_expiry_month",
+  }
+}
+
+export const sampleTransactionResponse = {
+  "id": "ch_191KR4K6oDSgnbJRa65alA64",
+  "object": "charge",
+  "amount": 600,
+  "amount_refunded": 0,
+  "application_fee": null,
+  "balance_transaction": "txn_18zAJUK6oDSgnbJRQ7oyeztZ",
+  "captured": true,
+  "created": 1475693290,
+  "currency": "usd",
+  "customer": null,
+  "description": "Sent 1 Bevegram to W Travis Caldwell",
+  "destination": null,
+  "dispute": null,
+  "failure_code": null,
+  "failure_message": null,
+  "fraud_details": {
+  },
+  "invoice": null,
+  "livemode": false,
+  "metadata": {
+  },
+  "order": null,
+  "paid": true,
+  "receipt_email": null,
+  "receipt_number": null,
+  "refunded": false,
+  "refunds": {
+    "object": "list",
+    "data": [
+
+    ],
+    "has_more": false,
+    "total_count": 0,
+    "url": "/v1/charges/ch_191KR4K6oDSgnbJRa65alA64/refunds"
+  },
+  "shipping": null,
+  "source": {
+    "id": "card_191KR4K6oDSgnbJRTCJJSgBX",
+    "object": "card",
+    "address_city": null,
+    "address_country": null,
+    "address_line1": null,
+    "address_line1_check": null,
+    "address_line2": null,
+    "address_state": null,
+    "address_zip": null,
+    "address_zip_check": null,
+    "brand": "Visa",
+    "country": "US",
+    "customer": null,
+    "cvc_check": "pass",
+    "dynamic_last4": null,
+    "exp_month": 11,
+    "exp_year": 2020,
+    "funding": "credit",
+    "last4": "4242",
+    "metadata": {
+    },
+    "name": null,
+    "tokenization_method": null
+  },
+  "source_transfer": null,
+  "statement_descriptor": null,
+  "status": "succeeded"
+}
+
+// End Stripe Responses ------------------------------------------------ }}}
 
 export const cardData = {
   cardNumber: "4242424242424242",
@@ -20,98 +139,74 @@ const getAction = (input) => {
   return input.value.PUT.action;
 }
 
+const getCall = (input) => {
+  return input.value.CALL.fn;
+}
+
 describe('stripe saga', () => {
   const stripeApiUrl = "https://api.stripe.com/v1/"
 
+// checkVerifyCreditCard ------------------------------------------------{{{
 
-  it('fetches credit card token successfully', () => {
+  it('verifies credit card successfully', () => {
+
+    const customerId = "1234";
 
     fetchMock.postOnce(stripeApiUrl + "tokens", sampleTokenResponse);
 
-    const gen = fetchCreditCardToken({payload: {cardData: cardData, purchaseData: purchaseData}});
+    const gen = fetchVerifyCreditCard({payload: {cardData: cardData}});
 
     let result = gen.next();
-    expect(getAction(result).type).toEqual('ATTEMPING_CREDIT_CARD_PURCHASE');
+    expect(result.value.SELECT).toBeDefined();
 
-    // Anytime the "return value" of yield via assignment (`val = yield thing`)
-    // the result of the generator must be passed to the `next` generator
-    result = gen.next(result);
-    expect(result.value.CALL.fn).toEqual(promiseCreditCardToken);
-
-    result = gen.next(result);
-    expect(result.value.CALL.fn).toEqual(handleTokenResponse);
+    // Input to select customer Id
+    result = gen.next(customerId);
+    expect(getAction(result).type).toEqual('ATTEMPTING_CREDIT_CARD_VERIFICATION');
 
     result = gen.next(result);
-    expect(result.value.PUT.action.type).toEqual('HANDLE_CREDIT_CARD_VERIFIED');
+    expect(getCall(result)).toEqual(promiseCreditCardToken);
 
     result = gen.next(result);
-    expect(result.value.CALL.fn).toEqual(promiseCreditCardPurchase);
+    expect(getCall(result)).toEqual(checkResponseForError);
 
     result = gen.next(result);
-    expect(result.value.CALL.fn).toEqual(handleTransactionResponse);
+    expect(getCall(result)).toEqual(fetchAddCardToCustomer);
 
     result = gen.next(result);
-    expect(result.value.PUT.action.type).toEqual('HANDLE_CREDIT_CARD_PURCHASE_SUCESSFUL');
+    expect(result.value.SELECT).toBeDefined();
 
     result = gen.next(result);
-    expect(result.done).toEqual(true);
+    expect(getAction(result).type).toEqual('END_CREDIT_CARD_VERIFICATION');
+
+    result = gen.next(result);
+    expect(getAction(result).type).toEqual('SUCCESSFUL_CREDIT_CARD_VERIFICATION');
+
+    result = gen.next(result);
+    expect(result.done).toBeTruthy();
 
   })
-// Handle Token Response ---------------------------------------------- {{{
 
-  it('should handle token response', () => {
+// End checkVerifyCreditCard --------------------------------------------}}}
+// checkResponseForError ------------------------------------------------{{{
 
-    // To test a generator functions returned value you have to explicitly
-    // step through each yield until you reach `done: true` in the returned
-    // object
+  it('should handle error', () => {
+    const errorAction = "FAILED_SOMETHING";
+    let gen = checkResponseForError(sampleErrorResponse, errorAction);
 
-    let generator = handleTokenResponse(sampleTokenResponse);
+    let result = gen.next();
+    expect(getAction(result).type).toEqual(errorAction)
 
-    const result = generator.next();
+    result = gen.next();
+    expect(getCall(result)).toEqual(fetchVerifyCustomer)
 
-    // test the returned value
-    expect(result.value).toEqual({
-      token: "tok_18y8HSK6oDSgnbJR3lVp3sPE",
-      last4: "4242",
-      brand: "Visa",
-    })
-
-    // Make sure the generator has completed
-    expect(result.done).toBe(true);
-  })
-
-// End Handle Token Response ------------------------------------------ }}}
-// Handle Token Response Error ---------------------------------------- {{{
-
-  it('should handle token response error', () => {
-    let gen = handleTokenResponse(sampleErrorResponse);
-
-    // Testing the output of a `yield put`. This is what gets passed to the
-    // reducer.
-    expect(gen.next().value.PUT.action).toEqual({
-      type: 'HANDLE_CREDIT_CARD_VERIFICATION_FAILED',
-      payload: sampleErrorResponse.error.message,
-    });
-
-    // Calling a generator like this actually throws the error. To test an
-    // exception from a generator this is what needs to execute.
     expect(() => {
-      gen.next()
+      gen.next(result);
     }).toThrowError(/CreditCardException/);
 
+    result = gen.next();
+    expect(result.done).toBeTruthy();
   })
 
-// End Handle Token Response Error ------------------------------------ }}}
-// Handle Transaction Response ----------------------------------------- {{{
-
-  it('should handle transaction response', () => {
-    let gen = handleTransactionResponse(sampleTransactionResponse);
-
-    let result = gen.next();
-    expect(result.value).toEqual(sampleTransactionResponse);
-    expect(result.done).toEqual(true);
-  })
-
-// End Handle Transaction Response ------------------------------------- }}}
+// End checkResponseForError --------------------------------------------}}}
 })
 
