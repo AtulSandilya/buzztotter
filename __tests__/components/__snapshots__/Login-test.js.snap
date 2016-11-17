@@ -68,32 +68,17 @@ exports[`test renders correctly 1`] = `
           "marginTop": 30,
         }
       }>
-      <View
-        accessibilityComponentType={undefined}
-        accessibilityLabel={undefined}
-        accessibilityTraits={undefined}
-        accessible={true}
-        hitSlop={undefined}
-        onLayout={undefined}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
+      <TouchableHighlight
+        activeOpacity={0.85}
+        onPress={undefined}
         style={
-          Array [
-            Object {
-              "backgroundColor": "transparent",
-            },
-            Object {
-              "backgroundColor": "#dd4b39",
-              "borderRadius": 3,
-              "padding": 15,
-            },
-          ]
+          Object {
+            "backgroundColor": "#dd4b39",
+            "borderRadius": 3,
+            "padding": 15,
+          }
         }
-        testID={undefined}>
+        underlayColor="black">
         <Text
           accessible={true}
           allowFontScaling={true}
@@ -106,7 +91,7 @@ exports[`test renders correctly 1`] = `
           }>
           Import Contacts from Google
         </Text>
-      </View>
+      </TouchableHighlight>
     </View>
     <View
       style={

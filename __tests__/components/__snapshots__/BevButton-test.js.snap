@@ -10,28 +10,10 @@ exports[`test renders correctly 1`] = `
       "flexDirection": "row-reverse",
     }
   }>
-  <View
-    accessibilityComponentType={undefined}
-    accessibilityLabel={undefined}
-    accessibilityTraits={undefined}
-    accessible={true}
-    hitSlop={undefined}
-    onLayout={undefined}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      Array [
-        Object {
-          "backgroundColor": "transparent",
-        },
-        undefined,
-      ]
-    }
-    testID={undefined}>
+  <TouchableHighlight
+    activeOpacity={0.85}
+    onPress={[Function]}
+    underlayColor="#ffffff">
     <View
       style={
         Array [
@@ -70,7 +52,7 @@ exports[`test renders correctly 1`] = `
         Test
       </Text>
     </View>
-  </View>
+  </TouchableHighlight>
 </View>
 `;
 
@@ -82,28 +64,10 @@ exports[`test renders correctly with button size 1`] = `
       "flexDirection": "row-reverse",
     }
   }>
-  <View
-    accessibilityComponentType={undefined}
-    accessibilityLabel={undefined}
-    accessibilityTraits={undefined}
-    accessible={true}
-    hitSlop={undefined}
-    onLayout={undefined}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      Array [
-        Object {
-          "backgroundColor": "transparent",
-        },
-        undefined,
-      ]
-    }
-    testID={undefined}>
+  <TouchableHighlight
+    activeOpacity={0.85}
+    onPress={[Function]}
+    underlayColor="#ffffff">
     <View
       style={
         Array [
@@ -142,6 +106,6 @@ exports[`test renders correctly with button size 1`] = `
         Test
       </Text>
     </View>
-  </View>
+  </TouchableHighlight>
 </View>
 `;

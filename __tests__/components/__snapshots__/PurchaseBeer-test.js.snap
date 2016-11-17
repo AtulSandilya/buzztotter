@@ -122,11 +122,8 @@ exports[`test renders correctly 1`] = `
               "justifyContent": "flex-end",
             }
           }>
-          <View
-            accessibilityComponentType={undefined}
-            accessibilityLabel={undefined}
-            accessibilityTraits={undefined}
-            accessible={true}
+          <TouchableHighlight
+            activeOpacity={0.85}
             hitSlop={
               Object {
                 "bottom": 10,
@@ -135,35 +132,24 @@ exports[`test renders correctly 1`] = `
                 "top": 10,
               }
             }
-            onLayout={undefined}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
+            onPress={[Function]}
             style={
               Array [
                 Object {
-                  "backgroundColor": "transparent",
+                  "alignItems": "center",
+                  "alignSelf": "center",
+                  "backgroundColor": "#8ED0BA",
+                  "borderRadius": 100,
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
                 },
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "alignSelf": "center",
-                    "backgroundColor": "#8ED0BA",
-                    "borderRadius": 100,
-                    "flex": 1,
-                    "flexDirection": "row",
-                    "justifyContent": "center",
-                  },
-                  Object {
-                    "marginRight": 15,
-                  },
-                ],
+                Object {
+                  "marginRight": 15,
+                },
               ]
             }
-            testID={undefined}>
+            underlayColor="black">
             <Text
               accessible={true}
               allowFontScaling={true}
@@ -176,12 +162,9 @@ exports[`test renders correctly 1`] = `
               }>
               +
             </Text>
-          </View>
-          <View
-            accessibilityComponentType={undefined}
-            accessibilityLabel={undefined}
-            accessibilityTraits={undefined}
-            accessible={true}
+          </TouchableHighlight>
+          <TouchableHighlight
+            activeOpacity={0.85}
             hitSlop={
               Object {
                 "bottom": 10,
@@ -190,30 +173,19 @@ exports[`test renders correctly 1`] = `
                 "top": 10,
               }
             }
-            onLayout={undefined}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
+            onPress={[Function]}
             style={
-              Array [
-                Object {
-                  "backgroundColor": "transparent",
-                },
-                Object {
-                  "alignItems": "center",
-                  "alignSelf": "center",
-                  "backgroundColor": "#8ED0BA",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-              ]
+              Object {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "backgroundColor": "#8ED0BA",
+                "borderRadius": 100,
+                "flex": 1,
+                "flexDirection": "row",
+                "justifyContent": "center",
+              }
             }
-            testID={undefined}>
+            underlayColor="black">
             <Text
               accessible={true}
               allowFontScaling={true}
@@ -226,7 +198,7 @@ exports[`test renders correctly 1`] = `
               }>
               -
             </Text>
-          </View>
+          </TouchableHighlight>
         </View>
         <View
           style={
@@ -383,27 +355,15 @@ exports[`test renders correctly 1`] = `
           "paddingBottom": 10,
         }
       }>
-      <View
-        accessibilityComponentType={undefined}
-        accessibilityLabel={undefined}
-        accessibilityTraits={undefined}
-        accessible={true}
-        hitSlop={undefined}
-        onLayout={undefined}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
+      <TouchableOpacity
+        activeOpacity={0.2}
+        onPress={[Function]}
         style={
           Object {
             "flex": 1,
             "flexDirection": "row",
-            "opacity": 1,
           }
-        }
-        testID={undefined}>
+        }>
         <View
           style={
             Array [
@@ -464,7 +424,7 @@ exports[`test renders correctly 1`] = `
             
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
     <View>
       <Text
@@ -511,28 +471,10 @@ exports[`test renders correctly 1`] = `
               "flexDirection": "row-reverse",
             }
           }>
-          <View
-            accessibilityComponentType={undefined}
-            accessibilityLabel={undefined}
-            accessibilityTraits={undefined}
-            accessible={true}
-            hitSlop={undefined}
-            onLayout={undefined}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            style={
-              Array [
-                Object {
-                  "backgroundColor": "transparent",
-                },
-                undefined,
-              ]
-            }
-            testID={undefined}>
+          <TouchableHighlight
+            activeOpacity={0.85}
+            onPress={undefined}
+            underlayColor="#ffffff">
             <View
               style={
                 Array [
@@ -571,7 +513,7 @@ exports[`test renders correctly 1`] = `
                 Cancel
               </Text>
             </View>
-          </View>
+          </TouchableHighlight>
         </View>
       </View>
       <View
@@ -588,28 +530,10 @@ exports[`test renders correctly 1`] = `
               "flexDirection": "row-reverse",
             }
           }>
-          <View
-            accessibilityComponentType={undefined}
-            accessibilityLabel={undefined}
-            accessibilityTraits={undefined}
-            accessible={true}
-            hitSlop={undefined}
-            onLayout={undefined}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            style={
-              Array [
-                Object {
-                  "backgroundColor": "transparent",
-                },
-                undefined,
-              ]
-            }
-            testID={undefined}>
+          <TouchableHighlight
+            activeOpacity={0.85}
+            onPress={undefined}
+            underlayColor="#ffffff">
             <View
               style={
                 Array [
@@ -629,7 +553,7 @@ exports[`test renders correctly 1`] = `
                   },
                   null,
                   Object {
-                    "paddingVertical": 10,
+                    "paddingVertical": 11,
                   },
                 ]
               }>
@@ -679,7 +603,7 @@ exports[`test renders correctly 1`] = `
                 
               </Text>
             </View>
-          </View>
+          </TouchableHighlight>
         </View>
       </View>
     </View>
