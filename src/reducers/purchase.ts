@@ -33,6 +33,7 @@ export const initialPurchaseState: PurchaseState = {
 export const purchase = (state = initialPurchaseState, action) => {
   switch(action.type){
     case 'ATTEMPTING_CREDIT_CARD_PURCHASE':
+      console.log("ATTEMPTING_CREDIT_CARD_PURCHASE");
       return Object.assign({}, state, {
           paymentMethod: 'creditCard',
           attemptingPurchase: true,

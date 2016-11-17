@@ -21,7 +21,7 @@ const initialAddCreditCardState: AddCreditCardState = {
 
 export const addCreditCard = (state = initialAddCreditCardState, action) => {
   switch(action.type){
-    case 'ATTEMPING_CREDIT_CARD_VERIFICATION':
+    case 'ATTEMPTING_CREDIT_CARD_VERIFICATION':
       return Object.assign({}, state, {
           attemptingVerification: true,
         });
