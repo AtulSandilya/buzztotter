@@ -1,6 +1,6 @@
 {
   "name": "Bevegram",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "private": true,
   "scripts": {
     "test": "jest"
@@ -42,8 +42,8 @@
     "gulp-git": "^1.11.3",
     "gulp-prompt": "^0.2.0",
     "gulp-tag-version": "^1.3.0",
-    "jest": "^16.0.1",
-    "jest-react-native": "^16.0.0",
+    "jest": "^17.0.2",
+    "jest-react-native": "^17.0.2",
     "react-dom": "^15.3.2",
     "react-native-mock": "^0.2.7",
     "react-test-renderer": "^15.3.2",

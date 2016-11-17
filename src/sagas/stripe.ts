@@ -195,7 +195,7 @@ export function *fetchUpdateDefaultCard(action){
 export function* fetchCreditCardPurchase(action) {
     const purchaseData = action.payload.purchaseData;
     try{
-      yield put({type: 'ATTEMPING_CREDIT_CARD_PURCHASE'});
+      yield put({type: 'ATTEMPTING_CREDIT_CARD_PURCHASE'});
 
       // Before a purchase verify that the customer in the state matches the
       // customer registered in stripe. If they don't match abort the
