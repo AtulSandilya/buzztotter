@@ -58,6 +58,7 @@ public class InitialTest {
         Thread.sleep(1500);
 
         // Test Pull down to refresh
+        // "Contacts List" is the react-native accessibilityLabel
         onView(withContentDescription("Contacts List")).perform(swipeDown());
 
         Thread.sleep(5000);

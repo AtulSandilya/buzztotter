@@ -264,25 +264,35 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
           <View style={{flexDirection: 'row', paddingTop: 20}}>
             <View style={{flex: 1, alignItems: 'flex-start'}}>
               <BevButton
-                bevButtonPressed={this.props.closePurchaseRoute}
-                buttonText={"Cancel"}
+                onPress={this.props.closePurchaseRoute}
+                text={"Cancel"}
+                shortText={"Cancel"}
+                label="Cancel Purchase Button"
                 buttonFontSize={20}
+                margin={0}
               />
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
               {this.props.creditCards.length === 0 ?
                 <BevButton
-                  bevButtonPressed={this.props.goToAddCreditCardRoute}
-                  buttonText={"Add Credit Card"}
+                  onPress={this.props.goToAddCreditCardRoute}
+                  text={"Add Credit Card"}
+                  shortText="Add Card"
+                  label="Add Credit Card Button"
                   buttonFontSize={20}
                   rightIcon={true}
                   adjacentButton={true}
+                  margin={0}
                 />
               :
                 <BevButton
-                  bevButtonPressed={this.purchaseDrink.bind(this)}
-                  buttonText={"Confirm Purchase"}
+                  onPress={this.purchaseDrink.bind(this)}
+                  text={"Confirm Purchase"}
+                  shortText="Purchase"
+                  label="Confirm Purchase Button"
                   buttonFontSize={20}
+                  leftIcon="logo-usd"
+                  margin={0}
                 />
               }
             </View>
@@ -342,15 +352,19 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
               }}>
                 <View style={{flex: 1, alignItems: 'flex-start', paddingTop: 10}}>
                   <BevButton
-                    bevButtonPressed={this.props.closePurchaseRoute}
-                    buttonText={"Close"}
+                    onPress={this.props.closePurchaseRoute}
+                    text={"Close"}
+                    shortText="Close"
+                    label="Close Purchase Button"
                     buttonFontSize={20}
                   />
                 </View>
                 <View style={{flex: 1, alignItems: 'flex-end', paddingTop: 10}}>
                   <BevButton
-                    bevButtonPressed={this.props.resetPurchase}
-                    buttonText={"Try Again"}
+                    onPress={this.props.resetPurchase}
+                    text={"Try Again"}
+                    shortText={"Try Again"}
+                    label={"Try Purchase Again Button"}
                     buttonFontSize={20}
                   />
                 </View>
@@ -384,8 +398,10 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
         <View>
           <View style={{alignItems: 'flex-end', paddingTop: 10}}>
             <BevButton
-              bevButtonPressed={this.props.closePurchaseRoute}
-              buttonText={"Close"}
+              onPress={this.props.closePurchaseRoute}
+              text={"Close"}
+              shortText={"Close"}
+              label="Close Purchase Button"
               buttonFontSize={20}
             />
           </View>

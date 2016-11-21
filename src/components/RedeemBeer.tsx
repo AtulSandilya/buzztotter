@@ -58,8 +58,10 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
           </View>
           <View style={{alignItems: 'flex-end', paddingTop: 10}}>
             <BevButton
-              bevButtonPressed={this.props.closeRedeem}
-              buttonText={"Close"}
+              onPress={this.props.closeRedeem}
+              text={"Close"}
+              shortText={"Close"}
+              label="Close Redeem Button"
               buttonFontSize={20}
             />
           </View>
@@ -144,15 +146,19 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
           <View style={{flexDirection: 'row', paddingTop: 20}}>
             <View style={{flex: 1, alignItems: 'flex-start'}}>
               <BevButton
-                bevButtonPressed={this.props.closeRedeem}
-                buttonText={"Cancel"}
+                onPress={this.props.closeRedeem}
+                text={"Close"}
+                shortText={"Close"}
+                label="Close Redeem Button"
                 buttonFontSize={20}
               />
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
               <BevButton
-                bevButtonPressed={this.purchaseDrink.bind(this)}
-                buttonText={"Redeem Beer"}
+                onPress={this.purchaseDrink.bind(this)}
+                text={"Redeem Beer"}
+                shortText={"Redeem"}
+                label={"Redeem Beer Button"}
                 buttonFontSize={20}
               />
             </View>

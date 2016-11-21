@@ -319,16 +319,20 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
           <View style={globalStyles.bevLastLine}>
             <View style={globalStyles.bevLineLeft}>
               <BevButton
-                buttonText="Cancel"
-                bevButtonPressed={this.props.goBackToPurchase.bind(this)}
+                text="Cancel"
+                shortText="Cancel"
+                label="Cancel Add Credit Card Button"
+                onPress={this.props.goBackToPurchase.bind(this)}
                 buttonFontSize={20}
                 margin={0}
               />
             </View>
             <View style={globalStyles.bevLineRight}>
               <BevButton
-                buttonText={this.props.attemptingVerification ? "Verifying" : "Verify Card"}
-                bevButtonPressed={this.verifyCard.bind(this)}
+                text={this.props.attemptingVerification ? "Verifying" : "Verify Card"}
+                shortText={this.props.attemptingVerification ? "Verifying" : "Verify"}
+                label="Verify Credit Card Button"
+                onPress={this.verifyCard.bind(this)}
                 buttonFontSize={20}
                 margin={0}
                 showSpinner={this.props.attemptingVerification}

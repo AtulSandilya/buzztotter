@@ -93,8 +93,10 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({notifications
           top: -15,
         }}>
           <BevButton
-            buttonText={"Send Notification"}
-            bevButtonPressed={sendNotification}
+            text={"Send Notification"}
+            shortText={"Send Notification"}
+            label="Send Notification Button"
+            onPress={sendNotification}
           />
         </View>
       </SettingLine>

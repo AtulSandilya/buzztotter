@@ -64,8 +64,10 @@ const Contact: React.StatelessComponent<ContactProps> = ({name, birthday, imageP
       </View>
       <View style={styles.buttonContainer}>
         <BevButton
-          buttonText={"Send " + name.first + " a Beer!"}
-          bevButtonPressed={() => openPurchaseRoute({fullName: fullName, firstName: name.first})}
+          text={"Send " + name.first + " a Beer"}
+          shortText="Send Beer"
+          label="Send Beer Button"
+          onPress={() => openPurchaseRoute({fullName: fullName, firstName: name.first})}
           rightIcon={true}
         />
       </View>

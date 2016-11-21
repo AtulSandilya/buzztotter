@@ -143,9 +143,12 @@ export default class BevegramLocations extends Component<BevegramLocationsProps,
                 </View>
                 <View style={{flex: 1}}>
                   <BevButton
-                    buttonText={"Open in Maps"}
+                    text={"Open in Maps"}
+                    shortText="Map"
+                    label="Open Map Button"
                     buttonFontSize={16}
-                    bevButtonPressed={() => openMapsToAddress(rowData.latitude, rowData.longitude, rowData.name)}
+                    rightIcon={true}
+                    onPress={() => openMapsToAddress(rowData.latitude, rowData.longitude, rowData.name)}
                   />
                 </View>
               </View>
