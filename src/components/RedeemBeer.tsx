@@ -130,7 +130,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
           </View>
           <View style={globalStyles.bevLine}>
             <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Vendor Id:</Text>
+              <Text style={globalStyles.bevLineTextTitle}>Vendor PIN:</Text>
             </View>
             <View style={[globalStyles.bevLineRight, {flex: 1, maxWidth: 125}]}>
               <TextInput
