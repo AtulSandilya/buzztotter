@@ -32,7 +32,7 @@ interface PurchaseBeerProps {
 
 interface PurchaseBeerState {
   numDrinks: number;
-  couponCode: string;
+  promoCode: string;
 }
 
 export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseBeerState> {
@@ -41,7 +41,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
     super(props);
     this.state = {
       numDrinks: 1,
-      couponCode: "",
+      promoCode: "",
     };
   }
 
@@ -117,7 +117,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
           </View>
           <View style={globalStyles.bevLine}>
             <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Coupon:</Text>
+              <Text style={globalStyles.bevLineTextTitle}>Promo Code:</Text>
             </View>
             <View style={globalStyles.bevLineRight}>
               <View style={{
@@ -131,12 +131,12 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
                     textAlign: 'center',
                     height: 40,
                   }}
-                  ref="couponInput"
+                  ref="promoCodeInput"
                   maxLength={4}
                   placeholder={"ABCD"}
                   placeholderTextColor={"#cccccc"}
                   onChangeText={(text) => {
-                    this.updateState("couponCode", text);
+                    this.updateState("promoCode", text);
                   }}
                 />
               </View>
