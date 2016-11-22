@@ -97,14 +97,13 @@ export const globalStyles = StyleSheet.create<Styles>({
     fontSize: 20,
   },
   bevLineLeft: {
-    flex: 1,
+    flex: -1,
     alignItems: 'flex-start',
     justifyContent: 'center',
   },
   bevLineRight: {
     flex: 1,
     alignItems: 'flex-end',
-    paddingRight: 10,
   },
   bevLineWideRight: {
     flex: 2,
