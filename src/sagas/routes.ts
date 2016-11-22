@@ -1,4 +1,4 @@
-import { put } from 'redux-saga/effects';
+import { put, select } from 'redux-saga/effects';
 
 import { Actions, ActionConst } from 'react-native-router-flux';
 
@@ -26,26 +26,41 @@ interface GoBackRoutePayloadProps {
 }
 
 export function *goBackRoute(action) {
+  const nextRoute = yield select((state) => state.routes.previousRoute);
+  const currentRoute = yield select((state) => state.routes.currentRoute);
 
-  const payload: GoBackRoutePayloadProps = action.payload;
-
-  if(payload.preActions){
-    for(let index in payload.preActions){
-      yield put(payload.preActions[index]);
-    }
+  const routesThatDontGoBack = {
+    "MainUi": true,
+    "Login": true,
   }
 
-  const nextRoute = payload.nextRoute;
+  if(routesThatDontGoBack[currentRoute] === undefined){
+    Actions[nextRoute]({type: ActionConst.BACK});
 
-  Actions[nextRoute]({type: ActionConst.BACK});
+    yield put({type: 'CLOSE_ROUTE', payload: {
+        route: currentRoute,
+    }});
+  // Inside the `MainUi` route the back button should go back a tab
+  } else if (currentRoute === "MainUi"){
+    yield put({type: 'GOBACK_VIEW'});
+  }
+}
 
-  yield put({type: 'CLOSE_ROUTE', payload: {
-      route: payload.route,
-  }});
+export function *onFocusRoute(action) {
+  if(action.scene){
+    yield put({type: 'UPDATE_CURRENT_ROUTE', payload: {
+      currentRoute: action.scene.name,
+    }});
 
-  if(payload.postActions){
-    for(let index in payload.postActions){
-      yield put(payload.postActions[index]);
+    // Dispatch actions when a scene comes into focus. This avoids updating a
+    // scene during a transition.
+    switch(action.scene.name){
+      case "PurchaseBeer":
+        yield put({type: 'END_CREDIT_CARD_VERIFICATION_IF_NOT_ATTEMPTING'});
+      case "MainUi":
+        yield put({type: 'END_CREDIT_CARD_PURCHASE_IF_NOT_ATTEMPTING'});
+      default:
+        return;
     }
   }
 }

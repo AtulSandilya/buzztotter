@@ -24,14 +24,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({type: 'RESET_CREDIT_CARD_PURCHASE'});
     },
     closePurchaseRoute: () => {
-      dispatch({
-        type: 'GO_BACK_ROUTE',
-        payload: {
-          route: "PurchaseBeer",
-          nextRoute: "MainUi",
-          preActions: [{type: 'END_CREDIT_CARD_PURCHASE'}],
-        }
-      });
+      dispatch({type: 'GO_BACK_ROUTE'});
     },
     startCreditCardPurchase: (purchaseData) => {
       dispatch({type: 'REQUEST_CREDIT_CARD_PURCHASE', payload: {

@@ -32,10 +32,7 @@ const mapDispatchToProps = (dispatch): DispatchProps => {
       dispatch({type: 'CONFIRM_ROUTE', route: "RedeemBeer"});
     },
     closeRedeem: () => {
-      dispatch({type: 'GO_BACK_ROUTE', payload: {
-        route: "RedeemBeer",
-        nextRoute: "MainUi"
-      }});
+      dispatch({type: 'GO_BACK_ROUTE'});
     }
   }
 }

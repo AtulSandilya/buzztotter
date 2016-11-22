@@ -29,14 +29,7 @@ interface AddCreditCardDispatch {
 const mapDispatchToProps = (dispatch): AddCreditCardDispatch => {
   return {
     goBackToPurchase: () => {
-      dispatch({
-        type: 'GO_BACK_ROUTE',
-        payload: {
-          route: "AddCreditCard",
-          nextRoute: "PurchaseBeer",
-          postActions: [{type: 'END_CREDIT_CARD_VERIFICATION_IF_NOT_ATTEMPTING'}],
-        },
-      });
+      dispatch({type: 'GO_BACK_ROUTE'});
     },
     verifyCardDetailsWithStripe: (cardData: CardDataForVerification)  => {
       dispatch({

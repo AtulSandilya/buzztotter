@@ -26,6 +26,7 @@ interface RouteData {
 
 const defaultRouteState: RouteState = {
   currentRoute: "",
+  previousRoute: "",
   PurchaseBeer: {
     isActive: false,
     data: {},
@@ -62,6 +63,7 @@ export const routes = (state = defaultRouteState, action): RouteState => {
     case 'UPDATE_CURRENT_ROUTE':
       return Object.assign({}, state, {
         currentRoute: action.payload.currentRoute,
+        previousRoute: state.currentRoute,
       });
     default:
       return state;

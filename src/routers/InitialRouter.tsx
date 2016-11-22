@@ -39,7 +39,7 @@ const backIcon = (text) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        Actions.pop();
+        store.dispatch({type: 'GO_BACK_ROUTE'});
       }}
       style={{
         flex: 1,
@@ -144,6 +144,7 @@ const CRouter = connect()(Router);
 export interface InitialRouterProps {
   showLogin?: boolean;
   isLoading?: boolean;
+  goBackRoute?(): void;
 }
 
 export default class InitialRouter extends Component<InitialRouterProps, {}> {
@@ -159,10 +160,13 @@ export default class InitialRouter extends Component<InitialRouterProps, {}> {
         </View>
       )
     }
+
     return(
       <CRouter
         scenes={scenes(this.props.showLogin)}
-        backAndroidHandler={() => {return true;}}
+        backAndroidHandler={() => {
+          this.props.goBackRoute();
+        }}
       />
     );
   }

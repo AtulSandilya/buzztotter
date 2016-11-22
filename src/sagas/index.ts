@@ -11,9 +11,12 @@ import {
   fetchUpdateDefaultCard,
   fetchVerifyCreditCard,
 } from './stripe';
-import { goToRoute, goBackRoute } from './routes';
 
-import {handleFocus} from './router-flux';
+import {
+  goBackRoute,
+  goToRoute,
+  onFocusRoute,
+} from './routes';
 
 // Like combine reducers
 export default function* rootSaga() {
@@ -32,8 +35,6 @@ export default function* rootSaga() {
   // Routes
   yield fork(takeEvery, 'GO_TO_ROUTE', goToRoute);
   yield fork(takeEvery, 'GO_BACK_ROUTE', goBackRoute);
-
-  // react-native-router-flux
   // Dispatch actions based on router events
-  yield fork(takeEvery, ActionConst.FOCUS, handleFocus);
+  yield fork(takeEvery, ActionConst.FOCUS, onFocusRoute);
 }
