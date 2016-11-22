@@ -8,7 +8,23 @@ const routeKeys = {
   AddCreditCard: "AddCreditCard",
 }
 
-const defaultRouteState = {
+interface RouteState {
+  currentRoute: string;
+  previousRoute: string
+  PurchaseBeer: RouteData;
+  RedeemBeer: RouteData;
+  Settings: RouteData;
+  AddCreditCard: RouteData;
+  MainUi: RouteData;
+}
+
+interface RouteData {
+  isActive: boolean;
+  data: Object;
+  confirmed?: boolean;
+}
+
+const defaultRouteState: RouteState = {
   currentRoute: "",
   PurchaseBeer: {
     isActive: false,
@@ -34,7 +50,7 @@ const defaultRouteState = {
   }
 }
 
-export const routes = (state = defaultRouteState, action) => {
+export const routes = (state = defaultRouteState, action): RouteState => {
   switch(action.type){
     // This type is different because the saga is called `GO_TO_ROUTE`
     case 'ADD_ROUTE':
