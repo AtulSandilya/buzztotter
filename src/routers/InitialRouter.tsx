@@ -45,6 +45,7 @@ const backIcon = (text) => {
         flexDirection: 'row',
         alignItems: 'center',
         width: 115,
+        marginTop: 5,
       }}
       hitSlop={{
         top: hitSlop,
