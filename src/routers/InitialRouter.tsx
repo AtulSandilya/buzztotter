@@ -9,6 +9,7 @@ import { Actions, Router, Scene } from 'react-native-router-flux';
 import store from '../configureStore';
 
 import {globalColors} from '../components/GlobalStyles';
+import {isAndroid, isNarrow} from '../Utilities';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -69,7 +70,7 @@ const backIcon = (text) => {
         overflow: "visible",
       }}
       >
-        {text}
+        {isNarrow ? "" : text}
       </Text>
     </TouchableOpacity>
   )
