@@ -166,6 +166,9 @@ export default class InitialRouter extends Component<InitialRouterProps, {}> {
         scenes={scenes(this.props.showLogin)}
         backAndroidHandler={() => {
           this.props.goBackRoute();
+          // Not sure why but this makes the back button stop, otherwise the
+          // back action will continue and eventually exit the app.
+          return true;
         }}
       />
     );
