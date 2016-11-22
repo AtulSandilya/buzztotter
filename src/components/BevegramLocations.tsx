@@ -135,10 +135,8 @@ export default class BevegramLocations extends Component<BevegramLocationsProps,
             dataSource={locationDS.cloneWithRows(this.props.markers)}
             renderRow={(rowData) =>
               <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 10}}>
-                <View style={{flex: 1}}>
+                <View style={{flex: 1, flexDirection: 'column'}}>
                   <Text style={{fontSize: 20, fontWeight: 'bold'}}>{rowData.name}</Text>
-                </View>
-                <View style={{flex: 1, alignItems: 'center'}}>
                   <Text style={{fontSize: 20}}>{rowData.typicalHours}</Text>
                 </View>
                 <View style={{flex: 1}}>
