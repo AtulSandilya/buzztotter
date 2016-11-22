@@ -10,7 +10,8 @@ import {
   View,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { globalColors } from './GlobalStyles';
 import {isIOS, isAndroid, isNarrow} from '../Utilities';
@@ -42,6 +43,14 @@ const styles = StyleSheet.create<Style>({
   },
 })
 
+// A button should be at least 44dp tall, and taller if the font size is
+// larger than the default 12
+export const getButtonHeight = (buttonFontSize = 12) => {
+  const buttonHeight = 44 + (buttonFontSize - 12);
+
+  return buttonHeight > 44 ? buttonHeight : 44;
+}
+
 const BevButton  = ({
   text,
   shortText,
@@ -59,6 +68,7 @@ const BevButton  = ({
   // to match the height of the adjacentButton
   adjacentButton = false,
   leftIcon = "",
+  fontAwesomeLeftIcon = "",
 }) => {
   const useShortText = isNarrow;
   const iconStyle =
@@ -78,6 +88,8 @@ const BevButton  = ({
       paddingTop: 2,
     }
 
+  const buttonHeight = getButtonHeight(buttonFontSize);
+
   return (
     <View
       style={styles.buttonContainer}
@@ -91,11 +103,18 @@ const BevButton  = ({
           {margin: margin},
           showDisabled ? {backgroundColor: 'rgba(128, 128, 128, 0.5)'} : null,
           rightIcon || (leftIcon.length !== 0)? {paddingVertical: 11} : null,
-          isNarrow ? {paddingVertical: 11} : null
+          isNarrow ? {paddingVertical: 11} : null,
+          {height: buttonHeight},
         ]}>
           {leftIcon.length !== 0 ?
-            <Icon
+            <Ionicon
               name={leftIcon}
+              style={[styles.buttonText, smallIconStyle, {paddingRight: 10}]}
+            />
+          : null}
+          {fontAwesomeLeftIcon.length !== 0 ?
+            <FontAwesome
+              name={fontAwesomeLeftIcon}
               style={[styles.buttonText, smallIconStyle, {paddingRight: 10}]}
             />
           : null}
@@ -111,7 +130,7 @@ const BevButton  = ({
           : null}
           <Text style={[styles.buttonText, {fontSize: buttonFontSize}]}>{useShortText ? shortText : text}</Text>
           {rightIcon ?
-            <Icon
+            <Ionicon
               name={"ios-arrow-forward"}
               style={[styles.buttonText, iconStyle, {paddingLeft: 10}]}
             />

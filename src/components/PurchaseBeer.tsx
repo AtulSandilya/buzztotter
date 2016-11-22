@@ -14,12 +14,14 @@ import {
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+import {isIOS} from '../Utilities';
+
 import { CardResponseData, PurchaseData, PurchaseState } from '../reducers/purchase';
 
 import StatusLine from './StatusLine';
 import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
 import TitleText from './TitleText';
-import BevButton from './BevButton';
+import BevButton, {getButtonHeight} from './BevButton';
 
 import {globalColors, globalStyles} from './GlobalStyles';
 
@@ -53,6 +55,8 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
       promoCode: "",
     };
   }
+
+  buttonFontSize = 20;
 
   increaseNumDrinks(){
     this.updateNumDrinks(this.state.numDrinks + 1);
@@ -88,231 +92,266 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
     })
   }
 
+  getBrandOfActiveCard(){
+    let activeCardBrand = "";
+
+    this.props.creditCards.map((card) => {
+      if(card.id === this.props.activeCard){
+        activeCardBrand = card.brand;
+      }
+    });
+
+    if(activeCardBrand.length !== 0){
+      return "cc-" + activeCardBrand.toLowerCase();
+    }
+
+    // Show some icon if active card is not found
+    return "credit-card";
+  }
+
   renderPurchaseOptions(){
+    const listFlex = 1;
+    const bottomButtonFlex = -1;
+
     return(
-      <RouteWithNavBarWrapper>
-        <View style={globalStyles.bevContainer}>
-          <View style={globalStyles.bevLine}>
-            <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Receipent:</Text>
-            </View>
-            <View style={globalStyles.bevLineRight}>
-              <Text style={globalStyles.bevLineText}>{this.props.fullName}</Text>
-            </View>
-          </View>
-          <View style={globalStyles.bevLine}>
-            <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Number of Beers:</Text>
-            </View>
-            <View style={styles.numBeersContainer}>
-              <View style={styles.numBeersButtonContainer}>
-                <TouchableHighlight
-                  onPress={() => this.increaseNumDrinks()}
-                  hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-                  style={[styles.numBeersButton, {marginRight: 15}]}>
-                    <Text style={styles.numBeersButtonText}>+</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
-                    onPress={() => this.decreaseNumDrinks()}
-                    hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-                    style={styles.numBeersButton}>
-                    <Text style={styles.numBeersButtonText}>-</Text>
-                  </TouchableHighlight>
-              </View>
-              <View style={{flex: 1, alignItems: 'flex-end'}}>
-                <Text style={globalStyles.bevLineTextTitle}>{this.state.numDrinks}</Text>
-              </View>
-            </View>
-          </View>
-          <View style={globalStyles.bevLine}>
-            <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Promo Code:</Text>
-            </View>
-            <View style={globalStyles.bevLineRight}>
-              <View style={{
-                flex: 1,
-                alignItems: 'flex-end',
-                justifyContent: 'center',
-              }}>
-                <TextInput
-                  style={{
-                    width: 65,
-                    textAlign: 'center',
-                    height: 40,
-                  }}
-                  ref="promoCodeInput"
-                  maxLength={4}
-                  placeholder={"ABCD"}
-                  placeholderTextColor={"#cccccc"}
-                  onChangeText={(text) => {
-                    this.updateState("promoCode", text);
-                  }}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={globalStyles.bevLine}>
-            <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Cost:</Text>
-            </View>
-            <View style={[globalStyles.bevLineRight, {flex: 1}]}>
-              <Text style={globalStyles.bevLineText}>$ {(this.props.purchase.pricePerDrink * this.state.numDrinks).toFixed(2)}</Text>
-            </View>
-          </View>
-          {this.props.creditCards ? this.props.creditCards.map((card, index) => {
-            return (
-              <View style={globalStyles.bevLine} key={card.id}>
-                <TouchableOpacity
-                  onPress={() => {
-                    if(!this.props.attemptingUpdate
-                       && this.props.creditCards.length > 1
-                       && card.id !== this.props.activeCard
-                      ){
-                      this.props.updateDefaultCard(card.id);
-                    }
-                  }}
-                  style={[globalStyles.bevLineLeft, {
-                    flexDirection: 'row',
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-start',
-                }]}>
-                  <View
-                    style={{
-                    paddingRight: 15,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flex: -1,
-                    marginTop: 4,
-                  }}>
-                    {this.props.attemptingUpdate ?
-                        <ActivityIndicator style={{height: 28, width: 28}} />
-                    :
-                      card.id === this.props.activeCard ?
-                        <FontAwesome
-                          name="check-square-o"
-                          size={25}
-                          color="green"
-                          style={{
-                            flex: -1,
-                            width: 28,
-                            height: 28,
-                          }}
-                        />
-                      :
-                        <FontAwesome
-                          name="square-o"
-                          size={25}
-                          color="#999"
-                          style={{
-                            flex: -1,
-                            width: 28,
-                            height: 28,
-                          }}
-                        />
-                    }
-                  </View>
-                  <View style={{flex: -1, flexDirection: "row", justifyContent: 'center', alignItems: 'center'}}>
-                    <FontAwesome name={"cc-" + card.brand.toLowerCase()} size={30} style={{paddingRight: 10}}/>
-                    <Text style={globalStyles.bevLineText}>.... {card.last4}</Text>
-                  </View>
-                </TouchableOpacity>
+      <View style={{flex: 1}}>
+        <View style={{flex: listFlex, backgroundColor: "#ffffff"}}>
+          <RouteWithNavBarWrapper>
+            <View style={[globalStyles.bevContainer, {paddingBottom: 0, marginBottom: -40}]}>
+              <View style={globalStyles.bevLine}>
+                <View style={globalStyles.bevLineLeft}>
+                  <Text style={globalStyles.bevLineTextTitle}>Receipent:</Text>
+                </View>
                 <View style={globalStyles.bevLineRight}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      if(!this.props.attemptingUpdate){
-                        this.props.removeCard(card.id, index);
-                      }
-                    }}
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center'
-                    }}>
-                    <Text style={{color: '#999'}}>{this.props.attemptingUpdate ? "Updating..." : "Remove"}</Text>
-                  </TouchableOpacity>
+                  <Text style={globalStyles.bevLineText}>{this.props.fullName}</Text>
                 </View>
               </View>
-            )
-          }) : <View/>}
-          <View style={globalStyles.bevLine}>
-            <TouchableOpacity
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-              }}
-              onPress={() => {
-                this.props.goToAddCreditCardRoute();
-              }}
-            >
-              <View style={[globalStyles.bevLineLeft, {flex: 2}]}>
-                <Text
-                  style={[globalStyles.bevLineTextTitle, {
-                    fontWeight: "normal"
-                  }]}>
-                  {this.props.attemptingVerification ?
-                    "Adding Credit Card..."
-                    :
-                    "Add Credit Card"
-                  }
-                </Text>
+              <View style={globalStyles.bevLine}>
+                <View style={globalStyles.bevLineLeft}>
+                  <Text style={globalStyles.bevLineTextTitle}>Number of Beers:</Text>
+                </View>
+                <View style={styles.numBeersContainer}>
+                  <View style={styles.numBeersButtonContainer}>
+                    <TouchableHighlight
+                      onPress={() => this.increaseNumDrinks()}
+                      hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
+                      style={[styles.numBeersButton, {marginRight: 15}]}>
+                        <Text style={styles.numBeersButtonText}>+</Text>
+                      </TouchableHighlight>
+                      <TouchableHighlight
+                        onPress={() => this.decreaseNumDrinks()}
+                        hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
+                        style={styles.numBeersButton}>
+                        <Text style={styles.numBeersButtonText}>-</Text>
+                      </TouchableHighlight>
+                  </View>
+                  <View style={{flex: 1, alignItems: 'flex-end'}}>
+                    <Text style={globalStyles.bevLineTextTitle}>{this.state.numDrinks}</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={globalStyles.bevLine}>
+                <View style={globalStyles.bevLineLeft}>
+                  <Text style={globalStyles.bevLineTextTitle}>Promo Code:</Text>
+                </View>
+                <View style={globalStyles.bevLineRight}>
+                  <View style={{
+                    flex: 1,
+                    alignItems: 'flex-end',
+                    justifyContent: 'center',
+                  }}>
+                    <TextInput
+                      style={{
+                        width: 65,
+                        textAlign: 'center',
+                        height: 40,
+                      }}
+                      ref="promoCodeInput"
+                      maxLength={4}
+                      placeholder={"ABCD"}
+                      placeholderTextColor={"#cccccc"}
+                      onChangeText={(text) => {
+                        this.updateState("promoCode", text);
+                      }}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={globalStyles.bevLine}>
+                <View style={globalStyles.bevLineLeft}>
+                  <Text style={globalStyles.bevLineTextTitle}>Cost:</Text>
+                </View>
+                <View style={[globalStyles.bevLineRight, {flex: 1}]}>
+                  <Text style={globalStyles.bevLineText}>$ {(this.props.purchase.pricePerDrink * this.state.numDrinks).toFixed(2)}</Text>
+                </View>
+              </View>
+              {this.props.creditCards ? this.props.creditCards.map((card, index) => {
+                return (
+                  <View style={globalStyles.bevLine} key={card.id}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        if(!this.props.attemptingUpdate
+                           && this.props.creditCards.length > 1
+                           && card.id !== this.props.activeCard
+                          ){
+                          this.props.updateDefaultCard(card.id);
+                        }
+                      }}
+                      style={[globalStyles.bevLineLeft, {
+                        flexDirection: 'row',
+                        alignItems: 'flex-start',
+                        justifyContent: 'flex-start',
+                    }]}>
+                      <View
+                        style={{
+                        paddingRight: 15,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flex: -1,
+                        marginTop: 4,
+                      }}>
+                        {this.props.attemptingUpdate ?
+                            <ActivityIndicator style={{height: 28, width: 28}} />
+                        :
+                          card.id === this.props.activeCard ?
+                            <FontAwesome
+                              name="check-square-o"
+                              size={25}
+                              color="green"
+                              style={{
+                                flex: -1,
+                                width: 28,
+                                height: 28,
+                              }}
+                            />
+                          :
+                            <FontAwesome
+                              name="square-o"
+                              size={25}
+                              color="#999"
+                              style={{
+                                flex: -1,
+                                width: 28,
+                                height: 28,
+                              }}
+                            />
+                        }
+                      </View>
+                      <View style={{flex: -1, flexDirection: "row", justifyContent: 'center', alignItems: 'center'}}>
+                        <FontAwesome name={"cc-" + card.brand.toLowerCase()} size={30} style={{paddingRight: 10}}/>
+                        <Text style={globalStyles.bevLineText}>.... {card.last4}</Text>
+                      </View>
+                    </TouchableOpacity>
+                    <View style={globalStyles.bevLineRight}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          if(!this.props.attemptingUpdate){
+                            this.props.removeCard(card.id, index);
+                          }
+                        }}
+                        style={{
+                          flex: 1,
+                          justifyContent: 'center'
+                        }}>
+                        <Text style={{color: '#999'}}>{this.props.attemptingUpdate ? "Updating..." : "Remove"}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                )
+              }) : <View/>}
+              <View style={globalStyles.bevLine}>
+                <TouchableOpacity
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                  }}
+                  onPress={() => {
+                    this.props.goToAddCreditCardRoute();
+                  }}
+                >
+                  <View style={[globalStyles.bevLineLeft, {flex: 2}]}>
+                    <Text
+                      style={[globalStyles.bevLineTextTitle, {
+                        fontWeight: "normal"
+                      }]}>
+                      {this.props.attemptingVerification ?
+                        "Adding Credit Card..."
+                        :
+                        "Add Credit Card"
+                      }
+                    </Text>
+                  </View>
+                  <View style={globalStyles.bevLineRight}>
+                    <Ionicon name="ios-arrow-forward" size={35} />
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={globalStyles.bevLineNoSep}>
+                <Text style={globalStyles.bevLineTextTitle}>Message:</Text>
+                <Text style={globalStyles.bevLineText}> (Optional)</Text>
+              </View>
+              <View style={globalStyles.bevLine}>
+                <TextInput
+                  placeholder={"Happy Birthday! Have a cold one on me!"}
+                  placeholderTextColor={"#cccccc"}
+                  style={{
+                    flex: 1,
+                    height: 45,
+                  }}
+                />
+              </View>
+            </View>
+          </RouteWithNavBarWrapper>
+        </View>
+        <View style={{
+          flex: bottomButtonFlex,
+          shadowColor: '#333333',
+          shadowOpacity: 0.15,
+          shadowRadius: 2,
+          elevation: 15,
+          zIndex: 1,
+          backgroundColor: '#ffffff',
+        }}>
+          <View style={[globalStyles.bevContainer, {flex: -1, margin: 0, paddingVertical: 10}]}>
+            <View style={[globalStyles.bevLineNoSep, {height: getButtonHeight(this.buttonFontSize), paddingBottom: 0, alignItems: 'center', justifyContent: 'center'}]}>
+              <View style={[globalStyles.bevLineLeft]}>
+                <BevButton
+                  onPress={this.props.closePurchaseRoute}
+                  text={"Cancel"}
+                  shortText={"Cancel"}
+                  label="Cancel Purchase Button"
+                  buttonFontSize={this.buttonFontSize}
+                  margin={0}
+                />
               </View>
               <View style={globalStyles.bevLineRight}>
-                <Ionicon name="ios-arrow-forward" size={35} />
+                {this.props.creditCards.length === 0 ?
+                  <BevButton
+                    onPress={this.props.goToAddCreditCardRoute}
+                    text={"Add Credit Card"}
+                    shortText="Add Card"
+                    label="Add Credit Card Button"
+                    buttonFontSize={this.buttonFontSize}
+                    rightIcon={true}
+                    adjacentButton={true}
+                    margin={0}
+                  />
+                :
+                  <BevButton
+                    onPress={this.purchaseDrink.bind(this)}
+                    text={"Purchase"}
+                    shortText="Purchase"
+                    label="Purchase Button"
+                    buttonFontSize={this.buttonFontSize}
+                    fontAwesomeLeftIcon={this.getBrandOfActiveCard()}
+                    margin={0}
+                  />
+                }
               </View>
-            </TouchableOpacity>
-          </View>
-          <View style={globalStyles.bevLineNoSep}>
-            <Text style={globalStyles.bevLineTextTitle}>Message:</Text>
-            <Text style={globalStyles.bevLineText}> (Optional)</Text>
-          </View>
-          <View style={globalStyles.bevLine}>
-            <TextInput
-              placeholder={"Happy Birthday! Have a cold one on me!"}
-              placeholderTextColor={"#cccccc"}
-              style={{
-                flex: 1,
-                height: 45,
-              }}
-            />
-          </View>
-          <View style={[globalStyles.bevLineNoSep, {paddingTop: 20}]}>
-            <View style={globalStyles.bevLineLeft}>
-              <BevButton
-                onPress={this.props.closePurchaseRoute}
-                text={"Cancel"}
-                shortText={"Cancel"}
-                label="Cancel Purchase Button"
-                buttonFontSize={20}
-                margin={0}
-              />
-            </View>
-            <View style={globalStyles.bevLineRight}>
-              {this.props.creditCards.length === 0 ?
-                <BevButton
-                  onPress={this.props.goToAddCreditCardRoute}
-                  text={"Add Credit Card"}
-                  shortText="Add Card"
-                  label="Add Credit Card Button"
-                  buttonFontSize={20}
-                  rightIcon={true}
-                  adjacentButton={true}
-                  margin={0}
-                />
-              :
-                <BevButton
-                  onPress={this.purchaseDrink.bind(this)}
-                  text={"Confirm Purchase"}
-                  shortText="Purchase"
-                  label="Confirm Purchase Button"
-                  buttonFontSize={20}
-                  leftIcon="logo-usd"
-                  margin={0}
-                />
-              }
             </View>
           </View>
-          <View style={{height: 20}}></View>
         </View>
-      </RouteWithNavBarWrapper>
+      </View>
     );
   }
 
@@ -369,7 +408,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
                     text={"Close"}
                     shortText="Close"
                     label="Close Purchase Button"
-                    buttonFontSize={20}
+                    buttonFontSize={this.buttonFontSize}
                   />
                 </View>
                 <View style={{flex: 1, alignItems: 'flex-end', paddingTop: 10}}>
@@ -378,7 +417,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
                     text={"Try Again"}
                     shortText={"Try Again"}
                     label={"Try Purchase Again Button"}
-                    buttonFontSize={20}
+                    buttonFontSize={this.buttonFontSize}
                   />
                 </View>
               </View>
@@ -415,7 +454,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
               text={"Close"}
               shortText={"Close"}
               label="Close Purchase Button"
-              buttonFontSize={20}
+              buttonFontSize={this.buttonFontSize}
             />
           </View>
         </View>
