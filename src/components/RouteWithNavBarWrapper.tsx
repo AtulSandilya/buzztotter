@@ -13,7 +13,11 @@ interface RouteWithNavBarWrapperProps {
 const RouteWithNavBarWrapper: React.StatelessComponent<RouteWithNavBarWrapperProps> = ({children}) => {
   const topMargin = isIOS ? 64 : isAndroid ? 54 : 0
   return (
-    <KeyboardAwareScrollView style={{flex: 1}}>
+    <KeyboardAwareScrollView
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      style={{flex: 1}}
+    >
       <View style={{height: topMargin}} />
         {children}
     </KeyboardAwareScrollView>
