@@ -17,7 +17,7 @@ const styles = StyleSheet.create<Styles>({
     flexDirection: 'row',
   },
   infoContainer: {
-    flex: 2,
+    flex: 1,
     flexDirection: 'row',
     alignSelf: 'center',
     alignItems: 'center',
