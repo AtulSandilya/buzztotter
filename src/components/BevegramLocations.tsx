@@ -128,11 +128,13 @@ export default class BevegramLocations extends Component<BevegramLocationsProps,
           })}
         </MapView>
         <View style={{flex: 4}}>
-          <View style={{margin: 10, marginBottom: 0, borderBottomWidth: 1, borderBottomColor: globalColors.subtleSeparator}}>
-            <Text style={globalStyles.titleText}>Bevegram Accepted At:</Text>
-          </View>
           <ListView
             dataSource={locationDS.cloneWithRows(this.props.markers)}
+            renderHeader={() => (
+              <View style={{margin: 10, marginBottom: 0, borderBottomWidth: 1, borderBottomColor: globalColors.subtleSeparator}}>
+                <Text style={globalStyles.titleText}>Buzz Otter Bars:</Text>
+              </View>
+            )}
             renderRow={(rowData) =>
               <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 10}}>
                 <View style={{flex: 1, flexDirection: 'column'}}>
