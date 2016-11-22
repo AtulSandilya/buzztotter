@@ -1,6 +1,15 @@
 import * as React from "react";
 import { Component, PropTypes } from 'react';
-import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  TouchableOpacity,
+  View
+} from 'react-native';
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -251,14 +260,18 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
               </View>
             </TouchableOpacity>
           </View>
-          <View>
+          <View style={globalStyles.bevLineNoSep}>
             <Text style={globalStyles.bevLineTextTitle}>Message:</Text>
+            <Text style={globalStyles.bevLineText}> (Optional)</Text>
           </View>
-          <View>
+          <View style={globalStyles.bevLine}>
             <TextInput
               placeholder={"Happy Birthday! Have a cold one on me!"}
               placeholderTextColor={"#cccccc"}
-              style={{flex: 1}}
+              style={{
+                flex: 1,
+                height: 45,
+              }}
             />
           </View>
           <View style={[globalStyles.bevLineNoSep, {paddingTop: 20}]}>
