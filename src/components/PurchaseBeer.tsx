@@ -261,8 +261,8 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
               style={{flex: 1}}
             />
           </View>
-          <View style={{flexDirection: 'row', paddingTop: 20}}>
-            <View style={{flex: 1, alignItems: 'flex-start'}}>
+          <View style={[globalStyles.bevLineNoSep, {paddingTop: 20}]}>
+            <View style={globalStyles.bevLineLeft}>
               <BevButton
                 onPress={this.props.closePurchaseRoute}
                 text={"Cancel"}
@@ -272,7 +272,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
                 margin={0}
               />
             </View>
-            <View style={{flex: 1, alignItems: 'flex-end'}}>
+            <View style={globalStyles.bevLineRight}>
               {this.props.creditCards.length === 0 ?
                 <BevButton
                   onPress={this.props.goToAddCreditCardRoute}
