@@ -134,7 +134,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
       <View style={{flex: 1}}>
         <View style={{flex: listFlex, backgroundColor: "#ffffff"}}>
           <RouteWithNavBarWrapper>
-            <View style={[globalStyles.bevContainer, {paddingBottom: 0, marginBottom: -40}]}>
+            <View style={[globalStyles.bevContainer, {paddingBottom: 0}]}>
               <View style={globalStyles.bevLine}>
                 <View style={globalStyles.bevLineLeft}>
                   <Text style={globalStyles.bevLineTextTitle}>Receipent:</Text>
@@ -176,6 +176,20 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
                     <Text style={globalStyles.bevLineTextTitle}>{this.state.bevegramsToSend}</Text>
                   </View>
                 </View>
+              </View>
+              <View style={globalStyles.bevLineNoSep}>
+                <Text style={globalStyles.bevLineTextTitle}>Message:</Text>
+                <Text style={globalStyles.bevLineText}> (Optional)</Text>
+              </View>
+              <View style={globalStyles.bevLine}>
+                <TextInput
+                  placeholder={"Happy Birthday! Have a cold one on me!"}
+                  placeholderTextColor={"#cccccc"}
+                  style={{
+                    flex: 1,
+                    height: 45,
+                  }}
+                />
               </View>
               {this.props.purchasePackages.map((pack, index) => {
                 return (
@@ -329,20 +343,6 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
                     <Ionicon name="ios-arrow-forward" size={35} />
                   </View>
                 </TouchableOpacity>
-              </View>
-              <View style={globalStyles.bevLineNoSep}>
-                <Text style={globalStyles.bevLineTextTitle}>Message:</Text>
-                <Text style={globalStyles.bevLineText}> (Optional)</Text>
-              </View>
-              <View style={globalStyles.bevLine}>
-                <TextInput
-                  placeholder={"Happy Birthday! Have a cold one on me!"}
-                  placeholderTextColor={"#cccccc"}
-                  style={{
-                    flex: 1,
-                    height: 45,
-                  }}
-                />
               </View>
             </View>
           </RouteWithNavBarWrapper>
