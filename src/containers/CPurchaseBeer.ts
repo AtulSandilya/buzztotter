@@ -15,6 +15,9 @@ const mapStateToProps = (state) => {
     activeCard: state.user.stripe.activeCardId,
     attemptingUpdate: state.purchase.attemptingStripeUpdate,
     attemptingVerification: state.addCreditCard.attemptingVerification,
+    purchasePackages: state.purchase.purchasePackages,
+    selectedPurchasePackage: state.purchase.purchasePackages[state.purchase.selectedPurchasePackageIndex],
+    selectedPurchasePackageIndex: state.purchase.selectedPurchasePackageIndex,
   }
 }
 
@@ -45,6 +48,11 @@ const mapDispatchToProps = (dispatch) => {
         newDefaultCard: newDefaultCardId,
       }})
     },
+    selectPackage: (newSelectedPurchasePackageIndex: string) => {
+      dispatch({type: 'SELECT_PURCHASE_PACKAGE', payload: {
+        newSelectedPurchasePackageIndex: newSelectedPurchasePackageIndex,
+      }})
+    }
   }
 }
 

@@ -16,7 +16,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {isIOS} from '../Utilities';
 
-import { CardResponseData, PurchaseData, PurchaseState } from '../reducers/purchase';
+import { CardResponseData, PurchaseData, PurchaseState, PurchasePackage} from '../reducers/purchase';
 
 import StatusLine from './StatusLine';
 import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
@@ -33,43 +33,52 @@ interface PurchaseBeerProps {
   activeCard: string;
   attemptingUpdate: boolean;
   attemptingVerification: boolean;
+  purchasePackages: PurchasePackage[];
+  selectedPurchasePackage: PurchasePackage;
+  selectedPurchasePackageIndex: number;
   resetPurchase();
   closePurchaseRoute();
   startCreditCardPurchase(PurchaseData);
   goToAddCreditCardRoute();
   removeCard(id, index): void;
   updateDefaultCard(newDefaultCardId): void;
+  selectPackage(packageId): void;
 }
 
 interface PurchaseBeerState {
-  numDrinks: number;
   promoCode: string;
+  bevegramsToSend: number;
 }
+
 
 export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseBeerState> {
 
   constructor(props){
     super(props);
     this.state = {
-      numDrinks: 1,
       promoCode: "",
+      bevegramsToSend: 1,
     };
   }
 
   buttonFontSize = 20;
 
-  increaseNumDrinks(){
-    this.updateNumDrinks(this.state.numDrinks + 1);
-  }
+  updateBevegramsToSend(amount){
+    const min = 1;
+    const max = 10;
+    const newAmount = this.state.bevegramsToSend + amount;
 
-  decreaseNumDrinks(){
-    this.updateNumDrinks(this.state.numDrinks - 1);
-  }
-
-  updateNumDrinks(input){
-    if(input >= 1 && input <= 10){
-      this.updateState("numDrinks", input);
+    if(newAmount <= max && newAmount >= min){
+      this.updateState("bevegramsToSend", newAmount);
     }
+  }
+
+  increaseBevegramsToSend(){
+    this.updateBevegramsToSend(1);
+  }
+
+  decreaseBevegramsToSend(){
+    this.updateBevegramsToSend(-1);
   }
 
   updateState(property, value){
@@ -80,15 +89,23 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
     });
   }
 
+  onSelectPackage(newSelectedPurchasePackageIndex){
+    this.props.selectPackage(newSelectedPurchasePackageIndex);
+  }
+
   purchaseDrink() {
     if(this.props.creditCards.length === 0){
       alert("Please Add a Credit Card!");
       return;
     }
+
+    const pack = this.props.selectedPurchasePackage;
+
     this.props.startCreditCardPurchase({
       // Stripe likes the amount to be cents.
-      amount: this.state.numDrinks * 100 * this.props.purchase.pricePerDrink,
-      description: `Sending ${this.state.numDrinks} Bevegram${this.state.numDrinks > 1 ? "s" : ""} to ${this.props.fullName}`
+      amount: pack.price * 100,
+      // description: `Sending ${this.state.numDrinks} Bevegram${this.state.numDrinks > 1 ? "s" : ""} to ${this.props.fullName}`
+      description: `Purchased ${pack.quantity} Bevegram${pack.quantity > 1 ? "s" : ""} via Buzz Otter`
     })
   }
 
@@ -128,28 +145,61 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
               </View>
               <View style={globalStyles.bevLine}>
                 <View style={globalStyles.bevLineLeft}>
-                  <Text style={globalStyles.bevLineTextTitle}>Number of Beers:</Text>
+                  <Text style={globalStyles.bevLineTextTitle}>Bevegrams To Send:</Text>
                 </View>
                 <View style={styles.numBeersContainer}>
                   <View style={styles.numBeersButtonContainer}>
                     <TouchableHighlight
-                      onPress={() => this.increaseNumDrinks()}
+                      onPress={() => this.increaseBevegramsToSend()}
                       hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
                       style={[styles.numBeersButton, {marginRight: 15}]}>
                         <Text style={styles.numBeersButtonText}>+</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
-                        onPress={() => this.decreaseNumDrinks()}
+                        onPress={() => this.decreaseBevegramsToSend()}
                         hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
                         style={styles.numBeersButton}>
                         <Text style={styles.numBeersButtonText}>-</Text>
                       </TouchableHighlight>
                   </View>
                   <View style={{flex: 1, alignItems: 'flex-end'}}>
-                    <Text style={globalStyles.bevLineTextTitle}>{this.state.numDrinks}</Text>
+                    <Text style={globalStyles.bevLineTextTitle}>{this.state.bevegramsToSend}</Text>
                   </View>
                 </View>
               </View>
+              {this.props.purchasePackages.map((pack, index) => {
+                return (
+                  <TouchableOpacity
+                    style={globalStyles.bevLine}
+                    key={"package" + index}
+                    onPress={this.onSelectPackage.bind(this, index)}
+                  >
+                    <View style={[globalStyles.bevLineLeft, {flexDirection: 'row'}]}>
+                      {this.props.selectedPurchasePackageIndex === index ?
+                        <FontAwesome
+                          name="check-square-o"
+                          color="green"
+                          size={25}
+                          style={globalStyles.bevIcon}
+                        />
+                      :
+                        <FontAwesome
+                          name="square-o"
+                          size={25}
+                          color="#999"
+                          style={globalStyles.bevIcon}
+                        />
+                      }
+                      <Text style={globalStyles.bevLineTextTitle}>
+                        {pack.name}
+                      </Text>
+                    </View>
+                    <View style={globalStyles.bevLineRight}>
+                      <Text style={globalStyles.bevLineText}>$ {pack.price.toFixed(2)}</Text>
+                    </View>
+                  </TouchableOpacity>
+                )
+              })}
               <View style={globalStyles.bevLine}>
                 <View style={globalStyles.bevLineLeft}>
                   <Text style={globalStyles.bevLineTextTitle}>Promo Code:</Text>
@@ -175,14 +225,6 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
                       }}
                     />
                   </View>
-                </View>
-              </View>
-              <View style={globalStyles.bevLine}>
-                <View style={globalStyles.bevLineLeft}>
-                  <Text style={globalStyles.bevLineTextTitle}>Cost:</Text>
-                </View>
-                <View style={[globalStyles.bevLineRight, {flex: 1}]}>
-                  <Text style={globalStyles.bevLineText}>$ {(this.props.purchase.pricePerDrink * this.state.numDrinks).toFixed(2)}</Text>
                 </View>
               </View>
               {this.props.creditCards ? this.props.creditCards.map((card, index) => {
@@ -218,22 +260,14 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
                               name="check-square-o"
                               size={25}
                               color="green"
-                              style={{
-                                flex: -1,
-                                width: 28,
-                                height: 28,
-                              }}
+                              style={globalStyles.bevIcon}
                             />
                           :
                             <FontAwesome
                               name="square-o"
                               size={25}
                               color="#999"
-                              style={{
-                                flex: -1,
-                                width: 28,
-                                height: 28,
-                              }}
+                              style={globalStyles.bevIcon}
                             />
                         }
                       </View>
@@ -364,12 +398,15 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
     }
     const cardBrandIcon = (card && card.brand) ? "cc-" + card.brand.toLowerCase() : "question";
     const cardNumber = (card && card.last4) ? card.last4 : "Not Found";
+
+    let beersToSend = 1;
+
     return (
       <RouteWithNavBarWrapper>
         <View style={globalStyles.bevContainer}>
           <View style={globalStyles.bevLine}>
             <Text>
-              Sending {this.state.numDrinks} {this.state.numDrinks > 1 ? "Beers" : "Beer"} to {this.props.firstName}!
+              Sending {beersToSend} {beersToSend > 1 ? "Beers" : "Beer"} to {this.props.firstName}!
             </Text>
           </View>
           <View style={globalStyles.bevLine}>
@@ -443,7 +480,7 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
                 fontWeight: 'bold',
               }}
             >
-              {this.state.numDrinks} {this.state.numDrinks > 1 ? "Beers" : "Beer"} sent to {this.props.firstName}!
+              {this.state.bevegramsToSend} {this.state.bevegramsToSend > 1 ? "Beers" : "Beer"} sent to {this.props.firstName}!
             </Text>
           </View>
         </View>

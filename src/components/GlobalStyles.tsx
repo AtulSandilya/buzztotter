@@ -32,6 +32,7 @@ interface Styles {
   bevLineLeft: React.ViewStyle;
   bevLineRight: React.ViewStyle;
   bevLineWideRight: React.ViewStyle;
+  bevIcon: React.ViewStyle;
 }
 
 export const globalStyles = StyleSheet.create<Styles>({
@@ -110,5 +111,10 @@ export const globalStyles = StyleSheet.create<Styles>({
     alignItems: 'flex-end',
     paddingRight: 10,
   },
+  bevIcon: {
+    flex: -1,
+    width: 28,
+    height: 28,
+  }
 });
 

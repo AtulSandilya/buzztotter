@@ -4,13 +4,14 @@ export interface PurchaseData {
 }
 
 export interface PurchaseState {
-  pricePerDrink: number,
   attemptingPurchase: boolean,
   paymentMethod: string,
   confirmed: boolean; // tristate
   failed: boolean;
   failMessage: string;
   attemptingStripeUpdate: boolean;
+  purchasePackages: PurchasePackage[];
+  selectedPurchasePackageIndex: number;
 }
 
 export interface CardResponseData {
@@ -20,14 +21,37 @@ export interface CardResponseData {
   id: string;
 }
 
+export interface PurchasePackage {
+  name: string;
+  quantity: number;
+  price: number;
+}
+
 export const initialPurchaseState: PurchaseState = {
-  pricePerDrink: 6.00,
   attemptingPurchase: false,
   paymentMethod: undefined,
   confirmed: undefined,
   failed: false,
   failMessage: "",
   attemptingStripeUpdate: false,
+  purchasePackages: [
+    {
+      name: "One",
+      price: 7.50,
+      quantity: 1,
+    },
+    {
+      name: "Sixer (Six)",
+      price: 37.50,
+      quantity: 6,
+    },
+    {
+      name: "Fourteener (14)",
+      price: 82.50,
+      quantity: 14,
+    }
+  ],
+  selectedPurchasePackageIndex: 0,
 };
 
 export const purchase = (state = initialPurchaseState, action) => {
@@ -81,6 +105,10 @@ export const purchase = (state = initialPurchaseState, action) => {
     case 'RESET_CREDIT_CARD_PURCHASE':
       // Reset everything
       return initialPurchaseState;
+    case 'SELECT_PURCHASE_PACKAGE':
+      return Object.assign({}, state, {
+        selectedPurchasePackageIndex: action.payload.newSelectedPurchasePackageIndex,
+      });
     default:
       return state;
   }
