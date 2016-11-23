@@ -145,22 +145,32 @@ export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseB
               </View>
               <View style={globalStyles.bevLine}>
                 <View style={globalStyles.bevLineLeft}>
-                  <Text style={globalStyles.bevLineTextTitle}>Bevegrams To Send:</Text>
+                  <Text style={globalStyles.bevLineTextTitle}>Bevegrams:</Text>
                 </View>
                 <View style={styles.numBeersContainer}>
                   <View style={styles.numBeersButtonContainer}>
-                    <TouchableHighlight
+                    <TouchableOpacity
                       onPress={() => this.increaseBevegramsToSend()}
                       hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-                      style={[styles.numBeersButton, {marginRight: 15}]}>
-                        <Text style={styles.numBeersButtonText}>+</Text>
-                      </TouchableHighlight>
-                      <TouchableHighlight
+                      style={[{marginLeft: 10, marginRight: 15}]}>
+                        <FontAwesome
+                          name="plus-circle"
+                          style={globalStyles.bevIcon}
+                          color="#555555"
+                          size={28}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity
                         onPress={() => this.decreaseBevegramsToSend()}
                         hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-                        style={styles.numBeersButton}>
-                        <Text style={styles.numBeersButtonText}>-</Text>
-                      </TouchableHighlight>
+                      >
+                        <FontAwesome
+                          name="minus-circle"
+                          style={globalStyles.bevIcon}
+                          color="#555555"
+                          size={28}
+                        />
+                      </TouchableOpacity>
                   </View>
                   <View style={{flex: 1, alignItems: 'flex-end'}}>
                     <Text style={globalStyles.bevLineTextTitle}>{this.state.bevegramsToSend}</Text>
