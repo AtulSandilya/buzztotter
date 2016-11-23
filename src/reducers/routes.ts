@@ -2,7 +2,7 @@ const routeKeys = {
   Login: "Login",
   MainUi: "MainUi",
 
-  PurchaseBeer: "PurchaseBeer",
+  PurchaseBevegram: "PurchaseBevegram",
   RedeemBeer: "RedeemBeer",
   Settings: "Settings",
   AddCreditCard: "AddCreditCard",
@@ -11,7 +11,7 @@ const routeKeys = {
 interface RouteState {
   currentRoute: string;
   previousRoute: string
-  PurchaseBeer: RouteData;
+  PurchaseBevegram: RouteData;
   RedeemBeer: RouteData;
   Settings: RouteData;
   AddCreditCard: RouteData;
@@ -27,7 +27,7 @@ interface RouteData {
 const defaultRouteState: RouteState = {
   currentRoute: "",
   previousRoute: "",
-  PurchaseBeer: {
+  PurchaseBevegram: {
     isActive: false,
     data: {},
     confirmed: false,

@@ -55,7 +55,7 @@ export function *onFocusRoute(action) {
     // Dispatch actions when a scene comes into focus. This avoids updating a
     // scene during a transition.
     switch(action.scene.name){
-      case "PurchaseBeer":
+      case "PurchaseBevegram":
         yield put({type: 'END_CREDIT_CARD_VERIFICATION_IF_NOT_ATTEMPTING'});
       case "MainUi":
         yield put({type: 'END_CREDIT_CARD_PURCHASE_IF_NOT_ATTEMPTING'});

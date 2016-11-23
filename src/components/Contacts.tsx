@@ -7,8 +7,6 @@ import {globalStyles, globalColors} from './GlobalStyles.js';
 import { isAndroid } from '../Utilities';
 
 import CContact from '../containers/CContact';
-import CenteredModal from './CenteredModal';
-import CPurchaseBeer from '../containers/CPurchaseBeer';
 import FacebookAppInviteButton from './FacebookAppInviteButton';
 
 import {Contact} from '../reducers/contacts';
@@ -91,14 +89,6 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, l
             )
           }}
         />
-        <CenteredModal
-          isVisible={purchaseModalIsOpen}
-          closeFromParent={() => closePurchaseModal()}
-        >
-          <View style={{flex: 1}}>
-            <CPurchaseBeer />
-          </View>
-        </CenteredModal>
       </View>
     )
   }

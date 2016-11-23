@@ -25,7 +25,7 @@ import BevButton, {getButtonHeight} from './BevButton';
 
 import {globalColors, globalStyles} from './GlobalStyles';
 
-interface PurchaseBeerProps {
+interface PurchaseBevegramProps {
   fullName: string;
   firstName: string;
   purchase: PurchaseState;
@@ -45,13 +45,13 @@ interface PurchaseBeerProps {
   selectPackage(packageId): void;
 }
 
-interface PurchaseBeerState {
+interface PurchaseBevegramState {
   promoCode: string;
   bevegramsToSend: number;
 }
 
 
-export default class PurchaseBeer extends Component<PurchaseBeerProps, PurchaseBeerState> {
+export default class PurchaseBevegram extends Component<PurchaseBevegramProps, PurchaseBevegramState> {
 
   constructor(props){
     super(props);

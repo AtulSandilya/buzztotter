@@ -4,12 +4,12 @@ import {batchActions} from 'redux-batched-actions';
 
 import { modalKeys } from '../reducers/modals';
 
-import PurchaseBeer from '../components/PurchaseBeer';
+import PurchaseBevegram from '../components/PurchaseBevegram';
 
 const mapStateToProps = (state) => {
   return {
-    fullName: state.routes.PurchaseBeer.data.fullName,
-    firstName: state.routes.PurchaseBeer.data.firstName,
+    fullName: state.routes.PurchaseBevegram.data.fullName,
+    firstName: state.routes.PurchaseBevegram.data.firstName,
     purchase: state.purchase,
     creditCards: state.user.stripe.creditCards,
     activeCard: state.user.stripe.activeCardId,
@@ -56,9 +56,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const CPurchaseBeer = connect(
+const CPurchaseBevegram = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PurchaseBeer);
+)(PurchaseBevegram);
 
-export default CPurchaseBeer;
+export default CPurchaseBevegram;

@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import MainUi from '../components/MainUi';
 import CLogin from '../containers/CLogin';
-import CPurchaseBeer from '../containers/CPurchaseBeer';
+import CPurchaseBevegram from '../containers/CPurchaseBevegram';
 import CSettings from '../containers/CSettings';
 import CRedeemBeer from '../containers/CRedeemBeer';
 import CAddCreditCard from '../containers/CAddCreditCard';
@@ -83,10 +83,10 @@ const scenes = (showLogin) => {
         <Scene key="loginScene" hideNavBar={true} component={CLogin} initial={showLogin}/>
         <Scene key="MainUi" hideNavBar={true} component={MainUi} panHandlers={null} initial={!showLogin}/>
         <Scene
-          key="PurchaseBeer"
-          title="Purchase Beer"
-          component={CPurchaseBeer}
-          backTitle="Contacts"
+          key="PurchaseBevegram"
+          title="Purchase Bevegram"
+          component={CPurchaseBevegram}
+          backTitle=""
           hideNavBar={false}
           navigationBarStyle={styles.navBarStyle}
           titleStyle={styles.titleStyle}

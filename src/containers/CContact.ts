@@ -12,7 +12,7 @@ export const mapDispatchToProps = (dispatch): DispatchProps => {
       dispatch({
         type: 'GO_TO_ROUTE',
         payload: {
-          route: "PurchaseBeer",
+          route: "PurchaseBevegram",
           routeData: routeData,
         },
       })

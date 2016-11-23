@@ -38,11 +38,7 @@ export function* fetchVerifyCreditCard(action){
 
     let currentRoute = yield select((state) => state.routes.currentRoute);
     if(currentRoute === "AddCreditCard"){
-      yield call(goBackRoute, {payload: {
-        nextRoute: "PurchaseBeer",
-        route: "AddCreditCard",
-        postActions: [{type: 'END_CREDIT_CARD_VERIFICATION'}],
-      }});
+      yield call(goBackRoute, {});
     } else {
       yield put({type: 'END_CREDIT_CARD_VERIFICATION'});
     }
