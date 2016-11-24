@@ -1,6 +1,13 @@
 import * as React from "react";
 import { Component, PropTypes } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -9,7 +16,7 @@ import { Actions, Router, Scene } from 'react-native-router-flux';
 import store from '../configureStore';
 
 import {globalColors} from '../components/GlobalStyles';
-import {isAndroid, isNarrow} from '../Utilities';
+import {isAndroid, isIOS, isNarrow} from '../Utilities';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -19,6 +26,7 @@ import CPurchaseBevegram from '../containers/CPurchaseBevegram';
 import CSettings from '../containers/CSettings';
 import CRedeemBeer from '../containers/CRedeemBeer';
 import CAddCreditCard from '../containers/CAddCreditCard';
+import CBranding from '../containers/CBranding';
 
 interface Style {
   navBarStyle: React.ViewStyle;
@@ -34,6 +42,8 @@ const styles = StyleSheet.create<Style>({
   },
 })
 
+export const NavBarHeight = isIOS ? 64 : 54;
+
 const backIcon = (text) => {
   let hitSlop = 10;
   return (
@@ -42,11 +52,11 @@ const backIcon = (text) => {
         store.dispatch({type: 'GO_BACK_ROUTE'});
       }}
       style={{
-        flex: 1,
+        width: 115,
+        flex: -1,
         flexDirection: 'row',
         alignItems: 'center',
-        width: 115,
-        marginTop: 5,
+        paddingTop: 5,
       }}
       hitSlop={{
         top: hitSlop,
@@ -59,8 +69,8 @@ const backIcon = (text) => {
         name="ios-arrow-back"
         style={{
           color: "#ffffff",
-          fontSize: 32,
-          paddingRight: 10
+          fontSize: 28,
+          paddingRight: 10,
         }}
       />
       <Text style={{
@@ -80,11 +90,23 @@ const scenes = (showLogin) => {
   return (
     Actions.create(
       <Scene key="root" hideNavBar={true}>
-        <Scene key="loginScene" hideNavBar={true} component={CLogin} initial={showLogin}/>
-        <Scene key="MainUi" hideNavBar={true} component={MainUi} panHandlers={null} initial={!showLogin}/>
+        <Scene
+          key="loginScene"
+          hideNavBar={true}
+          component={CLogin}
+          initial={showLogin}
+        />
+        <Scene
+          key="MainUi"
+          component={MainUi}
+          panHandlers={null}
+          initial={!showLogin}
+          hideNavBar={false}
+          navBar={CBranding}
+        />
         <Scene
           key="PurchaseBevegram"
-          title="Purchase Bevegram"
+          title="Purchase Bevegrams"
           component={CPurchaseBevegram}
           backTitle=""
           hideNavBar={false}

@@ -1,8 +1,12 @@
 import { StyleSheet } from 'react-native';
 
+import Color from 'color';
+
 export const globalColors = {
   // Tealish Green
   bevPrimary: '#8ED0BA',
+  // Tealish Green, Darker
+  statusBarBackground: Color('#8ED0BA').blacken(0.75).darken(0.25).hexString(),
   // Brown
   bevSecondary: '#8B5E3C',
   // Light Brown

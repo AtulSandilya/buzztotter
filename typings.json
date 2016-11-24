@@ -6,6 +6,7 @@
     "redux-storage-engine-reactnativeasyncstorage": "registry:npm/redux-storage-engine-reactnativeasyncstorage#1.0.1+20160821085120"
   },
   "globalDependencies": {
+    "color": "registry:dt/color#0.12.0+20161025104311",
     "moment": "registry:dt/moment#2.11.1+20160829143156",
     "react": "registry:dt/react#0.14.0+20160927082313",
     "react-native": "registry:dt/react-native#0.34.0+20161025173646",
