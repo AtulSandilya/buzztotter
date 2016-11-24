@@ -29,7 +29,6 @@ export const BrandingHeight = (isIOS ? 75 : 75) + 10;
 const Branding: React.StatelessComponent<BrandingProps> = ({goToSettings}) => {
   const navBarHeight = BrandingHeight;
   // Respect the StatusBar
-  // const topPadding = isIOS ? 20 : (isAndroid ? 20 : 0);
   const topPadding = StatusBarHeight;
   const topMargin = 5;
   const bottomMargin = 5;
