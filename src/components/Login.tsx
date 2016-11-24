@@ -5,6 +5,7 @@ import { Image, Text, TouchableHighlight, View } from 'react-native';
 import FacebookLoginButton from './FacebookLoginButton';
 
 import {globalColors} from './GlobalStyles';
+import {WindowHeight, WindowWidth} from '../Utilities';
 
 export interface LoginProps {
   token: string;
@@ -17,7 +18,12 @@ const Login: React.StatelessComponent<LoginProps> = ({isLoggedIn, facebookLogin,
   <View style={{flex: 1}}>
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: globalColors.bevPrimary}}>
       <Image
-      source={require('../../img/logos/main-logo-big.png')}
+        source={require('../../img/logos/logo-on-brown-big.png')}
+        style={{
+          width: WindowWidth * 0.8,
+          height: WindowHeight * 0.3,
+        }}
+        resizeMode="contain"
       />
       <Text style={{
         fontSize: 25,
