@@ -33,10 +33,7 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
   render() {
     // ScrollableTabView is a cross platform `ViewPagerAndroid`
 
-    // The way `ScrollableTabView` is structured you cannot easily use flex to
-    // set the height of the button, This is a way to set the height to 10% of
-    // the device height, a psuedo flex.
-    const buttonHeight = Dimensions.get('window').height * 0.1;
+    const buttonHeight = 65;
     const buttonBgColor = globalColors.bevSecondary;
     const buttonSeparatorColor = globalColors.bevActiveSecondary;
     const buttonActiveColor = globalColors.bevActiveSecondary;
