@@ -7,14 +7,20 @@ import {connect} from 'react-redux';
 import CBranding from '../containers/CBranding';
 import CMainTabView from '../containers/CMainTabView';
 
+import {BrandingHeight} from './Branding';
+
+import {WindowHeight, WindowWidth} from '../Utilities';
+
 const MainUi = () => (
   <View style={{
     flex: 1,
+    position: 'absolute',
+    top: BrandingHeight,
+    left: 0,
+    height: WindowHeight - BrandingHeight,
+    width: WindowWidth,
   }}>
     <View style={{flex: 1}}>
-      <CBranding />
-    </View>
-    <View style={{flex: 9}}>
       <CMainTabView />
     </View>
   </View>
