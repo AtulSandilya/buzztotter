@@ -133,7 +133,9 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     return(
       <View style={{flex: 1}}>
         <View style={{flex: listFlex, backgroundColor: "#ffffff"}}>
-          <RouteWithNavBarWrapper>
+          <RouteWithNavBarWrapper
+            viewBelowHeight={getButtonHeight(this.buttonFontSize) + 10}
+          >
             <View style={[globalStyles.bevContainer, {paddingBottom: 0}]}>
               <View style={globalStyles.bevLine}>
                 <View style={globalStyles.bevLineLeft}>

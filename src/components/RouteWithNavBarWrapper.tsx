@@ -4,22 +4,28 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import {isIOS, isAndroid} from '../Utilities';
+import {NavBarHeight} from '../routers/InitialRouter';
+import {WindowHeight, WindowWidth} from '../Utilities';
 
 interface RouteWithNavBarWrapperProps {
+  viewBelowHeight?: number;
   children?: React.ReactChild;
 }
 
-const RouteWithNavBarWrapper: React.StatelessComponent<RouteWithNavBarWrapperProps> = ({children}) => {
-  const topMargin = isIOS ? 64 : isAndroid ? 54 : 0
+const RouteWithNavBarWrapper: React.StatelessComponent<RouteWithNavBarWrapperProps> = ({children, viewBelowHeight = 0}) => {
+  const topMargin = NavBarHeight;
   return (
     <KeyboardAwareScrollView
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-      style={{flex: 1}}
+      style={{
+        flex: 1,
+        position: 'absolute',
+        top: NavBarHeight,
+        left: 0,
+        height: WindowHeight - NavBarHeight - viewBelowHeight,
+        width: WindowWidth,
+      }}
     >
-      <View style={{height: topMargin}} />
-        {children}
+      {children}
     </KeyboardAwareScrollView>
   )
 }
