@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { Component, PropTypes } from 'react';
-import { Platform } from 'react-native';
+import {
+  Platform,
+  StatusBar,
+  View,
+} from 'react-native';
 
 import { Provider } from 'react-redux'
 import {batchActions} from 'redux-batched-actions';
@@ -34,7 +38,13 @@ export default class Bevegram extends Component<{}, {}> {
   render() {
     return (
       <Provider store={store}>
-        <CInitialRouter />
+        <View style={{flex: 1}}>
+          <StatusBar
+            translucent={true}
+            backgroundColor={"transparent"}
+          />
+          <CInitialRouter />
+        </View>
       </Provider>
     );
   }
