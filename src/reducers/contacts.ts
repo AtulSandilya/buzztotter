@@ -12,24 +12,55 @@ export interface Contact {
   imagePath: string,
 }
 
-const formatContact = (firstName, lastName, bdayStr, imagePath) => {
-  var bday = moment(bdayStr, "MMM DD YYYY");
-  var bdayFormattedStr = bday.format("MMMM Do");
-  var bdayNumber = bday.dayOfYear();
+interface Birthday {
+  dateStr: string;
+  dayOfYear: number;
+}
 
-  // Check for bad conversions
-  if(bdayFormattedStr === "Invalid date" || Number.isNaN(bdayNumber)){
-    bdayNumber = 9999;
-    bdayFormattedStr = "Unlisted";
+const parseBirthday = (inputDate: string): Birthday => {
+  const dateButNotYearRegex = /\d\d\/\d\d/; // 11/29
+  const completeDateRegex = /\d\d\/\d\d\/\d\d\d\d/; // 11/29/1970
+
+  try {
+    let bday;
+
+    if(inputDate.match(dateButNotYearRegex)){
+      bday = moment(inputDate, "MMM/DD");
+    } else if (inputDate.match(completeDateRegex)){
+      bday = moment(inputDate, "MMM/DD/YYYY");
+    } else {
+      throw Error;
+    }
+
+    let dateStr = bday.format("MMMM Do"); // November 29th
+    let dayOfYear = bday.dayOfYear();
+
+    if(dateStr === "Invalid date" || Number.isNaN(dayOfYear)){
+      throw Error;
+    }
+
+    return {
+      dateStr: dateStr,
+      dayOfYear: dayOfYear,
+    }
+  } catch(e) {
+    return {
+      dateStr: "Unlisted",
+      dayOfYear: 9999,
+    }
   }
+}
+
+const formatContact = (firstName, lastName, bdayStr, imagePath) => {
+  const bday: Birthday = parseBirthday(bdayStr);
 
   return {
     name: {
       first: firstName,
       last: lastName,
     },
-    birthday: bdayFormattedStr,
-    birthDayOfYear: bdayNumber,
+    birthday: bday.dateStr,
+    birthDayOfYear: bday.dayOfYear,
     imagePath: imagePath,
   }
 }
