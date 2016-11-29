@@ -79,7 +79,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, l
                   reloadContacts(facebookToken);
                 }
               }}
-              title="Reloading Contacts"
+              title="Updating..."
               tintColor={globalColors.bevPrimary}
               progressViewOffset={50}
               colors={[globalColors.bevPrimary]}
