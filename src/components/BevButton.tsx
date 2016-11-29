@@ -18,8 +18,10 @@ import {isIOS, isAndroid, isNarrow} from '../Utilities';
 
 interface Style {
   button: React.ViewStyle;
+  greenButton: React.ViewStyle;
   buttonContainer: React.ViewStyle;
   buttonText: React.TextStyle;
+  greenButtonText: React.TextStyle;
 }
 
 const styles = StyleSheet.create<Style>({
@@ -33,13 +35,27 @@ const styles = StyleSheet.create<Style>({
     flexDirection: "row",
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#333333',
+    shadowOpacity: 0.5,
+    shadowRadius: 0.95,
+    shadowOffset: {
+      width: 2,
+      height: 1,
+    },
+    elevation: 50,
+  },
+  greenButton: {
+    backgroundColor: globalColors.bevPrimary,
   },
   buttonContainer: {
-    flex: 1,
+    flex: -1,
     flexDirection: 'row-reverse',
   },
   buttonText: {
     color: "#ffffff",
+  },
+  greenButtonText: {
+    color: "#333333",
   },
 })
 
@@ -63,12 +79,14 @@ const BevButton  = ({
   margin = 12,
   showSpinner = false,
   showDisabled = false,
+  isGreen = false,
   // In a row with two buttons if one has an icon it will be taller than the
   // button without the icon, this prop makes the icon button shorter, trying
   // to match the height of the adjacentButton
   adjacentButton = false,
   leftIcon = "",
   fontAwesomeLeftIcon = "",
+  style = {},
 }) => {
   const useShortText = isNarrow;
   const iconStyle =
@@ -90,6 +108,9 @@ const BevButton  = ({
 
   const buttonHeight = getButtonHeight(buttonFontSize);
 
+  const buttonStyle = StyleSheet.flatten([styles.button, style, isGreen ? styles.greenButton : {}]);
+  const buttonTextStyle = isGreen ? styles.greenButtonText : styles.buttonText;
+
   return (
     <View
       style={styles.buttonContainer}
@@ -99,7 +120,7 @@ const BevButton  = ({
         onPress={onPress}
         underlayColor={"#ffffff"}
       >
-        <View style={[styles.button,
+        <View style={[buttonStyle,
           {margin: margin},
           showDisabled ? {backgroundColor: 'rgba(128, 128, 128, 0.5)'} : null,
           rightIcon || (leftIcon.length !== 0)? {paddingVertical: 11} : null,
@@ -109,13 +130,13 @@ const BevButton  = ({
           {leftIcon.length !== 0 ?
             <Ionicon
               name={leftIcon}
-              style={[styles.buttonText, smallIconStyle, {paddingRight: 10}]}
+              style={[buttonTextStyle, smallIconStyle, {paddingRight: 10}]}
             />
           : null}
           {fontAwesomeLeftIcon.length !== 0 ?
             <FontAwesome
               name={fontAwesomeLeftIcon}
-              style={[styles.buttonText, smallIconStyle, {paddingRight: 10}]}
+              style={[buttonTextStyle, smallIconStyle, {paddingRight: 10}]}
             />
           : null}
           {showSpinner ?
@@ -128,11 +149,18 @@ const BevButton  = ({
               }}
             />
           : null}
-          <Text style={[styles.buttonText, {fontSize: buttonFontSize}]}>{useShortText ? shortText : text}</Text>
+          <Text
+            numberOfLines={1}
+            style={[
+              buttonTextStyle,
+              {fontSize: buttonFontSize}
+          ]}>
+            {useShortText ? shortText : text}
+          </Text>
           {rightIcon ?
             <Ionicon
               name={"ios-arrow-forward"}
-              style={[styles.buttonText, iconStyle, {paddingLeft: 10}]}
+              style={[buttonTextStyle, iconStyle, {paddingLeft: 10}]}
             />
             : null
           }
