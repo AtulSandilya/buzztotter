@@ -60,6 +60,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, l
     return (
       <View style={{flex: 1}}>
         <ListView
+          scrollsToTop={true}
           accessibilityLabel="Contacts List"
           dataSource={ds.cloneWithRows(contacts)}
           renderHeader={() => { return (<CBevegramStatusBar/>); }}
