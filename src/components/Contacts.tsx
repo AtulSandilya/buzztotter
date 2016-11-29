@@ -8,6 +8,7 @@ import { isAndroid } from '../Utilities';
 
 import CContact from '../containers/CContact';
 import FacebookAppInviteButton from './FacebookAppInviteButton';
+import CBevegramStatusBar from '../containers/CBevegramStatusBar';
 
 import {Contact} from '../reducers/contacts';
 
@@ -61,6 +62,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, l
         <ListView
           accessibilityLabel="Contacts List"
           dataSource={ds.cloneWithRows(contacts)}
+          renderHeader={() => { return (<CBevegramStatusBar/>); }}
           renderRow={(rowData) =>
             <CContact
               name={rowData.name}
