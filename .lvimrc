@@ -1,22 +1,3 @@
-function! RestartReactNative()
-    echo "Restarting React Native..."
-    call KillReactNative()
-    exe "Term adb uninstall com.bevegram && react-native run-android"
-    exe "startinsert"
-    call system('sleep 5 && osascript -e "tell application \"System Events\" to tell process \"Terminal\" to set visible to false"')
-    echo ""
-endfunction
-
-function! KillReactNative()
-    echo "Killing React Native..."
-    " From livioso/react-native-kill-packager
-    " Kill all the react processes
-    call system("lsof -n -iTCP:8081 | sed '1 d' | awk '{print $2}' | xargs kill -9")
-    " Close the terminal
-    call system("killall -9 Terminal")
-    echo ""
-endfunction
-
 function! BuildReactNativeForAndroid(release_version)
     if(a:release_version == "")
         return
@@ -93,10 +74,6 @@ au FileType javascript,typescript set shiftwidth=2 tabstop=2
 
 " Compile
 nnoremap <silent> cp :call BuildReactNative()<CR>
-" Compile dev
-nnoremap <silent> cd :call RestartReactNative()<CR>
-" Compile kill
-nnoremap <silent> ck :call KillReactNative()<CR>
 " Compile Open
 nnoremap <silent> co :call RestartAndroidApp()<CR>
 " Compile Latest
