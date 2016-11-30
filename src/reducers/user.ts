@@ -2,6 +2,7 @@ import {CardResponseData} from './purchase';
 
 interface UserState {
   isLoggedIn: boolean;
+  bevegrams: number;
   facebook: {token: string, id: string};
   google: {token: string};
   firstName: string;
@@ -18,6 +19,7 @@ interface UserState {
 
 const defaultState: UserState = {
   isLoggedIn: false,
+  bevegrams: 0,
   facebook: {
     token: undefined,
     id: undefined,
@@ -129,6 +131,10 @@ export const user = (state = defaultState, action): UserState => {
           isLoggedIn: false,
         }
       );
+    case 'ADD_USER_BEVEGRAMS':
+      return Object.assign({}, state, {
+      bevegrams: state.bevegrams + action.payload.newBevegrams,
+    })
     default:
       return state;
   }

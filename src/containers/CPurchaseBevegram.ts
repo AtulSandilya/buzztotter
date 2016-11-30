@@ -8,6 +8,7 @@ import PurchaseBevegram from '../components/PurchaseBevegram';
 
 const mapStateToProps = (state) => {
   return {
+    userBevegrams: state.user.bevegrams,
     fullName: state.routes.PurchaseBevegram.data.fullName,
     firstName: state.routes.PurchaseBevegram.data.firstName,
     purchase: state.purchase,
