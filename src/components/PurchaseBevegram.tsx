@@ -364,7 +364,8 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
                 <BevButton
                   onPress={this.props.closePurchaseRoute}
                   text={"Cancel"}
-                  shortText={"Cancel"}
+                  shortText={""}
+                  fontAwesomeLeftIcon="ban"
                   label="Cancel Purchase Button"
                   buttonFontSize={this.buttonFontSize}
                   margin={0}
