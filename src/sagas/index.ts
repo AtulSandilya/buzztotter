@@ -1,5 +1,5 @@
 import { takeEvery, takeLatest } from 'redux-saga';
-import { fork } from 'redux-saga/effects';
+import { call, fork } from 'redux-saga/effects';
 
 import {ActionConst} from 'react-native-router-flux';
 
@@ -18,6 +18,10 @@ import {
   onFocusRoute,
 } from './routes';
 
+import {
+  sendBevegram,
+} from './sendBevegram';
+
 // Like combine reducers
 export default function* rootSaga() {
   // Facebook
@@ -31,6 +35,15 @@ export default function* rootSaga() {
   yield fork(takeEvery, 'REQUEST_CREDIT_CARD_PURCHASE', fetchCreditCardPurchase);
   yield fork(takeEvery, 'REQUEST_UPDATE_DEFAULT_CARD', fetchUpdateDefaultCard);
   yield fork(takeEvery, 'REQUEST_REMOVE_CARD', fetchDeleteCustomerCard);
+
+  // Sending Bevegrams
+  yield fork(takeEvery, 'SEND_BEVEGRAM', sendBevegram);
+
+  // Purchasing Then Sending
+  yield fork(takeEvery, 'PURCHASE_THEN_SEND_BEVEGRAM', function *(action) {
+    yield call(fetchCreditCardPurchase, action);
+    yield call(sendBevegram, action);
+  });
 
   // Routes
   yield fork(takeEvery, 'GO_TO_ROUTE', goToRoute);

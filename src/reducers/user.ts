@@ -131,10 +131,15 @@ export const user = (state = defaultState, action): UserState => {
           isLoggedIn: false,
         }
       );
-    case 'ADD_USER_BEVEGRAMS':
+    case 'UPDATE_USER_BEVEGRAMS':
       return Object.assign({}, state, {
-      bevegrams: state.bevegrams + action.payload.newBevegrams,
-    })
+        bevegrams: state.bevegrams + action.payload.newBevegrams,
+      })
+    case 'SUCCESSFUL_SEND_BEVEGRAM': {
+      return Object.assign({}, state, {
+        bevegrams: state.bevegrams - action.payload.sentBevegrams,
+      })
+    }
     default:
       return state;
   }

@@ -32,6 +32,7 @@ interface Styles {
   bevContainer: React.ViewStyle;
   bevLine: React.ViewStyle;
   bevLineNoSep: React.ViewStyle;
+  bevLineNoSepWithMargin: React.ViewStyle;
   bevLastLine: React.ViewStyle;
   bevLineTextTitle: React.TextStyle;
   bevLineText: React.TextStyle;
@@ -91,6 +92,12 @@ export const globalStyles = StyleSheet.create<Styles>({
     flex: -1,
     flexDirection: 'row',
     paddingBottom: 10,
+  },
+  bevLineNoSepWithMargin: {
+    flex: -1,
+    flexDirection: 'row',
+    paddingBottom: 10,
+    marginBottom: 15,
   },
   bevLastLine: {
     flex: -1,

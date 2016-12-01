@@ -1,11 +1,14 @@
 export interface PurchaseData {
   amount: number;
   description: string;
+  quantity: number;
 }
 
 export interface PurchaseState {
-  attemptingPurchase: boolean,
-  paymentMethod: string,
+  attemptingPurchase: boolean;
+  attemptingSend: boolean; // tristate
+  completedSend: boolean;
+  paymentMethod: string;
   confirmed: boolean; // tristate
   failed: boolean;
   failMessage: string;
@@ -29,6 +32,8 @@ export interface PurchasePackage {
 
 export const initialPurchaseState: PurchaseState = {
   attemptingPurchase: false,
+  attemptingSend: undefined,
+  completedSend: false,
   paymentMethod: undefined,
   confirmed: undefined,
   failed: false,
@@ -108,6 +113,16 @@ export const purchase = (state = initialPurchaseState, action) => {
     case 'SELECT_PURCHASE_PACKAGE':
       return Object.assign({}, state, {
         selectedPurchasePackageIndex: action.payload.newSelectedPurchasePackageIndex,
+      });
+    case 'ATTEMPTING_SEND_BEVEGRAM':
+      console.log("Attempting Send");
+      return Object.assign({}, state, {
+        attemptingSend: true,
+      });
+    case 'COMPLETED_SEND_BEVEGRAM':
+      console.log("Completed send");
+      return Object.assign({}, state, {
+        completedSend: true,
       });
     default:
       return state;

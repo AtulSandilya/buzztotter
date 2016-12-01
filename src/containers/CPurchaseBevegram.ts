@@ -19,6 +19,8 @@ const mapStateToProps = (state) => {
     purchasePackages: state.purchase.purchasePackages,
     selectedPurchasePackage: state.purchase.purchasePackages[state.purchase.selectedPurchasePackageIndex],
     selectedPurchasePackageIndex: state.purchase.selectedPurchasePackageIndex,
+    attemptingSend: state.purchase.attemptingSend,
+    completedSend: state.purchase.completedSend,
   }
 }
 
@@ -34,6 +36,17 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({type: 'REQUEST_CREDIT_CARD_PURCHASE', payload: {
         purchaseData: purchaseData,
       }});
+    },
+    sendBevegram: (sendBevegramData) => {
+      dispatch({type: 'SEND_BEVEGRAM', payload: {
+          sendBevegramData: sendBevegramData,
+      }})
+    },
+    purchaseAndSend: (purchaseData, sendBevegramData) => {
+      dispatch({type: 'PURCHASE_THEN_SEND_BEVEGRAM', payload: {
+        purchaseData: purchaseData,
+        sendBevegramData: sendBevegramData,
+      }})
     },
     goToAddCreditCardRoute: () => {
       dispatch({type: 'GO_TO_ROUTE', payload: {route: "AddCreditCard"}});
