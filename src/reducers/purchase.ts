@@ -39,6 +39,7 @@ export const initialPurchaseState: PurchaseState = {
   failed: false,
   failMessage: "",
   attemptingStripeUpdate: false,
+  // Order packages from smallest to largest.
   purchasePackages: [
     {
       name: "One",
@@ -62,7 +63,6 @@ export const initialPurchaseState: PurchaseState = {
 export const purchase = (state = initialPurchaseState, action) => {
   switch(action.type){
     case 'ATTEMPTING_CREDIT_CARD_PURCHASE':
-      console.log("ATTEMPTING_CREDIT_CARD_PURCHASE");
       return Object.assign({}, state, {
           paymentMethod: 'creditCard',
           attemptingPurchase: true,
@@ -115,12 +115,10 @@ export const purchase = (state = initialPurchaseState, action) => {
         selectedPurchasePackageIndex: action.payload.newSelectedPurchasePackageIndex,
       });
     case 'ATTEMPTING_SEND_BEVEGRAM':
-      console.log("Attempting Send");
       return Object.assign({}, state, {
         attemptingSend: true,
       });
     case 'COMPLETED_SEND_BEVEGRAM':
-      console.log("Completed send");
       return Object.assign({}, state, {
         completedSend: true,
       });
