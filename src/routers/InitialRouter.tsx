@@ -86,6 +86,8 @@ const backIcon = (text) => {
   )
 }
 
+const disablePanHandlerOnAndroid = isAndroid ? {panHandlers: null} : {};
+
 const scenes = (showLogin) => {
   return (
     Actions.create(
@@ -94,6 +96,7 @@ const scenes = (showLogin) => {
           key="loginScene"
           hideNavBar={true}
           component={CLogin}
+          panHandlers={null}
           initial={showLogin}
         />
         <Scene
@@ -108,6 +111,7 @@ const scenes = (showLogin) => {
           key="PurchaseBevegram"
           title="Purchase Bevegrams"
           component={CPurchaseBevegram}
+          {...disablePanHandlerOnAndroid}
           backTitle=""
           hideNavBar={false}
           navigationBarStyle={styles.navBarStyle}
@@ -121,6 +125,7 @@ const scenes = (showLogin) => {
           key="Settings"
           title="Settings"
           component={CSettings}
+          {...disablePanHandlerOnAndroid}
           backTitle=""
           hideNavBar={false}
           navigationBarStyle={styles.navBarStyle}
@@ -134,6 +139,7 @@ const scenes = (showLogin) => {
           key="RedeemBeer"
           title="Redeem Beer"
           component={CRedeemBeer}
+          {...disablePanHandlerOnAndroid}
           backTitle="Bevegrams"
           hideNavBar={false}
           navigationBarStyle={styles.navBarStyle}
@@ -147,6 +153,7 @@ const scenes = (showLogin) => {
           key="AddCreditCard"
           title="Add Credit Card"
           component={CAddCreditCard}
+          {...disablePanHandlerOnAndroid}
           backTitle="Purchase"
           hideNavBar={false}
           navigationBarStyle={styles.navBarStyle}
