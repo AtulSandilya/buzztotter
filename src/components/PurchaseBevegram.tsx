@@ -54,10 +54,12 @@ interface PurchaseBevegramProps {
 
 interface PurchaseBevegramState {
   promoCode: string;
-  bevegramsToSend: number;
-  showPurchaseOptions: boolean;
   message: string;
-  userDidSelectPackage: boolean;
+  bevegramsToSend: number;
+  // Track the number of userBevegrams when this component is rendered. Allows
+  // userBevegrams to change (which it does after a purchase and a send) but
+  // base the view logic on the initial userBevegram count.
+  bevegramsBeforePurchaseOrSendOrBoth: number;
 }
 
 
@@ -67,52 +69,58 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     super(props);
     this.state = {
       promoCode: "",
-      bevegramsToSend: 1,
-      showPurchaseOptions: this.props.userBevegrams === 0,
       message: "",
-      userDidSelectPackage: false,
+      bevegramsToSend: 1,
+      bevegramsBeforePurchaseOrSendOrBoth: this.props.userBevegrams,
     };
   }
 
   buttonFontSize = 20;
 
+  userIsSending(): boolean {
+    return this.props.fullName !== undefined;
+  }
+
   userIsPurchasing(): boolean {
-    return (this.state.bevegramsToSend > this.props.userBevegrams) || this.state.userDidSelectPackage;
+    if(!this.userIsSending()) return true;
+    return (this.state.bevegramsToSend > this.state.bevegramsBeforePurchaseOrSendOrBoth);
+  }
+
+  userIsPurchasingAndSending(): boolean {
+    return this.userIsPurchasing() && this.userIsSending();
   }
 
   updateBevegramsToSend(amount){
     const min = 1;
     const userBevs = this.props.userBevegrams;
     const packagesMax = this.props.purchasePackages.slice(-1)[0].quantity;
-    const max = packagesMax > userBevs ? packagesMax : userBevs;
+    const max = packagesMax + userBevs;
     const newAmount = this.state.bevegramsToSend + amount;
+    const bevsToSend = this.state.bevegramsToSend;
+    const packageIndex = this.props.selectedPurchasePackageIndex;
+    const packages = this.props.purchasePackages;
 
     if(newAmount <= max && newAmount >= min){
       this.updateState("bevegramsToSend", newAmount);
 
-      const bevsToSend = this.state.bevegramsToSend;
-      const packageIndex = this.props.selectedPurchasePackageIndex;
-      const packages = this.props.purchasePackages;
 
       // Automatically select the purchasePackage that is equal to or above
       // the users Bevegrams
+      const bevsUserMustPurchase = (bevsToSend + amount) - userBevs;
       if(bevsToSend > userBevs){
-        this.updateState("showPurchaseOptions", true);
         if(amount > 0){
           if(packageIndex + 1 !== packages.length
-            && bevsToSend >= packages[packageIndex].quantity){
+            && bevsUserMustPurchase > packages[packageIndex].quantity){
             this.props.selectPackage(packageIndex + 1);
           }
         }
 
         if(amount < 0){
           if(packageIndex > 0
-            && bevsToSend === packages[packageIndex - 1].quantity + 1){
+            && (bevsUserMustPurchase <= packages[packageIndex - 1].quantity)){
             this.props.selectPackage(packageIndex - 1);
           }
         }
-      } else {
-        this.updateState("showPurchaseOptions", false);
       }
     }
   }
@@ -134,33 +142,32 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
   }
 
   onSelectPackage(newSelectedPurchasePackageIndex){
-    if((this.props.userBevegrams > this.state.bevegramsToSend) && (newSelectedPurchasePackageIndex === this.props.selectedPurchasePackageIndex) && this.state.userDidSelectPackage){
-      this.updateState("userDidSelectPackage", false);
+    // Warn the user if the package they are choosing is smaller than the
+    // number of bevegrams they want to send
+    const newPack = this.props.purchasePackages[newSelectedPurchasePackageIndex];
+    if(newPack.quantity < (this.props.userBevegrams + this.state.bevegramsToSend)){
+      alert("This package is too small!");
       return;
     }
-    this.updateState("userDidSelectPackage", true);
 
     this.props.selectPackage(newSelectedPurchasePackageIndex);
   }
 
-  purchaseDrink() {
-    if(this.props.creditCards.length === 0){
-      alert("Please Add a Credit Card!");
-      return;
+  initiatePurchaseOrSendOrBoth() {
+    if(this.userIsPurchasing()){
+      if(this.props.creditCards.length === 0){
+        alert("Please Add a Credit Card!");
+        return;
+      }
     }
 
-    if(this.userIsPurchasing()){
+    if(this.userIsPurchasingAndSending()){
       this.props.purchaseAndSend(this.packPurchaseData(), this.packSendData());
-    } else {
+    } else if(this.userIsPurchasing()){
+      this.props.startCreditCardPurchase(this.packPurchaseData());
+    } else if(this.userIsSending()){
       this.props.sendBevegram(this.packSendData());
     }
-
-    // this.props.startCreditCardPurchase({
-    //   // Stripe likes the amount to be cents.
-    //   amount: pack.price * 100,
-    //   description: `Purchased ${pack.quantity} Bevegram${pack.quantity > 1 ? "s" : ""} via Buzz Otter`,
-    //   quantity: pack.quantity,
-    // })
   }
 
   packPurchaseData(): PurchaseData {
@@ -198,6 +205,10 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
   }
 
   renderSendOptions() {
+    if(!this.userIsSending()){
+      return null;
+    }
+
     return (
       <View style={{flex: 1}}>
         <View style={globalStyles.bevLine}>
@@ -266,58 +277,22 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     )
   }
 
-  renderTogglePurchaseLine() {
-    const allowToggling = this.props.userBevegrams > this.state.bevegramsToSend;
+  renderPurchaseOptions() {
+    if(!this.userIsPurchasing()){
+      return null;
+    }
+
     return (
       <View style={{flex: 1}}>
-        <TouchableHighlight
-          style={this.state.showPurchaseOptions ? globalStyles.bevLineNoSepWithMargin : globalStyles.bevLine}
-          underlayColor={"#ffffff"}
-          onPress={() => {
-            if(allowToggling){
-              this.updateState("showPurchaseOptions", !this.state.showPurchaseOptions);
-            }
-          }}
-        >
+        <View style={globalStyles.bevLineNoSepWithMargin}>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <View style={globalStyles.bevLineLeft}>
               <Text style={globalStyles.bevLineTextTitle}>
                 Purchase Bevegrams:
               </Text>
             </View>
-            {allowToggling ?
-              <View style={globalStyles.bevLineRight}>
-                {this.state.showPurchaseOptions ?
-                  <Ionicon
-                    name={(isIOS ? "ios-" : "md-") + "arrow-dropdown"}
-                    size={25}
-                    color="#999"
-                    style={globalStyles.bevIcon}
-                  />
-                  :
-                  <Ionicon
-                    name={(isIOS ? "ios-" : "md-") + "arrow-dropleft"}
-                    size={25}
-                    color="#999"
-                    style={globalStyles.bevIcon}
-                  />
-                }
-              </View>
-            :
-              null }
           </View>
-        </TouchableHighlight>
-      </View>
-    )
-  }
-
-  renderPurchaseOptions() {
-    if(!this.state.showPurchaseOptions){
-      return null;
-    }
-
-    return (
-      <View style={{flex: 1}}>
+        </View>
         {this.props.purchasePackages.map((pack, index) => {
           return (
             <TouchableOpacity
@@ -478,7 +453,16 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
   renderSendAndPurchaseOptions(){
     const listFlex = 1;
     const bottomButtonFlex = -1;
-    const purchaseButtonText = this.userIsPurchasing() ? "Purchase & Send" : "Send";
+    let buttonText: string;
+    const purchaseText = "Purchase";
+    const sendText = "Send";
+    if(this.userIsPurchasingAndSending()){
+      buttonText = `${purchaseText} & ${sendText}`
+    } else if (this.userIsPurchasing()){
+      buttonText = purchaseText;
+    } else if (this.userIsSending()){
+      buttonText = sendText;
+    }
     const purchaseButtonIcon = this.userIsPurchasing() ? this.getBrandOfActiveCard() : "paper-plane"
 
     return(
@@ -489,7 +473,6 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
           >
             <View style={[globalStyles.bevContainer, {paddingBottom: 0}]}>
               {this.renderSendOptions()}
-              {this.renderTogglePurchaseLine()}
               {this.renderPurchaseOptions()}
             </View>
           </RouteWithNavBarWrapper>
@@ -508,7 +491,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
               <View style={[globalStyles.bevLineLeft]}>
                 <BevButton
                   onPress={this.props.closePurchaseRoute}
-                  text={this.userIsPurchasing() ? "" : "Cancel"}
+                  text={this.userIsPurchasingAndSending() ? "" : "Cancel"}
                   shortText={""}
                   fontAwesomeLeftIcon="ban"
                   label="Cancel Purchase Button"
@@ -518,10 +501,10 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
               </View>
               <View style={globalStyles.bevLineRight}>
                 <BevButton
-                  onPress={this.purchaseDrink.bind(this)}
-                  text={purchaseButtonText}
-                  shortText={purchaseButtonText}
-                  label={purchaseButtonText + " Button"}
+                  onPress={this.initiatePurchaseOrSendOrBoth.bind(this)}
+                  text={buttonText}
+                  shortText={buttonText}
+                  label={buttonText + " Button"}
                   buttonFontSize={this.buttonFontSize}
                   fontAwesomeLeftIcon={purchaseButtonIcon}
                   margin={0}
@@ -544,16 +527,20 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     const cardBrandIcon = (card && card.brand) ? "cc-" + card.brand.toLowerCase() : "question";
     const cardNumber = (card && card.last4) ? card.last4 : "Not Found";
 
-    let beersToSend = 1;
+    const bevegramsUserIsSending = this.state.bevegramsToSend;
+    const bevegramsUserIsPurchasing = this.packPurchaseData().quantity;
 
     return (
       <RouteWithNavBarWrapper>
         <View style={globalStyles.bevContainer}>
-          <View style={globalStyles.bevLine}>
-            <Text>
-              Sending {beersToSend} {beersToSend > 1 ? "Beers" : "Beer"} to {this.props.firstName}!
-            </Text>
-          </View>
+          {this.userIsPurchasing() ?
+            <View style={globalStyles.bevLine}>
+              <Text>
+                Purchasing {bevegramsUserIsPurchasing} {bevegramsUserIsPurchasing > 1 ? "Bevegrams" : "Bevegram"}!
+              </Text>
+            </View>
+          : null
+          }
           {this.userIsPurchasing() ?
             <View style={{flex: 1}}>
               <View style={globalStyles.bevLine}>
@@ -577,12 +564,24 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
           :
             null
           }
-          <StatusLine
-            title="Sending Bevegram"
-            input={this.props.completedSend ? true : undefined}
-            waiting={!this.userIsPurchasing() ? false : !this.props.purchase.confirmed}
-            allFailed={false}
-          />
+          {this.userIsSending() ?
+            <View style={globalStyles.bevLine}>
+              <Text>
+                Sending {bevegramsUserIsSending} {bevegramsUserIsSending > 1 ? "Bevegrams" : "Bevegram"} to {this.props.firstName}!
+              </Text>
+            </View>
+          : null
+          }
+          {this.userIsSending() ?
+            <StatusLine
+              title="Sending Bevegram"
+              input={this.props.completedSend ? true : undefined}
+              waiting={!this.userIsPurchasing() ? false : !this.props.purchase.confirmed}
+              allFailed={false}
+            />
+          :
+            null
+          }
           {this.props.purchase.failed ?
           <View>
             <View style={globalStyles.bevLineNoSep}>
@@ -620,24 +619,65 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
           :
           <View/>
           }
-          {this.renderPurchaseConfirmed()}
+          {this.renderPurchaseOrSendOrBothComplete()}
         </View>
       </RouteWithNavBarWrapper>
     )
   }
 
-  renderPurchaseConfirmed(){
-    if(this.props.purchase.confirmed || this.props.completedSend){
-      return (
+  renderPurchaseOrSendOrBothComplete(){
+    const showCompleted = () => {
+      if(this.userIsPurchasingAndSending()){
+        return this.props.purchase.confirmed && this.props.completedSend;
+      } else if (this.userIsSending()){
+        return this.props.completedSend;
+      } else if (this.userIsPurchasing()){
+        return this.props.purchase.confirmed;
+      }
+    }
+
+    if(!showCompleted()){
+      return <View/>
+    }
+
+    const bevStr = (numBevs: number) => {
+      if(numBevs === 1){
+        return "Bevegram";
+      }
+      return "Bevegrams"
+    }
+
+    const bevegramsUserSent = this.state.bevegramsToSend;
+    const bevegramsUserPurchased = this.packPurchaseData().quantity;
+    const sentSummaryText = `Sent ${bevegramsUserSent} ${bevStr(bevegramsUserSent)} to ${this.props.fullName}`;
+    const purchasedSummaryText = `Purchased ${bevegramsUserPurchased} ${bevStr(bevegramsUserPurchased)} for $${this.props.selectedPurchasePackage.price.toFixed(2)}`;
+
+
+    let summaryText: string;
+    if(this.userIsPurchasingAndSending()){
+      if(bevegramsUserSent === 1 && (bevegramsUserSent === bevegramsUserPurchased)){
+        summaryText = purchasedSummaryText + " & " + `sent it to ${this.props.fullName}`
+      } else {
+        summaryText = purchasedSummaryText + " & " + sentSummaryText.charAt(0).toLowerCase() + sentSummaryText.slice(1);
+      }
+    } else if (this.userIsPurchasing()){
+      summaryText = purchasedSummaryText;
+    } else if (this.userIsSending()){
+      summaryText = sentSummaryText;
+    }
+
+    return (
       <View>
         <View style={globalStyles.bevLine}>
           <View style={{flex: 1}}>
             <Text
               style={{
                 fontWeight: 'bold',
+                lineHeight: 22,
+                flex: 1,
               }}
             >
-              {this.state.bevegramsToSend} {this.state.bevegramsToSend > 1 ? "Beers" : "Beer"} sent to {this.props.firstName}!
+              {summaryText}
             </Text>
           </View>
         </View>
@@ -653,13 +693,11 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
           </View>
         </View>
       </View>
-      )
-    }
-    return <View/>
+    )
   }
 
   render() {
-    if(this.props.purchase.attemptingPurchase || this.props.attemptingSend){
+    if(this.props.purchase.attemptingPurchase || this.props.attemptingSend || this.props.purchase.confirmed || this.props.completedSend){
       return this.renderAttemptingPurchaseAndOrSend();
     }
 
