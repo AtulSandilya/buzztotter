@@ -110,6 +110,7 @@ const BevButton  = ({
 
   const buttonStyle = StyleSheet.flatten([styles.button, style, isGreen ? styles.greenButton : {}]);
   const buttonTextStyle = isGreen ? styles.greenButtonText : styles.buttonText;
+  const leftIconPadding = text !== "" ? 10 : 0;
 
   return (
     <View
@@ -130,13 +131,13 @@ const BevButton  = ({
           {leftIcon.length !== 0 ?
             <Ionicon
               name={leftIcon}
-              style={[buttonTextStyle, smallIconStyle, {paddingRight: 10}]}
+              style={[buttonTextStyle, smallIconStyle, {paddingRight: leftIconPadding}]}
             />
           : null}
           {fontAwesomeLeftIcon.length !== 0 ?
             <FontAwesome
               name={fontAwesomeLeftIcon}
-              style={[buttonTextStyle, smallIconStyle, {paddingRight: 10}]}
+              style={[buttonTextStyle, smallIconStyle, {paddingRight: leftIconPadding}]}
             />
           : null}
           {showSpinner ?
@@ -149,14 +150,17 @@ const BevButton  = ({
               }}
             />
           : null}
-          <Text
-            numberOfLines={1}
-            style={[
-              buttonTextStyle,
-              {fontSize: buttonFontSize}
-          ]}>
-            {useShortText ? shortText : text}
-          </Text>
+          {text !== "" ?
+            <Text
+              numberOfLines={1}
+              style={[
+                buttonTextStyle,
+                {fontSize: buttonFontSize}
+            ]}>
+              {useShortText ? shortText : text}
+            </Text>
+            : null
+          }
           {rightIcon ?
             <Ionicon
               name={"ios-arrow-forward"}
