@@ -32,20 +32,26 @@ const mapDispatchToProps = (dispatch) => {
     closePurchaseRoute: () => {
       dispatch({type: 'GO_BACK_ROUTE'});
     },
-    startCreditCardPurchase: (purchaseData) => {
+    startCreditCardPurchase: (purchaseData, inProgressData) => {
       dispatch({type: 'REQUEST_CREDIT_CARD_PURCHASE', payload: {
         purchaseData: purchaseData,
+        routeData: inProgressData,
+        route: "PurchaseAndOrSendInProgress",
       }});
     },
-    sendBevegram: (sendBevegramData) => {
+    sendBevegram: (sendBevegramData, inProgressData) => {
       dispatch({type: 'SEND_BEVEGRAM', payload: {
-          sendBevegramData: sendBevegramData,
+        sendBevegramData: sendBevegramData,
+        routeData: inProgressData,
+        route: "PurchaseAndOrSendInProgress",
       }})
     },
-    purchaseAndSend: (purchaseData, sendBevegramData) => {
+    purchaseAndSend: (purchaseData, sendBevegramData, inProgressData) => {
       dispatch({type: 'PURCHASE_THEN_SEND_BEVEGRAM', payload: {
         purchaseData: purchaseData,
         sendBevegramData: sendBevegramData,
+        routeData: inProgressData,
+        route: "PurchaseAndOrSendInProgress",
       }})
     },
     goToAddCreditCardRoute: () => {

@@ -32,15 +32,22 @@ export default function* rootSaga() {
 
   // Stripe
   yield fork(takeEvery, 'REQUEST_CREDIT_CARD_VERIFICATION', fetchVerifyCreditCard);
-  yield fork(takeEvery, 'REQUEST_CREDIT_CARD_PURCHASE', fetchCreditCardPurchase);
+  yield fork(takeEvery, 'REQUEST_CREDIT_CARD_PURCHASE', function *(action) {
+    yield call(goToRoute, action);
+    yield call(fetchCreditCardPurchase, action);
+  });
   yield fork(takeEvery, 'REQUEST_UPDATE_DEFAULT_CARD', fetchUpdateDefaultCard);
   yield fork(takeEvery, 'REQUEST_REMOVE_CARD', fetchDeleteCustomerCard);
 
   // Sending Bevegrams
-  yield fork(takeEvery, 'SEND_BEVEGRAM', sendBevegram);
+  yield fork(takeEvery, 'SEND_BEVEGRAM', function *(action){
+    yield call(goToRoute, action);
+    yield call(sendBevegram, action);
+  });
 
   // Purchasing Then Sending
   yield fork(takeEvery, 'PURCHASE_THEN_SEND_BEVEGRAM', function *(action) {
+    yield call(goToRoute, action);
     yield call(fetchCreditCardPurchase, action);
     yield call(sendBevegram, action);
   });

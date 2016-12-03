@@ -27,6 +27,7 @@ import CSettings from '../containers/CSettings';
 import CRedeemBeer from '../containers/CRedeemBeer';
 import CAddCreditCard from '../containers/CAddCreditCard';
 import CBranding from '../containers/CBranding';
+import CPurchaseAndOrSendInProgress from '../containers/CPurchaseAndOrSendInProgress';
 
 interface Style {
   navBarStyle: React.ViewStyle;
@@ -119,6 +120,21 @@ const scenes = (showLogin) => {
           backButtonTextStyle={styles.titleStyle}
           renderBackButton={(input) => {
             return backIcon(input.backTitle);
+          }}
+        />
+        <Scene
+          key="PurchaseAndOrSendInProgress"
+          title="Sending Bevegram"
+          component={CPurchaseAndOrSendInProgress}
+          // Don't let the user out of this view until it is complete
+          panHandlers={null}
+          backTitle=""
+          hideNavBar={false}
+          navigationBarStyle={styles.navBarStyle}
+          titleStyle={styles.titleStyle}
+          backButtonTextStyle={styles.titleStyle}
+          renderBackButton={(input) => {
+            return <View/>
           }}
         />
         <Scene

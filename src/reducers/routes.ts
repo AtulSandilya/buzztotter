@@ -12,6 +12,7 @@ interface RouteState {
   currentRoute: string;
   previousRoute: string
   PurchaseBevegram: RouteData;
+  PurchaseAndOrSendInProgress: RouteData;
   RedeemBeer: RouteData;
   Settings: RouteData;
   AddCreditCard: RouteData;
@@ -31,6 +32,11 @@ const defaultRouteState: RouteState = {
     isActive: false,
     data: {},
     confirmed: false,
+  },
+  PurchaseAndOrSendInProgress: {
+    isActive: false,
+    confirmed: false,
+    data: {}
   },
   RedeemBeer: {
     isActive: false,

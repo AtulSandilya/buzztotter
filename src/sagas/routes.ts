@@ -35,7 +35,13 @@ export function *goBackRoute(action) {
   }
 
   if(routesThatDontGoBack[currentRoute] === undefined){
-    Actions[nextRoute]({type: ActionConst.BACK});
+
+    if(currentRoute === "PurchaseAndOrSendInProgress"){
+      Actions["MainUi"]({type: ActionConst.BACK, popNum: 2});
+    } else {
+      Actions[nextRoute]({type: ActionConst.BACK});
+    }
+
 
     yield put({type: 'CLOSE_ROUTE', payload: {
         route: currentRoute,

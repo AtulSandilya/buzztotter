@@ -19,6 +19,7 @@ import {isIOS} from '../Utilities';
 import { CreditCard, PurchaseData, PurchaseState, PurchasePackage} from '../reducers/purchase';
 
 import {SendBevegramData} from '../sagas/sendBevegram';
+import {InProgressData} from './PurchaseAndOrSendInProgress';
 
 import StatusLine from './StatusLine';
 import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
@@ -62,13 +63,13 @@ interface PurchaseBevegramProps {
   completedSend: boolean;
   resetPurchase();
   closePurchaseRoute();
-  startCreditCardPurchase(PurchaseData);
   goToAddCreditCardRoute();
   removeCard(id, index): void;
   updateDefaultCard(newDefaultCardId): void;
   selectPackage(packageId): void;
-  sendBevegram(SendBevegramData): void;
-  purchaseAndSend(PurchaseData, SendBevegramData): void;
+  startCreditCardPurchase(PurchaseData, InProgressData): void;
+  sendBevegram(SendBevegramData, InProgressData): void;
+  purchaseAndSend(PurchaseData, SendBevegramData, InProgressData): void;
 }
 
 interface PurchaseBevegramState {
@@ -180,11 +181,11 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     }
 
     if(this.userIsPurchasingAndSending()){
-      this.props.purchaseAndSend(this.packPurchaseData(), this.packSendData());
+      this.props.purchaseAndSend(this.packPurchaseData(), this.packSendData(), this.packInProgressData());
     } else if(this.userIsPurchasing()){
-      this.props.startCreditCardPurchase(this.packPurchaseData());
+      this.props.startCreditCardPurchase(this.packPurchaseData(), this.packInProgressData());
     } else if(this.userIsSending()){
-      this.props.sendBevegram(this.packSendData());
+      this.props.sendBevegram(this.packSendData(), this.packInProgressData());
     }
   }
 
@@ -202,6 +203,21 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
       recipentName: this.props.fullName,
       quantity: this.state.bevegramsToSend,
       message: this.state.message,
+    }
+  }
+
+  packInProgressData(): InProgressData {
+    const activeCard = this.getActiveCard();
+    return {
+      bevegramsUserIsSending: this.state.bevegramsToSend,
+      bevegramsUserIsPurchasing: this.packPurchaseData().quantity,
+      bevegramsPurchasePrice: this.props.selectedPurchasePackage.price.toFixed(2),
+      cardLast4: activeCard.last4,
+      cardFontAwesomeIcon: FormatCreditCardBrandForFontAwesomeIcon(activeCard),
+      userIsPurchasing: this.userIsPurchasing(),
+      userIsSending: this.userIsSending(),
+      recipentFullName: this.props.fullName,
+      buttonFontSize: this.buttonFontSize,
     }
   }
 
@@ -538,185 +554,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     );
   }
 
-  renderAttemptingPurchaseAndOrSend(){
-    const activeCard: CreditCard = this.getActiveCard();
-    const cardBrandIcon = FormatCreditCardBrandForFontAwesomeIcon(activeCard);
-    const cardNumber = (activeCard && activeCard.last4) ? activeCard.last4 : "Not Found";
-
-    const bevegramsUserIsSending = this.state.bevegramsToSend;
-    const bevegramsUserIsPurchasing = this.packPurchaseData().quantity;
-
-    return (
-      <RouteWithNavBarWrapper>
-        <View style={globalStyles.bevContainer}>
-          {this.userIsPurchasing() ?
-            <View style={globalStyles.bevLine}>
-              <Text>
-                Purchasing {bevegramsUserIsPurchasing} {bevegramsUserIsPurchasing > 1 ? "Bevegrams" : "Bevegram"}!
-              </Text>
-            </View>
-          : null
-          }
-          {this.userIsPurchasing() ?
-            <View style={{flex: 1}}>
-              <View style={globalStyles.bevLine}>
-                <View style={globalStyles.bevLineLeft}>
-                  <Text style={globalStyles.bevLineTextTitle}>Card Used:</Text>
-                </View>
-                <View style={globalStyles.bevLineRight}>
-                  <View style={{flex: -1, flexDirection: "row", justifyContent: 'center', alignItems: 'center'}}>
-                    <FontAwesome name={cardBrandIcon} size={30} style={{paddingRight: 10}}/>
-                    <Text style={globalStyles.bevLineText}>.... {cardNumber}</Text>
-                  </View>
-                </View>
-              </View>
-              <StatusLine
-                title="Verify Purchase"
-                input={this.props.purchase.confirmed}
-                waiting={false}
-                allFailed={this.props.purchase.failed}
-              />
-            </View>
-          :
-            null
-          }
-          {this.userIsSending() ?
-            <View style={globalStyles.bevLine}>
-              <Text>
-                Sending {bevegramsUserIsSending} {bevegramsUserIsSending > 1 ? "Bevegrams" : "Bevegram"} to {this.props.firstName}!
-              </Text>
-            </View>
-          : null
-          }
-          {this.userIsSending() ?
-            <StatusLine
-              title="Sending Bevegram"
-              input={this.props.completedSend ? true : undefined}
-              waiting={!this.userIsPurchasing() ? false : !this.props.purchase.confirmed}
-              allFailed={false}
-            />
-          :
-            null
-          }
-          {this.props.purchase.failed ?
-          <View>
-            <View style={globalStyles.bevLineNoSep}>
-              <Text style={[globalStyles.bevLineTextTitle, {color: 'red'}]}>Purchase Error:</Text>
-            </View>
-            <View style={globalStyles.bevLine}>
-              <Text style={globalStyles.bevLineText}numberOfLines={5}>{this.props.purchase.failMessage}</Text>
-            </View>
-            <View>
-              <View style={{
-                flex: 1,
-                flexDirection: 'row',
-              }}>
-                <View style={{flex: 1, alignItems: 'flex-start', paddingTop: 10}}>
-                  <BevButton
-                    onPress={this.props.closePurchaseRoute}
-                    text={"Close"}
-                    shortText="Close"
-                    label="Close Purchase Button"
-                    buttonFontSize={this.buttonFontSize}
-                  />
-                </View>
-                <View style={{flex: 1, alignItems: 'flex-end', paddingTop: 10}}>
-                  <BevButton
-                    onPress={this.props.resetPurchase}
-                    text={"Try Again"}
-                    shortText={"Try Again"}
-                    label={"Try Purchase Again Button"}
-                    buttonFontSize={this.buttonFontSize}
-                  />
-                </View>
-              </View>
-            </View>
-          </View>
-          :
-          <View/>
-          }
-          {this.renderPurchaseOrSendOrBothComplete()}
-        </View>
-      </RouteWithNavBarWrapper>
-    )
-  }
-
-  renderPurchaseOrSendOrBothComplete(){
-    const showCompleted = () => {
-      if(this.userIsPurchasingAndSending()){
-        return this.props.purchase.confirmed && this.props.completedSend;
-      } else if (this.userIsSending()){
-        return this.props.completedSend;
-      } else if (this.userIsPurchasing()){
-        return this.props.purchase.confirmed;
-      }
-    }
-
-    if(!showCompleted()){
-      return <View/>
-    }
-
-    const bevStr = (numBevs: number) => {
-      if(numBevs === 1){
-        return "Bevegram";
-      }
-      return "Bevegrams"
-    }
-
-    const bevegramsUserSent = this.state.bevegramsToSend;
-    const bevegramsUserPurchased = this.packPurchaseData().quantity;
-    const sentSummaryText = `Sent ${bevegramsUserSent} ${bevStr(bevegramsUserSent)} to ${this.props.fullName}`;
-    const purchasedSummaryText = `Purchased ${bevegramsUserPurchased} ${bevStr(bevegramsUserPurchased)} for $${this.props.selectedPurchasePackage.price.toFixed(2)}`;
-
-
-    let summaryText: string;
-    if(this.userIsPurchasingAndSending()){
-      if(bevegramsUserSent === 1 && (bevegramsUserSent === bevegramsUserPurchased)){
-        summaryText = purchasedSummaryText + " & " + `sent it to ${this.props.fullName}`
-      } else {
-        summaryText = purchasedSummaryText + " & " + sentSummaryText.charAt(0).toLowerCase() + sentSummaryText.slice(1);
-      }
-    } else if (this.userIsPurchasing()){
-      summaryText = purchasedSummaryText;
-    } else if (this.userIsSending()){
-      summaryText = sentSummaryText;
-    }
-
-    return (
-      <View>
-        <View style={globalStyles.bevLine}>
-          <View style={{flex: 1}}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                lineHeight: 22,
-                flex: 1,
-              }}
-            >
-              {summaryText}
-            </Text>
-          </View>
-        </View>
-        <View>
-          <View style={{alignItems: 'flex-end', paddingTop: 10}}>
-            <BevButton
-              onPress={this.props.closePurchaseRoute}
-              text={"Close"}
-              shortText={"Close"}
-              label="Close Purchase Button"
-              buttonFontSize={this.buttonFontSize}
-            />
-          </View>
-        </View>
-      </View>
-    )
-  }
-
   render() {
-    if(this.props.purchase.attemptingPurchase || this.props.attemptingSend || this.props.purchase.confirmed || this.props.completedSend){
-      return this.renderAttemptingPurchaseAndOrSend();
-    }
-
     return this.renderSendAndPurchaseOptions();
   }
 }
