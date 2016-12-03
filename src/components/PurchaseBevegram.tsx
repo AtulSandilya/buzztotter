@@ -205,21 +205,22 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     }
   }
 
-  getBrandOfActiveCard(){
-    let activeCardBrand = "";
+  getActiveCard(){
+    // Is this a bad idea?
+    let activeCard: CreditCard = {
+      token: undefined,
+      brand: undefined,
+      last4: undefined,
+      id: undefined,
+    };
 
     this.props.creditCards.map((card) => {
-      if(card.id === this.props.activeCard){
-        activeCardBrand = card.brand;
+      if(card.id === this.props.activeCardId){
+        activeCard = card;
       }
     });
 
-    if(activeCardBrand.length !== 0){
-      return "cc-" + activeCardBrand.toLowerCase();
-    }
-
-    // Show some icon if active card is not found
-    return "credit-card";
+    return activeCard;
   }
 
   renderSendOptions() {
@@ -378,7 +379,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
                 onPress={() => {
                   if(!this.props.attemptingUpdate
                      && this.props.creditCards.length > 1
-                     && card.id !== this.props.activeCard
+                     && card.id !== this.getActiveCard().id
                     ){
                     this.props.updateDefaultCard(card.id);
                   }
@@ -399,7 +400,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
                   {this.props.attemptingUpdate ?
                       <ActivityIndicator style={{height: 28, width: 28}} />
                   :
-                    card.id === this.props.activeCard ?
+                    card.id === this.getActiveCard().id ?
                       <FontAwesome
                         name="check-square-o"
                         size={25}
@@ -538,14 +539,9 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
   }
 
   renderAttemptingPurchaseAndOrSend(){
-    let card;
-    for(const i in this.props.creditCards){
-      if(this.props.activeCard === this.props.creditCards[i].id){
-        card = this.props.creditCards[i];
-      }
-    }
-    const cardBrandIcon = (card && card.brand) ? "cc-" + card.brand.toLowerCase() : "question";
-    const cardNumber = (card && card.last4) ? card.last4 : "Not Found";
+    const activeCard: CreditCard = this.getActiveCard();
+    const cardBrandIcon = FormatCreditCardBrandForFontAwesomeIcon(activeCard);
+    const cardNumber = (activeCard && activeCard.last4) ? activeCard.last4 : "Not Found";
 
     const bevegramsUserIsSending = this.state.bevegramsToSend;
     const bevegramsUserIsPurchasing = this.packPurchaseData().quantity;

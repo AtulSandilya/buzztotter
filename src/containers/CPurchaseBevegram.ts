@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
     firstName: state.routes.PurchaseBevegram.data.firstName,
     purchase: state.purchase,
     creditCards: state.user.stripe.creditCards,
-    activeCard: state.user.stripe.activeCardId,
+    activeCardId: state.user.stripe.activeCardId,
     attemptingUpdate: state.purchase.attemptingStripeUpdate,
     attemptingVerification: state.addCreditCard.attemptingVerification,
     purchasePackages: state.purchase.purchasePackages,
