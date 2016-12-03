@@ -1,4 +1,4 @@
-import {CardResponseData} from './purchase';
+import {CreditCard} from './purchase';
 
 interface UserState {
   isLoggedIn: boolean;
@@ -12,7 +12,7 @@ interface UserState {
   email: string;
   stripe: {
     customerId: string,
-    creditCards: CardResponseData[],
+    creditCards: CreditCard[],
     activeCardId: string,
   };
 }

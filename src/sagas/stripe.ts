@@ -2,7 +2,7 @@ import { call, put, select } from 'redux-saga/effects';
 
 import {Alert} from 'react-native';
 
-import { CardResponseData, PurchaseData } from '../reducers/purchase';
+import { CreditCard, PurchaseData } from '../reducers/purchase';
 import { CardDataForVerification } from '../reducers/addCreditCard';
 
 import { goBackRoute } from './routes';

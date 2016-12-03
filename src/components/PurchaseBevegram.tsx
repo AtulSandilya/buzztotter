@@ -16,7 +16,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {isIOS} from '../Utilities';
 
-import { CardResponseData, PurchaseData, PurchaseState, PurchasePackage} from '../reducers/purchase';
+import { CreditCard, PurchaseData, PurchaseState, PurchasePackage} from '../reducers/purchase';
 
 import {SendBevegramData} from '../sagas/sendBevegram';
 
@@ -51,8 +51,8 @@ interface PurchaseBevegramProps {
   fullName: string;
   firstName: string;
   purchase: PurchaseState;
-  creditCards: CardResponseData[];
-  activeCard: string;
+  creditCards: CreditCard[];
+  activeCardId: string;
   attemptingUpdate: boolean;
   attemptingVerification: boolean;
   purchasePackages: PurchasePackage[];
@@ -80,7 +80,6 @@ interface PurchaseBevegramState {
   // base the view logic on the initial userBevegram count.
   bevegramsBeforePurchaseOrSendOrBoth: number;
 }
-
 
 export default class PurchaseBevegram extends Component<PurchaseBevegramProps, PurchaseBevegramState> {
 
