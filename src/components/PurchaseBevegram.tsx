@@ -27,6 +27,25 @@ import BevButton, {getButtonHeight} from './BevButton';
 
 import {globalColors, globalStyles} from './GlobalStyles';
 
+export const FormatCreditCardBrandForFontAwesomeIcon = (card: CreditCard) => {
+  const cardMap = {
+    "Visa": "visa",
+    "MasterCard": "mastercard",
+    "American Express": "amex",
+    "Discover": "discover",
+    "JCB": "jcb",
+    "Diners Club": "diners-club",
+  }
+
+  const cardPrefix = "cc-"
+
+  if(card && cardMap[card.brand]){
+    return cardPrefix + cardMap[card.brand];
+  }
+
+  return "credit-card";
+}
+
 interface PurchaseBevegramProps {
   userBevegrams: number;
   fullName: string;
