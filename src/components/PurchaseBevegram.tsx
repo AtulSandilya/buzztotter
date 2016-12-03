@@ -482,7 +482,9 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     } else if (this.userIsSending()){
       buttonText = sendText;
     }
-    const purchaseButtonIcon = this.userIsPurchasing() ? this.getBrandOfActiveCard() : "paper-plane"
+    const purchaseButtonIcon = this.userIsPurchasing() ?
+      FormatCreditCardBrandForFontAwesomeIcon(this.getActiveCard())
+      : "paper-plane";
 
     return(
       <View style={{flex: 1}}>
