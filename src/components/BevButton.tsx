@@ -101,7 +101,6 @@ const BevButton  = ({
   const smallIconStyle =
     isAndroid ? {
       fontSize: buttonFontSize * 1.5,
-      paddingVertical: -3
     } : {
       fontSize: buttonFontSize * 1.5,
       paddingTop: 2,
