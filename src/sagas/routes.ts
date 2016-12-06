@@ -1,4 +1,5 @@
 import { put, select } from 'redux-saga/effects';
+import { Keyboard } from 'react-native';
 
 import { Actions, ActionConst } from 'react-native-router-flux';
 
@@ -35,6 +36,7 @@ export function *goBackRoute(action) {
   }
 
   if(routesThatDontGoBack[currentRoute] === undefined){
+    Keyboard.dismiss();
 
     if(currentRoute === "PurchaseAndOrSendInProgress"){
       Actions["MainUi"]({type: ActionConst.BACK, popNum: 2});
