@@ -11,7 +11,7 @@ import {
 
 import moment from 'moment';
 
-import {isIOS} from '../Utilities';
+import {isIOS, isNarrow} from '../Utilities';
 
 import {CardDataForVerification} from '../reducers/addCreditCard';
 
@@ -157,7 +157,9 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
         <View style={globalStyles.bevContainer}>
           <View style={globalStyles.bevLine}>
             <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Card Number:</Text>
+              <Text style={globalStyles.bevLineTextTitle}>
+              {`${!isNarrow ? "Card " : ""}`}Number:
+              </Text>
             </View>
             <View style={[globalStyles.bevLineRight, {
               flexDirection: 'row',
