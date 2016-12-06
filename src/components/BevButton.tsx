@@ -53,6 +53,7 @@ const styles = StyleSheet.create<Style>({
   },
   buttonText: {
     color: "#ffffff",
+    backgroundColor: 'rgba(0, 0, 0, 0)',
   },
   greenButtonText: {
     color: "#333333",
