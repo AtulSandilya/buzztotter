@@ -317,16 +317,17 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
           </View>
           {this.props.failed  && !this.props.attemptingVerification ?
             <View style={globalStyles.bevLine}>
-              <View style={globalStyles.bevLineLeft}>
+              <View style={[globalStyles.bevLineLeft, {justifyContent: 'flex-start'}]}>
                 <Text style={[{
                   color: 'red',
+                  paddingRight: 10,
                 }, globalStyles.bevLineTextTitle]}>
                   Error:
                 </Text>
               </View>
               <View style={globalStyles.bevLineWideRight}>
                 <Text
-                  numberOfLines={5}
+                  numberOfLines={Infinity}
                 >
                   {this.props.failMessage}
                 </Text>
