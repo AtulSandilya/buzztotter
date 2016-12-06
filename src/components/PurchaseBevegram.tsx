@@ -26,7 +26,7 @@ import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
 import TitleText from './TitleText';
 import BevButton, {getButtonHeight} from './BevButton';
 
-import {globalColors, globalStyles} from './GlobalStyles';
+import {globalColors, globalStyles, BevLayoutAnimation} from './GlobalStyles';
 
 export const FormatCreditCardBrandForFontAwesomeIcon = (card: CreditCard) => {
   const cardMap = {
@@ -95,6 +95,10 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
   }
 
   buttonFontSize = 20;
+
+  componentWillUpdate() {
+    BevLayoutAnimation();
+  }
 
   userIsSending(): boolean {
     return this.props.fullName !== undefined;

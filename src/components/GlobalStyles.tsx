@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { LayoutAnimation, StyleSheet } from 'react-native';
 
 import Color from 'color';
 
@@ -131,3 +131,19 @@ export const globalStyles = StyleSheet.create<Styles>({
   }
 });
 
+const animationDuration = 80;
+
+const defaultAnimation = {
+  type: LayoutAnimation.Types.easeInEaseOut,
+  property: LayoutAnimation.Properties.opacity,
+}
+
+export const BevLayoutAnimation = () => {
+  LayoutAnimation.configureNext(
+    {
+      duration: animationDuration,
+      create: defaultAnimation,
+      update: defaultAnimation,
+    }
+  )
+}
