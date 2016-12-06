@@ -11,7 +11,7 @@ exports[`Contact component renders correctly 1`] = `
       Object {
         "alignItems": "center",
         "alignSelf": "center",
-        "flex": 2,
+        "flex": -1,
         "flexDirection": "row",
         "paddingLeft": 10,
       }
@@ -31,7 +31,7 @@ exports[`Contact component renders correctly 1`] = `
     <View
       style={
         Object {
-          "flex": 1,
+          "flex": -1,
           "flexDirection": "column",
         }
       }>
@@ -67,12 +67,14 @@ exports[`Contact component renders correctly 1`] = `
         "alignSelf": "center",
         "flex": 1,
         "flexDirection": "row",
+        "justifyContent": "flex-end",
       }
     }>
     <View
+      accessibilityLabel="Send Bevegram Button"
       style={
         Object {
-          "flex": 1,
+          "flex": -1,
           "flexDirection": "row-reverse",
         }
       }>
@@ -88,26 +90,42 @@ exports[`Contact component renders correctly 1`] = `
                 "backgroundColor": "#8B5E3C",
                 "borderColor": "#000000",
                 "borderRadius": 10,
+                "elevation": 5,
                 "flex": -1,
                 "flexDirection": "row",
                 "justifyContent": "center",
                 "margin": 15,
                 "padding": 15,
+                "shadowColor": "#333333",
+                "shadowOffset": Object {
+                  "height": 1,
+                  "width": 2,
+                },
+                "shadowOpacity": 0.5,
+                "shadowRadius": 0.95,
               },
               Object {
                 "margin": 12,
               },
               null,
+              Object {
+                "paddingVertical": 11,
+              },
               null,
+              Object {
+                "height": 44,
+              },
             ]
           }>
           <Text
             accessible={true}
             allowFontScaling={true}
             ellipsizeMode="tail"
+            numberOfLines={1}
             style={
               Array [
                 Object {
+                  "backgroundColor": "rgba(0, 0, 0, 0)",
                   "color": "#ffffff",
                 },
                 Object {
@@ -115,7 +133,7 @@ exports[`Contact component renders correctly 1`] = `
                 },
               ]
             }>
-            Send Andrew a Beer!
+            Send Bevegram
           </Text>
           <Text
             accessible={true}
@@ -129,12 +147,15 @@ exports[`Contact component renders correctly 1`] = `
                 },
                 Array [
                   Object {
+                    "backgroundColor": "rgba(0, 0, 0, 0)",
                     "color": "#ffffff",
                   },
                   Object {
                     "fontSize": 24,
-                    "paddingLeft": 10,
                     "paddingTop": 2,
+                  },
+                  Object {
+                    "paddingLeft": 10,
                   },
                 ],
                 Object {
