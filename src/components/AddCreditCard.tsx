@@ -168,6 +168,7 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
               justifyContent: 'flex-end',
             }]}>
               <CreditCardInput
+                autoFocus={true}
                 ref="1"
                 value={this.state.cardNum1}
                 nextRef={this.refs["2"]}
@@ -356,6 +357,7 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
   }
 }
 interface CreditCardInputProps {
+  autoFocus?: boolean;
   ref: string,
   nextRef?: any,
   width: number;
@@ -385,6 +387,7 @@ class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputSta
     showSpinner: false,
     showEmpty: false,
     value: undefined,
+    autoFocus: false,
   }
 
   onSubmit() {
@@ -425,6 +428,7 @@ class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputSta
             textAlign: 'center',
             height: 45,
           }}
+          autoFocus={this.props.autoFocus}
           ref="textInput"
           value={this.props.value}
           keyboardType="numeric"
