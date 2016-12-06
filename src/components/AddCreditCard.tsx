@@ -306,6 +306,12 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
                   this.updateState("cardCvc", text);
                 }}
                 returnKeyType="done"
+                onMaxLength={() => {
+                  // Wait for the state to finish updating.
+                  setTimeout(() => {
+                    this.verifyCard();
+                  }, 100);
+                }}
               />
             </View>
           </View>
@@ -369,6 +375,7 @@ interface CreditCardInputProps {
   showEmpty?: boolean;
   returnKeyType?: "next" | "done";
   onChangeText(string): void;
+  onMaxLength?: Function;
 }
 
 interface CreditCardInputState {}
@@ -382,6 +389,7 @@ class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputSta
     maxChars: undefined,
     placeholder: "",
     onChangeText: undefined,
+    onMaxLength: undefined,
     returnKeyType: "next",
     showError: false,
     showSpinner: false,
@@ -391,6 +399,18 @@ class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputSta
   }
 
   onSubmit() {
+    this.goToNextInput();
+  }
+
+  onMaxLength() {
+    if(this.props.onMaxLength){
+      this.props.onMaxLength();
+    } else {
+      this.goToNextInput();
+    }
+  }
+
+  goToNextInput(){
     if(this.props.nextRef){
       this.props.nextRef.refs["textInput"].focus();
     }
@@ -436,7 +456,12 @@ class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputSta
           maxLength={this.props.maxChars}
           placeholder={this.props.placeholder}
           placeholderTextColor={"#cccccc"}
-          onChangeText={this.props.onChangeText}
+          onChangeText={(text) => {
+            this.props.onChangeText(text);
+            if(text.length === this.props.maxChars){
+              this.onMaxLength();
+            }
+          }}
           onSubmitEditing={this.onSubmit.bind(this)}
         />
       </View>
