@@ -42,7 +42,7 @@ const styles = StyleSheet.create<Style>({
       width: 2,
       height: 1,
     },
-    elevation: 50,
+    elevation: 5,
   },
   greenButton: {
     backgroundColor: globalColors.bevPrimary,
