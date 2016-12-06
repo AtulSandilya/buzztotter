@@ -458,7 +458,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
             </View>
           )
         }) : <View/>}
-        <View style={globalStyles.bevLine}>
+        <View style={globalStyles.bevLineNoSepWithMargin}>
           <TouchableOpacity
             style={{
               flex: 1,
