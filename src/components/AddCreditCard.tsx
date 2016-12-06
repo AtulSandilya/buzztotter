@@ -417,6 +417,7 @@ class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputSta
   }
 
   render() {
+    const oneCharWidth = 12;
     if(this.props.showEmpty) {
       return (
         <View></View>
@@ -444,7 +445,7 @@ class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputSta
       }}>
         <TextInput
           style={{
-            width: this.props.width,
+            width: this.props.maxChars * oneCharWidth,
             textAlign: 'center',
             height: 45,
           }}
