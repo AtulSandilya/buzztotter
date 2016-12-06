@@ -1,6 +1,13 @@
 import * as React from "react";
 import { Component, PropTypes } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Keyboard,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 import moment from 'moment';
 
@@ -56,6 +63,7 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
 
   verifyCard(){
     if(this.clientSideVerify()) {
+      Keyboard.dismiss();
       this.props.verifyCardDetailsWithStripe(this.packageCardData());
     }
   }
