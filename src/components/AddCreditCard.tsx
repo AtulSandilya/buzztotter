@@ -163,8 +163,9 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
             </View>
             <View style={[globalStyles.bevLineRight, {
               flexDirection: 'row',
-              flex: -1,
-              alignItems: 'flex-end',
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'flex-end',
             }]}>
               <CreditCardInput
                 ref="1"
