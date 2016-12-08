@@ -1,7 +1,14 @@
 import { put, select } from 'redux-saga/effects';
-import { Keyboard } from 'react-native';
+import {
+  Keyboard,
+  ToastAndroid,
+} from 'react-native';
 
 import { Actions, ActionConst } from 'react-native-router-flux';
+
+import {isAndroid, isIOS} from '../Utilities';
+
+import { IsPurchaseAndOrSendCompleted } from '../components/PurchaseAndOrSendInProgress';
 
 export function *goToRoute(action){
 
@@ -38,8 +45,32 @@ export function *goBackRoute(action) {
   if(routesThatDontGoBack[currentRoute] === undefined){
     Keyboard.dismiss();
 
+    // Android: Disable the back button while a purchase and/or send
+    // is in progress
     if(currentRoute === "PurchaseAndOrSendInProgress"){
-      Actions["MainUi"]({type: ActionConst.BACK, popNum: 2});
+      const purchaseState = yield select((state) => state.purchase);
+      const routeState = yield select((state) => state.routes.PurchaseAndOrSendInProgress.data);
+
+      const allowGoBack = IsPurchaseAndOrSendCompleted(
+        routeState.userIsPurchasing,
+        routeState.userIsSending,
+        purchaseState.confirmed,
+        purchaseState.completedSend,
+      );
+
+      if(!allowGoBack){
+        if(isAndroid){
+
+          ToastAndroid.showWithGravity(
+            `Please wait until ${routeState.userIsPurchasing ? "purchasing" : "sending"} is complete.`,
+            ToastAndroid.SHORT,
+            ToastAndroid.BOTTOM
+          );
+        }
+        return;
+      } else {
+        Actions["MainUi"]({type: ActionConst.BACK, popNum: 2});
+      }
     } else {
       Actions[nextRoute]({type: ActionConst.BACK});
     }
