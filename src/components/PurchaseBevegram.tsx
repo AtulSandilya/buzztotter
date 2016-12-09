@@ -460,8 +460,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
                     }
                   }}
                   style={{
-                    flex: 1,
-                    justifyContent: 'center'
+                    paddingRight: 10,
                   }}>
                   <Text style={{color: '#999'}}>{this.props.attemptingUpdate ? "Updating..." : "Remove"}</Text>
                 </TouchableOpacity>

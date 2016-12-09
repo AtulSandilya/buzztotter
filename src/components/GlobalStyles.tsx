@@ -117,7 +117,9 @@ export const globalStyles = StyleSheet.create<Styles>({
   },
   bevLineRight: {
     flex: 1,
-    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   bevLineWideRight: {
     flex: 2,
