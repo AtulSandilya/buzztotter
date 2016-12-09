@@ -33,7 +33,7 @@ public class InitialTest {
         Thread.sleep(5000);
 
         try {
-            onView(withText("Log in with Facebook")).perform(click());
+            onView(withText("Login with Facebook")).perform(click());
         } catch(Exception e){
             // continue
         }
