@@ -16,8 +16,8 @@ describe('Branding component', () => {
       />
     )
 
-    // Branding container view has 3 children
-    expect(wrapper.find(View).length).toEqual(3);
+    // Branding container view has 5 children
+    expect(wrapper.find(View).length).toEqual(5);
   })
 })
 
