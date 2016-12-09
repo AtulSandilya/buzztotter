@@ -6,7 +6,7 @@ import {globalStyles} from './GlobalStyles';
 
 const StatusLine = ({title, input, allFailed, waiting = false}) => {
   let text = "";
-  let color = "#000000";
+  let color = "";
   if(allFailed){
     text = "Failed"
     color = "red";
@@ -42,9 +42,9 @@ const StatusLine = ({title, input, allFailed, waiting = false}) => {
             {input === undefined && waiting === false && allFailed !== true ? <ActivityIndicator style={{marginRight: 10}}/> : <View />}
           </View>
           <Text
-            style={{
+            style={[globalStyles.bevLineText, color.length > 0 ? {
               color: color,
-            }}
+            } : null]}
           >
             {text}
           </Text>
