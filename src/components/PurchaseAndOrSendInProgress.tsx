@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Component, PropTypes } from 'react';
 import {
+  Image,
   Text,
   View
 } from 'react-native';
@@ -21,6 +22,7 @@ export interface InProgressData {
   userIsPurchasing: boolean;
   userIsSending: boolean;
   recipentFullName: string;
+  recipentImage: string;
   buttonFontSize: number;
 }
 
@@ -41,6 +43,7 @@ export interface PurchaseOrSendInProgressProps {
   userIsPurchasing: boolean;
   userIsSending: boolean;
   recipentFullName: string;
+  recipentImage: string;
   buttonFontSize: number;
 }
 
@@ -57,6 +60,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
   purchaseFailedMessage,
   sendConfirmed,
   recipentFullName,
+  recipentImage,
   closeRoute,
   resetPurchase,
   buttonFontSize,

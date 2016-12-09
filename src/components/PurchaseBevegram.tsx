@@ -3,6 +3,7 @@ import { Component, PropTypes } from 'react';
 import {
   ActivityIndicator,
   Alert,
+  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -51,6 +52,7 @@ interface PurchaseBevegramProps {
   userBevegrams: number;
   fullName: string;
   firstName: string;
+  imageUri: string;
   purchase: PurchaseState;
   creditCards: CreditCard[];
   activeCardId: string;
@@ -213,6 +215,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
   packInProgressData(): InProgressData {
     const activeCard = this.getActiveCard();
     return {
+      recipentImage: this.props.imageUri,
       bevegramsUserIsSending: this.state.bevegramsToSend,
       bevegramsUserIsPurchasing: this.packPurchaseData().quantity,
       bevegramsPurchasePrice: this.props.selectedPurchasePackage.price.toFixed(2),
@@ -255,6 +258,14 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
             <Text style={globalStyles.bevLineTextTitle}>Receipent:</Text>
           </View>
           <View style={globalStyles.bevLineRight}>
+            <Image
+              source={{uri: this.props.imageUri}}
+              style={{
+                height: 40,
+                width: 40,
+                marginRight: 10,
+              }}
+            />
             <Text style={globalStyles.bevLineText}>{this.props.fullName}</Text>
           </View>
         </View>
