@@ -15,7 +15,7 @@ describe('Contact container', () => {
     expect(retValue).toEqual({
       type: 'GO_TO_ROUTE',
       payload: {
-        route: "PurchaseBevegram",
+        route: "SendBevegram",
         routeData: routeData,
       }
     });
