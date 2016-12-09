@@ -8,17 +8,17 @@ const StatusLine = ({title, input, allFailed, waiting = false}) => {
   let text = "";
   let color = "#000000";
   if(allFailed){
-    text = "Failure"
+    text = "Failed"
     color = "red";
   } else if(waiting){
     text = "Waiting"
   } else if(input === undefined){
     text = "Pending"
   } else if (input === true) {
-    text = "Success!"
+    text = "Successful!"
     color = "green"
   } else if (input === false) {
-    text = "Failure"
+    text = "Failed"
     color = "red";
   }
 
