@@ -1,14 +1,10 @@
 import { LayoutAnimation, StyleSheet } from 'react-native';
 
-import Color from 'color';
-
 import {isAndroid} from '../Utilities';
 
 export const globalColors = {
   // Tealish Green
   bevPrimary: '#8ED0BA',
-  // Tealish Green, Darker
-  statusBarBackground: isAndroid ? Color('#8ED0BA').blacken(0.75).darken(0.25).hexString() : '#8ED0BA',
   // Brown
   bevSecondary: '#8B5E3C',
   // Light Brown
