@@ -1,5 +1,5 @@
 exports[`test renders correctly 1`] = `
-<ScrollView
+<View
   style={
     Object {
       "flex": 1,
@@ -8,611 +8,588 @@ exports[`test renders correctly 1`] = `
   <View
     style={
       Object {
-        "height": 64,
-      }
-    } />
-  <View
-    style={
-      Object {
+        "backgroundColor": "#ffffff",
         "flex": 1,
-        "padding": 20,
       }
     }>
-    <View
+    <ScrollView
+      contentInset={
+        Object {
+          "bottom": 49,
+        }
+      }
+      enableAutoAutomaticScroll={true}
+      extraHeight={75}
+      extraScrollHeight={0}
+      keyboardDismissMode="interactive"
+      onScroll={[Function]}
+      scrollEventThrottle={8}
+      showsVerticalScrollIndicator={true}
       style={
         Object {
-          "borderBottomWidth": 1,
-          "borderColor": "#dddddd",
-          "flex": -1,
-          "flexDirection": "row",
-          "marginBottom": 15,
-          "paddingBottom": 10,
+          "flex": 1,
+          "height": 520,
+          "left": 0,
+          "top": 85,
+          "width": 375,
         }
       }>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-start",
-            "flex": 1,
-            "justifyContent": "center",
-          }
-        }>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "fontSize": 20,
-              "fontWeight": "bold",
-            }
-          }>
-          Receipent:
-        </Text>
-      </View>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-end",
-            "flex": 1,
-            "paddingRight": 10,
-          }
-        }>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "fontSize": 20,
-            }
-          }>
-          Testy McTest
-        </Text>
-      </View>
-    </View>
-    <View
-      style={
-        Object {
-          "borderBottomWidth": 1,
-          "borderColor": "#dddddd",
-          "flex": -1,
-          "flexDirection": "row",
-          "marginBottom": 15,
-          "paddingBottom": 10,
-        }
-      }>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-start",
-            "flex": 1,
-            "justifyContent": "center",
-          }
-        }>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "fontSize": 20,
-              "fontWeight": "bold",
-            }
-          }>
-          Number of Beers:
-        </Text>
-      </View>
-      <View
-        style={
-          Object {
-            "alignItems": "stretch",
-            "flex": 1,
-            "flexDirection": "row",
-            "justifyContent": "center",
-            "paddingRight": 10,
-          }
-        }>
-        <View
-          style={
-            Object {
-              "alignItems": "flex-end",
-              "flex": 2,
-              "flexDirection": "row",
-              "justifyContent": "flex-end",
-            }
-          }>
-          <TouchableHighlight
-            activeOpacity={0.85}
-            hitSlop={
-              Object {
-                "bottom": 10,
-                "left": 10,
-                "right": 10,
-                "top": 10,
-              }
-            }
-            onPress={[Function]}
-            style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "alignSelf": "center",
-                  "backgroundColor": "#8ED0BA",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                Object {
-                  "marginRight": 15,
-                },
-              ]
-            }
-            underlayColor="black">
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
-              style={
-                Object {
-                  "fontSize": 25,
-                  "fontWeight": "bold",
-                }
-              }>
-              +
-            </Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            activeOpacity={0.85}
-            hitSlop={
-              Object {
-                "bottom": 10,
-                "left": 10,
-                "right": 10,
-                "top": 10,
-              }
-            }
-            onPress={[Function]}
-            style={
-              Object {
-                "alignItems": "center",
-                "alignSelf": "center",
-                "backgroundColor": "#8ED0BA",
-                "borderRadius": 100,
-                "flex": 1,
-                "flexDirection": "row",
-                "justifyContent": "center",
-              }
-            }
-            underlayColor="black">
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
-              style={
-                Object {
-                  "fontSize": 25,
-                  "fontWeight": "bold",
-                }
-              }>
-              -
-            </Text>
-          </TouchableHighlight>
-        </View>
-        <View
-          style={
-            Object {
-              "alignItems": "flex-end",
-              "flex": 1,
-            }
-          }>
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            ellipsizeMode="tail"
-            style={
-              Object {
-                "fontSize": 20,
-                "fontWeight": "bold",
-              }
-            }>
-            1
-          </Text>
-        </View>
-      </View>
-    </View>
-    <View
-      style={
-        Object {
-          "borderBottomWidth": 1,
-          "borderColor": "#dddddd",
-          "flex": -1,
-          "flexDirection": "row",
-          "marginBottom": 15,
-          "paddingBottom": 10,
-        }
-      }>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-start",
-            "flex": 1,
-            "justifyContent": "center",
-          }
-        }>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "fontSize": 20,
-              "fontWeight": "bold",
-            }
-          }>
-          Coupon:
-        </Text>
-      </View>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-end",
-            "flex": 1,
-            "paddingRight": 10,
-          }
-        }>
-        <View
-          style={
-            Object {
-              "alignItems": "flex-end",
-              "flex": 1,
-              "justifyContent": "center",
-            }
-          }>
-          <TextInput
-            maxLength={4}
-            onChangeText={[Function]}
-            placeholder="ABCD"
-            placeholderTextColor="#cccccc"
-            style={
-              Object {
-                "height": 40,
-                "textAlign": "center",
-                "width": 65,
-              }
-            } />
-        </View>
-      </View>
-    </View>
-    <View
-      style={
-        Object {
-          "borderBottomWidth": 1,
-          "borderColor": "#dddddd",
-          "flex": -1,
-          "flexDirection": "row",
-          "marginBottom": 15,
-          "paddingBottom": 10,
-        }
-      }>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-start",
-            "flex": 1,
-            "justifyContent": "center",
-          }
-        }>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "fontSize": 20,
-              "fontWeight": "bold",
-            }
-          }>
-          Cost:
-        </Text>
-      </View>
       <View
         style={
           Array [
             Object {
-              "alignItems": "flex-end",
               "flex": 1,
-              "paddingRight": 10,
+              "paddingBottom": 5,
+              "paddingHorizontal": 20,
+              "paddingTop": 15,
             },
             Object {
-              "flex": 1,
+              "paddingBottom": 0,
             },
           ]
         }>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
+        <View
           style={
             Object {
-              "fontSize": 20,
+              "flex": 1,
             }
           }>
-          $ 
-          6.00
-        </Text>
+          <View
+            style={
+              Object {
+                "borderBottomWidth": 1,
+                "borderColor": "#dddddd",
+                "flex": -1,
+                "flexDirection": "row",
+                "marginBottom": 15,
+                "paddingBottom": 10,
+              }
+            }>
+            <View
+              style={
+                Object {
+                  "alignItems": "flex-start",
+                  "flex": -1,
+                  "justifyContent": "center",
+                }
+              }>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "fontSize": 20,
+                    "fontWeight": "bold",
+                  }
+                }>
+                Receipent:
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-end",
+                }
+              }>
+              <Image
+                source={
+                  Object {
+                    "uri": undefined,
+                  }
+                }
+                style={
+                  Object {
+                    "height": 40,
+                    "marginRight": 10,
+                    "width": 40,
+                  }
+                } />
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "fontSize": 20,
+                  }
+                }>
+                Testy McTest
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "borderBottomWidth": 1,
+                "borderColor": "#dddddd",
+                "flex": -1,
+                "flexDirection": "row",
+                "marginBottom": 15,
+                "paddingBottom": 10,
+              }
+            }>
+            <View
+              style={
+                Object {
+                  "alignItems": "flex-start",
+                  "flex": -1,
+                  "justifyContent": "center",
+                }
+              }>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "fontSize": 20,
+                    "fontWeight": "bold",
+                  }
+                }>
+                Bevegrams:
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-end",
+                }
+              }>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flex": 1,
+                    "flexDirection": "row",
+                    "justifyContent": "flex-end",
+                  }
+                }>
+                <Text
+                  accessible={true}
+                  allowFontScaling={true}
+                  ellipsizeMode="tail"
+                  style={
+                    Object {
+                      "fontSize": 20,
+                      "fontWeight": "bold",
+                    }
+                  }>
+                  1
+                </Text>
+                <TouchableOpacity
+                  activeOpacity={0.2}
+                  hitSlop={
+                    Object {
+                      "bottom": 10,
+                      "left": 10,
+                      "right": 10,
+                      "top": 10,
+                    }
+                  }
+                  onPress={[Function]}
+                  style={
+                    Object {
+                      "marginLeft": 15,
+                    }
+                  }>
+                  <Text
+                    accessible={true}
+                    allowFontScaling={false}
+                    ellipsizeMode="tail"
+                    style={
+                      Array [
+                        Object {
+                          "color": "#555555",
+                          "fontSize": 28,
+                        },
+                        Object {
+                          "flex": -1,
+                          "height": 28,
+                          "width": 28,
+                        },
+                        Object {
+                          "fontFamily": "FontAwesome",
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                      ]
+                    }>
+                    
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  activeOpacity={0.2}
+                  hitSlop={
+                    Object {
+                      "bottom": 10,
+                      "left": 10,
+                      "right": 10,
+                      "top": 10,
+                    }
+                  }
+                  onPress={[Function]}
+                  style={
+                    Object {
+                      "marginLeft": 15,
+                    }
+                  }>
+                  <Text
+                    accessible={true}
+                    allowFontScaling={false}
+                    ellipsizeMode="tail"
+                    style={
+                      Array [
+                        Object {
+                          "color": "#555555",
+                          "fontSize": 28,
+                        },
+                        Object {
+                          "flex": -1,
+                          "height": 28,
+                          "width": 28,
+                        },
+                        Object {
+                          "fontFamily": "FontAwesome",
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                      ]
+                    }>
+                    
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": -1,
+                "flexDirection": "row",
+                "paddingBottom": 10,
+              }
+            }>
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "fontSize": 20,
+                  "fontWeight": "bold",
+                }
+              }>
+              Message:
+            </Text>
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "fontSize": 20,
+                }
+              }>
+               (Optional)
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "borderBottomWidth": 1,
+                "borderColor": "#dddddd",
+                "flex": -1,
+                "flexDirection": "row",
+                "marginBottom": 15,
+                "paddingBottom": 10,
+              }
+            }>
+            <TextInput
+              onChangeText={[Function]}
+              placeholder="Happy Birthday! Have a cold one on me!"
+              placeholderTextColor="#cccccc"
+              style={
+                Object {
+                  "flex": 1,
+                  "height": 45,
+                }
+              } />
+          </View>
+        </View>
       </View>
-    </View>
+    </ScrollView>
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#ffffff",
+        "elevation": 15,
+        "flex": -1,
+        "shadowColor": "#333333",
+        "shadowOpacity": 0.15,
+        "shadowRadius": 2,
+        "zIndex": 1,
+      }
+    }>
     <View
       style={
-        Object {
-          "borderBottomWidth": 1,
-          "borderColor": "#dddddd",
-          "flex": -1,
-          "flexDirection": "row",
-          "marginBottom": 15,
-          "paddingBottom": 10,
-        }
-      }>
-      <TouchableOpacity
-        activeOpacity={0.2}
-        onPress={[Function]}
-        style={
+        Array [
           Object {
             "flex": 1,
-            "flexDirection": "row",
-          }
+            "paddingBottom": 5,
+            "paddingHorizontal": 20,
+            "paddingTop": 15,
+          },
+          Object {
+            "flex": -1,
+            "margin": 0,
+            "paddingHorizontal": 10,
+            "paddingVertical": 10,
+          },
+        ]
+      }>
+      <View
+        style={
+          Array [
+            Object {
+              "flex": -1,
+              "flexDirection": "row",
+              "paddingBottom": 10,
+            },
+            Object {
+              "alignItems": "center",
+              "height": 52,
+              "justifyContent": "center",
+              "paddingBottom": 0,
+            },
+          ]
         }>
         <View
           style={
             Array [
               Object {
                 "alignItems": "flex-start",
-                "flex": 1,
+                "flex": -1,
                 "justifyContent": "center",
-              },
-              Object {
-                "flex": 2,
               },
             ]
           }>
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            ellipsizeMode="tail"
+          <View
+            accessibilityLabel="Cancel Purchase Button"
             style={
-              Array [
-                Object {
-                  "fontSize": 20,
-                  "fontWeight": "bold",
-                },
-                Object {
-                  "fontWeight": "normal",
-                },
-              ]
+              Object {
+                "flex": -1,
+                "flexDirection": "row-reverse",
+              }
             }>
-            Add Credit Card
-          </Text>
-        </View>
-        <View
-          style={
-            Object {
-              "alignItems": "flex-end",
-              "flex": 1,
-              "paddingRight": 10,
-            }
-          }>
-          <Text
-            accessible={true}
-            allowFontScaling={false}
-            ellipsizeMode="tail"
-            style={
-              Array [
-                Object {
-                  "color": undefined,
-                  "fontSize": 35,
-                },
-                undefined,
-                Object {
-                  "fontFamily": "Ionicons",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
-                },
-              ]
-            }>
-            
-          </Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-    <View>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontSize": 20,
-            "fontWeight": "bold",
-          }
-        }>
-        Message:
-      </Text>
-    </View>
-    <View>
-      <TextInput
-        placeholder="Happy Birthday! Have a cold one on me!"
-        placeholderTextColor="#cccccc"
-        style={
-          Object {
-            "flex": 1,
-          }
-        } />
-    </View>
-    <View
-      style={
-        Object {
-          "flexDirection": "row",
-          "paddingTop": 20,
-        }
-      }>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-start",
-            "flex": 1,
-          }
-        }>
-        <View
-          style={
-            Object {
-              "flex": 1,
-              "flexDirection": "row-reverse",
-            }
-          }>
-          <TouchableHighlight
-            activeOpacity={0.85}
-            onPress={undefined}
-            underlayColor="#ffffff">
-            <View
-              style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "backgroundColor": "#8B5E3C",
-                    "borderColor": "#000000",
-                    "borderRadius": 10,
-                    "flex": -1,
-                    "flexDirection": "row",
-                    "justifyContent": "center",
-                    "margin": 15,
-                    "padding": 15,
-                  },
-                  Object {
-                    "margin": 12,
-                  },
-                  null,
-                  null,
-                ]
-              }>
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+            <TouchableHighlight
+              activeOpacity={0.85}
+              onPress={undefined}
+              underlayColor="#ffffff">
+              <View
                 style={
                   Array [
                     Object {
-                      "color": "#ffffff",
+                      "alignItems": "center",
+                      "backgroundColor": "#8B5E3C",
+                      "borderColor": "#000000",
+                      "borderRadius": 10,
+                      "elevation": 5,
+                      "flex": -1,
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                      "margin": 15,
+                      "padding": 15,
+                      "shadowColor": "#333333",
+                      "shadowOffset": Object {
+                        "height": 1,
+                        "width": 2,
+                      },
+                      "shadowOpacity": 0.5,
+                      "shadowRadius": 0.95,
                     },
                     Object {
-                      "fontSize": 20,
+                      "margin": 0,
+                    },
+                    null,
+                    null,
+                    null,
+                    Object {
+                      "height": 52,
                     },
                   ]
                 }>
-                Cancel
-              </Text>
-            </View>
-          </TouchableHighlight>
-        </View>
-      </View>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-end",
-            "flex": 1,
-          }
-        }>
-        <View
-          style={
-            Object {
-              "flex": 1,
-              "flexDirection": "row-reverse",
-            }
-          }>
-          <TouchableHighlight
-            activeOpacity={0.85}
-            onPress={undefined}
-            underlayColor="#ffffff">
-            <View
-              style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "backgroundColor": "#8B5E3C",
-                    "borderColor": "#000000",
-                    "borderRadius": 10,
-                    "flex": -1,
-                    "flexDirection": "row",
-                    "justifyContent": "center",
-                    "margin": 15,
-                    "padding": 15,
-                  },
-                  Object {
-                    "margin": 12,
-                  },
-                  null,
-                  Object {
-                    "paddingVertical": 11,
-                  },
-                ]
-              }>
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
-                style={
-                  Array [
-                    Object {
-                      "color": "#ffffff",
-                    },
-                    Object {
-                      "fontSize": 20,
-                    },
-                  ]
-                }>
-                Add Credit Card
-              </Text>
-              <Text
-                accessible={true}
-                allowFontScaling={false}
-                ellipsizeMode="tail"
-                style={
-                  Array [
-                    Object {
-                      "color": undefined,
-                      "fontSize": 12,
-                    },
+                <Text
+                  accessible={true}
+                  allowFontScaling={false}
+                  ellipsizeMode="tail"
+                  style={
                     Array [
                       Object {
+                        "color": undefined,
+                        "fontSize": 12,
+                      },
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(0, 0, 0, 0)",
+                          "color": "#ffffff",
+                        },
+                        Object {
+                          "fontSize": 30,
+                          "paddingTop": 2,
+                        },
+                        Object {
+                          "paddingRight": 10,
+                        },
+                      ],
+                      Object {
+                        "fontFamily": "FontAwesome",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      },
+                    ]
+                  }>
+                  
+                </Text>
+                <Text
+                  accessible={true}
+                  allowFontScaling={true}
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "rgba(0, 0, 0, 0)",
                         "color": "#ffffff",
                       },
                       Object {
-                        "fontSize": 40,
-                        "paddingLeft": 10,
-                        "paddingTop": 2,
+                        "fontSize": 20,
                       },
-                    ],
+                    ]
+                  }>
+                  Cancel
+                </Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+              "flexDirection": "row",
+              "justifyContent": "flex-end",
+            }
+          }>
+          <View
+            accessibilityLabel="Send Button"
+            style={
+              Object {
+                "flex": -1,
+                "flexDirection": "row-reverse",
+              }
+            }>
+            <TouchableHighlight
+              activeOpacity={0.85}
+              onPress={[Function]}
+              underlayColor="#ffffff">
+              <View
+                style={
+                  Array [
                     Object {
-                      "fontFamily": "Ionicons",
-                      "fontStyle": "normal",
-                      "fontWeight": "normal",
+                      "alignItems": "center",
+                      "backgroundColor": "#8B5E3C",
+                      "borderColor": "#000000",
+                      "borderRadius": 10,
+                      "elevation": 5,
+                      "flex": -1,
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                      "margin": 15,
+                      "padding": 15,
+                      "shadowColor": "#333333",
+                      "shadowOffset": Object {
+                        "height": 1,
+                        "width": 2,
+                      },
+                      "shadowOpacity": 0.5,
+                      "shadowRadius": 0.95,
+                    },
+                    Object {
+                      "margin": 0,
+                    },
+                    null,
+                    null,
+                    null,
+                    Object {
+                      "height": 52,
                     },
                   ]
                 }>
-                
-              </Text>
-            </View>
-          </TouchableHighlight>
+                <Text
+                  accessible={true}
+                  allowFontScaling={false}
+                  ellipsizeMode="tail"
+                  style={
+                    Array [
+                      Object {
+                        "color": undefined,
+                        "fontSize": 12,
+                      },
+                      Array [
+                        Object {
+                          "backgroundColor": "rgba(0, 0, 0, 0)",
+                          "color": "#ffffff",
+                        },
+                        Object {
+                          "fontSize": 30,
+                          "paddingTop": 2,
+                        },
+                        Object {
+                          "paddingRight": 10,
+                        },
+                      ],
+                      Object {
+                        "fontFamily": "FontAwesome",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      },
+                    ]
+                  }>
+                  
+                </Text>
+                <Text
+                  accessible={true}
+                  allowFontScaling={true}
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "rgba(0, 0, 0, 0)",
+                        "color": "#ffffff",
+                      },
+                      Object {
+                        "fontSize": 20,
+                      },
+                    ]
+                  }>
+                  Send
+                </Text>
+              </View>
+            </TouchableHighlight>
+          </View>
         </View>
       </View>
     </View>
-    <View
-      style={
-        Object {
-          "height": 20,
-        }
-      } />
   </View>
-</ScrollView>
+</View>
 `;
