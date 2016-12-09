@@ -47,9 +47,14 @@ export function *goBackRoute(action) {
 
     // Android: Disable the back button while a purchase and/or send
     // is in progress
-    if(currentRoute === "PurchaseAndOrSendInProgress"){
+    if(currentRoute === "PurchaseInProgress" || currentRoute === "SendInProgress"){
       const purchaseState = yield select((state) => state.purchase);
-      const routeState = yield select((state) => state.routes.PurchaseAndOrSendInProgress.data);
+      const routeState = yield select((state) => {
+        return Object.assign({},
+         state.routes.PurchaseInProgress.data,
+         state.routes.SendInProgress.data,
+        );
+      });
 
       const allowGoBack = IsPurchaseAndOrSendCompleted(
         routeState.userIsPurchasing,

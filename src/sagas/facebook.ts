@@ -43,6 +43,10 @@ export function *reloadContacts(action){
   }
 }
 
+export function *successfulLogin(action) {
+  yield put({type: 'LOGIN_FACEBOOK'});
+}
+
 export function FacebookFetchError(message) {
   this.name = "FacebookFetchError";
   this.message = "Facebook Error: " + message;

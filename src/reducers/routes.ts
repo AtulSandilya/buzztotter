@@ -10,9 +10,11 @@ const routeKeys = {
 
 interface RouteState {
   currentRoute: string;
-  previousRoute: string
+  previousRoute: string;
   PurchaseBevegram: RouteData;
-  PurchaseAndOrSendInProgress: RouteData;
+  SendBevegram: RouteData;
+  PurchaseInProgress: RouteData;
+  SendInProgress: RouteData;
   RedeemBeer: RouteData;
   Settings: RouteData;
   AddCreditCard: RouteData;
@@ -33,7 +35,17 @@ const defaultRouteState: RouteState = {
     data: {},
     confirmed: false,
   },
-  PurchaseAndOrSendInProgress: {
+  SendBevegram: {
+    isActive: false,
+    data: {},
+    confirmed: false,
+  },
+  PurchaseInProgress: {
+    isActive: false,
+    confirmed: false,
+    data: {}
+  },
+  SendInProgress: {
     isActive: false,
     confirmed: false,
     data: {}

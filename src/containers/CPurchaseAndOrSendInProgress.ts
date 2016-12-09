@@ -18,16 +18,19 @@ interface MapStateProps {
   userIsPurchasing: boolean;
   userIsSending: boolean;
   recipentFullName: string;
+  recipentImage: string;
   buttonFontSize: number;
 }
 
 const mapStateToProps = (state): MapStateProps => {
   // Combine Route Data with other relevant data
-  return Object.assign({}, state.routes.PurchaseAndOrSendInProgress.data, {
-    purchaseConfirmed: state.purchase.confirmed,
-    purchaseFailed: state.purchase.failed,
-    purchaseFailedMessage: state.purchase.failMessage,
-    sendConfirmed: state.purchase.completedSend,
+  return Object.assign({},
+    state.routes.PurchaseInProgress.data,
+    state.routes.SendInProgress.data, {
+      purchaseConfirmed: state.purchase.confirmed,
+      purchaseFailed: state.purchase.failed,
+      purchaseFailedMessage: state.purchase.failMessage,
+      sendConfirmed: state.purchase.completedSend,
   });
 }
 

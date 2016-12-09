@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 
-import {batchActions} from 'redux-batched-actions';
-
-import { modalKeys } from '../reducers/modals';
-
 import PurchaseBevegram from '../components/PurchaseBevegram';
 
 const mapStateToProps = (state) => {
+  const routeData = Object.assign({},
+    state.routes.PurchaseBevegram.data,
+    state.routes.SendBevegram.data);
+
   return {
     userBevegrams: state.user.bevegrams,
     fullName: state.routes.SendBevegram.data.fullName,
@@ -37,14 +37,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({type: 'REQUEST_CREDIT_CARD_PURCHASE', payload: {
         purchaseData: purchaseData,
         routeData: inProgressData,
-        route: "PurchaseAndOrSendInProgress",
+        route: "PurchaseInProgress",
       }});
     },
     sendBevegram: (sendBevegramData, inProgressData) => {
       dispatch({type: 'SEND_BEVEGRAM', payload: {
         sendBevegramData: sendBevegramData,
         routeData: inProgressData,
-        route: "PurchaseAndOrSendInProgress",
+        route: "SendInProgress",
       }})
     },
     purchaseAndSend: (purchaseData, sendBevegramData, inProgressData) => {
@@ -52,7 +52,7 @@ const mapDispatchToProps = (dispatch) => {
         purchaseData: purchaseData,
         sendBevegramData: sendBevegramData,
         routeData: inProgressData,
-        route: "PurchaseAndOrSendInProgress",
+        route: "SendInProgress",
       }})
     },
     goToAddCreditCardRoute: () => {
