@@ -110,13 +110,15 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
     return (
       <View>
         <View style={globalStyles.bevLine}>
-          <View style={{flex: 1}}>
+          <View style={[globalStyles.bevLineLeft, {justifyContent: 'flex-start'}]}>
+            <Text style={[globalStyles.bevLineTextTitle, {paddingRight: 10}]}>
+              Summary:
+            </Text>
+          </View>
+          <View style={globalStyles.bevLineRight}>
             <Text
-              style={{
-                fontWeight: 'bold',
-                lineHeight: 22,
-                flex: 1,
-              }}
+              style={globalStyles.bevLineText}
+              numberOfLines={Infinity}
             >
               {summaryText}
             </Text>
@@ -142,9 +144,19 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
       <View style={globalStyles.bevContainer}>
         {userIsPurchasing ?
           <View style={globalStyles.bevLine}>
-            <Text>
-              Purchasing {bevegramsUserIsPurchasing} {bevegramsUserIsPurchasing > 1 ? "Bevegrams" : "Bevegram"}!
-            </Text>
+            <View style={globalStyles.bevLineLeft}>
+              <Text style={globalStyles.bevLineTextTitle}>
+                Purchasing:
+              </Text>
+            </View>
+            <View style={globalStyles.bevLineRight}>
+              <Text
+                style={globalStyles.bevLineText}
+                numberOfLines={Infinity}
+              >
+                {bevegramsUserIsPurchasing} {bevegramsUserIsPurchasing > 1 ? "Bevegrams" : "Bevegram"}
+              </Text>
+            </View>
           </View>
         : null
         }
@@ -162,7 +174,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
               </View>
             </View>
             <StatusLine
-              title="Verify Purchase"
+              title="Verifying Purchase"
               input={purchaseConfirmed}
               waiting={false}
               allFailed={purchaseFailed}
@@ -172,10 +184,39 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
           null
         }
         {userIsSending ?
-          <View style={globalStyles.bevLine}>
-            <Text>
-              Sending {bevegramsUserIsSending} {bevegramsUserIsSending > 1 ? "Bevegrams" : "Bevegram"} to {recipentFullName}!
-            </Text>
+          <View style={{flex: 1}}>
+            <View style={globalStyles.bevLine}>
+              <View style={globalStyles.bevLineLeft}>
+                <Text style={globalStyles.bevLineTextTitle}>
+                  Sending:
+                </Text>
+              </View>
+              <View style={globalStyles.bevLineRight}>
+                <Text style={globalStyles.bevLineText}>
+                  {bevegramsUserIsSending} {bevegramsUserIsSending > 1 ? "Bevegrams" : "Bevegram"}
+                </Text>
+              </View>
+            </View>
+            <View style={globalStyles.bevLine}>
+              <View style={globalStyles.bevLineLeft}>
+                <Text style={globalStyles.bevLineTextTitle}>
+                  Recipient:
+                </Text>
+              </View>
+              <View style={globalStyles.bevLineRight}>
+                <Image
+                  source={{uri: recipentImage}}
+                  style={{
+                    height: 40,
+                    width: 40,
+                    marginRight: 10,
+                  }}
+                />
+                <Text style={globalStyles.bevLineText}>
+                {recipentFullName}
+                </Text>
+              </View>
+            </View>
           </View>
         : null
         }
