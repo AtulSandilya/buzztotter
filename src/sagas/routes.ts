@@ -103,6 +103,7 @@ export function *onFocusRoute(action) {
         yield put({type: 'END_CREDIT_CARD_VERIFICATION_IF_NOT_ATTEMPTING'});
       case "MainUi":
         yield put({type: 'END_CREDIT_CARD_PURCHASE_IF_NOT_ATTEMPTING'});
+        yield put({type: 'CLEAR_ROUTES'});
       default:
         return;
     }

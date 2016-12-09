@@ -83,6 +83,11 @@ export const routes = (state = defaultRouteState, action): RouteState => {
         currentRoute: action.payload.currentRoute,
         previousRoute: state.currentRoute,
       });
+    case 'CLEAR_ROUTES':
+      return Object.assign({}, defaultRouteState, {
+        currentRoute: state.currentRoute,
+        previousRoute: state.previousRoute,
+    });
     default:
       return state;
   }
