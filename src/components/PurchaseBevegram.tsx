@@ -381,26 +381,20 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
             <Text style={globalStyles.bevLineTextTitle}>Promo Code:</Text>
           </View>
           <View style={globalStyles.bevLineRight}>
-            <View style={{
-              flex: 1,
-              alignItems: 'flex-end',
-              justifyContent: 'center',
-            }}>
-              <TextInput
-                style={{
-                  width: 65,
-                  textAlign: 'center',
-                  height: 40,
-                }}
-                ref="promoCodeInput"
-                maxLength={4}
-                placeholder={"ABCD"}
-                placeholderTextColor={"#cccccc"}
-                onChangeText={(text) => {
-                  this.updateState("promoCode", text);
-                }}
-              />
-            </View>
+            <TextInput
+              style={{
+                width: 65,
+                textAlign: 'center',
+                height: 40,
+              }}
+              ref="promoCodeInput"
+              maxLength={4}
+              placeholder={"ABCD"}
+              placeholderTextColor={"#cccccc"}
+              onChangeText={(text) => {
+                this.updateState("promoCode", text);
+              }}
+            />
           </View>
         </View>
         {this.props.creditCards ? this.props.creditCards.map((card, index) => {
