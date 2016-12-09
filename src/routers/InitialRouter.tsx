@@ -29,64 +29,6 @@ import CAddCreditCard from '../containers/CAddCreditCard';
 import CBranding from '../containers/CBranding';
 import CPurchaseAndOrSendInProgress from '../containers/CPurchaseAndOrSendInProgress';
 
-interface Style {
-  navBarStyle: React.ViewStyle;
-  titleStyle: React.TextStyle;
-}
-
-const styles = StyleSheet.create<Style>({
-  navBarStyle: {
-    backgroundColor: globalColors.bevPrimary,
-  },
-  titleStyle: {
-    color: '#ffffff',
-  },
-})
-
-export const NavBarHeight = isIOS ? 64 : 54;
-
-const backIcon = (text) => {
-  let hitSlop = 10;
-  return (
-    <TouchableOpacity
-      onPress={() => {
-        store.dispatch({type: 'GO_BACK_ROUTE'});
-      }}
-      style={{
-        width: 115,
-        flex: -1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingTop: 5,
-      }}
-      hitSlop={{
-        top: hitSlop,
-        right: hitSlop,
-        bottom: hitSlop,
-        left: hitSlop,
-      }}
-    >
-      <Icon
-        name="ios-arrow-back"
-        style={{
-          color: "#ffffff",
-          fontSize: 28,
-          paddingRight: 10,
-        }}
-      />
-      <Text style={{
-        fontSize: 16,
-        color: "#ffffff",
-        paddingRight: 15,
-        overflow: "visible",
-      }}
-      >
-        {isNarrow ? "" : text}
-      </Text>
-    </TouchableOpacity>
-  )
-}
-
 const disablePanHandlerOnAndroid = isAndroid ? {panHandlers: null} : {};
 
 const scenes = (showLogin) => {
@@ -106,78 +48,89 @@ const scenes = (showLogin) => {
           panHandlers={null}
           initial={!showLogin}
           hideNavBar={false}
-          navBar={CBranding}
+          navBar={() => (
+              <CBranding
+                showLogo={true}
+                showSettings={true}
+              />
+          )}
         />
         <Scene
           key="PurchaseBevegram"
-          title="Purchase Bevegrams"
           component={CPurchaseBevegram}
           {...disablePanHandlerOnAndroid}
-          backTitle=""
-          hideNavBar={false}
-          navigationBarStyle={styles.navBarStyle}
-          titleStyle={styles.titleStyle}
-          backButtonTextStyle={styles.titleStyle}
-          renderBackButton={(input) => {
-            return backIcon(input.backTitle);
-          }}
+          navBar={() => (
+            <CBranding
+              showBack={true}
+              navBarText="Purchase Bevegrams"
+            />
+          )}
         />
         <Scene
-          key="PurchaseAndOrSendInProgress"
-          title="Sending Bevegram"
+          key="SendBevegram"
+          component={CPurchaseBevegram}
+          {...disablePanHandlerOnAndroid}
+          navBar={() => (
+            <CBranding
+              showBack={true}
+              navBarText="Send Bevegrams"
+            />
+          )}
+        />
+        <Scene
+          key="PurchaseInProgress"
           component={CPurchaseAndOrSendInProgress}
           // Don't let the user out of this view until it is complete
           panHandlers={null}
-          backTitle=""
-          hideNavBar={false}
-          navigationBarStyle={styles.navBarStyle}
-          titleStyle={styles.titleStyle}
-          backButtonTextStyle={styles.titleStyle}
-          renderBackButton={(input) => {
-            return <View/>
-          }}
+          navBar={() => (
+            <CBranding
+              navBarText="Purchasing..."
+            />
+          )}
+        />
+        <Scene
+          key="SendInProgress"
+          component={CPurchaseAndOrSendInProgress}
+          // Don't let the user out of this view until it is complete
+          panHandlers={null}
+          navBar={() => (
+            <CBranding
+              navBarText="Sending..."
+            />
+          )}
         />
         <Scene
           key="Settings"
-          title="Settings"
           component={CSettings}
           {...disablePanHandlerOnAndroid}
-          backTitle=""
-          hideNavBar={false}
-          navigationBarStyle={styles.navBarStyle}
-          titleStyle={styles.titleStyle}
-          backButtonTextStyle={styles.titleStyle}
-          renderBackButton={(input) => {
-            return backIcon(input.backTitle);
-          }}
+          navBar={() => (
+            <CBranding
+              showBack={true}
+              navBarText="Settings"
+            />
+          )}
         />
         <Scene
           key="RedeemBeer"
-          title="Redeem Beer"
           component={CRedeemBeer}
           {...disablePanHandlerOnAndroid}
-          backTitle="Bevegrams"
-          hideNavBar={false}
-          navigationBarStyle={styles.navBarStyle}
-          titleStyle={styles.titleStyle}
-          backButtonTextStyle={styles.titleStyle}
-          renderBackButton={(input) => {
-            return backIcon(input.backTitle);
-          }}
+          navBar={() => (
+            <CBranding
+              showBack={true}
+              navBarText="Redeem Bevegrams"
+            />
+          )}
         />
         <Scene
           key="AddCreditCard"
-          title="Add Credit Card"
           component={CAddCreditCard}
           {...disablePanHandlerOnAndroid}
-          backTitle="Purchase"
-          hideNavBar={false}
-          navigationBarStyle={styles.navBarStyle}
-          titleStyle={styles.titleStyle}
-          backButtonTextStyle={styles.titleStyle}
-          renderBackButton={(input) => {
-            return backIcon(input.backTitle);
-          }}
+          navBar={() => (
+            <CBranding
+              showBack={true}
+              navBarText="Add Credit Card"
+            />
+          )}
         />
       </Scene>
     )

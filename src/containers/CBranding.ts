@@ -4,6 +4,7 @@ import Branding, {BrandingProps} from '../components/Branding';
 
 interface DispatchProps {
   goToSettings?(): void;
+  goBackRoute?(): void;
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -11,6 +12,9 @@ const mapDispatchToProps = (dispatch) => {
     goToSettings: () => {
       dispatch({type: 'GO_TO_ROUTE', payload: {route: "Settings"}});
     },
+    goBackRoute: () => {
+      dispatch({type: 'GO_BACK_ROUTE'});
+    }
   }
 }
 
