@@ -47,6 +47,16 @@ export interface PurchaseOrSendInProgressProps {
   buttonFontSize: number;
 }
 
+export const IsPurchaseAndOrSendCompleted = (userIsPurchasing: boolean, userIsSending: boolean, purchaseConfirmed: boolean, sendConfirmed: boolean) => {
+    if(userIsPurchasing && userIsSending){
+      return purchaseConfirmed && sendConfirmed;
+    } else if (userIsSending){
+      return sendConfirmed;
+    } else if (userIsPurchasing){
+      return purchaseConfirmed;
+    }
+}
+
 const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgressProps> = ({
   bevegramsUserIsSending,
   bevegramsUserIsPurchasing,
@@ -66,17 +76,9 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
   buttonFontSize,
 }) => {
   const renderPurchaseOrSendOrBothComplete = () => {
-    const showCompleted = () => {
-      if(userIsPurchasing && userIsSending){
-        return purchaseConfirmed && sendConfirmed;
-      } else if (userIsSending){
-        return sendConfirmed;
-      } else if (userIsPurchasing){
-        return purchaseConfirmed;
-      }
-    }
+    const showCompleted = IsPurchaseAndOrSendCompleted(userIsPurchasing, userIsSending, purchaseConfirmed, sendConfirmed);
 
-    if(!showCompleted()){
+    if(!showCompleted){
       return <View/>
     }
 
@@ -91,7 +93,6 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
     const bevegramsUserPurchased = bevegramsUserIsPurchasing;
     const sentSummaryText = `Sent ${bevegramsUserSent} ${bevStr(bevegramsUserSent)} to ${recipentFullName}`;
     const purchasedSummaryText = `Purchased ${bevegramsUserPurchased} ${bevStr(bevegramsUserPurchased)} for $${bevegramsPurchasePrice}`;
-
 
     let summaryText: string;
     if(userIsPurchasing && userIsSending){
