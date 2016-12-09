@@ -1,37 +1,63 @@
 import * as React from "react";
 import { Component, PropTypes } from 'react';
+import {Text} from 'react-native';
 
-import { LoginButton, AccessToken } from 'react-native-fbsdk';
+import {Actions} from 'react-native-router-flux';
 
-interface FacebookLoginButtonProps {
-  loginDispatch?(token: string): void;
-  logoutDispatch?(): void;
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
+
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+export interface FacebookLoginButtonProps {
+  userIsLoggedIn?: boolean;
+  onLoginSuccessful?(): void;
+  onGetTokenSuccessful?(token: string): void;
+  logoutActions?(): void;
 }
 
-const FacebookLoginButton: React.StatelessComponent<FacebookLoginButtonProps> = ({loginDispatch, logoutDispatch}) => (
-  <LoginButton
-    readPermissions={['public_profile', 'user_friends', 'email', 'user_birthday']}
-    onLoginFinished={(error, result) => {
-      if(error){
-        alert("Login error: " + result.error);
-      } else if (result.isCancelled){
-        alert("Login cancelled");
-      } else {
-        AccessToken.getCurrentAccessToken().then(
-          (data) => {
-            if(loginDispatch){
-              loginDispatch(data.accessToken.toString());
-            }
+const FacebookLoginButton: React.StatelessComponent<FacebookLoginButtonProps> = ({
+  userIsLoggedIn,
+  onLoginSuccessful,
+  onGetTokenSuccessful,
+  logoutActions,
+}) => (
+  <FontAwesome.Button
+    name="facebook"
+    backgroundColor="#3b5998"
+    size={userIsLoggedIn ? 18 : 24}
+    style={{
+      paddingHorizontal: 15,
+      paddingVertical: 5,
+    }}
+    onPress={() => {
+      if(!userIsLoggedIn){
+        LoginManager.logInWithReadPermissions(['public_profile', 'user_friends', 'email', 'user_birthday'])
+        .then((result) => {
+          if(result.isCancelled){
+            return
           }
-        )
+          onLoginSuccessful();
+
+          AccessToken.getCurrentAccessToken()
+          .then((data) => {
+            onGetTokenSuccessful(data.accessToken.toString());
+          })
+        })
+      } else if(userIsLoggedIn) {
+        LoginManager.logOut();
+        logoutActions();
       }
     }}
-    onLogoutFinished={() => {
-      if(logoutDispatch){
-        logoutDispatch();
-      }
-    }}
-  />
+  >
+    <Text style={{
+      color: '#ffffff',
+      fontWeight: '600',
+      backgroundColor: 'transparent',
+      fontSize: userIsLoggedIn ? 14 : 16,
+    }}>
+    {userIsLoggedIn ? "Log Out" : "Login with Facebook"}
+    </Text>
+  </FontAwesome.Button>
 )
 
 export default FacebookLoginButton;

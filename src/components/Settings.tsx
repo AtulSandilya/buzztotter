@@ -9,7 +9,7 @@ import {isAndroid} from '../Utilities';
 import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
 import TitleText from './TitleText';
 import BevButton from './BevButton';
-import FacebookLoginButton from './FacebookLoginButton';
+import CFacebookLoginButton from '../containers/CFacebookLoginButton';
 
 import {globalColors} from './GlobalStyles';
 
@@ -49,10 +49,10 @@ interface SettingsProps {
   location: boolean;
   version: string;
   onSettingToggle(string): void;
-  onFacebookLogout(): void;
+  logoutActions(): void;
 }
 
-export const Settings: React.StatelessComponent<SettingsProps> = ({notifications, location, version, onSettingToggle, onFacebookLogout}) => (
+export const Settings: React.StatelessComponent<SettingsProps> = ({notifications, location, version, onSettingToggle, logoutActions}) => (
   <RouteWithNavBarWrapper>
     <View
       style={{
@@ -114,8 +114,8 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({notifications
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-          <FacebookLoginButton
-            logoutDispatch={onFacebookLogout}
+          <CFacebookLoginButton
+            logoutActions={logoutActions}
           />
         </View>
       </SettingLine>

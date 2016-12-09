@@ -2,21 +2,24 @@ import * as React from "react";
 import { Component, PropTypes } from 'react';
 import { Image, Text, TouchableHighlight, View } from 'react-native';
 
-import FacebookLoginButton from './FacebookLoginButton';
+import CFacebookLoginButton from '../containers/CFacebookLoginButton';
 
 import {globalColors} from './GlobalStyles';
 import {WindowHeight, WindowWidth} from '../Utilities';
 
 export interface LoginProps {
-  token: string;
   isLoggedIn: boolean;
-  facebookLogin(token: string): void;
-  googleLogin(): void;
+  onSuccessfulFacebookLogin(): void;
+  requestFacebookData(token: string): void;
 }
 
-const Login: React.StatelessComponent<LoginProps> = ({isLoggedIn, facebookLogin, googleLogin}) => (
+const Login: React.StatelessComponent<LoginProps> = ({
+  isLoggedIn,
+  onSuccessfulFacebookLogin,
+  requestFacebookData,
+}) => (
   <View style={{flex: 1}}>
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: globalColors.bevPrimary}}>
+    <View style={{flex: 2, alignItems: 'center', justifyContent: 'center', backgroundColor: globalColors.bevPrimary}}>
       <Image
         source={require('../../img/logos/logo-on-brown-big.png')}
         style={{
@@ -31,26 +34,15 @@ const Login: React.StatelessComponent<LoginProps> = ({isLoggedIn, facebookLogin,
         color: '#333',
       }}
       >
-        Send a Beer to a Friend!
+        Sending Drinks Made Easy!
       </Text>
     </View>
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <View style={{flex: -1, alignItems: 'center'}}>
-        <FacebookLoginButton
-          loginDispatch={facebookLogin}
+        <CFacebookLoginButton
+          onLoginSuccessful={onSuccessfulFacebookLogin}
+          onGetTokenSuccessful={requestFacebookData}
         />
-      </View>
-      <View style={{flex: -1, alignItems: 'center', marginTop: 30}}>
-        <TouchableHighlight
-          style={{
-            backgroundColor: '#dd4b39',
-            padding: 15,
-            borderRadius: 3,
-          }}
-          onPress={googleLogin}
-        >
-          <Text style={{fontSize: 20, color: '#ffffff'}}>Import Contacts from Google</Text>
-        </TouchableHighlight>
       </View>
       <View style={{flex: -1, alignItems: 'center', marginTop: 30, marginHorizontal: 30}}>
         <Text>

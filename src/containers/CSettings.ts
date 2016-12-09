@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
     onSettingToggle: (inputKey) => {
       dispatch({type: 'TOGGLE_SETTING', settingKey: inputKey});
     },
-    onFacebookLogout: () => {
+    logoutActions: () => {
       dispatch(batchActions([
         {type: 'LOGOUT_FACEBOOK'},
         {type: 'CLOSE_MODAL', modalKey: modalKeys.settingsModal},

@@ -125,12 +125,14 @@ export const user = (state = defaultState, action): UserState => {
             customerId: state.stripe.customerId,
           }
         });
+    case 'LOGIN_FACEBOOK':
+      return Object.assign({}, state, {
+        isLoggedIn: true,
+      });
     case 'LOGOUT_FACEBOOK':
-      return Object.assign({}, state,
-        {
-          isLoggedIn: false,
-        }
-      );
+      return Object.assign({}, state, {
+        isLoggedIn: false,
+      });
     case 'UPDATE_USER_BEVEGRAMS':
       return Object.assign({}, state, {
         bevegrams: state.bevegrams + action.payload.newBevegrams,

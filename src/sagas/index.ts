@@ -3,7 +3,13 @@ import { call, fork } from 'redux-saga/effects';
 
 import {ActionConst} from 'react-native-router-flux';
 
-import { fetchUser, fetchContacts, fetchAllFacebookData, reloadContacts } from './facebook';
+import {
+  fetchAllFacebookData,
+  fetchContacts,
+  fetchUser,
+  reloadContacts,
+  successfulLogin,
+} from './facebook';
 
 import {
   fetchCreditCardPurchase,
@@ -28,7 +34,8 @@ export default function* rootSaga() {
   yield fork(takeEvery, 'USER_FETCH_REQUESTED', fetchUser);
   yield fork(takeEvery, 'CONTACTS_FETCH_REQUESTED', fetchContacts);
   yield fork(takeEvery, 'FACEBOOK_CONTACTS_RELOAD_REQUEST', reloadContacts);
-  yield fork(takeEvery, 'ALL_FACEBOOK_DATA_FETCH_REQUESTED', fetchAllFacebookData);
+  yield fork(takeEvery, 'REQUEST_ALL_FACEBOOK_DATA', fetchAllFacebookData);
+  yield fork(takeEvery, 'SUCCESSFUL_FACEBOOK_LOGIN', successfulLogin);
 
   // Stripe
   yield fork(takeEvery, 'REQUEST_CREDIT_CARD_VERIFICATION', fetchVerifyCreditCard);
