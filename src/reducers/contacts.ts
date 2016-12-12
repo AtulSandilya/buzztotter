@@ -25,9 +25,9 @@ const parseBirthday = (inputDate: string): Birthday => {
     let bday;
 
     if(inputDate.match(dateButNotYearRegex)){
-      bday = moment(inputDate, "MMM/DD");
+      bday = moment(inputDate, "MM/DD");
     } else if (inputDate.match(completeDateRegex)){
-      bday = moment(inputDate, "MMM/DD/YYYY");
+      bday = moment(inputDate, "MM/DD/YYYY");
     } else {
       throw Error;
     }
