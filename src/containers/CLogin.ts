@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch): DispatchProps => {
       Actions["MainUi"]();
     },
     requestFacebookData: (token) => {
-      dispatch({type: 'REQUEST_ALL_FACEBOOK_DATA', payload: {
+      dispatch({type: 'INITIALIZE_USER_DATA_WITH_FACEBOOK_TOKEN', payload: {
         token: token,
       }});
     },

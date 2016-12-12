@@ -28,14 +28,29 @@ import {
   sendBevegram,
 } from './sendBevegram';
 
+import {
+  firebaseFacebookLogin,
+  firebaseLogOut,
+} from './firebase';
+
 // Like combine reducers
 export default function* rootSaga() {
   // Facebook
   yield fork(takeEvery, 'USER_FETCH_REQUESTED', fetchUser);
   yield fork(takeEvery, 'CONTACTS_FETCH_REQUESTED', fetchContacts);
   yield fork(takeEvery, 'FACEBOOK_CONTACTS_RELOAD_REQUEST', reloadContacts);
-  yield fork(takeEvery, 'REQUEST_ALL_FACEBOOK_DATA', fetchAllFacebookData);
   yield fork(takeEvery, 'SUCCESSFUL_FACEBOOK_LOGIN', successfulLogin);
+
+  yield fork(takeEvery, 'INITIALIZE_USER_DATA_WITH_FACEBOOK_TOKEN', function *(action) {
+    yield call(firebaseFacebookLogin, action);
+    yield call(fetchAllFacebookData, action);
+  });
+
+  // Batched
+  yield fork(takeEvery, 'REQUEST_LOGOUT', function *(action) {
+    yield call(goToRoute, action);
+    yield call(firebaseLogOut, action);
+  })
 
   // Stripe
   yield fork(takeEvery, 'REQUEST_CREDIT_CARD_VERIFICATION', fetchVerifyCreditCard);

@@ -1,10 +1,18 @@
 import {CreditCard} from './purchase';
 
-interface UserState {
+export interface FirebaseUser {
+  displayName: string;
+  email: string;
+  emailVerified: boolean;
+  photoURL: string;
+  refreshToken: string;
+  uid: string;
+}
+
+export interface UserState {
   isLoggedIn: boolean;
   bevegrams: number;
   facebook: {token: string, id: string};
-  google: {token: string};
   firstName: string;
   lastName: string;
   fullName: string;
@@ -15,6 +23,7 @@ interface UserState {
     creditCards: CreditCard[],
     activeCardId: string,
   };
+  firebase: FirebaseUser;
 }
 
 const defaultState: UserState = {
@@ -23,9 +32,6 @@ const defaultState: UserState = {
   facebook: {
     token: undefined,
     id: undefined,
-  },
-  google: {
-    token: undefined
   },
   firstName: undefined,
   lastName: undefined,
@@ -36,7 +42,8 @@ const defaultState: UserState = {
     customerId: undefined,
     creditCards: [],
     activeCardId: undefined,
-  }
+  },
+  firebase: undefined,
 }
 
 const mapFacebookDataToState = (state, action): UserState => {
@@ -133,6 +140,10 @@ export const user = (state = defaultState, action): UserState => {
       return Object.assign({}, state, {
         isLoggedIn: false,
       });
+    case 'SUCCESSFUL_FIREBASE_LOGIN':
+      return Object.assign({}, state, {
+        firebase: action.payload.firebaseUser,
+      })
     case 'UPDATE_USER_BEVEGRAMS':
       return Object.assign({}, state, {
         bevegrams: state.bevegrams + action.payload.newBevegrams,
