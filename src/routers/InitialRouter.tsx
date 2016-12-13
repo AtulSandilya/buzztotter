@@ -36,7 +36,7 @@ const scenes = (showLogin) => {
     Actions.create(
       <Scene key="root" hideNavBar={true}>
         <Scene
-          key="loginScene"
+          key="Login"
           hideNavBar={true}
           component={CLogin}
           panHandlers={null}

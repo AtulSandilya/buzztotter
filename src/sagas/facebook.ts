@@ -47,6 +47,11 @@ export function *successfulLogin(action) {
   yield put({type: 'LOGIN_FACEBOOK'});
 }
 
+export function *logOutFacebook(action){
+  // Actual facebook logout is handled by `LoginManager`
+  yield put({type: 'LOGOUT_FACEBOOK'});
+}
+
 export function FacebookFetchError(message) {
   this.name = "FacebookFetchError";
   this.message = "Facebook Error: " + message;

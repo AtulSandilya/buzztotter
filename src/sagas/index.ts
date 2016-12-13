@@ -7,6 +7,7 @@ import {
   fetchAllFacebookData,
   fetchContacts,
   fetchUser,
+  logOutFacebook,
   reloadContacts,
   successfulLogin,
 } from './facebook';
@@ -48,6 +49,7 @@ export default function* rootSaga() {
 
   // Batched
   yield fork(takeEvery, 'REQUEST_LOGOUT', function *(action) {
+    yield call(logOutFacebook);
     yield call(goToRoute, action);
     yield call(firebaseLogOut, action);
   })

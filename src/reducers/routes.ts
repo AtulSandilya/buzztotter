@@ -19,6 +19,7 @@ interface RouteState {
   Settings: RouteData;
   AddCreditCard: RouteData;
   MainUi: RouteData;
+  Login: RouteData;
 }
 
 interface RouteData {
@@ -64,6 +65,10 @@ const defaultRouteState: RouteState = {
     data: {},
   },
   MainUi: {
+    isActive: false,
+    data: {},
+  },
+  Login: {
     isActive: false,
     data: {},
   }
