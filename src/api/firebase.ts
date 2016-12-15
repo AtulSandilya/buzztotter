@@ -2,11 +2,11 @@ import * as firebase from 'firebase';
 
 import secrets from '../secrets';
 
-import {UserState} from '../reducers/user';
+import {
+  GetUserDbUrl
+} from '../db/schema';
 
-const Tables = {
-  Users: "users",
-}
+import {UserState} from '../reducers/user';
 
 //  Init Firebase ------------------------------------------------------ {{{
 
@@ -37,5 +37,5 @@ const db = firebase.database();
 
 export const updateFirebaseUser = (user: UserState): any => {
   const userFirebaseId = user.firebase.uid;
-  return db.ref(`${Tables.Users}/${userFirebaseId}`).set(user);
+  return db.ref(GetUserDbUrl(userFirebaseId)).set(user);
 }

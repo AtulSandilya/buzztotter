@@ -5,7 +5,7 @@ import {FirebaseUser, UserState} from '../reducers/user';
 import {
   firebaseLoginViaFacebookToken,
   firebaseLogOut as apiFirebaseLogOut,
-  updateFirebaseUser,
+  updateFirebaseUser as apiUpdateFirebaseUser,
 } from '../api/firebase';
 
 export function *firebaseFacebookLogin(action) {
@@ -41,12 +41,12 @@ export function *firebaseLogOut(action){
   }
 }
 
-export function *fetchFirebaseUpdateUser(action) {
+export function *updateFirebaseUser(action) {
   const user: UserState = yield select((state) => state.user);
   try {
     yield put({type: 'ATTEMPTING_FIREBASE_UPDATE_USER'});
 
-    yield call(updateFirebaseUser, user);
+    yield call(apiUpdateFirebaseUser, user);
 
     yield put({type: 'SUCCESSFUL_FIREBASE_UPDATE_USER'});
   } catch(e){

@@ -32,6 +32,7 @@ import {
 import {
   firebaseFacebookLogin,
   firebaseLogOut,
+  updateFirebaseUser,
 } from './firebase';
 
 // Like combine reducers
@@ -59,6 +60,7 @@ export default function* rootSaga() {
   yield fork(takeEvery, 'REQUEST_CREDIT_CARD_PURCHASE', function *(action) {
     yield call(goToRoute, action);
     yield call(fetchCreditCardPurchase, action);
+    yield call(updateFirebaseUser, action)
   });
   yield fork(takeEvery, 'REQUEST_UPDATE_DEFAULT_CARD', fetchUpdateDefaultCard);
   yield fork(takeEvery, 'REQUEST_REMOVE_CARD', fetchDeleteCustomerCard);
@@ -67,6 +69,7 @@ export default function* rootSaga() {
   yield fork(takeEvery, 'SEND_BEVEGRAM', function *(action){
     yield call(goToRoute, action);
     yield call(sendBevegram, action);
+    yield call(updateFirebaseUser, action)
   });
 
   // Purchasing Then Sending
@@ -74,6 +77,7 @@ export default function* rootSaga() {
     yield call(goToRoute, action);
     yield call(fetchCreditCardPurchase, action);
     yield call(sendBevegram, action);
+    yield call(updateFirebaseUser, action)
   });
 
   // Routes
