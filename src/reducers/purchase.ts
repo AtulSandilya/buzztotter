@@ -47,7 +47,12 @@ export const initialPurchaseState: PurchaseState = {
       quantity: 1,
     },
     {
-      name: "Sixer (Six)",
+      name: "Three",
+      price: 21.00,
+      quantity: 3,
+    },
+    {
+      name: "Sixer (6)",
       price: 37.50,
       quantity: 6,
     },
