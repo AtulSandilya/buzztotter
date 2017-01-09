@@ -31,26 +31,59 @@ export interface PurchasedBevegram {
   purchasedByName: string;
   purchasedById: string;
   purchasedByFacebookId: string;
-  purchaseDate: Date;
-  id: string;
-  transactionId: string;
-  isSent: boolean;
-  sentDate: Date;
+  purchaseDate: string;
+  // Stripe id for this transaction
+  chargeId: string;
+  quantity: number;
+  // In cents
+  purchasePrice: number;
+  // Used on credit card statement.
+  description: string;
+  sentBevegramId?: string;
+}
+
+export interface PurchasedBevegramSummary {
+  quantityPurchased: number;
+  availableToSend: number;
+  sent: number;
 }
 
 //  End PurchasedBevegram -----------------------------------------------}}}
+//  Sent Bevegram ------------------------------------------------------{{{
+
+
+export interface SentBevegram {
+  purchasedBevegramId: string;
+  quantity: number;
+  sendDate: string;
+}
+
+export interface SentBevegramSummary {
+  availableToSend: number;
+  sent: number,
+}
+
+
+//  End Sent Bevegram --------------------------------------------------}}}
 //  ReceivedBevegram ---------------------------------------------------{{{
 
 export interface ReceivedBevegram {
-  purchasedByName: string;
-  purchasedById: string;
-  purchasedByFacebookId: string;
+  // purchasedByName: string;
+  // purchasedById: string;
+  // purchasedByFacebookId: string;
   sentFromName: string;
   sentFromFacebookId: string;
   sentFromPhotoUrl: string;
-  recievedDate: Date;
+  receivedDate: string;
   message: string;
   isRedeemed: boolean;
+  quantity: number;
+}
+
+export interface ReceivedBevegramSummary {
+  total: number;
+  availableToRedeem: number;
+  redeemed: number;
 }
 
 //  End ReceivedBevegram -----------------------------------------------}}}
@@ -59,11 +92,12 @@ export interface ReceivedBevegram {
 export interface RedeemedBevegram {
   redeemedByName: string;
   redeemedByFacebookId: string;
-  purchasedByName: string;
-  purchasedById: string;
-  purchasedByFacebookId: string;
-  redeemedDate: Date;
-  redeemedVendorPin: string;
+  redeemedByPhotoUrl: string;
+  redeemedDate: string;
+  vendorName: string;
+  vendorPin: string;
+  vendorId: string;
+  quantity: number;
 }
 
 //  End RedeemedBevegram ------------------------------------------------}}}

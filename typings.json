@@ -1,6 +1,7 @@
 {
   "name": "Bevegram",
   "dependencies": {
+    "lodash": "registry:dt/lodash#4.14.0+20161202060825",
     "redux-storage": "registry:npm/redux-storage#4.0.0+20160310030142",
     "redux-storage-decorator-filter": "registry:npm/redux-storage-decorator-filter#1.1.1+20160310030142",
     "redux-storage-engine-reactnativeasyncstorage": "registry:npm/redux-storage-engine-reactnativeasyncstorage#1.0.1+20160821085120"

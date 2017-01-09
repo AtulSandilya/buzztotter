@@ -1,91 +1,142 @@
-import uuid from 'react-native-uuid';
+import _ from 'lodash';
 
 import {
   PurchasedBevegram,
+  PurchasedBevegramSummary,
   ReceivedBevegram,
   RedeemedBevegram,
+  SentBevegram,
   User,
   Vendor,
 } from "./tables";
 
-const Tables = {
-  Root: 'root',
-  Users: 'users',
-  Vendors: 'vendors',
-  PurchasedBevegrams: 'purchasedBevegrams',
-  ReceivedBevegrams: 'receivedBevegrams',
-  RedeemedBevegrams: 'redeemedBevegrams',
-}
-
 // This is what the firebase database looks like
-interface Schema {
+const Schema = {
   root: {
     users: {
-      firebaseId: User
+      firebaseId: "User"
+    },
+    firebaseIds: {
+      facebookId: "FirebaseId",
     },
     vendors: {
-      vendorId: Vendor
+      vendorId: "Vendor"
     },
     purchasedBevegrams: {
       firebaseId: {
-        "UnixTime-id": PurchasedBevegram,
+        summary: "PurchasedBevegramSummary",
+        list: {
+          "FirebaseUniqueTimeSortableId": "PurchasedBevegram",
+        }
+      }
+    },
+    sentBevegrams: {
+      firebaseId: {
+        summary: "SentBevegramSummary",
+        list: {
+          "FirebaseUniqueTimeSortableId": "SentBevegram",
+        }
       }
     },
     receivedBevegrams: {
-      facebookId: {
-        "UnixTime-id": ReceivedBevegram,
+      firebaseId: {
+        summary: "ReceivedBevegramSummary",
+        list: {
+          "FirebaseUniqueTimeSortableId": "ReceivedBevegram",
+        }
       }
     },
     redeemedBevegrams: {
-      vendorId: {
-        // It is probably a bad idea to let any authenticated client write to
-        // any vendors bevegrams, but this allows easy time sorting of
-        // redeemed bevegrams.
-        "UnixTime-id": RedeemedBevegram,
+      vendors: {
+        vendorId: {
+          // Any user can write to any vendors ledger
+          ledger: {
+            bevegramList: {
+              "FirebaseUniqueTimeSortableId": "RedeemedBevegram",
+            },
+            customerList: {
+              // A user may only write to their firebaseId
+              firebaseId: true,
+            }
+          }
+        },
+      },
+      users: {
+        firebaseId: {
+          "FirebaseUniqueTimeSortableId": "RedeemedBevegram"
+        }
       }
     }
   }
 }
 
-const GetSchemaDbUrl = (table: string, keys: string[]): string => {
-  // Add table to the beginning of the array
-  return [table].concat(keys).join("/");
-}
+export const GetSchemaDbUrl = (table: string, key: string | Object): string => {
+  const urlSeparator = "/";
+  const periodsRe = /\./g;
 
-interface DbUrlWithId {
-  url: string;
-  unixTimeId: string;
-}
+  // Check if the table exists in the Schema
+  if(_.has(Schema, ["root", table].join("."))){
 
-export const CreateUnixTimeId = () => {
-  return [Date.now().toString(), uuid.v4()].join("-");
-}
+    // If `key` is an object, replace the the object key in table with the
+    // object value
+    if(typeof key === "object"){
+      let newTable = table;
+      Object.keys(key).map((k) => {
+        newTable = newTable.replace(k, key[k]);
+      })
+      return newTable.replace(periodsRe, urlSeparator)
+    }
 
-const GetSchemaDbUrlWithId = (table: string, keys: string[]): DbUrlWithId => {
-  const unixTimeId = CreateUnixTimeId();
-  return {
-    // Add Id to end of url.
-    url: GetSchemaDbUrl(table, keys.concat([unixTimeId])),
-    unixTimeId: unixTimeId,
+    return [table, key.replace(periodsRe, urlSeparator)].join(urlSeparator);
   }
+
+  throw Error(`Db Error: Key "${key}" does not exist within table ${table}!`);
 }
 
 export const GetUserDbUrl = (firebaseId: string) => {
-  return GetSchemaDbUrl(Tables.Users, [firebaseId]);
+  return GetSchemaDbUrl("users", firebaseId);
 }
 
 export const GetVendorDbUrl = (vendorId: string) => {
-  return GetSchemaDbUrl(Tables.Vendors, [vendorId]);
+  return GetSchemaDbUrl("vendors", vendorId);
 }
 
-export const GetPurchasedBevegramDbUrl = (firebaseId: string): DbUrlWithId => {
-  return GetSchemaDbUrlWithId(Tables.PurchasedBevegrams, [firebaseId]);
+export const GetFacebookIdDbUrl = (facebookId: string) => {
+  return GetSchemaDbUrl("firebaseIds.facebookId", {facebookId: facebookId});
 }
 
-export const GetReceivedBevegramDbUrl = (facebookId: string): DbUrlWithId => {
-  return GetSchemaDbUrlWithId(Tables.ReceivedBevegrams, [facebookId]);
+export const GetPurchasedBevegramListDbUrl = (firebaseId: string): string => {
+  return GetSchemaDbUrl("purchasedBevegrams.firebaseId.list", {firebaseId: firebaseId});
 }
 
-export const GetRedeemedBevegramDbUrl = (vendorId: string): DbUrlWithId => {
-  return GetSchemaDbUrlWithId(Tables.RedeemedBevegrams, [vendorId]);
+export const GetPurchasedBevegramSummaryDbUrl = (firebaseId: string): string => {
+  return GetSchemaDbUrl("purchasedBevegrams.firebaseId.summary", {firebaseId: firebaseId});
+}
+
+export const GetSentBevegramListDbUrl = (firebaseId: string): string => {
+  return GetSchemaDbUrl("sentBevegrams.firebaseId.list", {firebaseId: firebaseId});
+}
+
+export const GetSentBevegramSummaryDbUrl = (firebaseId: string): string => {
+  return GetSchemaDbUrl("sentBevegrams.firebaseId.summary", {firebaseId: firebaseId});
+}
+
+export const GetReceivedBevegramListDbUrl = (firebaseId: string): string => {
+  return GetSchemaDbUrl("receivedBevegrams.firebaseId.list", {firebaseId: firebaseId});
+}
+
+export const GetReceivedBevegramSummaryDbUrl = (firebaseId: string): string => {
+  return GetSchemaDbUrl("receivedBevegrams.firebaseId.summary", {firebaseId: firebaseId});
+}
+
+export const GetRedeemedBevegramVendorDbUrl = (vendorId: string): string => {
+  return GetSchemaDbUrl("redeemedBevegrams.vendorId.ledger.bevegramList", {vendorId: vendorId});
+}
+
+export const GetRedeemedBevegramVendorCustomerDbUrl = (vendorId: string): string => {
+  return GetSchemaDbUrl("redeemedBevegrams.vendorId.ledger.customerList", {vendorId: vendorId});
+}
+
+export const GetRedeemedBevegramUserDbUrl = (firebaseId: string): string => {
+  return GetSchemaDbUrl("redeemedBevegrams.users.firebaseId", {firebaseId: firebaseId});
 }
