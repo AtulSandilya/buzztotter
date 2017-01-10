@@ -70,6 +70,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, l
               name={rowData.name}
               birthday={rowData.birthday}
               imagePath={rowData.imagePath}
+              facebookId={rowData.facebookId}
             />
           }
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={globalStyles.listRowSeparator} />}

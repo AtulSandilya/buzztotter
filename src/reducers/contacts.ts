@@ -7,9 +7,10 @@ export interface Name {
 
 export interface Contact {
   name: Name;
-  birthday: string,
-  birthDayOfYear: number,
-  imagePath: string,
+  birthday: string;
+  birthDayOfYear: number;
+  imagePath: string;
+  facebookId: string;
 }
 
 interface Birthday {
@@ -51,7 +52,7 @@ const parseBirthday = (inputDate: string): Birthday => {
   }
 }
 
-const formatContact = (firstName, lastName, bdayStr, imagePath) => {
+const formatContact = (firstName, lastName, bdayStr, imagePath, facebookId) => {
   const bday: Birthday = parseBirthday(bdayStr);
 
   return {
@@ -62,6 +63,7 @@ const formatContact = (firstName, lastName, bdayStr, imagePath) => {
     birthday: bday.dateStr,
     birthDayOfYear: bday.dayOfYear,
     imagePath: imagePath,
+    facebookId: facebookId,
   }
 }
 
@@ -97,13 +99,12 @@ const sortContactsByBirthday = (contacts) => {
 
 const addContactsFromFacebook = (state, contacts) => {
   const newContacts = contacts.data.map(function(contact){
-
     let birthday = "unknown";
     if(contact.birthday){
       birthday = contact.birthday;
     }
 
-    return formatContact(contact.first_name, contact.last_name, birthday, contact.picture.data.url);
+    return formatContact(contact.first_name, contact.last_name, birthday, contact.picture.data.url, contact.id);
   })
   return Object.assign({}, state,
     {

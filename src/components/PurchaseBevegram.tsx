@@ -53,6 +53,7 @@ interface PurchaseBevegramProps {
   fullName: string;
   firstName: string;
   imageUri: string;
+  facebookId: string;
   purchase: PurchaseState;
   creditCards: CreditCard[];
   activeCardId: string;
@@ -207,6 +208,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
   packSendData(): SendBevegramData {
     return {
       recipentName: this.props.fullName,
+      facebookId: this.props.facebookId,
       quantity: this.state.bevegramsToSend,
       message: this.state.message,
     }

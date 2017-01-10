@@ -4,6 +4,7 @@ export interface SendBevegramData {
   recipentName: string,
   quantity: number,
   message: string,
+  facebookId: string,
 }
 
 export function *sendBevegram(action){

@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
     fullName: state.routes.SendBevegram.data.fullName,
     firstName: state.routes.SendBevegram.data.firstName,
     imageUri: state.routes.SendBevegram.data.imageUri,
+    facebookId: state.routes.SendBevegram.data.facebookId,
     purchase: state.purchase,
     creditCards: state.user.stripe.creditCards,
     activeCardId: state.user.stripe.activeCardId,

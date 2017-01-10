@@ -45,11 +45,12 @@ export interface ContactProps {
   name?: Name;
   birthday?: string;
   imagePath?: string;
+  facebookId?: string;
   openPurchaseRoute?(Object): void;
   closePurchaseRoute?(): void;
 }
 
-const Contact: React.StatelessComponent<ContactProps> = ({name, birthday, imagePath, openPurchaseRoute, closePurchaseRoute}) => {
+const Contact: React.StatelessComponent<ContactProps> = ({name, birthday, imagePath, facebookId, openPurchaseRoute, closePurchaseRoute}) => {
   const fullName = name.first + " " + name.last;
   return (
     <View style={styles.parentContainer}>
@@ -68,7 +69,12 @@ const Contact: React.StatelessComponent<ContactProps> = ({name, birthday, imageP
           text={"Send Bevegram"}
           shortText="Send Bevegram"
           label="Send Bevegram Button"
-          onPress={() => openPurchaseRoute({fullName: fullName, firstName: name.first, imageUri: imagePath})}
+          onPress={() => openPurchaseRoute({
+            fullName: fullName,
+            firstName: name.first,
+            imageUri: imagePath,
+            facebookId: facebookId,
+          })}
           rightIcon={true}
         />
       </View>
