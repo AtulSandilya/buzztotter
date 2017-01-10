@@ -13,3 +13,7 @@ export const WindowWidth = width;
 export const isNarrow = WindowWidth <= 320;
 
 export const StatusBarHeight = isIOS ? 20 : (isAndroid ? StatusBar.currentHeight : 20);
+
+export const StringifyDate = (): string => {
+  return (new Date().toJSON());
+}

@@ -220,6 +220,7 @@ export function* fetchCreditCardPurchase(action) {
       yield put({type: 'UPDATE_USER_BEVEGRAMS', payload: {
         newBevegrams: purchaseData.quantity,
       }})
+      return creditCardPurchaseResponse.id;
     } catch(e) {
       yield put({type: 'HANDLE_CREDIT_CARD_FAILED', payload: e.message});
     }
