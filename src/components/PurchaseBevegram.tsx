@@ -518,7 +518,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
           <RouteWithNavBarWrapper
             viewBelowHeight={getButtonHeight(this.buttonFontSize) + 10}
           >
-            <View style={[globalStyles.bevContainer, {paddingBottom: 0}]}>
+            <View style={[globalStyles.bevContainer, {paddingBottom: getButtonHeight(this.buttonFontSize) + 10}]}>
               {this.renderSendOptions()}
               {this.renderPurchaseOptions()}
             </View>
