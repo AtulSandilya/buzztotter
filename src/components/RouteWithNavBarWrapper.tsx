@@ -12,7 +12,10 @@ interface RouteWithNavBarWrapperProps {
   children?: React.ReactChild;
 }
 
-const RouteWithNavBarWrapper: React.StatelessComponent<RouteWithNavBarWrapperProps> = ({children, viewBelowHeight = 0}) => {
+const RouteWithNavBarWrapper: React.StatelessComponent<RouteWithNavBarWrapperProps> = ({
+  children,
+  viewBelowHeight = 0,
+}) => {
   return (
     <KeyboardAwareScrollView
       style={{

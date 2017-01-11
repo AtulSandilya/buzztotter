@@ -15,7 +15,7 @@ import {
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import {isIOS} from '../Utilities';
+import {isIOS, WindowWidth} from '../Utilities';
 
 import { CreditCard, PurchaseData, PurchaseState, PurchasePackage} from '../reducers/purchase';
 
@@ -464,7 +464,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
             </View>
           )
         }) : <View/>}
-        <View style={globalStyles.bevLineNoSepWithMargin}>
+        <View style={[globalStyles.bevLineNoSepWithMargin]}>
           <TouchableOpacity
             style={{
               flex: 1,
@@ -511,16 +511,19 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     const purchaseButtonIcon = this.userIsPurchasing() ?
       FormatCreditCardBrandForFontAwesomeIcon(this.getActiveCard())
       : "paper-plane";
+    const viewBelowHeight = getButtonHeight(this.buttonFontSize);
 
     return(
       <View style={{flex: 1}}>
         <View style={{flex: listFlex, backgroundColor: "#ffffff"}}>
           <RouteWithNavBarWrapper
-            viewBelowHeight={getButtonHeight(this.buttonFontSize) + 10}
+            viewBelowHeight={viewBelowHeight}
           >
-            <View style={[globalStyles.bevContainer, {paddingBottom: getButtonHeight(this.buttonFontSize) + 10}]}>
+            <View style={[globalStyles.bevContainer]}>
               {this.renderSendOptions()}
               {this.renderPurchaseOptions()}
+              // Add empty view to ensure elements above are viewable
+              <View style={{height: viewBelowHeight + 20, width: WindowWidth}}></View>
             </View>
           </RouteWithNavBarWrapper>
         </View>

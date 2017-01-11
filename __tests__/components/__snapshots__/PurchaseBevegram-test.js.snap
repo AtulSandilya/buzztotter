@@ -15,7 +15,7 @@ exports[`test renders correctly 1`] = `
     <ScrollView
       contentInset={
         Object {
-          "bottom": 49,
+          "bottom": 0,
         }
       }
       enableAutoAutomaticScroll={true}
@@ -28,7 +28,7 @@ exports[`test renders correctly 1`] = `
       style={
         Object {
           "flex": 1,
-          "height": 520,
+          "height": 530,
           "left": 0,
           "top": 85,
           "width": 375,
@@ -42,9 +42,6 @@ exports[`test renders correctly 1`] = `
               "paddingBottom": 5,
               "paddingHorizontal": 20,
               "paddingTop": 15,
-            },
-            Object {
-              "paddingBottom": 62,
             },
           ]
         }>
@@ -323,6 +320,14 @@ exports[`test renders correctly 1`] = `
               } />
           </View>
         </View>
+        // Add empty view to ensure elements above are viewable
+        <View
+          style={
+            Object {
+              "height": 72,
+              "width": 375,
+            }
+          } />
       </View>
     </ScrollView>
   </View>
