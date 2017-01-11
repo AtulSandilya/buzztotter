@@ -44,7 +44,7 @@ exports[`test renders correctly 1`] = `
               "paddingTop": 15,
             },
             Object {
-              "paddingBottom": 0,
+              "paddingBottom": 62,
             },
           ]
         }>
