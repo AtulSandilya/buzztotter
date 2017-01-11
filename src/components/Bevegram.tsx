@@ -55,7 +55,12 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, goTo
   <View style={styles.parentContainer}>
     <View style={styles.infoContainer}>
       <Image
-        source={require('../../img/icons/bev-contact.png')}
+        source={imagePath ?
+          {uri: imagePath}
+        :
+          require('../../img/icons/bev-contact.png')
+        }
+        style={{height: 50, width: 50}}
       />
       <View style={styles.infoTextContainer}>
         <Text style={{paddingLeft: 15, paddingBottom: 5}}>From: {from}</Text>

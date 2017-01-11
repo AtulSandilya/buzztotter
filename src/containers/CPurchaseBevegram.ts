@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({type: 'GO_BACK_ROUTE'});
     },
     startCreditCardPurchase: (purchaseData, inProgressData) => {
-      dispatch({type: 'REQUEST_CREDIT_CARD_PURCHASE', payload: {
+      dispatch({type: 'PURCHASE_BEVEGRAM', payload: {
         purchaseData: purchaseData,
         routeData: inProgressData,
         route: "PurchaseInProgress",
