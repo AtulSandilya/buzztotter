@@ -522,7 +522,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
             <View style={[globalStyles.bevContainer]}>
               {this.renderSendOptions()}
               {this.renderPurchaseOptions()}
-              // Add empty view to ensure elements above are viewable
+              {/* Add empty view to ensure elements above are viewable */}
               <View style={{height: viewBelowHeight + 20, width: WindowWidth}}></View>
             </View>
           </RouteWithNavBarWrapper>
