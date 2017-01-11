@@ -6,6 +6,9 @@ export interface Bevegram {
   date: string;
   imagePath: string;
   id: string;
+  // fromFacebookId: string;
+  // toFacebookId: string,
+  // quantity: number;
 }
 
 const addBevegram = (from: string, message: string, date: string, imagePath: string): Bevegram => {
