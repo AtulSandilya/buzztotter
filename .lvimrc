@@ -89,3 +89,8 @@ nnoremap <silent> <Leader>ct :call EditTest("components")<CR>
 nnoremap <silent> mk :bd! *term*test*<CR>
 " Make an'd'roid test
 nnoremap <silent> md :Term cd android && ./gradlew connectedAndroidTest<CR>
+" Goto Definition
+nnoremap <silent> gd :YcmCompleter GoToDefinition<CR>
+nnoremap <silent> gds :vs <bar> YcmCompleter GoToDefinition <bar> winc w<CR>
+nnoremap <silent> gt :YcmCompleter GetType<CR>
+nnoremap <silent> gm :YcmCompleter GetDoc<CR>
