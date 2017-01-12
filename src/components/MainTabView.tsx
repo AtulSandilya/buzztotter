@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component, PropTypes } from 'react';
-import { BackAndroid, Dimensions, Text, TouchableOpacity, View } from 'react-native';
+import { BackAndroid, Dimensions, Text, TouchableHighlight, View } from 'react-native';
 
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 
@@ -62,7 +62,8 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
               }}
               renderTab={(name, page, isTabActive, onPressHandler) => {
                 return (
-                  <TouchableOpacity
+                  <TouchableHighlight
+                    underlayColor={"rgba(0, 0, 0, 0)"}
                     key={name}
                     style={{
                       flex: 1,
@@ -103,7 +104,7 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
                         {name}
                       </Text>
                     </View>
-                  </TouchableOpacity>
+                  </TouchableHighlight>
                 )
               }}
             />

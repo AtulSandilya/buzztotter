@@ -8,7 +8,6 @@ import {
   Text,
   TextInput,
   TouchableHighlight,
-  TouchableOpacity,
   View
 } from 'react-native';
 
@@ -283,7 +282,8 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
               justifyContent: 'flex-end',
             }}>
               <Text style={globalStyles.bevLineTextTitle}>{this.state.bevegramsToSend}</Text>
-              <TouchableOpacity
+              <TouchableHighlight
+                underlayColor={"transparent"}
                 onPress={() => this.increaseBevegramsToSend()}
                 hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
                 style={{marginLeft: 15}}>
@@ -293,8 +293,9 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
                     color="#555555"
                     size={28}
                   />
-              </TouchableOpacity>
-              <TouchableOpacity
+              </TouchableHighlight>
+              <TouchableHighlight
+                underlayColor={"transparent"}
                 onPress={() => this.decreaseBevegramsToSend()}
                 hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
                 style={{marginLeft: 15}}>
@@ -304,7 +305,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
                   color="#555555"
                   size={28}
                 />
-              </TouchableOpacity>
+              </TouchableHighlight>
             </View>
           </View>
         </View>
@@ -347,35 +348,38 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
         </View>
         {this.props.purchasePackages.map((pack, index) => {
           return (
-            <TouchableOpacity
+            <TouchableHighlight
+              underlayColor={"transparent"}
               style={globalStyles.bevLine}
               key={"package" + index}
               onPress={this.onSelectPackage.bind(this, index)}
             >
-              <View style={[globalStyles.bevLineLeft, {flexDirection: 'row'}]}>
-                {(this.props.selectedPurchasePackageIndex === index) && this.userIsPurchasing() ?
-                  <FontAwesome
-                    name="check-square-o"
-                    color="green"
-                    size={25}
-                    style={globalStyles.bevIcon}
-                  />
-                :
-                  <FontAwesome
-                    name="square-o"
-                    size={25}
-                    color="#999"
-                    style={globalStyles.bevIcon}
-                  />
-                }
-                <Text style={globalStyles.bevLineTextTitle}>
-                  {pack.name}
-                </Text>
+              <View style={{flex: 1, flexDirection: 'row'}}>
+                <View style={[globalStyles.bevLineLeft, {flexDirection: 'row'}]}>
+                  {(this.props.selectedPurchasePackageIndex === index) && this.userIsPurchasing() ?
+                    <FontAwesome
+                      name="check-square-o"
+                      color="green"
+                      size={25}
+                      style={globalStyles.bevIcon}
+                    />
+                  :
+                    <FontAwesome
+                      name="square-o"
+                      size={25}
+                      color="#999"
+                      style={globalStyles.bevIcon}
+                    />
+                  }
+                  <Text style={globalStyles.bevLineTextTitle}>
+                    {pack.name}
+                  </Text>
+                </View>
+                <View style={globalStyles.bevLineRight}>
+                  <Text style={globalStyles.bevLineText}>$ {pack.price.toFixed(2)}</Text>
+                </View>
               </View>
-              <View style={globalStyles.bevLineRight}>
-                <Text style={globalStyles.bevLineText}>$ {pack.price.toFixed(2)}</Text>
-              </View>
-            </TouchableOpacity>
+            </TouchableHighlight>
           )
         })}
         <View style={globalStyles.bevLine}>
@@ -402,7 +406,8 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
         {this.props.creditCards ? this.props.creditCards.map((card, index) => {
           return (
             <View style={globalStyles.bevLine} key={card.id}>
-              <TouchableOpacity
+              <TouchableHighlight
+                underlayColor={"transparent"}
                 onPress={() => {
                   if(!this.props.attemptingUpdate
                      && this.props.creditCards.length > 1
@@ -416,40 +421,43 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
                   alignItems: 'flex-start',
                   justifyContent: 'flex-start',
               }]}>
-                <View
-                  style={{
-                  paddingRight: 15,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flex: -1,
-                  marginTop: 4,
-                }}>
-                  {this.props.attemptingUpdate ?
-                      <ActivityIndicator style={{height: 28, width: 28}} />
-                  :
-                    card.id === this.getActiveCard().id ?
-                      <FontAwesome
-                        name="check-square-o"
-                        size={25}
-                        color="green"
-                        style={globalStyles.bevIcon}
-                      />
+                <View style={{flex: -1, flexDirection: 'row'}}>
+                  <View
+                    style={{
+                    paddingRight: 15,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flex: -1,
+                    marginTop: 4,
+                  }}>
+                    {this.props.attemptingUpdate ?
+                        <ActivityIndicator style={{height: 28, width: 28}} />
                     :
-                      <FontAwesome
-                        name="square-o"
-                        size={25}
-                        color="#999"
-                        style={globalStyles.bevIcon}
-                      />
-                  }
+                      card.id === this.getActiveCard().id ?
+                        <FontAwesome
+                          name="check-square-o"
+                          size={25}
+                          color="green"
+                          style={globalStyles.bevIcon}
+                        />
+                      :
+                        <FontAwesome
+                          name="square-o"
+                          size={25}
+                          color="#999"
+                          style={globalStyles.bevIcon}
+                        />
+                    }
+                  </View>
+                  <View style={{flex: -1, flexDirection: "row", justifyContent: 'center', alignItems: 'center'}}>
+                    <FontAwesome name={"cc-" + card.brand.toLowerCase()} size={30} style={{paddingRight: 10}}/>
+                    <Text style={globalStyles.bevLineText}>.... {card.last4}</Text>
+                  </View>
                 </View>
-                <View style={{flex: -1, flexDirection: "row", justifyContent: 'center', alignItems: 'center'}}>
-                  <FontAwesome name={"cc-" + card.brand.toLowerCase()} size={30} style={{paddingRight: 10}}/>
-                  <Text style={globalStyles.bevLineText}>.... {card.last4}</Text>
-                </View>
-              </TouchableOpacity>
+              </TouchableHighlight>
               <View style={globalStyles.bevLineRight}>
-                <TouchableOpacity
+                <TouchableHighlight
+                underlayColor={"transparent"}
                   onPress={() => {
                     if(!this.props.attemptingUpdate){
                       this.props.removeCard(card.id, index);
@@ -459,13 +467,14 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
                     paddingRight: 10,
                   }}>
                   <Text style={{color: '#999'}}>{this.props.attemptingUpdate ? "Updating..." : "Remove"}</Text>
-                </TouchableOpacity>
+                </TouchableHighlight>
               </View>
             </View>
           )
         }) : <View/>}
         <View style={[globalStyles.bevLineNoSepWithMargin]}>
-          <TouchableOpacity
+          <TouchableHighlight
+            underlayColor={"transparent"}
             style={{
               flex: 1,
               flexDirection: 'row',
@@ -474,22 +483,24 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
               this.props.goToAddCreditCardRoute();
             }}
           >
-            <View style={[globalStyles.bevLineLeft, {flex: 2}]}>
-              <Text
-                style={[globalStyles.bevLineTextTitle, {
-                  fontWeight: "normal"
-                }]}>
-                {this.props.attemptingVerification ?
-                  "Adding Credit Card..."
-                  :
-                  "Add Credit Card"
-                }
-              </Text>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={[globalStyles.bevLineLeft, {flex: 2}]}>
+                <Text
+                  style={[globalStyles.bevLineTextTitle, {
+                    fontWeight: "normal"
+                  }]}>
+                  {this.props.attemptingVerification ?
+                    "Adding Credit Card..."
+                    :
+                    "Add Credit Card"
+                  }
+                </Text>
+              </View>
+              <View style={globalStyles.bevLineRight}>
+                <Ionicon name="ios-arrow-forward" size={35} />
+              </View>
             </View>
-            <View style={globalStyles.bevLineRight}>
-              <Ionicon name="ios-arrow-forward" size={35} />
-            </View>
-          </TouchableOpacity>
+          </TouchableHighlight>
         </View>
       </View>
     )

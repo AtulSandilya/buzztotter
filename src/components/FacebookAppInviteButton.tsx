@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component} from 'react';
-import {Text, TouchableOpacity, View, } from 'react-native';
+import {Text, View, } from 'react-native';
 
 import { AppInviteDialog } from 'react-native-fbsdk';
 
