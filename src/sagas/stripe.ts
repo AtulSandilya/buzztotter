@@ -2,6 +2,8 @@ import { call, put, select } from 'redux-saga/effects';
 
 import {Alert} from 'react-native';
 
+import { UserState } from '../reducers/user';
+import { RouteState } from '../reducers/routes';
 import { CreditCard, PurchaseData } from '../reducers/purchase';
 import { CardDataForVerification } from '../reducers/addCreditCard';
 
@@ -21,7 +23,7 @@ import {
 
 export function* fetchVerifyCreditCard(action){
   //If this user is not a stripe customer, create a new stripe customer
-  let customerId: string = yield select((state) => state.user.stripe.customerId);
+  let customerId: string = yield select<{user: UserState}>((state) => state.user.stripe.customerId);
   if(customerId === undefined){
     customerId = yield call(fetchNewCustomer, {});
   }
@@ -36,7 +38,7 @@ export function* fetchVerifyCreditCard(action){
 
     yield call(fetchAddCardToCustomer, {token: creditCardTokenResponse.id});
 
-    let currentRoute = yield select((state) => state.routes.currentRoute);
+    let currentRoute = yield select<{routes: RouteState}>((state) => state.routes.currentRoute);
     if(currentRoute === "AddCreditCard"){
       yield call(goBackRoute, {});
     } else {
@@ -60,8 +62,8 @@ function *fetchNewCustomer(action) {
 
   // Directly accessing this information is much simpler than requesting and
   // passing to here from the state.
-  const fullName: string = yield select((state) => state.user.fullName);
-  const email: string = yield select((state) => state.user.email);
+  const fullName: string = yield select<{user: UserState}>((state) => state.user.fullName);
+  const email: string = yield select<{user: UserState}>((state) => state.user.email);
   const newCustomerResponse = yield call(promiseNewCustomer, fullName, email);
   yield call(checkResponseForError, newCustomerResponse, 'FAILED_STRIPE_CUSTOMER_CREATION');
 
@@ -83,7 +85,7 @@ function *fetchNewCustomer(action) {
 export function *fetchAddCardToCustomer(action){
   yield put({type: 'ATTEMPTING_STRIPE_ADD_CARD_TO_CUSTOMER'});
   try {
-    const customerId: string = yield select((state) => state.user.stripe.customerId);
+    const customerId: string = yield select<{user: UserState}>((state) => state.user.stripe.customerId);
     const addCardToCustomerResponse = yield call(promiseAddCardToCustomer, customerId, action.token);
     yield call(checkResponseForError, addCardToCustomerResponse, 'FAILED_STRIPE_ADD_CARD_TO_CUSTOMER');
 
@@ -116,8 +118,8 @@ export function *fetchVerifyCustomer() {
   yield put({type: 'ATTEMPTING_STRIPE_CUSTOMER_VERIFICATION'});
 
   try {
-    const cardsInState = yield select((state) => state.user.stripe.creditCards);
-    const customerId: string = yield select((state) => state.user.stripe.customerId);
+    const cardsInState = yield select<{user: UserState}>((state) => state.user.stripe.creditCards);
+    const customerId: string = yield select<{user: UserState}>((state) => state.user.stripe.customerId);
 
     const customerResponse = yield call(promiseCustomer, customerId);
     yield call(checkResponseForError, customerResponse, 'FAILED_STRIPE_CUSTOMER_VERIFICATION');
@@ -171,7 +173,7 @@ export function *fetchUpdateDefaultCard(action){
   try {
     yield put({type: 'ATTEMPTING_STRIPE_DEFAULT_CARD_UPDATE'});
 
-    const customerId: string = yield select((state) => state.user.stripe.customerId);
+    const customerId: string = yield select<{user: UserState}>((state) => state.user.stripe.customerId);
     const updateDefaultCardResponse = yield call(promiseUpdateCustomerDefaultCard, customerId, action.payload.newDefaultCard);
     yield call(checkResponseForError, updateDefaultCardResponse, 'FAILED_STRIPE_DEFAULT_CARD_UPDATE');
 
@@ -212,7 +214,7 @@ export function* fetchCreditCardPurchase(action) {
       }
 
       // Continue with the purchase.
-      const customerId: string = yield select((state) => state.user.stripe.customerId);
+      const customerId: string = yield select<{user: UserState}>((state) => state.user.stripe.customerId);
       const creditCardPurchaseResponse = yield call(promiseCreditCardPurchase, customerId, purchaseData.amount, purchaseData.description);
       yield call(checkResponseForError, creditCardPurchaseResponse, 'FAILED_CREDIT_CARD_PURCHASE');
 
@@ -232,14 +234,14 @@ export function* fetchCreditCardPurchase(action) {
 export function *fetchDeleteCustomerCard(action){
   try {
     yield put({type: 'ATTEMPTING_STRIPE_REMOVE_CARD'});
-    const customerId: string = yield select((state) => state.user.stripe.customerId);
+    const customerId: string = yield select<{user: UserState}>((state) => state.user.stripe.customerId);
     const deleteCustomerCardResponse = yield call(promiseDeleteCustomerCard, customerId, action.payload.cardToDelete);
     yield call(checkResponseForError, deleteCustomerCardResponse, 'FAILED_STRIPE_REMOVE_CARD');
 
     // If the card we are deleting is the default card, set the first card in
     // the credit card list as the default card
-    const activeCard: string = yield select((state) => state.user.stripe.activeCardId);
-    const creditCards = yield select((state) => state.user.stripe.creditCards);
+    const activeCard: string = yield select<{user: UserState}>((state) => state.user.stripe.activeCardId);
+    const creditCards = yield select<{user: UserState}>((state) => state.user.stripe.creditCards);
     if(activeCard === action.payload.cardToDelete && creditCards.length > 1){
       const newDefaultCard = creditCards[0].id;
       const updateDefaultCardResponse = yield call(promiseUpdateCustomerDefaultCard, customerId, newDefaultCard);

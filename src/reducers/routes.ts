@@ -8,7 +8,7 @@ const routeKeys = {
   AddCreditCard: "AddCreditCard",
 }
 
-interface RouteState {
+export interface RouteState {
   currentRoute: string;
   previousRoute: string;
   PurchaseBevegram: RouteData;

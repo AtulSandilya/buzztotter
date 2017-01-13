@@ -44,7 +44,7 @@ export function *firebaseFacebookLogin(action) {
       uid: firebaseCredential.uid,
     })
 
-    const facebookId = yield select((state) => state.user.facebook.id)
+    const facebookId = yield select<any>((state) => state.user.facebook.id)
     yield call(initializeFirebaseUserFacebookId, firebaseUser.uid, facebookId);
 
     yield put({type: 'SUCCESSFUL_FIREBASE_LOGIN', payload: {
@@ -115,7 +115,7 @@ export function *verifyReceiverExists(action) {
 //  User ----------------------------------------------------------------{{{
 
 export function *updateFirebaseUser(action) {
-  const user: UserState = yield select((state) => state.user);
+  const user: UserState = yield select<{user: UserState}>((state) => state.user);
   try {
     yield put({type: 'ATTEMPTING_FIREBASE_UPDATE_USER'});
 
@@ -139,7 +139,7 @@ interface PurchasedBevegramPack {
 }
 
 export function *addPurchasedBevegramToDB(action, chargeId) { // returns PurchaseBevegramPack
-  const user: UserState = yield select((state) => state.user);
+  const user: UserState = yield select<{user: UserState}>((state) => state.user);
   const purchasedBevegram: PurchasedBevegram = {
     purchasedByName: user.fullName,
     purchasedById: user.firebase.uid,
@@ -165,7 +165,7 @@ export function *addPurchasedBevegramToDB(action, chargeId) { // returns Purchas
 //  Sending -------------------------------------------------------------{{{
 
 export function *addSentBevegramToDB(action, purchasedBevegramId) {
-  const user: UserState = yield select((state) => state.user);
+  const user: UserState = yield select<{user: UserState}>((state) => state.user);
   const sentBevegram: SentBevegram = {
     purchasedBevegramId: purchasedBevegramId,
     quantity: action.payload.sendBevegramData.quantity,
@@ -181,7 +181,7 @@ export function *addSentBevegramToDB(action, purchasedBevegramId) {
 }
 
 export function *addSendIdToPurchasedBevegram(action, purchaseId: string, sendId: string) {
-  const userId: string = yield select((state) => state.user.firebase.uid);
+  const userId: string = yield select<{user: UserState}>((state) => state.user.firebase.uid);
   yield call(updatePurchasedBevegramWithSendId, userId, purchaseId, sendId);
 }
 
@@ -189,7 +189,7 @@ export function *addSendIdToPurchasedBevegram(action, purchaseId: string, sendId
 //  Receiving -----------------------------------------------------------{{{
 
 export function *addReceivedBevegramToDB(action, receiverFirebaseId: string) {
-  const user: UserState = yield select((state) => state.user);
+  const user: UserState = yield select<{user: UserState}>((state) => state.user);
   const receivedBevegram: ReceivedBevegram = {
     sentFromName: user.fullName,
     sentFromFacebookId: user.facebook.id,
@@ -204,7 +204,7 @@ export function *addReceivedBevegramToDB(action, receiverFirebaseId: string) {
 }
 
 export function *updateReceivedBevegrams() {
-  const userFirebaseId = yield select((state) => state.user.firebase.uid);
+  const userFirebaseId = yield select<{user: UserState}>((state) => state.user.firebase.uid);
   const result = yield call(readUserReceivedBevegrams, userFirebaseId);
   return result;
 }
@@ -218,7 +218,7 @@ interface RedeemedBevegramPack {
 }
 
 export function *addRedeemedBevegramToDB(action) {
-  const user: UserState = yield select((state) => state.user);
+  const user: UserState = yield select<{user: UserState}>((state) => state.user);
   const redeemedBevegram: RedeemedBevegram = {
     redeemedByName: user.fullName,
     redeemedByFacebookId: user.facebook.id,

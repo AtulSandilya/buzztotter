@@ -6,6 +6,8 @@ import {
 
 import { Actions, ActionConst } from 'react-native-router-flux';
 
+import {RouteState} from '../reducers/routes';
+
 import {isAndroid, isIOS} from '../Utilities';
 
 import { IsPurchaseAndOrSendCompleted } from '../components/PurchaseAndOrSendInProgress';
@@ -34,8 +36,8 @@ interface GoBackRoutePayloadProps {
 }
 
 export function *goBackRoute(action) {
-  const nextRoute = yield select((state) => state.routes.previousRoute);
-  const currentRoute = yield select((state) => state.routes.currentRoute);
+  const nextRoute = yield select<{routes: RouteState}>((state) => state.routes.previousRoute);
+  const currentRoute = yield select<{routes: RouteState}>((state) => state.routes.currentRoute);
 
   const routesThatDontGoBack = {
     "MainUi": true,
@@ -48,8 +50,8 @@ export function *goBackRoute(action) {
     // Android: Disable the back button while a purchase and/or send
     // is in progress
     if(currentRoute === "PurchaseInProgress" || currentRoute === "SendInProgress"){
-      const purchaseState = yield select((state) => state.purchase);
-      const routeState = yield select((state) => {
+      const purchaseState = yield select<any>((state) => state.purchase);
+      const routeState = yield select<{routes: RouteState}>((state) => {
         return Object.assign({},
          state.routes.PurchaseInProgress.data,
          state.routes.SendInProgress.data,
