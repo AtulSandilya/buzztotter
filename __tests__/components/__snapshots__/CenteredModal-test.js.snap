@@ -7,53 +7,68 @@ exports[`CenteredModal component renders correctly 1`] = `
   <View
     style={
       Object {
-        "height": 667,
-        "width": 375,
+        "height": 1334,
+        "width": 750,
       }
     }>
     <View
       style={
         Object {
           "backgroundColor": "rgba(34, 34, 34, 0.6)",
-          "height": 667,
-          "width": 375,
+          "height": 1334,
+          "width": 750,
           "zIndex": 1,
         }
       }>
-      <TouchableHighlight
-        activeOpacity={0.85}
-        onPress={[Function]}
+      <View
+        accessibilityComponentType={undefined}
+        accessibilityLabel={undefined}
+        accessibilityTraits={undefined}
+        accessible={true}
+        hitSlop={undefined}
+        onLayout={undefined}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
-          Object {
-            "height": 667,
-            "width": 375,
-          }
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+            },
+            Object {
+              "height": 1334,
+              "width": 750,
+            },
+          ]
         }
-        underlayColor="#222222">
+        testID={undefined}>
         <Text
           accessible={true}
           allowFontScaling={true}
           ellipsizeMode="tail">
            
         </Text>
-      </TouchableHighlight>
+      </View>
     </View>
     <View
       style={
         Object {
           "backgroundColor": "#ffffff",
-          "height": 533.6,
-          "left": 18.75,
+          "height": 1067.2,
+          "left": 37.5,
           "position": "absolute",
-          "top": 66.69999999999999,
-          "width": 337.5,
+          "top": 133.39999999999998,
+          "width": 675,
           "zIndex": 100,
         }
       }>
       <ScrollView
         style={
           Object {
-            "height": 533.6,
+            "height": 1067.2,
             "zIndex": 100,
           }
         } />

@@ -8,21 +8,36 @@ exports[`Facebook App Invite Button renders correctly 1`] = `
       "marginTop": 15,
     }
   }>
-  <TouchableHighlight
-    activeOpacity={0.85}
-    onPress={[Function]}
+  <View
+    accessibilityComponentType={undefined}
+    accessibilityLabel={undefined}
+    accessibilityTraits={undefined}
+    accessible={true}
+    hitSlop={undefined}
+    onLayout={undefined}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       Array [
         Object {
-          "overflow": "hidden",
+          "backgroundColor": "transparent",
         },
-        Object {
-          "backgroundColor": "#3b5988",
-          "borderRadius": 5,
-        },
+        Array [
+          Object {
+            "overflow": "hidden",
+          },
+          Object {
+            "backgroundColor": "#3b5988",
+            "borderRadius": 5,
+          },
+        ],
       ]
     }
-    underlayColor="black">
+    testID={undefined}>
     <View
       style={
         Array [
@@ -80,6 +95,6 @@ exports[`Facebook App Invite Button renders correctly 1`] = `
         Invite Friends
       </Text>
     </View>
-  </TouchableHighlight>
+  </View>
 </View>
 `;
