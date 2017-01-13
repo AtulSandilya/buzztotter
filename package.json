@@ -30,6 +30,13 @@
     "snake-case": "^2.1.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.50",
+    "@types/moment": "^2.13.0",
+    "@types/react": "^15.0.0",
+    "@types/react-native": "^0.37.6",
+    "@types/react-redux": "^4.4.35",
+    "@types/redux": "^3.6.0",
+    "@types/redux-saga": "^0.9.31",
     "babel-core": "^6.17.0",
     "babel-jest": "^16.0.0",
     "babel-preset-react-native": "^1.9.0",
