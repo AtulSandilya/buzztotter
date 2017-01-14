@@ -28,8 +28,6 @@ import CAddCreditCard from '../containers/CAddCreditCard';
 import CBranding from '../containers/CBranding';
 import CPurchaseAndOrSendInProgress from '../containers/CPurchaseAndOrSendInProgress';
 
-const disablePanHandlerOnAndroid = isAndroid ? {panHandlers: null} : {};
-
 const scenes = (showLogin) => {
   return (
     Actions.create(
@@ -57,7 +55,6 @@ const scenes = (showLogin) => {
         <Scene
           key="PurchaseBevegram"
           component={CPurchaseBevegram}
-          {...disablePanHandlerOnAndroid}
           navBar={() => (
             <CBranding
               showBack={true}
@@ -68,7 +65,6 @@ const scenes = (showLogin) => {
         <Scene
           key="SendBevegram"
           component={CPurchaseBevegram}
-          {...disablePanHandlerOnAndroid}
           navBar={() => (
             <CBranding
               showBack={true}
@@ -101,7 +97,6 @@ const scenes = (showLogin) => {
         <Scene
           key="Settings"
           component={CSettings}
-          {...disablePanHandlerOnAndroid}
           navBar={() => (
             <CBranding
               showBack={true}
@@ -112,7 +107,6 @@ const scenes = (showLogin) => {
         <Scene
           key="RedeemBeer"
           component={CRedeemBeer}
-          {...disablePanHandlerOnAndroid}
           navBar={() => (
             <CBranding
               showBack={true}
@@ -123,7 +117,6 @@ const scenes = (showLogin) => {
         <Scene
           key="AddCreditCard"
           component={CAddCreditCard}
-          {...disablePanHandlerOnAndroid}
           navBar={() => (
             <CBranding
               showBack={true}
