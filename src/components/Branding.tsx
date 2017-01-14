@@ -127,6 +127,7 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
           }
           { showBack ?
             <TouchableHighlight
+              underlayColor={"transparent"}
               style={{
                 flex: -1,
               }}
@@ -174,6 +175,7 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
         <View style={[styles.section, styles.rightContainer]}>
           {showSettings ?
             <TouchableHighlight
+              underlayColor={"transparent"}
               onPress={goToSettings}
             >
               <Icon
