@@ -1,14 +1,19 @@
 import 'react-native';
 import React from 'react';
+import ReactTestUtils from 'react-addons-test-utils'
+
 import Login from '../../build/components/Login';
 
-import renderer from 'react-test-renderer';
+const renderer = ReactTestUtils.createRenderer();
 
 it('renders correctly', () => {
-  const tree = renderer.create(
+  const tree = renderer.render(
     <Login
      isLoggedIn={false}
     />
-  ).toJSON();
-  expect(tree).toMatchSnapshot();
+  )
+  const result = renderer.getRenderOutput();
+  const loginText = result.props.children[0].props.children[1].props.children;
+  expect(loginText).toEqual("Sending Drinks Made Easy!");
+
 });

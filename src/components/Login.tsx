@@ -54,5 +54,4 @@ const Login: React.StatelessComponent<LoginProps> = ({
   </View>
 )
 
-
 export default Login;
