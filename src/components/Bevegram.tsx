@@ -2,6 +2,8 @@ import * as React from "react";
 import { Component, PropTypes } from 'react';
 import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
+import TimeAgo from 'react-timeago';
+
 import { connect } from 'react-redux';
 import { modalKeys } from '../reducers/modals.js';
 
@@ -64,7 +66,11 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, goTo
       />
       <View style={styles.infoTextContainer}>
         <Text style={{paddingLeft: 15, paddingBottom: 5}}>From: {from}</Text>
-        <Text style={{paddingLeft: 15}}>{date}</Text>
+        <TimeAgo
+          style={{paddingLeft: 15}}
+          date={date}
+          component={Text}
+        />
       </View>
     </View>
     <View style={styles.buttonContainer}>
