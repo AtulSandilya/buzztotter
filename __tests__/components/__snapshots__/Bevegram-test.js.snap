@@ -1,5 +1,3 @@
-exports[`test fails without required props 1`] = `"received is not a function"`;
-
 exports[`test renders correctly 1`] = `
 <View
   style={
@@ -58,8 +56,9 @@ exports[`test renders correctly 1`] = `
           Object {
             "paddingLeft": 15,
           }
-        }>
-        12/12
+        }
+        title="2016-01-16T20:39:47.966Z">
+        1 year ago
       </Text>
     </View>
   </View>

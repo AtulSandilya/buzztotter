@@ -9,18 +9,10 @@ it('renders correctly', () => {
     <Bevegram
       from="Person"
       to="Person"
-      date="12/12"
+      date="2016-01-16T20:39:47.966Z"
       imagePath="test.jpg"
       openModal={undefined}
     />
   ).toJSON();
   expect(tree).toMatchSnapshot();
-});
-
-it('fails without required props', () => {
-  const tree = renderer.create(
-    <Bevegram
-    />
-  ).toJSON();
-  expect(tree).toThrowErrorMatchingSnapshot();
 });
