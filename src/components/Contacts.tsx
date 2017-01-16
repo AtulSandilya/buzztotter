@@ -22,11 +22,10 @@ export interface ContactsProps {
   purchaseModalIsOpen?: boolean;
   facebookToken?: string;
   toastContactsReloaded?: boolean;
-  closePurchaseModal?(): void;
   reloadContacts?(token: string);
 }
 
-const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, loadingFailed, reloading, reloadingFailed, facebookToken, toastContactsReloaded, purchaseModalIsOpen, closePurchaseModal, reloadContacts}) => {
+const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, loadingFailed, reloading, reloadingFailed, facebookToken, toastContactsReloaded, purchaseModalIsOpen, reloadContacts}) => {
   const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
   if(toastContactsReloaded){

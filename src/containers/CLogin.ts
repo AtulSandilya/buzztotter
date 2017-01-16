@@ -1,7 +1,5 @@
 import { connect } from 'react-redux';
 
-import { batchActions } from 'redux-batched-actions';
-
 import { Actions } from 'react-native-router-flux';
 
 import Login, {LoginProps} from '../components/Login';
@@ -26,7 +24,9 @@ const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
     onSuccessfulFacebookLogin: () => {
       dispatch({type: 'SUCCESSFUL_FACEBOOK_LOGIN'});
-      Actions["MainUi"]();
+      dispatch({type: 'GO_TO_ROUTE', payload: {
+        route: "MainUi",
+      }})
     },
     requestFacebookData: (token) => {
       dispatch({type: 'INITIALIZE_USER_DATA_WITH_FACEBOOK_TOKEN', payload: {

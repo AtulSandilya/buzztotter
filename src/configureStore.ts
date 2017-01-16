@@ -2,8 +2,6 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 
 import createSagaMiddleware from 'redux-saga';
 
-import {enableBatching} from 'redux-batched-actions';
-
 import * as persistentStorage from 'redux-storage';
 import createEngine from 'redux-storage-engine-reactnativeasyncstorage';
 import filter from 'redux-storage-decorator-filter';
@@ -35,7 +33,7 @@ const storageReducer = persistentStorage.reducer(appReducers);
 const sagaMiddleware = createSagaMiddleware();
 
 function configureStore(reducers){
-  let store = createStore(enableBatching(reducers), applyMiddleware(
+  let store = createStore(reducers, applyMiddleware(
     sagaMiddleware,
     storageMiddleware,
   ));

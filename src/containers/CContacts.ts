@@ -1,9 +1,5 @@
 import {connect} from 'react-redux';
 
-import {batchActions} from 'redux-batched-actions';
-
-import { modalKeys } from '../reducers/modals';
-
 import {Contact} from '../reducers/contacts';
 
 import Contacts, {ContactsProps} from '../components/Contacts';
@@ -33,18 +29,11 @@ const mapStateToProps = (state): StateProps => {
 }
 
 interface DispatchProps {
-  closePurchaseModal?(): void;
   reloadContacts?(string);
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    closePurchaseModal: () => {
-      dispatch(batchActions([
-        {type: 'END_CREDIT_CARD_PURCHASE'},
-        {type: 'CLOSE_MODAL', modalKey: modalKeys.purchaseBeerModal},
-      ]));
-    },
     reloadContacts: (fbToken) => {
       dispatch({type: 'FACEBOOK_CONTACTS_RELOAD_REQUEST', payload: {token: fbToken}});
     }
