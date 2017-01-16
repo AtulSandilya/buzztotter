@@ -11,6 +11,7 @@ describe('Bevegrams component', () => {
       <Bevegrams
         bevegramsList={[]}
         closeModal={(input) => {return input}}
+        isLoadingBevegrams={false}
       />
     )
 
@@ -34,6 +35,7 @@ describe('Bevegrams component', () => {
           }
         ]}
         closeModal={(input) => {return input}}
+        isLoadingBevegrams={false}
       />
     )
 

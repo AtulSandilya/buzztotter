@@ -19,6 +19,7 @@ describe('Contacts component', () => {
           }
         ]}
         loading={false}
+        reloading={false}
       />
     )
 
@@ -39,6 +40,7 @@ describe('Contacts component', () => {
         ]}
         loading={true}
         loadingFailed={false}
+        reloading={false}
       />
     )
 
@@ -59,6 +61,7 @@ describe('Contacts component', () => {
         ]}
         loading={false}
         loadingFailed={true}
+        reloading={false}
       />
     )
 
