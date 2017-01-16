@@ -14,9 +14,11 @@ describe('Bevegrams component', () => {
       />
     )
 
-    const noBevText = wrapper.find(View).find(Text).prop("children");
+    // Test that the list view is only rendering a single page. Right now with
+    // enzyme it is not possible to test the contents of a ListView?
+    const listViewSize = wrapper.find(ListView).prop("pageSize");
 
-    expect(noBevText).toEqual("You have no bevegrams! :(");
+    expect(listViewSize).toEqual(1);
   })
 
   it('renders with bevegrams', () => {
