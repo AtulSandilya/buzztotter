@@ -2,6 +2,8 @@ import * as React from "react";
 import { Component, PropTypes } from 'react';
 import { StyleSheet, Switch, Text, View } from 'react-native';
 
+import FCM from 'react-native-fcm';
+
 import {settingsKeys} from '../reducers/settings';
 
 import {isAndroid} from '../Utilities';
@@ -29,16 +31,25 @@ const styles = StyleSheet.create<Style>({
 
 const sendNotification = () => {
   if(isAndroid){
-    const PushNotification = require('react-native-push-notification');
-    PushNotification.localNotification({
-      message: "Travis Caldwell sent you a Bevegram!",
-      // Android Icons
-      // Icon that shows in the drop down
-      largeIcon: "ic_launcher",
-      // Icon that shows on the status bar
-      smallIcon: "ic_local_bar_black_48dp",
-      from: 'Travis Caldwell',
-    });
+    FCM.presentLocalNotification({
+      title: "Today is Travis Caldwell's Birthday!",
+      body: "Tap to buy him a Bevegram",
+      large_icon: "ic_launcher",
+      icon: "ic_cake_white_48dp",
+      show_in_foreground: true,
+      priority: "max",
+      on_click: "SEND_BEVEGRAM_TO_CONTACT",
+    })
+    // const PushNotification = require('react-native-push-notification');
+    // PushNotification.localNotification({
+    //   message: "Travis Caldwell sent you a Bevegram!",
+    //   // Android Icons
+    //   // Icon that shows in the drop down
+    //   largeIcon: "ic_launcher",
+    //   // Icon that shows on the status bar
+    //   smallIcon: "ic_local_bar_black_48dp",
+    //   from: 'Travis Caldwell',
+    // });
   } else {
     alert("Notifications are only supported on Android");
   }

@@ -148,6 +148,8 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-fcm')
+    compile 'com.google.firebase:firebase-core:10.0.1'
     compile project(':react-native-vector-icons')
     compile 'com.android.support:support-annotations:23.0.1'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
@@ -157,8 +159,8 @@ dependencies {
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile project(':react-native-push-notification')
-    compile 'com.google.android.gms:play-services-base:+'
-    compile 'com.google.android.gms:play-services-maps:+'
+    compile 'com.google.android.gms:play-services-base:10.0.1'
+    compile 'com.google.android.gms:play-services-maps:10.0.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support:support-annotations:25.0.0'
@@ -170,3 +172,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: "com.google.gms.google-services"
