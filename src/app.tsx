@@ -16,26 +16,21 @@ import CInitialRouter from './containers/CInitialRouter.js';
 
 import store from './configureStore';
 
-export default class Bevegram extends Component<{}, {}> {
+interface BevegramState {
+  store: any;
+}
+
+export default class Bevegram extends Component<{}, BevegramState> {
   notificationListener: any;
   refreshTokenListener: any;
-  // constructor(props){
-  //   super(props);
 
-  //   if(isAndroid){
-  //     console.log("Init push notification");
-  //     const PushNotification = require('react-native-push-notification');
-  //     PushNotification.configure({
-  //       // When notification is clicked
-  //       onNotification: function(notification) {
-  //         store.dispatch({type: "GO_TO_ROUTE", payload: {
-  //           route: "SendBevegram",
-  //           // TODO: Get data for sending,
-  //         }});
-  //       }
-  //     });
-  //   }
-  // }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      store: store,
+    }
+  }
 
   storeFCMToken(token) {
     store.dispatch({type: 'SAVE_FCM_TOKEN', payload: {
@@ -71,8 +66,9 @@ export default class Bevegram extends Component<{}, {}> {
   }
 
   render() {
+    // Holding the store in state allows hot reloading
     return (
-      <Provider store={store}>
+      <Provider store={this.state.store}>
         <View style={{flex: 1}}>
           <StatusBar
             translucent={true}
