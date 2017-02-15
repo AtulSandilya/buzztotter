@@ -5,6 +5,8 @@ var filter = require('gulp-filter');
 var tag_version = require('gulp-tag-version');
 var semver = require('semver');
 var prompt = require('gulp-prompt');
+var ts = require('gulp-typescript');
+var changed = require('gulp-changed');
 
 function increment(importance){
   var bumpedVersion = semver.inc(require('./package.json').version, importance);
@@ -27,3 +29,12 @@ function increment(importance){
 gulp.task('patch', function() { return increment('patch'); })
 gulp.task('feature', function() { return increment('minor'); })
 gulp.task('release', function() { return increment('major'); })
+
+var tsProject = ts.createProject('tsconfig.json')
+
+gulp.task('incremental-tsc', function() {
+  return tsProject.src()
+    .pipe(tsProject())
+    .pipe(changed('build', {hasChanged: changed.compareSha1Digest}))
+    .pipe(gulp.dest('build'));
+})

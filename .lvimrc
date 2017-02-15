@@ -71,6 +71,7 @@ function! EditTest(subdir)
 endfunction
 
 au FileType javascript,typescript set shiftwidth=2 tabstop=2
+au FileType typescript setlocal makeprg=gulp\ incremental-tsc
 au BufWritePost *.ts,*.tsx call jobstart("ctags src -R")
 
 " Compile
