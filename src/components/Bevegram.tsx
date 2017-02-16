@@ -33,10 +33,11 @@ const styles = StyleSheet.create<Style>({
     flexDirection: 'column',
   },
   buttonContainer: {
-    flex: 2,
+    flex: -1,
     flexDirection: 'row',
     alignSelf: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
   },
 })
 
