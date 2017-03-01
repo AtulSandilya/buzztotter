@@ -18,6 +18,7 @@ export interface UserState {
   fullName: string;
   birthday: string;
   email: string;
+  fcmToken: string;
   stripe: {
     customerId: string,
     creditCards: CreditCard[],
@@ -38,6 +39,7 @@ const defaultState: UserState = {
   fullName: undefined,
   birthday: undefined,
   email: undefined,
+  fcmToken: null,
   stripe: {
     customerId: undefined,
     creditCards: [],
@@ -152,6 +154,10 @@ export const user = (state = defaultState, action): UserState => {
       return Object.assign({}, state, {
         bevegrams: state.bevegrams - action.payload.sentBevegrams,
       })
+    case 'STORE_FCM_TOKEN':
+      return Object.assign({}, state, {
+        fcmToken: action.payload.fcmToken,
+    })
     }
     default:
       return state;

@@ -42,6 +42,11 @@ import {
   verifyReceiverExists,
 } from './firebase';
 
+import {
+  sendReceivedNotification,
+  storeFcmToken,
+} from './notifications';
+
 // Like combine reducers
 export default function* rootSaga() {
   // Facebook
@@ -104,6 +109,9 @@ export default function* rootSaga() {
     yield put({type: 'REMOVE_SENT_BEVEGRAM_FROM_PURCHASED', payload: {
       sentBevegramPack: sentBevegramPack,
     }})
+
+    yield call(sendReceivedNotification, action, action.payload.sendBevegramData.facebookId);
+
     yield put({type: 'COMPLETED_SEND_BEVEGRAM'});
     return sentBevegramPack.id;
   }
@@ -161,4 +169,7 @@ export default function* rootSaga() {
   yield fork(takeEvery, 'GO_BACK_ROUTE', goBackRoute);
   // Dispatch actions based on router events
   yield fork(takeEvery, ActionConst.FOCUS, onFocusRoute);
+
+  // Notifications
+  yield fork(takeEvery, 'UPDATE_FCM_TOKEN', storeFcmToken);
 }

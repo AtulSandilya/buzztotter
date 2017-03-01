@@ -19,6 +19,9 @@ const Schema = {
     firebaseIds: {
       facebookId: "FirebaseId",
     },
+    fcmTokens: {
+      facebookId: "fcmToken",
+    },
     vendors: {
       vendorId: "Vendor"
     },
@@ -101,8 +104,12 @@ export const GetVendorDbUrl = (vendorId: string) => {
   return GetSchemaDbUrl("vendors", vendorId);
 }
 
-export const GetFacebookIdDbUrl = (facebookId: string) => {
+export const GetFirebaseIdDbUrl = (facebookId: string) => {
   return GetSchemaDbUrl("firebaseIds.facebookId", {facebookId: facebookId});
+}
+
+export const GetFcmTokenDbUrl = (facebookId: string) => {
+  return GetSchemaDbUrl("fcmTokens.facebookId", {facebookId: facebookId});
 }
 
 export const GetPurchasedBevegramListDbUrl = (firebaseId: string): string => {

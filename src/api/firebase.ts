@@ -3,7 +3,8 @@ import * as firebase from 'firebase';
 import secrets from '../secrets';
 
 import {
-  GetFacebookIdDbUrl,
+  GetFirebaseIdDbUrl,
+  GetFcmTokenDbUrl,
   GetPurchasedBevegramListDbUrl,
   GetPurchasedBevegramSummaryDbUrl,
   GetReceivedBevegramListDbUrl,
@@ -68,6 +69,10 @@ const PushToUrl = (url: string, pushObject: Object): string => {
   return newNode.toString().split("/").slice(-1)[0];
 }
 
+const WriteNode = (url: string, data: any): any => {
+  return db.ref(url).set(data);
+}
+
 const UpdateNode = (url: string, updateFunction: (Object) => Object) => {
   db.ref(url).transaction((currentData) => {
     return updateFunction(currentData ? currentData : {});
@@ -95,7 +100,7 @@ const SafeSubtract = (num1: number, num2: number) => {
 
 
 export const initializeFirebaseUserFacebookId = (firebaseId: string, facebookId: string): any => {
-  return db.ref(GetFacebookIdDbUrl(facebookId)).set(firebaseId);
+  return WriteNode(GetFirebaseIdDbUrl(facebookId), firebaseId);
 }
 
 export const updateFirebaseUser = (user: UserState): any => {
@@ -103,14 +108,29 @@ export const updateFirebaseUser = (user: UserState): any => {
   return db.ref(GetUserDbUrl(userFirebaseId)).set(user);
 }
 
+export const getFirebaseUser = (userFirebaseId: string): any => {
+  return ReadNode(GetUserDbUrl(userFirebaseId));
+}
+
 //  End User ---------------------------------------------------}}}
 //  Firebase / Facebook Id Conversion -----------------------------------{{{
 
 export const getFirebaseId = (facebookId: string): any => {
-  return ReadNode(GetFacebookIdDbUrl(facebookId));
+  return ReadNode(GetFirebaseIdDbUrl(facebookId));
 }
 
 //  End Firebase / Facebook Id Conversion -------------------------------}}}
+//  Fcm Tokens ----------------------------------------------------------{{{
+
+export const setFcmToken = (facebookId: string, fcmToken: string): any => {
+  return WriteNode(GetFcmTokenDbUrl(facebookId), fcmToken);
+}
+
+export const getFcmToken = (facebookId: string): any => {
+  return ReadNode(GetFcmTokenDbUrl(facebookId));
+}
+
+//  End Fcm Tokens ------------------------------------------------------}}}
 //  Purchase List ------------------------------------------------------{{{
 
 export const addPurchasedBevegramToUser = (userFirebaseId: string, purchasedBevegram: PurchasedBevegram): string => {
