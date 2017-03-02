@@ -6,17 +6,20 @@ import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-vi
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {isIOS} from '../Utilities';
+import {isIOS, WindowWidth} from '../Utilities';
 
 import {globalColors} from '../components/GlobalStyles';
 
+import {TabIconBadges} from '../containers/CMainTabView';
 import CContacts from '../containers/CContacts';
 import CBevegrams from '../containers/CBevegrams';
 import CBevegramLocations from '../containers/CBevegramLocations';
+import IconBadge from './IconBadge';
 
 export interface MainViewRouterProps {
   currentPage?: string;
   maxScene?: number;
+  tabIconBadges?: TabIconBadges;
   onPageChange?(newScene: number): void;
   goBackPage?(): void;
 }
@@ -33,7 +36,9 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
   render() {
     // ScrollableTabView is a cross platform `ViewPagerAndroid`
 
+    const numButtons = 4;
     const buttonHeight = 65;
+    const buttonWidth = WindowWidth / numButtons;
     const buttonBgColor = globalColors.bevSecondary;
     const buttonSeparatorColor = globalColors.bevActiveSecondary;
     const buttonActiveColor = globalColors.bevActiveSecondary;
@@ -59,6 +64,7 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
                 flexDirection: 'row',
                 borderWidth: 0,
                 backgroundColor: buttonBgColor,
+                elevation: 5,
               }}
               renderTab={(name, page, isTabActive, onPressHandler) => {
                 return (
@@ -81,6 +87,11 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
                         borderRightColor: buttonSeparatorColor,
                       } : {borderWidth: 0}]}
                     >
+                      <IconBadge
+                        containerHeight={buttonHeight}
+                        containerWidth={buttonWidth}
+                        displayNumber={this.props.tabIconBadges[name]}
+                      />
                       <Icon
                         name={iconMap[name]}
                         style={{
