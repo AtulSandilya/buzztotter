@@ -77,7 +77,6 @@ export default function* rootSaga() {
 
   // Purchasing Bevegrams
   function *purchaseBevegram(action){
-    console.log("Purchase bevegram");
     yield call(goToRoute, action);
     const chargeId = yield call(fetchCreditCardPurchase, action);
 
@@ -94,13 +93,9 @@ export default function* rootSaga() {
 
   // Sending Bevegrams
   function *sendBevegram(action, receiverFirebaseId, purchaseId) {
-    console.log("sendBevegram");
     yield put({type: 'ATTEMPTING_SEND_BEVEGRAM'});
-    console.log("after attempt");
     yield call(goToRoute, action);
-    console.log("after goToRoute");
     const sentBevegramPack = yield call(addSentBevegramToDB, action, purchaseId);
-    console.log("sentBevegramPack: ", sentBevegramPack);
     yield call(addReceivedBevegramToDB, action, receiverFirebaseId);
 
     yield put({type: 'ADD_SENT_BEVEGRAM', payload: {
@@ -133,12 +128,10 @@ export default function* rootSaga() {
     try {
       // Don't allow purchasing or sending if the reciever is not in the
       // database.
-      console.log("Purchase then send bevegram");
       const receiverFirebaseId = yield call(verifyReceiverExists, action);
       const purchasedBevegramId = yield call(purchaseBevegram, action);
       yield call(sendBevegram, action, receiverFirebaseId, purchasedBevegramId);
     } catch(e) {
-      console.log("failed purchase and send:", e);
       yield put({type: 'FAILED_PURCHASE_AND_SEND_BEVEGRAM', payload: {
         error: e,
       }})
