@@ -105,6 +105,19 @@ export const initializeFirebaseUserFacebookId = (firebaseId: string, facebookId:
 
 export const updateFirebaseUser = (user: UserState): any => {
   const userFirebaseId = user.firebase.uid;
+
+  // TODO: Is it possible to have differences between the on device user state
+  // and the database user state? If so, how should this be reconciled, what
+  // data is the "best". One possible way is to add `lastModified` timestamps
+  // to specific data reads/writes (facebook login, firebase login, stripe
+  // updates) and use the one with the most current lastModified date.
+  //
+  // Or, just use firebase's realtime data features?
+  // const savedUserState: UserState = getFirebaseUser(user.firebase.uid);
+
+  // if(user.lastModified != savedUserState.lastModified) {
+  // }
+
   return db.ref(GetUserDbUrl(userFirebaseId)).set(user);
 }
 

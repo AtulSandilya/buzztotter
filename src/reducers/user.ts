@@ -18,6 +18,7 @@ export interface UserState {
   fullName: string;
   birthday: string;
   email: string;
+  lastModified: string;
   fcmToken: string;
   stripe: {
     customerId: string,
@@ -39,6 +40,7 @@ const defaultState: UserState = {
   fullName: undefined,
   birthday: undefined,
   email: undefined,
+  lastModified: null,
   fcmToken: null,
   stripe: {
     customerId: undefined,
@@ -150,7 +152,7 @@ export const user = (state = defaultState, action): UserState => {
       return Object.assign({}, state, {
         bevegrams: state.bevegrams + action.payload.newBevegrams,
       })
-    case 'SUCCESSFUL_SEND_BEVEGRAM': {
+    case 'SUCCESSFUL_SEND_BEVEGRAM':
       return Object.assign({}, state, {
         bevegrams: state.bevegrams - action.payload.sentBevegrams,
       })
@@ -158,7 +160,11 @@ export const user = (state = defaultState, action): UserState => {
       return Object.assign({}, state, {
         fcmToken: action.payload.fcmToken,
     })
-    }
+    case 'UPDATE_LAST_MODIFIED':
+      return Object.assign({}, state, {
+        lastModified: action.payload.lastModified,
+    })
+
     default:
       return state;
   }

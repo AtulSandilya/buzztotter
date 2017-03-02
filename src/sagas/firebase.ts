@@ -16,6 +16,7 @@ import {
   firebaseLogOut as apiFirebaseLogOut,
   firebaseLoginViaFacebookToken,
   getFirebaseId,
+  getFirebaseUser,
   readUserReceivedBevegrams,
   initializeFirebaseUserFacebookId,
   isUserLoggedIn,
@@ -50,6 +51,8 @@ export function *firebaseFacebookLogin(action) {
     yield put({type: 'SUCCESSFUL_FIREBASE_LOGIN', payload: {
       firebaseUser: firebaseUser
     }});
+
+    yield call(updateFirebaseUser);
 
   } catch(e) {
     yield put({type: 'FAILED_FIREBASE_LOGIN'});
@@ -102,7 +105,6 @@ export function *verifyReceiverExists(action) {
   let receiverFirebaseId: string;
   try {
     receiverFirebaseId = yield call(getFirebaseId, receiverFacebookId);
-    console.log("receivedFirebaseId: ", receiverFirebaseId);
     if(!receiverFirebaseId) throw Error;
     return receiverFirebaseId;
   } catch(e) {
@@ -115,7 +117,12 @@ export function *verifyReceiverExists(action) {
 //  User ----------------------------------------------------------------{{{
 
 export function *updateFirebaseUser(action) {
+  yield put({type: "UPDATE_LAST_MODIFIED", payload: {
+    lastModified: StringifyDate(),
+  }})
+
   const user: UserState = yield select<{user: UserState}>((state) => state.user);
+
   try {
     yield put({type: 'ATTEMPTING_FIREBASE_UPDATE_USER'});
 
@@ -123,7 +130,6 @@ export function *updateFirebaseUser(action) {
 
     yield put({type: 'SUCCESSFUL_FIREBASE_UPDATE_USER'});
   } catch(e){
-    console.log("Failed firebase update user: ", e);
     yield put({type: 'FAILED_FIREBASE_UPDATE_USER', payload: {
       error: e,
     }});
