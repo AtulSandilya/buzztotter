@@ -119,7 +119,7 @@ export default class Bevegram extends Component<{}, BevegramState> {
         <View style={{flex: 1}}>
           <StatusBar
             translucent={true}
-            backgroundColor={"rgba(0, 0, 0, 0.25)"}
+            backgroundColor={"rgba(0, 0, 0, 0.20)"}
           />
           <CInitialRouter />
         </View>
