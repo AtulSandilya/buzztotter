@@ -34,67 +34,44 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({contacts, loading, l
     }
   }
 
-  if(loading){
-    return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
+  return (
+    <View style={{flex: 1}}>
+      <ListView
+        scrollsToTop={true}
+        accessibilityLabel="Contacts List"
+        enableEmptySections={true}
+        dataSource={ds.cloneWithRows(contacts)}
+        renderRow={(rowData) =>
+          <CContact
+            name={rowData.name}
+            birthday={rowData.birthday}
+            imagePath={rowData.imagePath}
+            facebookId={rowData.facebookId}
+          />
+        }
+        renderSeparator={(sectionId, rowId) => <View key={rowId} style={globalStyles.listRowSeparator} />}
+        refreshControl={
+          <RefreshControl
+            refreshing={reloading || loading}
+            onRefresh={() => {
+              if(!reloading){
+                reloadContacts(facebookToken);
+              }
+            }}
+            title="Updating..."
+            tintColor={globalColors.bevPrimary}
+            progressViewOffset={50}
+            colors={[globalColors.bevPrimary]}
+          />
+        }
+        renderFooter={() => {
+          return (
+            <FacebookAppInviteButton />
+          )
         }}
-      >
-        <ActivityIndicator
-          color={globalColors.bevPrimary}
-        />
-        <Text>Loading Contacts</Text>
-      </View>
-    )
-  } else if(loadingFailed){
-    return (
-      <View>
-        <Text>Error loading Contacts, please log out and log in again.</Text>
-      </View>
-    )
-  } else {
-    return (
-      <View style={{flex: 1}}>
-        <ListView
-          scrollsToTop={true}
-          accessibilityLabel="Contacts List"
-          enableEmptySections={true}
-          dataSource={ds.cloneWithRows(contacts)}
-          renderRow={(rowData) =>
-            <CContact
-              name={rowData.name}
-              birthday={rowData.birthday}
-              imagePath={rowData.imagePath}
-              facebookId={rowData.facebookId}
-            />
-          }
-          renderSeparator={(sectionId, rowId) => <View key={rowId} style={globalStyles.listRowSeparator} />}
-          refreshControl={
-            <RefreshControl
-              refreshing={reloading}
-              onRefresh={() => {
-                if(!reloading){
-                  reloadContacts(facebookToken);
-                }
-              }}
-              title="Updating..."
-              tintColor={globalColors.bevPrimary}
-              progressViewOffset={50}
-              colors={[globalColors.bevPrimary]}
-            />
-          }
-          renderFooter={() => {
-            return (
-              <FacebookAppInviteButton />
-            )
-          }}
-        />
-      </View>
-    )
-  }
+      />
+    </View>
+  )
 }
 
 export default Contacts;
