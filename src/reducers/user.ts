@@ -11,7 +11,6 @@ export interface FirebaseUser {
 
 export interface UserState {
   isLoggedIn: boolean;
-  bevegrams: number;
   facebook: {token: string, id: string};
   firstName: string;
   lastName: string;
@@ -32,7 +31,6 @@ export interface UserState {
 // firebase and json uses null instead of undefined
 const defaultState: UserState = {
   isLoggedIn: false,
-  bevegrams: 0,
   facebook: {
     token: null,
     id: null,
@@ -149,14 +147,6 @@ export const user = (state = defaultState, action): UserState => {
     case 'SUCCESSFUL_FIREBASE_LOGIN':
       return Object.assign({}, state, {
         firebase: action.payload.firebaseUser,
-      })
-    case 'UPDATE_USER_BEVEGRAMS':
-      return Object.assign({}, state, {
-        bevegrams: state.bevegrams + action.payload.newBevegrams,
-      })
-    case 'SUCCESSFUL_SEND_BEVEGRAM':
-      return Object.assign({}, state, {
-        bevegrams: state.bevegrams - action.payload.sentBevegrams,
       })
     case 'STORE_FCM_TOKEN':
       return Object.assign({}, state, {

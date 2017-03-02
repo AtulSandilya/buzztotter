@@ -93,14 +93,11 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
     const bevegramsUserPurchased = bevegramsUserIsPurchasing;
     const sentSummaryText = `Sent ${bevegramsUserSent} ${bevStr(bevegramsUserSent)} to ${recipentFullName}`;
     const purchasedSummaryText = `Purchased ${bevegramsUserPurchased} ${bevStr(bevegramsUserPurchased)} for $${bevegramsPurchasePrice}`;
+    const purchasedAndSentSummaryText = `Purchased & Sent ${bevegramsUserIsPurchasing} ${bevStr(bevegramsUserIsPurchasing)} to ${recipentFullName} for $${bevegramsPurchasePrice}`;
 
     let summaryText: string;
     if(userIsPurchasing && userIsSending){
-      if(bevegramsUserSent === 1 && (bevegramsUserSent === bevegramsUserPurchased)){
-        summaryText = purchasedSummaryText + " & " + `sent it to ${recipentFullName}`
-      } else {
-        summaryText = purchasedSummaryText + " & " + sentSummaryText.charAt(0).toLowerCase() + sentSummaryText.slice(1);
-      }
+      summaryText = purchasedAndSentSummaryText;
     } else if (userIsPurchasing){
       summaryText = purchasedSummaryText;
     } else if (userIsSending){

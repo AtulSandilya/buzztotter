@@ -48,7 +48,6 @@ export const FormatCreditCardBrandForFontAwesomeIcon = (card: CreditCard) => {
 }
 
 interface PurchaseBevegramProps {
-  userBevegrams: number;
   fullName: string;
   firstName: string;
   imageUri: string;
@@ -78,10 +77,6 @@ interface PurchaseBevegramState {
   promoCode: string;
   message: string;
   bevegramsToSend: number;
-  // Track the number of userBevegrams when this component is rendered. Allows
-  // userBevegrams to change (which it does after a purchase and a send) but
-  // base the view logic on the initial userBevegram count.
-  bevegramsBeforePurchaseOrSendOrBoth: number;
 }
 
 export default class PurchaseBevegram extends Component<PurchaseBevegramProps, PurchaseBevegramState> {
@@ -91,8 +86,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     this.state = {
       promoCode: "",
       message: "",
-      bevegramsToSend: 1,
-      bevegramsBeforePurchaseOrSendOrBoth: this.props.userBevegrams,
+      bevegramsToSend: this.props.selectedPurchasePackage.quantity,
     };
   }
 
@@ -103,12 +97,14 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
   }
 
   userIsSending(): boolean {
-    return this.props.fullName !== undefined;
+    // return this.props.fullName !== undefined;
+    return true;
   }
 
   userIsPurchasing(): boolean {
-    if(!this.userIsSending()) return true;
-    return (this.state.bevegramsToSend > this.state.bevegramsBeforePurchaseOrSendOrBoth);
+    // if(!this.userIsSending()) return true;
+    // return (this.state.bevegramsToSend > this.state.bevegramsBeforePurchaseOrSendOrBoth);
+    return true;
   }
 
   userIsPurchasingAndSending(): boolean {
@@ -116,38 +112,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
   }
 
   updateBevegramsToSend(amount){
-    const min = 1;
-    const userBevs = this.props.userBevegrams;
-    const packagesMax = this.props.purchasePackages.slice(-1)[0].quantity;
-    const max = packagesMax + userBevs;
-    const newAmount = this.state.bevegramsToSend + amount;
-    const bevsToSend = this.state.bevegramsToSend;
-    const packageIndex = this.props.selectedPurchasePackageIndex;
-    const packages = this.props.purchasePackages;
-
-    if(newAmount <= max && newAmount >= min){
-      this.updateState("bevegramsToSend", newAmount);
-
-
-      // Automatically select the purchasePackage that is equal to or above
-      // the users Bevegrams
-      const bevsUserMustPurchase = (bevsToSend + amount) - userBevs;
-      if(bevsToSend > userBevs){
-        if(amount > 0){
-          if(packageIndex + 1 !== packages.length
-            && bevsUserMustPurchase > packages[packageIndex].quantity){
-            this.props.selectPackage(packageIndex + 1);
-          }
-        }
-
-        if(amount < 0){
-          if(packageIndex > 0
-            && (bevsUserMustPurchase <= packages[packageIndex - 1].quantity)){
-            this.props.selectPackage(packageIndex - 1);
-          }
-        }
-      }
-    }
+    this.updateState("bevegramsToSend", amount);
   }
 
   increaseBevegramsToSend(){
@@ -167,15 +132,10 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
   }
 
   onSelectPackage(newSelectedPurchasePackageIndex){
-    // Warn the user if the package they are choosing is smaller than the
-    // number of bevegrams they want to send
     const newPack = this.props.purchasePackages[newSelectedPurchasePackageIndex];
-    if(newPack.quantity < (this.props.userBevegrams + this.state.bevegramsToSend)){
-      alert("This package is too small!");
-      return;
-    }
 
     this.props.selectPackage(newSelectedPurchasePackageIndex);
+    this.updateBevegramsToSend(newPack.quantity);
   }
 
   initiatePurchaseOrSendOrBoth() {

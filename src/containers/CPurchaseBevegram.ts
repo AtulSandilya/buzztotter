@@ -8,7 +8,6 @@ const mapStateToProps = (state) => {
     state.routes.SendBevegram.data);
 
   return {
-    userBevegrams: state.user.bevegrams,
     fullName: state.routes.SendBevegram.data.fullName,
     firstName: state.routes.SendBevegram.data.firstName,
     imageUri: state.routes.SendBevegram.data.imageUri,
