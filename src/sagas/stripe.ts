@@ -24,7 +24,7 @@ import {
 export function* fetchVerifyCreditCard(action){
   //If this user is not a stripe customer, create a new stripe customer
   let customerId: string = yield select<{user: UserState}>((state) => state.user.stripe.customerId);
-  if(customerId === undefined){
+  if(!customerId){
     customerId = yield call(fetchNewCustomer, {});
   }
 

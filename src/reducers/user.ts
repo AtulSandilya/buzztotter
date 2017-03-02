@@ -28,26 +28,28 @@ export interface UserState {
   firebase: FirebaseUser;
 }
 
+// null is used here because this is converted to json before writing to
+// firebase and json uses null instead of undefined
 const defaultState: UserState = {
   isLoggedIn: false,
   bevegrams: 0,
   facebook: {
-    token: undefined,
-    id: undefined,
+    token: null,
+    id: null,
   },
-  firstName: undefined,
-  lastName: undefined,
-  fullName: undefined,
-  birthday: undefined,
-  email: undefined,
+  firstName: null,
+  lastName: null,
+  fullName: null,
+  birthday: null,
+  email: null,
   lastModified: null,
   fcmToken: null,
   stripe: {
-    customerId: undefined,
+    customerId: null,
     creditCards: [],
-    activeCardId: undefined,
+    activeCardId: null,
   },
-  firebase: undefined,
+  firebase: null,
 }
 
 const mapFacebookDataToState = (state, action): UserState => {
