@@ -247,6 +247,50 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     return activeCard;
   }
 
+  renderBevegramsIncreaseDecreaseLine() {
+    return (
+      <View style={globalStyles.bevLine}>
+        <View style={globalStyles.bevLineLeft}>
+          <Text style={globalStyles.bevLineTextTitle}>Bevegrams:</Text>
+        </View>
+        <View style={globalStyles.bevLineRight}>
+          <View style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+          }}>
+            <Text style={globalStyles.bevLineTextTitle}>{this.state.bevegramsToSend}</Text>
+            <TouchableHighlight
+              underlayColor={"transparent"}
+              onPress={() => this.increaseBevegramsToSend()}
+              hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
+              style={{marginLeft: 15}}>
+                <FontAwesome
+                  name="plus-circle"
+                  style={globalStyles.bevIcon}
+                  color="#555555"
+                  size={28}
+                />
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor={"transparent"}
+              onPress={() => this.decreaseBevegramsToSend()}
+              hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
+              style={{marginLeft: 15}}>
+              <FontAwesome
+                name="minus-circle"
+                style={globalStyles.bevIcon}
+                color="#555555"
+                size={28}
+              />
+            </TouchableHighlight>
+          </View>
+        </View>
+      </View>
+    )
+  }
+
   renderSendOptions() {
     if(!this.userIsSending()){
       return null;
@@ -270,45 +314,54 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
             <Text style={globalStyles.bevLineText}>{this.props.fullName}</Text>
           </View>
         </View>
-        <View style={globalStyles.bevLine}>
-          <View style={globalStyles.bevLineLeft}>
-            <Text style={globalStyles.bevLineTextTitle}>Bevegrams:</Text>
-          </View>
-          <View style={globalStyles.bevLineRight}>
-            <View style={{
-              flex: 1,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-            }}>
-              <Text style={globalStyles.bevLineTextTitle}>{this.state.bevegramsToSend}</Text>
-              <TouchableHighlight
-                underlayColor={"transparent"}
-                onPress={() => this.increaseBevegramsToSend()}
-                hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-                style={{marginLeft: 15}}>
+      </View>
+    )
+  }
+
+  renderPurchasePackages() {
+    return (
+      this.props.purchasePackages.map((pack, index) => {
+        return (
+          <TouchableHighlight
+            underlayColor={"transparent"}
+            style={globalStyles.bevLine}
+            key={"package" + index}
+            onPress={this.onSelectPackage.bind(this, index)}
+          >
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={[globalStyles.bevLineLeft, {flexDirection: 'row'}]}>
+                {(this.props.selectedPurchasePackageIndex === index) && this.userIsPurchasing() ?
                   <FontAwesome
-                    name="plus-circle"
+                    name="check-square-o"
+                    color="green"
+                    size={25}
                     style={globalStyles.bevIcon}
-                    color="#555555"
-                    size={28}
                   />
-              </TouchableHighlight>
-              <TouchableHighlight
-                underlayColor={"transparent"}
-                onPress={() => this.decreaseBevegramsToSend()}
-                hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-                style={{marginLeft: 15}}>
-                <FontAwesome
-                  name="minus-circle"
-                  style={globalStyles.bevIcon}
-                  color="#555555"
-                  size={28}
-                />
-              </TouchableHighlight>
+                :
+                  <FontAwesome
+                    name="square-o"
+                    size={25}
+                    color="#999"
+                    style={globalStyles.bevIcon}
+                  />
+                }
+                <Text style={globalStyles.bevLineTextTitle}>
+                  {pack.name}
+                </Text>
+              </View>
+              <View style={globalStyles.bevLineRight}>
+                <Text style={globalStyles.bevLineText}>$ {pack.price.toFixed(2)}</Text>
+              </View>
             </View>
-          </View>
-        </View>
+          </TouchableHighlight>
+        )
+      })
+    )
+  }
+
+  renderMessageLine() {
+    return (
+      <View style={{flex: 1}}>
         <View style={globalStyles.bevLineNoSep}>
           <Text style={globalStyles.bevLineTextTitle}>Message:</Text>
           <Text style={globalStyles.bevLineText}> (Optional)</Text>
@@ -337,51 +390,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
 
     return (
       <View style={{flex: 1}}>
-        <View style={globalStyles.bevLineNoSepWithMargin}>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>
-                Purchase Bevegrams:
-              </Text>
-            </View>
-          </View>
-        </View>
-        {this.props.purchasePackages.map((pack, index) => {
-          return (
-            <TouchableHighlight
-              underlayColor={"transparent"}
-              style={globalStyles.bevLine}
-              key={"package" + index}
-              onPress={this.onSelectPackage.bind(this, index)}
-            >
-              <View style={{flex: 1, flexDirection: 'row'}}>
-                <View style={[globalStyles.bevLineLeft, {flexDirection: 'row'}]}>
-                  {(this.props.selectedPurchasePackageIndex === index) && this.userIsPurchasing() ?
-                    <FontAwesome
-                      name="check-square-o"
-                      color="green"
-                      size={25}
-                      style={globalStyles.bevIcon}
-                    />
-                  :
-                    <FontAwesome
-                      name="square-o"
-                      size={25}
-                      color="#999"
-                      style={globalStyles.bevIcon}
-                    />
-                  }
-                  <Text style={globalStyles.bevLineTextTitle}>
-                    {pack.name}
-                  </Text>
-                </View>
-                <View style={globalStyles.bevLineRight}>
-                  <Text style={globalStyles.bevLineText}>$ {pack.price.toFixed(2)}</Text>
-                </View>
-              </View>
-            </TouchableHighlight>
-          )
-        })}
+        {this.renderPurchasePackages()}
         <View style={globalStyles.bevLine}>
           <View style={globalStyles.bevLineLeft}>
             <Text style={globalStyles.bevLineTextTitle}>Promo Code:</Text>
@@ -472,7 +481,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
             </View>
           )
         }) : <View/>}
-        <View style={[globalStyles.bevLineNoSepWithMargin]}>
+        <View style={[globalStyles.bevLine]}>
           <TouchableHighlight
             underlayColor={"transparent"}
             style={{
@@ -533,6 +542,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
             <View style={[globalStyles.bevContainer]}>
               {this.renderSendOptions()}
               {this.renderPurchaseOptions()}
+              {this.renderMessageLine()}
               {/* Add empty view to ensure elements above are viewable */}
               <View style={{height: viewBelowHeight + 20, width: WindowWidth}}></View>
             </View>
