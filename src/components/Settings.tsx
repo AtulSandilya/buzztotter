@@ -40,16 +40,6 @@ const sendNotification = () => {
       priority: "max",
       on_click: "SEND_BEVEGRAM_TO_CONTACT",
     })
-    // const PushNotification = require('react-native-push-notification');
-    // PushNotification.localNotification({
-    //   message: "Travis Caldwell sent you a Bevegram!",
-    //   // Android Icons
-    //   // Icon that shows in the drop down
-    //   largeIcon: "ic_launcher",
-    //   // Icon that shows on the status bar
-    //   smallIcon: "ic_local_bar_black_48dp",
-    //   from: 'Travis Caldwell',
-    // });
   } else {
     alert("Notifications are only supported on Android");
   }
