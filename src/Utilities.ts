@@ -4,6 +4,8 @@ import {
   StatusBar,
 } from 'react-native';
 
+import { DeviceLocation } from './reducers/redeemView';
+
 export const isAndroid = Platform.OS === 'android';
 export const isIOS  = Platform.OS === 'ios';
 
@@ -16,4 +18,12 @@ export const StatusBarHeight = isIOS ? 20 : (isAndroid ? StatusBar.currentHeight
 
 export const StringifyDate = (): string => {
   return (new Date().toJSON());
+}
+
+export const LocationsMatch = (a: DeviceLocation, b: DeviceLocation, name: string): boolean => {
+  const tolerance = 0.025;
+  const latitudeDiff = Math.abs(Math.abs(a.latitude) - Math.abs(b.latitude));
+  const longitudeDiff = Math.abs(Math.abs(a.longitude) - Math.abs(b.longitude));
+
+  return (latitudeDiff < tolerance) && (longitudeDiff < tolerance)
 }

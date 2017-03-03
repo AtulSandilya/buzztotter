@@ -3,6 +3,7 @@ import { Component, PropTypes } from 'react';
 import { Picker, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 
 import {Location} from '../reducers/locations';
+import {LocationsMatch} from '../Utilities';
 
 import snakeCase from 'snake-case';
 
@@ -12,13 +13,21 @@ import BevButton from './BevButton';
 
 import {globalColors, globalStyles} from './GlobalStyles';
 
+import {DeviceLocation} from '../reducers/redeemView';
+
 export interface RedeemBeerProps {
   id?: string;
   name?: string;
+  quantity?: number;
+  currentLocation?: DeviceLocation;
+  currentLocationBusinessName?: string;
+  currentLocationLastModified?: string;
+  getLocationFailed?: boolean;
   redeemConfirmed?: boolean;
   locations?: [Location];
   onRedeemClicked?(string): void;
   closeRedeem?(): void;
+  updateLocation?(string): void;
 }
 
 interface RedeemBeerState {
@@ -35,6 +44,10 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
     };
   }
 
+  componentDidMount() {
+    this.updateLocation();
+  }
+
   toKey(input){
     return snakeCase(input);
   }
@@ -46,7 +59,14 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
   }
 
   purchaseDrink() {
-    this.props.onRedeemClicked(this.props.id);
+    if(this.props.getLocationFailed || this.props.currentLocationBusinessName === undefined){
+      alert("You are not at an establishment that accepts bevegrams. Please see the map for establishments that accept bevegrams.");
+      return;
+    }
+
+    // TODO: implement this end to end
+    // this.props.onRedeemClicked(this.props.id);
+    alert("Not implemented");
   }
 
   renderPurchaseConfirmed(){
@@ -70,6 +90,38 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
     }
   }
 
+  updateLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const deviceLocation: DeviceLocation = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      }
+
+      const matchingLocations = this.props.locations.filter((business) => {
+        const businessLocation = {
+          latitude: business.latitude,
+          longitude: business.longitude,
+        }
+
+        return LocationsMatch(deviceLocation, businessLocation, business.name);
+      })
+
+      let businessName: string;
+
+      if(matchingLocations.length === 1){
+        businessName = matchingLocations[0].name + "\n" + matchingLocations[0].address.split(",")[0] + "\n" + matchingLocations[0].address.split(", ").slice(1).join(", ")
+      } else {
+        businessName = undefined;
+      }
+
+      this.props.updateLocation(Object.assign({}, {
+        currentLocation: deviceLocation,
+        getLocationFailed: businessName === undefined,
+        currentLocationBusinessName: businessName,
+      }))
+    });
+  }
+
   render() {
     return(
       <RouteWithNavBarWrapper>
@@ -84,48 +136,41 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
           </View>
           <View style={globalStyles.bevLine}>
             <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Your City:</Text>
+              <Text style={globalStyles.bevLineTextTitle}>Quantity:</Text>
             </View>
-            <View style={{flex: 1, justifyContent: 'center'}}>
-              <Picker
-                selectedValue={this.state.paymentMethod}
-                onValueChange={() => {}}
-                style={{flex: 1}}
-                mode={"dropdown"}
-              >
-                <Picker.Item label="Denver" value="denver" />
-                <Picker.Item label="Golden" value="golder" />
-                <Picker.Item label="Boulder" value="boulder" />
-              </Picker>
+            <View style={globalStyles.bevLineRight}>
+              <Text style={globalStyles.bevLineText}>{this.props.quantity}</Text>
             </View>
           </View>
           <View style={globalStyles.bevLine}>
             <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Your Bar:</Text>
+              <Text style={globalStyles.bevLineTextTitle}>Your Location:</Text>
             </View>
-            <View style={{flex: 1, justifyContent: 'center'}}>
-              <Picker
-                selectedValue={this.state.paymentMethod}
-                onValueChange={(paymentMethod) => this.setPaymentMethod(paymentMethod)}
-                style={{flex: 1}}
-                mode={"dropdown"}
-              >
-                {this.props.locations.map((locationData, id) => {
-                  return (
-                    <Picker.Item
-                      key={id}
-                      label={locationData.name}
-                      value={this.toKey(locationData.name)}
-                    />
-                  )
-                })}
-              </Picker>
+            <View style={globalStyles.bevLineRight}>
+              {this.props.currentLocationBusinessName ?
+                <Text
+                  style={globalStyles.bevLineText}
+                  numberOfLines={3}
+                >
+                  {this.props.currentLocationBusinessName}
+                </Text>
+              :
+                <TouchableHighlight onPress={() => this.updateLocation()}>
+                  <Text style={globalStyles.bevLineText}>
+                  {this.props.getLocationFailed ?
+                    "Unable to determine your location"
+                  :
+                    "Retrieving Location..."
+                  }
+                  </Text>
+                </TouchableHighlight>
+              }
             </View>
           </View>
           <View style={{paddingBottom: 10}}>
             <View>
               <Text style={{color: 'red'}}>* Show this to your bartender or server:</Text>
-              <Text>1. They enter the vendor id and press "Redeem Beer".</Text>
+              <Text>1. They enter the vendor id and press "Redeem Bevegram".</Text>
               <Text>2. They get you a nice cold beverage.</Text>
               <Text>3. You enjoy a nice cold beverage.</Text>
             </View>
@@ -144,22 +189,23 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
             </View>
           </View>
           <View style={{flexDirection: 'row', paddingTop: 20}}>
-            <View style={{flex: 1, alignItems: 'flex-start'}}>
+            <View style={{flex: -1, alignItems: 'flex-start'}}>
               <BevButton
                 onPress={this.props.closeRedeem}
                 text={"Close"}
-                shortText={"Close"}
+                shortText={""}
+                fontAwesomeLeftIcon="ban"
                 label="Close Redeem Button"
-                buttonFontSize={20}
+                buttonFontSize={18}
               />
             </View>
-            <View style={{flex: 1, alignItems: 'flex-end'}}>
+            <View style={{flex: -1, alignItems: 'flex-end'}}>
               <BevButton
                 onPress={this.purchaseDrink.bind(this)}
-                text={"Redeem Beer"}
+                text={`Redeem ${this.props.quantity} Bevegram${this.props.quantity === 1 ? "" : "s"}`}
                 shortText={"Redeem"}
-                label={"Redeem Beer Button"}
-                buttonFontSize={20}
+                label={"Redeem Bevegram Button"}
+                buttonFontSize={18}
               />
             </View>
           </View>
