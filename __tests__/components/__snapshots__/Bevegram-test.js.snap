@@ -73,7 +73,7 @@ exports[`test renders correctly 1`] = `
       }
     }>
     <View
-      accessibilityLabel="Redeem Beer Button"
+      accessibilityLabel="Redeem Bevegram Button"
       style={
         Object {
           "flex": -1,
@@ -153,7 +153,7 @@ exports[`test renders correctly 1`] = `
                 },
               ]
             }>
-            Redeem this Beer!
+            Redeem undefined Bevegrams
           </Text>
           <Text
             accessible={true}
