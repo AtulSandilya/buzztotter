@@ -44,6 +44,7 @@ const styles = StyleSheet.create<Style>({
 interface DataForRoute {
   id: string;
   from: string;
+  quantity: number;
 }
 
 export interface BevegramProps {
@@ -51,10 +52,11 @@ export interface BevegramProps {
   date: string;
   id: string;
   imagePath: string;
+  quantity: number;
   goToRedeem?(routeData: DataForRoute): void;
 }
 
-const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, goToRedeem, imagePath}) => (
+const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, quantity, goToRedeem, imagePath}) => (
   <View style={styles.parentContainer}>
     <View style={styles.infoContainer}>
       <Image
@@ -76,10 +78,10 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, goTo
     </View>
     <View style={styles.buttonContainer}>
       <BevButton
-        text={"Redeem this Beer!"}
+        text={`Redeem ${quantity} Bevegram${quantity === 1 ? "" : "s"}`}
         shortText="Redeem"
-        label="Redeem Beer Button"
-        onPress={() => goToRedeem({id: id, from: from})}
+        label="Redeem Bevegram Button"
+        onPress={() => goToRedeem({id: id, from: from, quantity: quantity})}
         rightIcon={true}
       />
     </View>

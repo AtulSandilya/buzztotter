@@ -35,6 +35,7 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({bevegramsList, red
         <CBevegram
           from={receivedBevegrams[rowKey].sentFromName}
           date={receivedBevegrams[rowKey].receivedDate}
+          quantity={receivedBevegrams[rowKey].quantity}
           imagePath={receivedBevegrams[rowKey].sentFromPhotoUrl}
           id={rowKey}
         />
