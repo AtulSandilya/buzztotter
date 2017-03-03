@@ -35,6 +35,13 @@ export const defaultLocationsState = [
     longitude: -104.998534,
     typicalHours: "11pm - 2am",
   },
+  {
+    name: "Fire on the Mountain",
+    address: "3801 W 32nd Ave, Denver, CO 80211",
+    latitude: 39.762271,
+    longitude: -105.037198,
+    typicalHours: "11pm - 2am",
+  },
 ]
 
 export const locations = (state = defaultLocationsState, action) => {
