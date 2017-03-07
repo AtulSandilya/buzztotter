@@ -42,7 +42,7 @@ interface Styles {
 export const globalStyles = StyleSheet.create<Styles>({
   listRowSeparator: {
     height: StyleSheet.hairlineWidth,
-    backgroundColor: globalColors.lightSeparator,
+    backgroundColor: globalColors.subtleSeparator,
   },
   titleText: {
     color: globalColors.bevPrimary,
