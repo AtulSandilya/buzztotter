@@ -15,11 +15,14 @@ export const globalColors = {
   darkSeparator: '#717171',
   // Almost White
   subtleSeparator: '#dddddd',
+  // Non emphasized text
+  lightText: '#555555',
 }
 
 interface Styles {
   listRowSeparator: React.ViewStyle;
   titleText: React.TextStyle;
+  importantText: React.TextStyle;
   titleTextContainer: React.ViewStyle;
   bevColorPrimary: React.ViewStyle;
   bevColorSecondary: React.ViewStyle;
@@ -49,6 +52,10 @@ export const globalStyles = StyleSheet.create<Styles>({
     fontSize: 30,
     paddingBottom: 10,
     fontWeight: '300',
+  },
+  importantText: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   titleTextContainer: {
     flex: 1,
