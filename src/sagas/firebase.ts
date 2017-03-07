@@ -13,18 +13,21 @@ import {
 import {StringifyDate} from '../Utilities';
 
 import {
+  addPurchasedBevegramToUser,
+  addReceivedBevegramToReceiverBevegrams,
+  addRedeemedBevegram,
+  addSentBevegramToUser,
   firebaseLogOut as apiFirebaseLogOut,
   firebaseLoginViaFacebookToken,
   getFirebaseId,
   getFirebaseUser,
-  readUserReceivedBevegrams,
   initializeFirebaseUserFacebookId,
   isUserLoggedIn,
+  readPurchasedBevegrams,
+  readSentBevegrams,
+  readReceivedBevegrams,
+  readRedeemedBevegrams,
   updateFirebaseUser as apiUpdateFirebaseUser,
-  addPurchasedBevegramToUser,
-  addSentBevegramToUser,
-  addReceivedBevegramToReceiverBevegrams,
-  addRedeemedBevegram,
   updatePurchasedBevegramWithSendId,
   updateReceivedBevegramAsRedeemed
 } from '../api/firebase';
@@ -211,7 +214,7 @@ export function *addReceivedBevegramToDB(action, receiverFirebaseId: string) {
 
 export function *updateReceivedBevegrams() {
   const userFirebaseId = yield select<{user: UserState}>((state) => state.user.firebase.uid);
-  const result = yield call(readUserReceivedBevegrams, userFirebaseId);
+  const result = yield call(readReceivedBevegrams, userFirebaseId);
   return result;
 }
 
@@ -247,3 +250,20 @@ export function *addRedeemedBevegramToDB(action) {
 }
 
 //  End Redeeming -------------------------------------------------------}}}
+
+export function *updateAllLists() {
+  const user: UserState = yield select<{user: UserState}>((state) => state.user);
+  const userFirebaseId: string = user.firebase.uid;
+
+  const purchasedList = yield call(readPurchasedBevegrams, userFirebaseId);
+  const sentList = yield call(readSentBevegrams, userFirebaseId);
+  const receivedList = yield call(readReceivedBevegrams, userFirebaseId);
+  const redeemedList = yield call(readRedeemedBevegrams, userFirebaseId);
+
+  // In theory doing a lot of puts at the same time should update the state
+  // only once.
+  yield put({type: 'SET_PURCHASED_BEVEGRAM_LIST', payload: {list: purchasedList}})
+  yield put({type: 'SET_SENT_BEVEGRAM_LIST', payload: {list: sentList}})
+  yield put({type: 'SET_RECEIVED_BEVEGRAM_LIST', payload: {list: receivedList}})
+  yield put({type: 'SET_REDEEMED_BEVEGRAM_LIST', payload: {list: redeemedList}})
+}

@@ -39,6 +39,7 @@ import {
   firebaseLogOut,
   updateFirebaseUser,
   updateReceivedBevegrams,
+  updateAllLists,
   verifyReceiverExists,
 } from './firebase';
 
@@ -165,4 +166,7 @@ export default function* rootSaga() {
 
   // Notifications
   yield fork(takeEvery, 'UPDATE_FCM_TOKEN', storeFcmToken);
+
+  // History
+  yield fork(takeEvery, 'REFRESH_HISTORY', updateAllLists);
 }
