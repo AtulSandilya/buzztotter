@@ -147,3 +147,7 @@ export const GetRedeemedBevegramVendorCustomerDbUrl = (vendorId: string): string
 export const GetRedeemedBevegramUserDbUrl = (firebaseId: string): string => {
   return GetSchemaDbUrl("redeemedBevegrams.users.firebaseId", {firebaseId: firebaseId});
 }
+
+export const GetRedeemedBevegramUserListDbUrl = (firebaseId: string): string => {
+  return GetSchemaDbUrl("redeemedBevegrams.users.firebaseId", {firebaseId: firebaseId});
+}
