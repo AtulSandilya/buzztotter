@@ -10,6 +10,7 @@ import {
   GetReceivedBevegramListDbUrl,
   GetReceivedBevegramSummaryDbUrl,
   GetRedeemedBevegramUserDbUrl,
+  GetRedeemedBevegramUserListDbUrl,
   GetRedeemedBevegramVendorCustomerDbUrl,
   GetRedeemedBevegramVendorDbUrl,
   GetSentBevegramListDbUrl,
@@ -82,6 +83,8 @@ const UpdateNode = (url: string, updateFunction: (Object) => Object) => {
 const ReadNode = (url: string): any => {
   return db.ref(url).once("value").then((snapshot) => {
     return snapshot.val();
+  }).catch((error) => {
+    return {}
   })
 }
 
@@ -223,6 +226,10 @@ export const addSentBevegramToUser = (userFirebaseId: string, sentBevegram: Sent
   return id;
 }
 
+export const readSentBevegrams = (userFirebaseId: string) => {
+  return ReadNode(GetSentBevegramListDbUrl(userFirebaseId));
+}
+
 //  End Sent List -------------------------------------------------------}}}
 //  Sent Summary --------------------------------------------------------{{{
 
@@ -272,7 +279,7 @@ export const addReceivedBevegramToReceiverBevegrams = (receiverFirebaseId: strin
   return id;
 }
 
-export const readUserReceivedBevegrams = (userFirebaseId: string) => {
+export const readReceivedBevegrams = (userFirebaseId: string) => {
   return ReadNode(GetReceivedBevegramListDbUrl(userFirebaseId));
 }
 
@@ -340,6 +347,10 @@ export const addRedeemedBevegram = (userFirebaseId: string, vendorId: string, re
   })
 
   return id;
+}
+
+export const readRedeemedBevegrams = (userFirebaseId: string) => {
+  return ReadNode(GetRedeemedBevegramUserListDbUrl(userFirebaseId));
 }
 
 //  End Redeemed List ---------------------------------------------------}}}
