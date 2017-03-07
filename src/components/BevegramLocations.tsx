@@ -37,28 +37,10 @@ export interface BevegramLocationsProps {
   tabLabel?: string;
 }
 
-interface BevegramLocationsState {
-  renders: number;
-}
-
-export default class BevegramLocations extends Component<BevegramLocationsProps, BevegramLocationsState> {
-  constructor(props){
-    super(props);
-    this.state = {
-      renders: 0,
-    }
-  }
-
+export default class BevegramLocations extends Component<BevegramLocationsProps, {}> {
   render() {
     const locationDS = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
 
-    if(this.state.renders > 1) {
-      return(
-        <View></View>
-      )
-    }
-
-    this.state.renders += 1;
     return(
       <View style={{flex: 1}}>
         <MapView
