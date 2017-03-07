@@ -14,6 +14,7 @@ import {TabIconBadges} from '../containers/CMainTabView';
 import CContacts from '../containers/CContacts';
 import CBevegrams from '../containers/CBevegrams';
 import CBevegramLocations from '../containers/CBevegramLocations';
+import CHistory from '../containers/CHistory';
 import IconBadge from './IconBadge';
 
 import {NotificationActions} from '../api/notifications';
@@ -223,28 +224,8 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
         <CContacts tabLabel="Contacts" />
         <CBevegrams tabLabel="Bevegrams" />
         <CBevegramLocations tabLabel="Map" />
-        <Deals tabLabel="History" />
+        <CHistory tabLabel="History" />
       </ScrollableTabView>
-    );
-  }
-}
-
-interface DealsProps {
-  tabLabel: string;
-}
-
-class Deals extends Component<DealsProps, {}> {
-  render() {
-    return(
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-        <Text>
-          Coming Soon!
-        </Text>
-      </View>
     );
   }
 }
