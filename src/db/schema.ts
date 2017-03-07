@@ -93,7 +93,7 @@ export const GetSchemaDbUrl = (table: string, key: string | Object): string => {
     return [table, key.replace(periodsRe, urlSeparator)].join(urlSeparator);
   }
 
-  throw Error(`Db Error: Key "${key}" does not exist within table ${table}!`);
+  throw Error(`Db Error: Key "${JSON.stringify(key)}" does not exist within table ${table}!`);
 }
 
 export const GetUserDbUrl = (firebaseId: string) => {
