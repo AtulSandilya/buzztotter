@@ -70,6 +70,12 @@ function! EditTest(subdir)
     exe "vs __tests__/" . a:subdir . "/" . current_file . "-test.js"
 endfunction
 
+function! RestartYcmServers()
+    exec "YcmCompleter RestartServer"
+    sleep 2
+    exec "YcmRestartServer"
+endfunction
+
 au FileType javascript,typescript set shiftwidth=2 tabstop=2
 au FileType typescript setlocal makeprg=gulp\ incremental-tsc
 au BufWritePost *.ts,*.tsx call jobstart("ctags src -R")
@@ -95,3 +101,4 @@ nnoremap <silent> gd :YcmCompleter GoToDefinition<CR>
 nnoremap <silent> gds :vs <bar> YcmCompleter GoToDefinition <bar> winc w<CR>
 nnoremap <silent> gt :YcmCompleter GetType<CR>
 nnoremap <silent> gm :YcmCompleter GetDoc<CR>
+nnoremap gr :call RestartYcmServers()<CR>
