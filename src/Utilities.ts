@@ -27,3 +27,8 @@ export const LocationsMatch = (a: DeviceLocation, b: DeviceLocation, name: strin
 
   return (latitudeDiff < tolerance) && (longitudeDiff < tolerance)
 }
+
+export const Pluralize = (input: number, suffix: string = "s"): string => {
+  return input !== 1 ? suffix : "";
+}
+
