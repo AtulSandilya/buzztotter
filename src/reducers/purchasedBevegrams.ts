@@ -43,6 +43,11 @@ export const purchasedBevegrams = (state = defaultState, action) => {
         summary: newSummary,
       })
     }
+    case 'SET_PURCHASED_BEVEGRAM_LIST': {
+      return Object.assign({}, state, {
+        list: action.payload.list,
+      })
+    }
 
     default:
       return state;

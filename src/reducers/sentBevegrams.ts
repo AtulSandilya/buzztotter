@@ -34,6 +34,11 @@ export const sentBevegrams = (state = defaultState, action) => {
         summary: newSummary,
         list: newList,
       });
+    case 'SET_SENT_BEVEGRAM_LIST': {
+      return Object.assign({}, state, {
+        list: action.payload.list,
+      })
+    }
     default:
       return state;
   }

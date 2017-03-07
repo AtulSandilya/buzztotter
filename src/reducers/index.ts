@@ -18,7 +18,8 @@ import { receivedBevegrams  } from './receivedBevegrams';
 import { redeemedBevegrams  } from './redeemedBevegrams';
 import { bevegramsTab       } from './bevegramsTab';
 import { badges             } from './badges';
-import { redeemView } from './redeemView';
+import { redeemView         } from './redeemView';
+import { historyView        } from './historyView';
 
 export default combineReducers({
   settings,
@@ -40,4 +41,5 @@ export default combineReducers({
   bevegramsTab,
   badges,
   redeemView,
+  historyView,
 })
