@@ -56,6 +56,7 @@ export interface SentBevegram {
   purchasedBevegramId: string;
   quantity: number;
   sendDate: string;
+  receiverName: string;
 }
 
 export interface SentBevegramSummary {

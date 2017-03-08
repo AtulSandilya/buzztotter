@@ -60,7 +60,7 @@ const History: React.StatelessComponent<HistoryProps> = ({
       label: "Sent",
       icon: "paper-plane",
       date: input.sendDate,
-      info: `${input.quantity} Bevegram${Pluralize(input.quantity)} to person`
+      info: `${input.quantity} Bevegram${Pluralize(input.quantity)} to ${input.receiverName}`
     }
   }
 

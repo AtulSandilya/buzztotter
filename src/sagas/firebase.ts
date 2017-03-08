@@ -178,6 +178,7 @@ export function *addSentBevegramToDB(action, purchasedBevegramId) {
   const sentBevegram: SentBevegram = {
     purchasedBevegramId: purchasedBevegramId,
     quantity: action.payload.sendBevegramData.quantity,
+    receiverName: action.payload.sendBevegramData.recipentName,
     sendDate: StringifyDate(),
   }
 
