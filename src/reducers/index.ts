@@ -20,6 +20,7 @@ import { bevegramsTab       } from './bevegramsTab';
 import { badges             } from './badges';
 import { redeemView         } from './redeemView';
 import { historyView        } from './historyView';
+import { contactsView       } from './contactsView';
 
 export default combineReducers({
   settings,
@@ -42,4 +43,5 @@ export default combineReducers({
   badges,
   redeemView,
   historyView,
+  contactsView,
 })
