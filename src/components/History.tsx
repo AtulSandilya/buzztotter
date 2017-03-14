@@ -104,6 +104,7 @@ const History: React.StatelessComponent<HistoryProps> = ({
   return (
     <ListView
       dataSource={historyData.cloneWithRows(bevegramHistoryKeys)}
+      enableEmptySections={true}
       renderRow={(historyKey) => {
           const item = getEventForId(historyKey);
           return (
