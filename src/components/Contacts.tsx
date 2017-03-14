@@ -86,200 +86,204 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
 
   return (
     <View style={{flex: 1}}>
-      <ListView
-        scrollsToTop={true}
-        accessibilityLabel="Contacts List"
-        enableEmptySections={true}
-        dataSource={ds.cloneWithRows(contacts)}
-        renderHeader={() => (
-          <View style={{
-            flex: 1,
-            flexDirection: 'row',
-            paddingLeft: 8,
-            height: 44,
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            borderBottomColor: globalColors.subtleSeparator,
-                  zIndex: 10000000,
-          }}>
-            <TouchableHighlight
-              style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}
-              onPress={() => alert("Search")}
-              underlayColor={"rgba(255, 255, 255, 1)"}
-            >
-              <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{
+        flex: -1,
+        flexDirection: 'row',
+        paddingLeft: 8,
+        height: 44,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: globalColors.subtleSeparator,
+              zIndex: 10000000,
+      }}>
+        <TouchableHighlight
+          style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}
+          onPress={() => {
+            exitedSearchInput();
+          }}
+          underlayColor={"rgba(255, 255, 255, 1)"}
+        >
+          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+            <FontAwesome
+              name={"search"}
+              size={14}
+              color={headerColor}
+              style={{
+                paddingRight: 7,
+              }}
+            />
+            <TextInput
+              style={{
+                color: headerColor,
+                fontSize: 10,
+                height: 44,
+                width: 150,
+              }}
+              autoCorrect={false}
+              placeholder={"SEARCH"}
+              placeholderTextColor={headerColor}
+              value={searchQuery}
+              onChangeText={(text) => {
+                updateSearchQuery(text)
+              }}
+              onSubmitEditing={() => {
+                Keyboard.dismiss();
+                exitedSearchInput();
+              }}
+              returnKeyType={"search"}
+              onFocus={() => {
+                LayoutAnimation.easeInEaseOut(undefined);
+                enteredSearchInput();
+                Keyboard.addListener("keyboardWillHide", () => {
+                  exitedSearchInput();
+                  Keyboard.removeListener("keyboardWillHide", null);
+                }, undefined);
+                hideSortOptions();
+              }}
+            />
+            {isSearching ?
+              <TouchableHighlight
+                underlayColor={"rgba(255, 255, 255, 1)"}
+                onPress={() => {
+                  exitedSearchInput();
+                  updateSearchQuery("");
+                  Keyboard.dismiss();
+                  changeSortMethod("Upcoming Birthday");
+                }}
+              >
                 <FontAwesome
-                  name={"search"}
+                  name="times-circle"
                   size={14}
                   color={headerColor}
                   style={{
                     paddingRight: 7,
                   }}
                 />
-                <TextInput
-                  style={{
-                    color: headerColor,
-                    fontSize: 10,
-                    height: 44,
-                    width: 150,
-                  }}
-                  placeholder={"SEARCH"}
-                  placeholderTextColor={headerColor}
-                  value={searchQuery}
-                  onChangeText={(text) => {
-                    updateSearchQuery(text)
-                  }}
-                  onSubmitEditing={() => {
-                    Keyboard.dismiss();
-                    exitedSearchInput();
-                  }}
-                  returnKeyType={"search"}
-                  onFocus={() => {
-                    enteredSearchInput();
-                    Keyboard.addListener("keyboardWillHide", () => {
-                      exitedSearchInput();
-                      Keyboard.removeListener("keyboardWillHide", null);
-                    }, undefined);
-                    hideSortOptions();
-                  }}
-                />
-                {isSearching ?
-                  <TouchableHighlight
-                    underlayColor={"rgba(255, 255, 255, 1)"}
-                    onPress={() => {
-                      updateSearchQuery("");
-                      exitedSearchInput();
-                      Keyboard.dismiss();
-                    }}
-                  >
-                    <FontAwesome
-                      name="times-circle"
-                      size={14}
-                      color={headerColor}
-                      style={{
-                        paddingRight: 7,
-                      }}
-                    />
-                  </TouchableHighlight>
-                :
-                null}
-              </View>
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor={"rgba(255, 255, 255, 1)"}
-              style={{
-                flex: 1,
-                alignItems: 'flex-end',
-                justifyContent: 'center'
-              }}
-              onPress={() => {
-                LayoutAnimation.easeInEaseOut(undefined);
-                if(isSortOptionsVisible){
-                  hideSortOptions();
-                } else {
-                  showSortOptions();
-                }
-              }}
-            >
-              <View style={[{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flex: 1,
-                paddingRight: 8,
-                paddingLeft: 4,
-              }]}>
-                <FontAwesome
-                  name={"signal"}
-                  size={14}
-                  color={headerColor}
-                  style={{
-                    top: -4,
-                    paddingRight: 10,
-                    transform: [{rotate: '270deg'}],
-                  }}
-                />
-                <Text
-                  style={{
-                    color: headerColor,
-                    fontSize: 10
-                  }}
-                >
-                    SORT BY
-                </Text>
-                {isSortOptionsVisible ?
-                  <FontAwesome
-                    name={"times-circle"}
-                    size={14}
-                    color={headerColor}
-                    style={{
-                      paddingLeft: 10,
-                    }}
-                  />
-                : null}
-              </View>
-            </TouchableHighlight>
-            {isSortOptionsVisible ?
-              <View
-                style={[{
-                  position: 'absolute',
-                  top: 43,
-                  right: 0,
-                  backgroundColor: '#ffffff',
-                  flex: -1,
-                  flexDirection: 'column',
-                  shadowColor: '#333333',
-                  shadowOpacity: 0.25,
-                  shadowRadius: 0.95,
-                  shadowOffset: {
-                    width: -2,
-                    height: 2,
-                  },
-                  elevation: 5,
-                }]}
-              >
-                {sortingMethodsList.map((sortingMethod, id) => (
-                  <TouchableHighlight
-                    underlayColor={"rgba(255, 255, 255, 1)"}
-                    style={{
-                      height: 44,
-                      flexDirection: 'row',
-                      flex: -1,
-                      alignItems: 'center',
-                      backgroundColor: sortingMethod.name === activeSortingMethod ? "#cccccc" : "#ffffff",
-                      padding: 8,
-                    }}
-                    key={id}
-                    onPress={() => {
-                      LayoutAnimation.easeInEaseOut(undefined);
-                      changeSortMethod(sortingMethod.name);
-                    }}
-                  >
-                    <View style={{flexDirection: 'row'}}>
-                      <FontAwesome
-                        name={sortingMethod.icon}
-                        size={14}
-                        color={headerColor}
-                        style={{
-                          paddingRight: 10,
-                        }}
-                      />
-                      <Text
-                        style={{
-                          color: headerColor,
-                          fontSize: 10
-                        }}
-                      >
-                        {sortingMethod.name.toUpperCase()}
-                      </Text>
-                    </View>
-                  </TouchableHighlight>
-                ))}
-              </View>
+              </TouchableHighlight>
             :
             null}
           </View>
-          )
-        }
+        </TouchableHighlight>
+        {!isSearching ?
+          <TouchableHighlight
+            underlayColor={"rgba(255, 255, 255, 1)"}
+            style={{
+              flex: 1,
+              alignItems: 'flex-end',
+              justifyContent: 'center'
+            }}
+            onPress={() => {
+              LayoutAnimation.easeInEaseOut(undefined);
+              if(isSortOptionsVisible){
+                hideSortOptions();
+              } else {
+                showSortOptions();
+              }
+            }}
+          >
+            <View style={[{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+              paddingRight: 8,
+              paddingLeft: 4,
+            }]}>
+              <FontAwesome
+                name={"signal"}
+                size={14}
+                color={headerColor}
+                style={{
+                  top: -4,
+                  paddingRight: 10,
+                  transform: [{rotate: '270deg'}],
+                }}
+              />
+              <Text
+                style={{
+                  color: headerColor,
+                  fontSize: 10
+                }}
+              >
+                  SORT BY
+              </Text>
+              {isSortOptionsVisible ?
+                <FontAwesome
+                  name={"times-circle"}
+                  size={14}
+                  color={headerColor}
+                  style={{
+                    paddingLeft: 10,
+                  }}
+                />
+              : null}
+            </View>
+          </TouchableHighlight>
+        : null}
+        {isSortOptionsVisible  && !isSearching ?
+          <View
+            style={[{
+              position: 'absolute',
+              top: 43,
+              right: 0,
+              backgroundColor: '#ffffff',
+              flex: -1,
+              flexDirection: 'column',
+              shadowColor: '#333333',
+              shadowOpacity: 0.25,
+              shadowRadius: 0.95,
+              shadowOffset: {
+                width: -2,
+                height: 2,
+              },
+              elevation: 5,
+            }]}
+          >
+            {sortingMethodsList.map((sortingMethod, id) => (
+              <TouchableHighlight
+                underlayColor={"rgba(255, 255, 255, 1)"}
+                style={{
+                  height: 44,
+                  flexDirection: 'row',
+                  flex: -1,
+                  alignItems: 'center',
+                  backgroundColor: sortingMethod.name === activeSortingMethod ? "#cccccc" : "#ffffff",
+                  padding: 8,
+                }}
+                key={id}
+                onPress={() => {
+                  LayoutAnimation.easeInEaseOut(undefined);
+                  changeSortMethod(sortingMethod.name);
+                }}
+              >
+                <View style={{flexDirection: 'row'}}>
+                  <FontAwesome
+                    name={sortingMethod.icon}
+                    size={14}
+                    color={headerColor}
+                    style={{
+                      paddingRight: 10,
+                    }}
+                  />
+                  <Text
+                    style={{
+                      color: headerColor,
+                      fontSize: 10
+                    }}
+                  >
+                    {sortingMethod.name.toUpperCase()}
+                  </Text>
+                </View>
+              </TouchableHighlight>
+            ))}
+          </View>
+        :
+        null}
+      </View>
+      <ListView
+        scrollsToTop={true}
+        accessibilityLabel="Contacts List"
+        enableEmptySections={true}
+        dataSource={ds.cloneWithRows(contacts)}
         onScroll={() => {
           if(isSortOptionsVisible) {
             LayoutAnimation.easeInEaseOut(undefined);
