@@ -81,9 +81,7 @@ const normalizeDay = (day: number) => {
 }
 
 const mapStateToProps = (state): StateProps => {
-  console.log(state.contactsView.sortingMethod);
   return {
-    // contacts: state.contacts.contactList,
     contacts: sortContacts(state.contactsView.sortingMethod, state.contacts.contactList, state.contactsView.searchQuery),
     loading: state.contacts.loadingFromFacebook,
     loadingFailed: state.contacts.loadingFromFacebookFailed,
