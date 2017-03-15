@@ -5,6 +5,7 @@ import {
   Keyboard,
   LayoutAnimation,
   ListView,
+  Modal,
   RefreshControl,
   StyleSheet,
   Text,
@@ -14,11 +15,11 @@ import {
   View,
 } from 'react-native';
 
-import {globalStyles, globalColors} from './GlobalStyles.js';
-
-import { isAndroid } from '../Utilities';
-
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+import {globalStyles, globalColors} from './GlobalStyles.js';
+import {BrandingHeight} from './Branding';
+import { isAndroid, StatusBarHeight, WindowHeight, WindowWidth } from '../Utilities';
 
 import CContact from '../containers/CContact';
 import FacebookAppInviteButton from './FacebookAppInviteButton';
@@ -81,7 +82,8 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
     }
   }
 
-  const headerColor = "#555555"
+  const QueryBarColor = "#555555"
+  const QueryBarHeight = 44;
   const isSearching = searchInputIsFocused || "" !== searchQuery;
 
   return (
@@ -90,10 +92,10 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
         flex: -1,
         flexDirection: 'row',
         paddingLeft: 8,
-        height: 44,
+        height: QueryBarHeight,
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderBottomColor: globalColors.subtleSeparator,
-              zIndex: 10000000,
+        zIndex: 1,
       }}>
         <TouchableHighlight
           style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}
@@ -106,21 +108,21 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
             <FontAwesome
               name={"search"}
               size={14}
-              color={headerColor}
+              color={QueryBarColor}
               style={{
                 paddingRight: 7,
               }}
             />
             <TextInput
               style={{
-                color: headerColor,
+                color: QueryBarColor,
                 fontSize: 10,
-                height: 44,
+                height: QueryBarHeight,
                 width: 150,
               }}
               autoCorrect={false}
               placeholder={"SEARCH"}
-              placeholderTextColor={headerColor}
+              placeholderTextColor={QueryBarColor}
               value={searchQuery}
               onChangeText={(text) => {
                 updateSearchQuery(text)
@@ -153,14 +155,14 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
                 <FontAwesome
                   name="times-circle"
                   size={14}
-                  color={headerColor}
+                  color={QueryBarColor}
                   style={{
                     paddingRight: 7,
                   }}
                 />
               </TouchableHighlight>
             :
-            null}
+            <View />}
           </View>
         </TouchableHighlight>
         {!isSearching ?
@@ -191,7 +193,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
               <FontAwesome
                 name={"signal"}
                 size={14}
-                color={headerColor}
+                color={QueryBarColor}
                 style={{
                   top: -4,
                   paddingRight: 10,
@@ -200,7 +202,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
               />
               <Text
                 style={{
-                  color: headerColor,
+                  color: QueryBarColor,
                   fontSize: 10
                 }}
               >
@@ -210,76 +212,109 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
                 <FontAwesome
                   name={"times-circle"}
                   size={14}
-                  color={headerColor}
+                  color={QueryBarColor}
                   style={{
                     paddingLeft: 10,
                   }}
                 />
-              : null}
+              : <View />}
             </View>
           </TouchableHighlight>
-        : null}
-        {isSortOptionsVisible  && !isSearching ?
-          <View
-            style={[{
-              position: 'absolute',
-              top: 43,
-              right: 0,
-              backgroundColor: '#ffffff',
-              flex: -1,
-              flexDirection: 'column',
-              shadowColor: '#333333',
-              shadowOpacity: 0.25,
-              shadowRadius: 0.95,
-              shadowOffset: {
-                width: -2,
-                height: 2,
-              },
-              elevation: 5,
-            }]}
+        : <View />}
+        {/*
+          A modal is used here because zIndex and position "absolute" don't play well on android.
+          Weird Modal hacks include:
+            * Absolute positioning
+            * Fixed width
+            * onRequestClose is the back button action on Android
+          Cool Modal Things:
+            * Allows creating a `TouchableHighlight` wrapper around the sort
+              options dialog, allowing the user to exit by tapping anywhere
+              outside the dialog
+        */}
+        <Modal
+          visible={isSortOptionsVisible}
+          transparent={true}
+          animationType={"fade"}
+          onRequestClose={() => {
+            hideSortOptions();
+          }}
+        >
+          <TouchableHighlight
+            style={{
+              height: WindowHeight,
+              width: WindowWidth,
+              backgroundColor: 'rgba(0, 0, 0, 0)',
+            }}
+            underlayColor={"rgba(255, 255, 255, 0.0)"}
+            onPress={() => {
+              hideSortOptions();
+            }}
           >
-            {sortingMethodsList.map((sortingMethod, id) => (
-              <TouchableHighlight
-                underlayColor={"rgba(255, 255, 255, 1)"}
-                style={{
-                  height: 44,
-                  flexDirection: 'row',
-                  flex: -1,
-                  alignItems: 'center',
-                  backgroundColor: sortingMethod.name === activeSortingMethod ? "#cccccc" : "#ffffff",
-                  padding: 8,
-                }}
-                key={id}
-                onPress={() => {
-                  LayoutAnimation.easeInEaseOut(undefined);
-                  changeSortMethod(sortingMethod.name);
-                }}
-              >
-                <View style={{flexDirection: 'row'}}>
-                  <FontAwesome
-                    name={sortingMethod.icon}
-                    size={14}
-                    color={headerColor}
-                    style={{
-                      paddingRight: 10,
-                    }}
-                  />
-                  <Text
-                    style={{
-                      color: headerColor,
-                      fontSize: 10
-                    }}
-                  >
-                    {sortingMethod.name.toUpperCase()}
-                  </Text>
-                </View>
-              </TouchableHighlight>
-            ))}
-          </View>
-        :
-        null}
+            <View
+              style={{
+                position: 'absolute',
+                backgroundColor: '#ffffff',
+                flex: -1,
+                // Android Window Width includes the status bar and doesn't
+                top: BrandingHeight - (isAndroid ? StatusBarHeight : 0) + QueryBarHeight,
+                right: 0,
+                width: 150,
+                flexDirection: 'column',
+                shadowColor: '#333333',
+                shadowOpacity: 0.25,
+                shadowRadius: 0.95,
+                shadowOffset: {
+                  width: -2,
+                  height: 2,
+                },
+                elevation: 10,
+              }}
+            >
+              {sortingMethodsList.map((sortingMethod, id) => (
+                <TouchableHighlight
+                  underlayColor={"rgba(255, 255, 255, 1)"}
+                  style={{
+                    height: QueryBarHeight,
+                    flexDirection: 'row',
+                    flex: -1,
+                    alignItems: 'center',
+                    backgroundColor: sortingMethod.name === activeSortingMethod ? "#cccccc" : "#ffffff",
+                    padding: 8,
+                    zIndex: 6,
+                  }}
+                  key={id}
+                  onPress={() => {
+                    LayoutAnimation.easeInEaseOut(undefined);
+                    changeSortMethod(sortingMethod.name);
+                  }}
+                >
+                  <View style={{flex: 1, flexDirection: 'row'}}>
+                    <FontAwesome
+                      name={sortingMethod.icon}
+                      size={14}
+                      color={QueryBarColor}
+                      style={{
+                        paddingRight: 10,
+                      }}
+                    />
+                    <Text
+                      style={{
+                        color: QueryBarColor,
+                        fontSize: 10
+                      }}
+                    >
+                      {sortingMethod.name.toUpperCase()}
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+              ))}
+            </View>
+          </TouchableHighlight>
+        </Modal>
       </View>
       <ListView
+        style={{zIndex: 1}}
         scrollsToTop={true}
         accessibilityLabel="Contacts List"
         enableEmptySections={true}
