@@ -1,11 +1,15 @@
 import * as React from "react";
 import { Component, PropTypes } from 'react';
-import { Picker, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  View
+} from 'react-native';
 
 import {Location} from '../reducers/locations';
 import {LocationsMatch} from '../Utilities';
-
-import snakeCase from 'snake-case';
 
 import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
 import TitleText from './TitleText';
@@ -32,7 +36,6 @@ export interface RedeemBeerProps {
 
 interface RedeemBeerState {
   numDrinks?: number;
-  paymentMethod?: string;
 }
 
 export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerState> {
@@ -40,22 +43,11 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
     super(props);
     this.state = {
       numDrinks: 1,
-      paymentMethod: this.toKey(this.props.locations[0].name),
     };
   }
 
   componentDidMount() {
     this.updateLocation();
-  }
-
-  toKey(input){
-    return snakeCase(input);
-  }
-
-  setPaymentMethod(input){
-    this.setState({
-      paymentMethod: input,
-    });
   }
 
   purchaseDrink() {
