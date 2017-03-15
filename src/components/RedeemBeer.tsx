@@ -83,35 +83,43 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
   }
 
   updateLocation() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const deviceLocation: DeviceLocation = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      }
-
-      const matchingLocations = this.props.locations.filter((business) => {
-        const businessLocation = {
-          latitude: business.latitude,
-          longitude: business.longitude,
+    try {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const deviceLocation: DeviceLocation = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
         }
 
-        return LocationsMatch(deviceLocation, businessLocation, business.name);
-      })
+        const matchingLocations = this.props.locations.filter((business) => {
+          const businessLocation = {
+            latitude: business.latitude,
+            longitude: business.longitude,
+          }
 
-      let businessName: string;
+          return LocationsMatch(deviceLocation, businessLocation, business.name);
+        })
 
-      if(matchingLocations.length === 1){
-        businessName = matchingLocations[0].name + "\n" + matchingLocations[0].address.split(",")[0] + "\n" + matchingLocations[0].address.split(", ").slice(1).join(", ")
-      } else {
-        businessName = undefined;
-      }
+        let businessName: string;
 
+        if(matchingLocations.length === 1){
+          businessName = matchingLocations[0].name + "\n" + matchingLocations[0].address.split(",")[0] + "\n" + matchingLocations[0].address.split(", ").slice(1).join(", ")
+        } else {
+          businessName = undefined;
+        }
+
+        this.props.updateLocation(Object.assign({}, {
+          currentLocation: deviceLocation,
+          getLocationFailed: businessName === undefined,
+          currentLocationBusinessName: businessName,
+        }))
+      }, undefined, {enableHighAccuracy: false, timeout: 20000, maximumAge: 1});
+    } catch(e) {
       this.props.updateLocation(Object.assign({}, {
-        currentLocation: deviceLocation,
-        getLocationFailed: businessName === undefined,
-        currentLocationBusinessName: businessName,
+        location: undefined,
+        getLocationFailed: true,
+        currentLocationBusinessName: "",
       }))
-    });
+    }
   }
 
   render() {
