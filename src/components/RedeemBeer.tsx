@@ -147,24 +147,30 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
               <Text style={globalStyles.bevLineTextTitle}>Your Location:</Text>
             </View>
             <View style={globalStyles.bevLineRight}>
-              {this.props.currentLocationBusinessName ?
-                <Text
-                  style={globalStyles.bevLineText}
-                  numberOfLines={3}
-                >
-                  {this.props.currentLocationBusinessName}
-                </Text>
-              :
-                <TouchableHighlight onPress={() => this.updateLocation()}>
-                  <Text style={globalStyles.bevLineText}>
-                  {this.props.getLocationFailed ?
-                    "Unable to determine your location"
+              <TouchableHighlight
+                onPress={() => this.updateLocation()}
+                underlayColor={'rgba(255, 255, 255, 0.1)'}
+              >
+                <View>
+                  {this.props.currentLocationBusinessName ?
+                    <Text
+                      style={globalStyles.bevLineText}
+                      numberOfLines={3}
+                    >
+                      {this.props.currentLocationBusinessName}
+                    </Text>
                   :
-                    "Retrieving Location..."
+                    <Text style={globalStyles.bevLineText} numberOfLines={2}>
+                    {this.props.getLocationFailed ?
+                      "Unable to determine your location"
+                    :
+                      "Retrieving Location..."
+                    }
+                    </Text>
                   }
-                  </Text>
-                </TouchableHighlight>
-              }
+                  <Text style={[globalStyles.bevTipText, {paddingTop: 5}]}>TAP TO REFRESH</Text>
+                </View>
+              </TouchableHighlight>
             </View>
           </View>
           <View style={{paddingBottom: 10}}>

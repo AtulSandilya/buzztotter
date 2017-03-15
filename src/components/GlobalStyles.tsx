@@ -40,6 +40,7 @@ interface Styles {
   bevLineRight: React.ViewStyle;
   bevLineWideRight: React.ViewStyle;
   bevIcon: React.ViewStyle;
+  bevTipText: React.TextStyle;
 }
 
 export const globalStyles = StyleSheet.create<Styles>({
@@ -140,6 +141,10 @@ export const globalStyles = StyleSheet.create<Styles>({
     flex: -1,
     width: 28,
     height: 28,
+  },
+  bevTipText: {
+    color: "#888888",
+    fontSize: 10,
   }
 });
 
