@@ -18,6 +18,10 @@ describe('Contacts component', () => {
             imagePath: "test.jpg",
           }
         ]}
+        sortingMethodsList={[{
+          name: "First Name",
+          icon: "plus",
+        }]}
         loading={false}
         reloading={false}
       />
