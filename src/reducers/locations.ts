@@ -42,6 +42,13 @@ export const defaultLocationsState = [
     longitude: -105.037198,
     typicalHours: "11pm - 2am",
   },
+  {
+    name: "Local 46",
+    address: "4586 Tennyson St, Denver, CO 80212",
+    latitude: 39.779896,
+    longitude: -105.043731,
+    typicalHours: "3pm - 2am",
+  },
 ]
 
 export const locations = (state = defaultLocationsState, action) => {
