@@ -1,6 +1,3 @@
-const nodePackage = require('../../package.json');
-const version = nodePackage.version;
-
 export const settingsKeys = {
   notifications: 'notifications',
   location: 'location',
@@ -9,7 +6,6 @@ export const settingsKeys = {
 const defaultSettings = {
   notifications: true,
   location: true,
-  version: version,
 }
 
 export const settings = (state = defaultSettings, action) => {

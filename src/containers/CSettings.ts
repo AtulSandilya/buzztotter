@@ -6,7 +6,7 @@ const mapStateToProps = (state) => {
   return {
     notifications: state.settings.notifications,
     location: state.settings.location,
-    version: state.settings.version,
+    version: require('../../package.json').version,
   }
 }
 
