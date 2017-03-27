@@ -76,9 +76,21 @@ function! RestartYcmServers()
     exec "YcmRestartServer"
 endfunction
 
+function! EchoInput(...)
+  echo join(a:000[1], " ")
+endfunction
+
+function! EchoError(...)
+  echoerr a:000[1]
+endfunction
+
+function! AfterTscCompile(...)
+  echo "Typescript compile successful!"
+endfunction
+
 au FileType javascript,typescript set shiftwidth=2 tabstop=2
-au FileType typescript setlocal makeprg=gulp\ incremental-tsc
 au BufWritePost *.ts,*.tsx call jobstart("ctags src -R")
+au BufWritePost *.ts,*.tsx call jobstart("gulp incremental-tsc", {'on_exit': function('AfterTscCompile'), 'on_stderr': function('EchoError'), 'on_stdout': function("EchoInput")})
 
 " Compile
 nnoremap <silent> cp :call BuildReactNative()<CR>
