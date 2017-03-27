@@ -25,6 +25,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		63961A851E85DD0D0010F3E5 /* logo-just-otter.png in Resources */ = {isa = PBXBuildFile; fileRef = 63961A841E85DD0D0010F3E5 /* logo-just-otter.png */; };
 		63C4E3271E2714FE007101B2 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4E30F1E2714E4007101B2 /* libRCTFBSDK.a */; };
 		63C4E3331E271804007101B2 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4E32F1E2716EF007101B2 /* libRCTAnimation.a */; };
 		63CA318B1DEAAF3600649B41 /* logo-on-brown-big.png in Resources */ = {isa = PBXBuildFile; fileRef = 63CA318A1DEAAF3600649B41 /* logo-on-brown-big.png */; };
@@ -274,6 +275,7 @@
 		3335E199EB634431AB018289 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		539BF34DC84E402DABA83CDE /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		6359857F1D9D8B5A00B01B34 /* Bevegram.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Bevegram.entitlements; path = Bevegram/Bevegram.entitlements; sourceTree = "<group>"; };
+		63961A841E85DD0D0010F3E5 /* logo-just-otter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-just-otter.png"; path = "../img/logos/logo-just-otter.png"; sourceTree = "<group>"; };
 		63C4E3291E2716EF007101B2 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		63CA318A1DEAAF3600649B41 /* logo-on-brown-big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-on-brown-big.png"; path = "../img/logos/logo-on-brown-big.png"; sourceTree = "<group>"; };
 		63F2135A1D9A063A001C8296 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
+				63961A841E85DD0D0010F3E5 /* logo-just-otter.png */,
 				63CA318A1DEAAF3600649B41 /* logo-on-brown-big.png */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -911,6 +914,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63961A851E85DD0D0010F3E5 /* logo-just-otter.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				06AFF9836AD3408E994636FC /* Entypo.ttf in Resources */,
