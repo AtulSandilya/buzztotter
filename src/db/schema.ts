@@ -25,6 +25,9 @@ const Schema = {
     vendors: {
       vendorId: "Vendor"
     },
+    queue: {
+      "uniqueId": "NotificationPackage",
+    },
     purchasedBevegrams: {
       firebaseId: {
         summary: "PurchasedBevegramSummary",
@@ -73,12 +76,14 @@ const Schema = {
   }
 }
 
-export const GetSchemaDbUrl = (table: string, key: string | Object): string => {
+export const GetSchemaDbUrl = (table: string, key?: string | Object): string => {
   const urlSeparator = "/";
   const periodsRe = /\./g;
 
   // Check if the table exists in the Schema
   if(_.has(Schema, ["root", table].join("."))){
+
+    if(!key) return table.replace(periodsRe, urlSeparator);
 
     // If `key` is an object, replace the the object key in table with the
     // object value
@@ -110,6 +115,10 @@ export const GetFirebaseIdDbUrl = (facebookId: string) => {
 
 export const GetFcmTokenDbUrl = (facebookId: string) => {
   return GetSchemaDbUrl("fcmTokens.facebookId", {facebookId: facebookId});
+}
+
+export const GetNotificationQueueUrl = () => {
+  return GetSchemaDbUrl("queue");
 }
 
 export const GetPurchasedBevegramListDbUrl = (firebaseId: string): string => {
