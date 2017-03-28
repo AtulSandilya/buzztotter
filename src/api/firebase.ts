@@ -5,6 +5,7 @@ import secrets from '../secrets';
 import {
   GetFirebaseIdDbUrl,
   GetFcmTokenDbUrl,
+  GetNotificationQueueUrl,
   GetPurchasedBevegramListDbUrl,
   GetPurchasedBevegramSummaryDbUrl,
   GetReceivedBevegramListDbUrl,
@@ -29,6 +30,7 @@ import {
 } from '../db/tables';
 
 import {UserState} from '../reducers/user';
+import {Notification} from '../db/tables';
 
 //  Init Firebase ------------------------------------------------------ {{{
 
@@ -354,3 +356,10 @@ export const readRedeemedBevegrams = (userFirebaseId: string) => {
 }
 
 //  End Redeemed List ---------------------------------------------------}}}
+//  Queue Notification --------------------------------------------------{{{
+
+export const addNotificationToNotificationQueue = (notification: Notification) => {
+  PushToUrl(GetNotificationQueueUrl() + "/tasks", notification);
+};
+
+//  End Queue Notification ----------------------------------------------}}}
