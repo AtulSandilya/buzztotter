@@ -48,6 +48,7 @@ android/ReleaseBuilds
 # Api keys
 src/secrets.ts
 android/app/google-services.json
+.env
 
 # Typescript
 build/
