@@ -3,10 +3,13 @@
   "version": "0.0.25",
   "private": true,
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "node_modules/typescript/bin/tsc && node node_modules/babel-cli/bin/babel.js build -d serverBuild --ignore=components,containers,sagas,reducers",
+    "start": "node serverBuild/firebaseServer/index.js",
   },
   "dependencies": {
     "@types/node": "^6.0.42",
+    "babel-cli": "^6.24.0",
     "babel-preset-es2015": "^6.18.0",
     "firebase": "^3.7.2",
     "firebase-admin": "^4.1.3",
@@ -82,5 +85,9 @@
       "android.js",
       "ios.js"
     ]
+  },
+  "engines": {
+    "node": "6.5.0",
+    "npm": "3.10.3"
   }
 }
