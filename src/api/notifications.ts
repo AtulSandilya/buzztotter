@@ -1,47 +1,37 @@
-import theme from '../theme';
-import secrets from '../secrets';
-import {globalColors} from '../components/GlobalStyles';
+import fetch from "node-fetch";
 
-export interface Notification {
-  title: string;
-  body: string;
-  icon: string;
-  action: string;
-}
+import theme from "../theme";
 
-export const NotificationActions = {
-  ShowNewReceivedBevegrams: 'SHOW_NEW_RECEIVED_BEVEGRAMS',
-  ShowUpcomingBirthdays: 'SHOW_UPCOMING_BIRTHDAYS',
-}
+import { Notification, NotificationActions} from "../db/tables";
 
-  export const sendNotification = (receiverGCMId: string, notif: Notification, data: Object = {}) => {
+export const sendNotification = (notif: Notification) => {
   const fullNotif = {
-    "title": notif.title,
-    "body": notif.body,
-    "icon": notif.icon,
+    body: notif.body,
+    click_action: "fcm.ACTION.HELLO",
     // On android this color gets altered (I would imagine by some
     // accessibility requirement regarding contrast) so using a darker color
     // has a better chance of remaining unaltered.
-    "color": globalColors.bevSecondary,
-    "click_action": "fcm.ACTION.HELLO",
-  }
+    color: theme.colors.bevSecondary,
+    icon: notif.icon,
+    title: notif.title,
+  };
 
   return fetch("https://fcm.googleapis.com/fcm/send", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `key=${secrets.firebaseServerKey}`,
-    },
     // See https://firebase.google.com/docs/cloud-messaging/http-server-ref
     // for documentation for these parameters
     body: JSON.stringify({
-      to: receiverGCMId,
-      notification: fullNotif,
-      data: Object.assign({}, data, {
+      data: Object.assign({}, notif.data, {
         action: notif.action,
       }),
-    })
+      notification: fullNotif,
+      to: notif.receiverGCMId,
+    }),
+    headers: {
+      "Authorization": `key=${process.env.TEST_FIREBASE_GCM_KEY}`,
+      "Content-Type": "application/json",
+    },
+    method: "POST",
   }).then((response) => {
     return response.json();
-  })
-}
+  });
+};
