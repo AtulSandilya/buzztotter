@@ -8,6 +8,7 @@
     "start": "node serverBuild/firebaseServer/index.js",
     "jsonToEnv": "node utils/jsonToEnv.js",
     "envToHeroku": "node utils/envToHeroku.js",
+    "incrementVersion": "node utils/incrementVersion.js"
   },
   "dependencies": {
     "@types/node": "^6.0.42",
