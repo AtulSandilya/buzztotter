@@ -93,7 +93,7 @@ const BevButton  = ({
   const iconStyle =
     isAndroid ? {
       fontSize: buttonFontSize * 2,
-      paddingVertical: -3
+      paddingVertical: 0,
     } : {
       fontSize: buttonFontSize * 2,
       paddingTop: 2,
@@ -164,7 +164,7 @@ const BevButton  = ({
           {rightIcon ?
             <Ionicon
               name={"ios-arrow-forward"}
-              style={[buttonTextStyle, iconStyle, {paddingLeft: 10}]}
+              style={[buttonTextStyle, iconStyle, {paddingLeft: 10, flex: -1}]}
             />
             : null
           }
