@@ -102,3 +102,20 @@ export interface RedeemedBevegram {
 }
 
 //  End RedeemedBevegram ------------------------------------------------}}}
+//  Notifications -------------------------------------------------------{{{
+
+export interface Notification {
+  receiverGCMId: string;
+  title: string;
+  body: string;
+  icon: string;
+  action: string;
+  data: any;
+}
+
+export const NotificationActions = {
+  ShowNewReceivedBevegrams: "SHOW_NEW_RECEIVED_BEVEGRAMS",
+  ShowUpcomingBirthdays: "SHOW_UPCOMING_BIRTHDAYS",
+};
+
+//  End Notifications ---------------------------------------------------}}}
