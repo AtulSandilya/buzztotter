@@ -17,7 +17,7 @@ import CBevegramLocations from '../containers/CBevegramLocations';
 import CHistory from '../containers/CHistory';
 import IconBadge from './IconBadge';
 
-import {NotificationActions} from '../api/notifications';
+import {NotificationActions} from '../db/tables';
 import store from '../configureStore'
 import {sceneOrder, sceneKeys} from '../reducers/view';
 
@@ -69,10 +69,10 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
   componentDidMount() {
     if(isAndroid){
       const FCM = require('react-native-fcm');
-      // FCM.requestPermissions();
-      // FCM.getFCMToken().then((token) => {
-      //   this.storeFCMToken(token);
-      // })
+      FCM.requestPermissions();
+      FCM.getFCMToken().then((token) => {
+        this.storeFCMToken(token);
+      })
 
       this.notificationListener = FCM.on('notification', (payload) => {
         // There are 3 notification situations to handle here
