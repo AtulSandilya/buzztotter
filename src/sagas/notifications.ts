@@ -1,15 +1,16 @@
 import {call, put, select} from "redux-saga/effects";
 
 import {
-  isUserLoggedIn,
+  addNotificationToNotificationQueue,
   getFcmToken,
+  isUserLoggedIn,
   setFcmToken,
   updateFirebaseUser,
 } from '../api/firebase';
 
 import theme from '../theme';
 import {UserState} from '../reducers/user';
-import { Notification, NotificationActions, sendNotification } from '../api/notifications';
+import { Notification, NotificationActions} from '../db/tables';
 
 export function *sendReceivedNotification(action, receiverFacebookId: string) {
   const receiverFcmToken: string = yield call(getFcmToken, receiverFacebookId);
@@ -19,14 +20,26 @@ export function *sendReceivedNotification(action, receiverFacebookId: string) {
   const quantity: number = action.payload.sendBevegramData.quantity;
   const bevStr = "bevegram" + (quantity !== 1 ? "s" : "");
 
-  const notifResult = yield call(sendNotification, receiverFcmToken, {
+  const notif: Notification = {
+    receiverGCMId: receiverFcmToken,
     title: `You received ${quantity} ${bevStr}`,
     body: `${sender} sent you ${quantity} ${bevStr}`,
     icon: theme.notificationIcons.beverage,
     action: NotificationActions.ShowNewReceivedBevegrams,
-  }, {
-    quantity: quantity,
-  })
+    data: {
+      quantity: quantity,
+    }
+  }
+
+  // const notifResult = yield call(sendNotification, receiverFcmToken, {
+  //   title: `You received ${quantity} ${bevStr}`,
+  //   body: `${sender} sent you ${quantity} ${bevStr}`,
+  //   icon: theme.notificationIcons.beverage,
+  //   action: NotificationActions.ShowNewReceivedBevegrams,
+  // }, {
+  //   quantity: quantity,
+  // })
+  yield call(addNotificationToNotificationQueue, notif);
 
 }
 
@@ -35,9 +48,15 @@ export function *storeFcmToken(action) {
     fcmToken: action.payload.fcmToken
   }})
 
+  // const userState: UserState = yield select<{user: UserState}>((state) => state.user);
+  // yield call(setFcmToken, userState.facebook.id, userState.fcmToken);
+  // yield call(updateFirebaseUser, userState);
+  // if(isUserLoggedIn()) {
+  // }
+}
+
+export function *dbWriteFcmToken() {
   const userState: UserState = yield select<{user: UserState}>((state) => state.user);
-  if(isUserLoggedIn()) {
-    yield call(setFcmToken, userState.facebook.id, userState.fcmToken);
-    yield call(updateFirebaseUser, userState);
-  }
+  yield call(setFcmToken, userState.facebook.id, userState.fcmToken);
+  yield call(updateFirebaseUser, userState);
 }

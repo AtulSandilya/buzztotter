@@ -46,6 +46,7 @@ import {
 import {
   sendReceivedNotification,
   storeFcmToken,
+  dbWriteFcmToken,
 } from './notifications';
 
 // Like combine reducers
@@ -62,6 +63,7 @@ export default function* rootSaga() {
     yield call(fetchUser, action);
     yield call(firebaseFacebookLogin, action);
     yield call(fetchContacts, action);
+    yield call(dbWriteFcmToken);
   });
 
   // Logging Out
