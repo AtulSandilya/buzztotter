@@ -1,5 +1,3 @@
-/// <reference path="../../typings/modules/fetch.d.ts"/>
-
 import moment from 'moment';
 
 import secrets from '../secrets';
