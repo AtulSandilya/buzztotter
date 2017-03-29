@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "test": "jest",
-    "postinstall": "node_modules/typescript/bin/tsc && node node_modules/babel-cli/bin/babel.js build -d serverBuild --ignore=components,containers,sagas,reducers",
     "start": "node serverBuild/firebaseServer/index.js",
+    "buildServer": "node node_modules/babel-cli/bin/babel.js build --out-dir serverBuild --only=firebaseServer,db/schema.js,theme.js",
     "jsonToEnv": "node utils/jsonToEnv.js",
     "envToHeroku": "node utils/envToHeroku.js",
     "incrementVersion": "node utils/incrementVersion.js"
