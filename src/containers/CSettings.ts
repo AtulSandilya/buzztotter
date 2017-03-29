@@ -1,27 +1,28 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { Settings } from '../components/Settings';
+import { Settings } from "../components/Settings";
 
 const mapStateToProps = (state) => {
   return {
-    notifications: state.settings.notifications,
+    fullName: state.user.fullName,
     location: state.settings.location,
-    version: require('../../package.json').version,
-  }
-}
+    notifications: state.settings.notifications,
+    version: require("../../package.json").version,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSettingToggle: (inputKey) => {
-      dispatch({type: 'TOGGLE_SETTING', settingKey: inputKey});
-    },
     logoutActions: () => {
-      dispatch({type: 'REQUEST_LOGOUT', payload: {
-        route: "Login"
-      }})
-    }
-  }
-}
+      dispatch({type: "REQUEST_LOGOUT", payload: {
+        route: "Login",
+      }});
+    },
+    onSettingToggle: (inputKey) => {
+      dispatch({type: "TOGGLE_SETTING", settingKey: inputKey});
+    },
+  };
+};
 
 const CSettings = connect(
   mapStateToProps,
