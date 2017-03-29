@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@types/fuse": "^2.5.1",
-    "@types/lodash": "^4.14.50",
+    "@types/lodash": "^4.14.58",
     "@types/moment": "^2.13.0",
     "@types/react": "^15.0.14",
     "@types/react-native": "^0.37.13",
