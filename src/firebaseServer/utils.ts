@@ -16,7 +16,7 @@ export const SetupAdminDb = () => {
   };
 
   Admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: Admin.credential.cert(serviceAccount),
     databaseURL: process.env.TEST_FIREBASE_KEY_firebaseDatabaseURL,
   });
 
