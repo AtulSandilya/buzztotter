@@ -81,11 +81,21 @@ function! EchoInput(...)
 endfunction
 
 function! EchoError(...)
-  echoerr a:000[1]
+  echoerr join(a:000[1], " ")
 endfunction
 
 function! AfterTscCompile(...)
   echo "Typescript compile successful!"
+  call ServerJobStart()
+endfunction
+
+function! ServerJobStart()
+  let serverBuildCommand = "npm run-script buildServer"
+  call jobstart(serverBuildCommand, {'on_exit': function('AfterServerBuild'), 'on_stderr': function('EchoError'), 'on_stdout': function("EchoInput")})
+endfunction
+
+function! AfterServerBuild(...)
+  echo "Server build complete!"
 endfunction
 
 au FileType javascript,typescript set shiftwidth=2 tabstop=2
