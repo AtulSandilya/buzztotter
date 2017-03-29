@@ -173,6 +173,7 @@ exports[`Contact component renders correctly 1`] = `
                     "paddingTop": 2,
                   },
                   Object {
+                    "flex": -1,
                     "paddingLeft": 10,
                   },
                 ],
