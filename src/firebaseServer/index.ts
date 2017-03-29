@@ -1,7 +1,7 @@
 import Queue from "firebase-queue";
 
-import {sendNotification} from "../api/notifications";
 import {GetNotificationQueueUrl} from "../db/schema";
+import {sendNotification} from "./notifications";
 import {SetupAdminDb} from "./utils";
 
 const db = SetupAdminDb();
