@@ -51,7 +51,6 @@ export interface PurchasedBevegramSummary {
 //  End PurchasedBevegram -----------------------------------------------}}}
 //  Sent Bevegram ------------------------------------------------------{{{
 
-
 export interface SentBevegram {
   purchasedBevegramId: string;
   quantity: number;
@@ -61,9 +60,8 @@ export interface SentBevegram {
 
 export interface SentBevegramSummary {
   availableToSend: number;
-  sent: number,
+  sent: number;
 }
-
 
 //  End Sent Bevegram --------------------------------------------------}}}
 //  ReceivedBevegram ---------------------------------------------------{{{
