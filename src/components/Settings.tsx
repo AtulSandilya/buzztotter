@@ -29,22 +29,6 @@ const styles = StyleSheet.create<Style>({
   }
 });
 
-const sendNotification = () => {
-  if(isAndroid){
-    FCM.presentLocalNotification({
-      title: "Today is Travis Caldwell's Birthday!",
-      body: "Tap to buy him a Bevegram",
-      large_icon: "ic_launcher",
-      icon: "ic_cake_white_48dp",
-      show_in_foreground: true,
-      priority: "max",
-      on_click: "SEND_BEVEGRAM_TO_CONTACT",
-    })
-  } else {
-    alert("Notifications are only supported on Android");
-  }
-}
-
 interface SettingsProps {
   notifications: boolean;
   location: boolean;
