@@ -138,7 +138,7 @@ const SettingLeft = (props) => (
   <View
     style={{
       alignItems: "flex-start",
-      flex: -1,
+      flex: 1,
       justifyContent: "center",
     }}
   >
@@ -150,7 +150,7 @@ const SettingRight = (props) => (
   <View
     style={{
       alignItems: "flex-end",
-      flex: 1,
+      flex: -1,
       justifyContent: "center",
     }}
   >
