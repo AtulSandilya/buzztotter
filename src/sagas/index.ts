@@ -4,9 +4,9 @@ import {
   put,
   takeEvery,
   takeLatest,
-} from 'redux-saga/effects';
+} from "redux-saga/effects";
 
-import {ActionConst} from 'react-native-router-flux';
+import {ActionConst} from "react-native-router-flux";
 
 import {
   fetchAllFacebookData,
@@ -15,20 +15,20 @@ import {
   logOutFacebook,
   reloadContacts,
   successfulLogin,
-} from './facebook';
+} from "./facebook";
 
 import {
   fetchCreditCardPurchase,
   fetchDeleteCustomerCard,
   fetchUpdateDefaultCard,
   fetchVerifyCreditCard,
-} from './stripe';
+} from "./stripe";
 
 import {
   goBackRoute,
   goToRoute,
   onFocusRoute,
-} from './routes';
+} from "./routes";
 
 import {
   addPurchasedBevegramToDB,
@@ -37,28 +37,28 @@ import {
   addSentBevegramToDB,
   firebaseFacebookLogin,
   firebaseLogOut,
+  updateAllLists,
   updateFirebaseUser,
   updateReceivedBevegrams,
-  updateAllLists,
   verifyReceiverExists,
-} from './firebase';
+} from "./firebase";
 
 import {
+  dbWriteFcmToken,
   sendReceivedNotification,
   storeFcmToken,
-  dbWriteFcmToken,
-} from './notifications';
+} from "./notifications";
 
 // Like combine reducers
 export default function* rootSaga() {
   // Facebook
-  yield fork(takeEvery, 'USER_FETCH_REQUESTED', fetchUser);
-  yield fork(takeEvery, 'CONTACTS_FETCH_REQUESTED', fetchContacts);
-  yield fork(takeEvery, 'FACEBOOK_CONTACTS_RELOAD_REQUEST', reloadContacts);
+  yield fork(takeEvery, "USER_FETCH_REQUESTED", fetchUser);
+  yield fork(takeEvery, "CONTACTS_FETCH_REQUESTED", fetchContacts);
+  yield fork(takeEvery, "FACEBOOK_CONTACTS_RELOAD_REQUEST", reloadContacts);
 
   // Logging In
-  yield fork(takeEvery, 'SUCCESSFUL_FACEBOOK_LOGIN', successfulLogin);
-  yield fork(takeEvery, 'INITIALIZE_USER_DATA_WITH_FACEBOOK_TOKEN', function *(action) {
+  yield fork(takeEvery, "SUCCESSFUL_FACEBOOK_LOGIN", successfulLogin);
+  yield fork(takeEvery, "INITIALIZE_USER_DATA_WITH_FACEBOOK_TOKEN", function *(action) {
     // Facebook user info is required to properly initialize a firebase user
     yield call(fetchUser, action);
     yield call(firebaseFacebookLogin, action);
@@ -67,108 +67,108 @@ export default function* rootSaga() {
   });
 
   // Logging Out
-  yield fork(takeEvery, 'REQUEST_LOGOUT', function *(action) {
+  yield fork(takeEvery, "REQUEST_LOGOUT", function *(action) {
     yield call(logOutFacebook);
     yield call(goToRoute, action);
     yield call(firebaseLogOut, action);
-  })
+  });
 
   // Handling credit cards
-  yield fork(takeEvery, 'REQUEST_CREDIT_CARD_VERIFICATION', fetchVerifyCreditCard);
-  yield fork(takeEvery, 'REQUEST_UPDATE_DEFAULT_CARD', fetchUpdateDefaultCard);
-  yield fork(takeEvery, 'REQUEST_REMOVE_CARD', fetchDeleteCustomerCard);
+  yield fork(takeEvery, "REQUEST_CREDIT_CARD_VERIFICATION", fetchVerifyCreditCard);
+  yield fork(takeEvery, "REQUEST_UPDATE_DEFAULT_CARD", fetchUpdateDefaultCard);
+  yield fork(takeEvery, "REQUEST_REMOVE_CARD", fetchDeleteCustomerCard);
 
   // Purchasing Bevegrams
-  function *purchaseBevegram(action){
+  function *purchaseBevegram(action) {
     yield call(goToRoute, action);
     const chargeId = yield call(fetchCreditCardPurchase, action);
 
     const purchasedBevegramPack = yield call(addPurchasedBevegramToDB, action, chargeId);
     yield put({type: "ADD_PURCHASED_BEVEGRAM", payload: {
       purchasedBevegramPack: purchasedBevegramPack,
-    }})
+    }});
     return purchasedBevegramPack.id;
   }
 
-  yield fork(takeEvery, 'PURCHASE_BEVEGRAM', function *(action) {
+  yield fork(takeEvery, "PURCHASE_BEVEGRAM", function *(action) {
     yield call(purchaseBevegram, action);
   });
 
   // Sending Bevegrams
   function *sendBevegram(action, receiverFirebaseId, purchaseId) {
-    yield put({type: 'ATTEMPTING_SEND_BEVEGRAM'});
+    yield put({type: "ATTEMPTING_SEND_BEVEGRAM"});
     yield call(goToRoute, action);
     const sentBevegramPack = yield call(addSentBevegramToDB, action, purchaseId);
     yield call(addReceivedBevegramToDB, action, receiverFirebaseId);
 
-    yield put({type: 'ADD_SENT_BEVEGRAM', payload: {
+    yield put({type: "ADD_SENT_BEVEGRAM", payload: {
       sentBevegramPack: sentBevegramPack,
-    }})
-    yield put({type: 'REMOVE_SENT_BEVEGRAM_FROM_PURCHASED', payload: {
+    }});
+    yield put({type: "REMOVE_SENT_BEVEGRAM_FROM_PURCHASED", payload: {
       sentBevegramPack: sentBevegramPack,
-    }})
+    }});
 
     yield call(sendReceivedNotification, action, action.payload.sendBevegramData.facebookId);
 
-    yield put({type: 'COMPLETED_SEND_BEVEGRAM'});
+    yield put({type: "COMPLETED_SEND_BEVEGRAM"});
     return sentBevegramPack.id;
   }
 
-  yield fork(takeEvery, 'SEND_BEVEGRAM', function *(action){
+  yield fork(takeEvery, "SEND_BEVEGRAM", function *(action){
     try {
       // Abort sending if the reciever does not have a firebase id
       const receiverFirebaseId = yield call(verifyReceiverExists, action);
       yield call(sendBevegram, action);
     } catch (e) {
-      yield put({type: 'FAILED_SEND_BEVEGRAM', payload: {
+      yield put({type: "FAILED_SEND_BEVEGRAM", payload: {
         error: e,
-      }})
+      }});
     }
   });
 
   // Purchasing Then Sending
-  yield fork(takeEvery, 'PURCHASE_THEN_SEND_BEVEGRAM', function *(action) {
+  yield fork(takeEvery, "PURCHASE_THEN_SEND_BEVEGRAM", function *(action) {
     try {
-      // Don't allow purchasing or sending if the reciever is not in the
+      // Don"t allow purchasing or sending if the reciever is not in the
       // database.
       const receiverFirebaseId = yield call(verifyReceiverExists, action);
       const purchasedBevegramId = yield call(purchaseBevegram, action);
       yield call(sendBevegram, action, receiverFirebaseId, purchasedBevegramId);
-    } catch(e) {
-      yield put({type: 'FAILED_PURCHASE_AND_SEND_BEVEGRAM', payload: {
+    } catch (e) {
+      yield put({type: "FAILED_PURCHASE_AND_SEND_BEVEGRAM", payload: {
         error: e,
-      }})
+      }});
     }
   });
 
   // Receive Bevegrams
-  yield fork(takeEvery, 'FETCH_RECEIVED_BEVEGRAMS', function *(action){
-    yield put({type: 'ATTEMPTING_UPDATE_RECEIVED_BEVEGRAMS'});
+  yield fork(takeEvery, "FETCH_RECEIVED_BEVEGRAMS", function *(action){
+    yield put({type: "ATTEMPTING_UPDATE_RECEIVED_BEVEGRAMS"});
     const receivedBevegrams = yield call(updateReceivedBevegrams);
-    yield put({type: 'UPDATE_RECEIVED_BEVEGRAMS', payload: {
+    yield put({type: "UPDATE_RECEIVED_BEVEGRAMS", payload: {
       receivedBevegrams: receivedBevegrams,
-    }})
-    yield put({type: 'SUCCESSFUL_UPDATE_RECEIVED_BEVEGRAMS'});
-  })
+    }});
+    yield put({type: "SUCCESSFUL_UPDATE_RECEIVED_BEVEGRAMS"});
+  });
 
   // Redeem Bevegram
-  yield fork(takeEvery, 'REDEEM_BEVEGRAM', function *(action){
+  yield fork(takeEvery, "REDEEM_BEVEGRAM", function *(action){
     const redeemedBevegramPack = yield call(addRedeemedBevegramToDB, action);
 
     yield put({type: "ADD_REDEEMED_BEVEGRAMS", payload: {
       redeemedBevegramPack: redeemedBevegramPack,
-    }})
-  })
+    }});
+  });
 
   // Routes
-  yield fork(takeEvery, 'GO_TO_ROUTE', goToRoute);
-  yield fork(takeEvery, 'GO_BACK_ROUTE', goBackRoute);
+  yield fork(takeEvery, "GO_TO_ROUTE", goToRoute);
+  yield fork(takeEvery, "GO_BACK_ROUTE", goBackRoute);
   // Dispatch actions based on router events
   yield fork(takeEvery, ActionConst.FOCUS, onFocusRoute);
 
   // Notifications
-  yield fork(takeEvery, 'UPDATE_FCM_TOKEN', storeFcmToken);
+  yield fork(takeEvery, "UPDATE_FCM_TOKEN", storeFcmToken);
 
   // History
-  yield fork(takeEvery, 'REFRESH_HISTORY', updateAllLists);
+  yield fork(takeEvery, "REFRESH_HISTORY", updateAllLists);
 }
