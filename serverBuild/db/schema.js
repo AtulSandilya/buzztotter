@@ -1,5 +1,6 @@
 Object.defineProperty(exports,"__esModule",{value:true});exports.GetRedeemedBevegramUserListDbUrl=exports.GetRedeemedBevegramUserDbUrl=exports.GetRedeemedBevegramVendorCustomerDbUrl=exports.GetRedeemedBevegramVendorDbUrl=exports.GetReceivedBevegramSummaryDbUrl=exports.GetReceivedBevegramListDbUrl=exports.GetSentBevegramSummaryDbUrl=exports.GetSentBevegramListDbUrl=exports.GetPurchasedBevegramSummaryDbUrl=exports.GetPurchasedBevegramListDbUrl=exports.GetNotificationQueueUrl=exports.GetFcmTokenDbUrl=exports.GetFirebaseIdDbUrl=exports.GetVendorDbUrl=exports.GetUserDbUrl=exports.GetSchemaDbUrl=undefined;var _lodash=require("lodash");var _lodash2=_interopRequireDefault(_lodash);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}
 
+
 var Schema={
 root:{
 users:{
@@ -15,13 +16,13 @@ vendors:{
 vendorId:"Vendor"},
 
 queue:{
-"uniqueId":"NotificationPackage"},
+uniqueId:"NotificationPackage"},
 
 purchasedBevegrams:{
 firebaseId:{
 summary:"PurchasedBevegramSummary",
 list:{
-"FirebaseUniqueTimeSortableId":"PurchasedBevegram"}}},
+FirebaseUniqueTimeSortableId:"PurchasedBevegram"}}},
 
 
 
@@ -29,7 +30,7 @@ sentBevegrams:{
 firebaseId:{
 summary:"SentBevegramSummary",
 list:{
-"FirebaseUniqueTimeSortableId":"SentBevegram"}}},
+FirebaseUniqueTimeSortableId:"SentBevegram"}}},
 
 
 
@@ -37,7 +38,7 @@ receivedBevegrams:{
 firebaseId:{
 summary:"ReceivedBevegramSummary",
 list:{
-"FirebaseUniqueTimeSortableId":"ReceivedBevegram"}}},
+FirebaseUniqueTimeSortableId:"ReceivedBevegram"}}},
 
 
 
@@ -47,7 +48,7 @@ vendorId:{
 
 ledger:{
 bevegramList:{
-"FirebaseUniqueTimeSortableId":"RedeemedBevegram"},
+FirebaseUniqueTimeSortableId:"RedeemedBevegram"},
 
 customerList:{
 
@@ -58,7 +59,7 @@ firebaseId:true}}}},
 
 users:{
 firebaseId:{
-"FirebaseUniqueTimeSortableId":"RedeemedBevegram"}}}}};
+FirebaseUniqueTimeSortableId:"RedeemedBevegram"}}}}};
 
 
 
@@ -69,8 +70,9 @@ var urlSeparator="/";
 var periodsRe=/\./g;
 
 if(_lodash2.default.has(Schema,["root",table].join("."))){
-if(!key)
+if(!key){
 return table.replace(periodsRe,urlSeparator);
+}
 
 
 if(typeof key==="object"){var _ret=function(){
