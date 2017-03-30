@@ -15,8 +15,7 @@ var filesToCommit = ["package.json", versionIOS.infoPlistFilename];
 
 function hasCleanGitStatus() {
   var status = exec("git status --porcelain", {encoding: 'utf8'}).trim();
-  // return status === "";
-  return true;
+  return status === "";
 }
 
 if(hasCleanGitStatus()){
@@ -45,10 +44,10 @@ if(hasCleanGitStatus()){
       jsonfile.writeFileSync("package.json", packageWithUpdatedVersion, {spaces: 2});
       versionIOS.run(newVersion);
 
-      // exec("git add " + filesToCommit.split(" "), {encoding: 'utf8'});
-      // exec("git tag -a " + "v" + newVersion + " -m " + nextAnswer.commitNote, {encoding: 'utf8'});
       console.log("git add " + filesToCommit.join(" "));
+      exec("git add " + filesToCommit.split(" "), {encoding: 'utf8'});
       console.log("git tag -a " + "v" + newVersion + " -m " + nextAnswer.commitNote);
+      exec("git tag -a " + "v" + newVersion + " -m " + nextAnswer.commitNote, {encoding: 'utf8'});
       console.log("Updated version to " + newVersion + " with message " + nextAnswer.commitNote);
     }).catch((error) => {
       console.log("Inner error", error);
