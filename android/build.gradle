@@ -42,6 +42,6 @@ def getNpmVersion() {
 }
 
 def getNpmVersionArray() {
-    def (major, miror, patch) = getNpmVersion().tokenize(".")
+    def (major, minor, patch) = getNpmVersion().tokenize(".")
     return [Integer.parseInt(major), Integer.parseInt(minor), Integer.parseInt(patch)] as int[]
 }
