@@ -91,7 +91,7 @@ endfunction
 
 function! ServerJobStart()
   let serverBuildCommand = "npm run-script buildServer"
-  call jobstart(serverBuildCommand, {'on_exit': function('AfterServerBuild'), 'on_stderr': function('EchoError'), 'on_stdout': function("EchoInput")})
+  call jobstart(serverBuildCommand, {'on_exit': function('AfterServerBuild'), 'on_stderr': function('EchoError')})
 endfunction
 
 function! AfterServerBuild(...)
