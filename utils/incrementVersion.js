@@ -45,7 +45,7 @@ if(hasCleanGitStatus()){
       versionIOS.run(newVersion);
 
       console.log("git add " + filesToCommit.join(" "));
-      exec("git add " + filesToCommit.split(" "), {encoding: 'utf8'});
+      exec("git add " + filesToCommit.join(" "), {encoding: 'utf8'});
       console.log("git tag -a " + "v" + newVersion + " -m " + nextAnswer.commitNote);
       exec("git tag -a " + "v" + newVersion + " -m " + nextAnswer.commitNote, {encoding: 'utf8'});
       console.log("Updated version to " + newVersion + " with message " + nextAnswer.commitNote);
