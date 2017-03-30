@@ -6,6 +6,7 @@ import {
   GetFirebaseIdDbUrl,
   GetFcmTokenDbUrl,
   GetNotificationQueueUrl,
+  GetPromoCodeDbUrl,
   GetPurchasedBevegramListDbUrl,
   GetPurchasedBevegramSummaryDbUrl,
   GetReceivedBevegramListDbUrl,
@@ -20,6 +21,7 @@ import {
 } from '../db/schema';
 
 import {
+  PromoCodePackage,
   PurchasedBevegram,
   PurchasedBevegramSummary,
   ReceivedBevegram,
@@ -363,3 +365,10 @@ export const addNotificationToNotificationQueue = (notification: Notification) =
 };
 
 //  End Queue Notification ----------------------------------------------}}}
+//  PromoCode -----------------------------------------------------------{{{
+
+export const addPromoCode = (promoCode: string, promoCodePack: PromoCodePackage) => {
+  PushToUrl(GetPromoCodeDbUrl(promoCode), promoCodePack);
+}
+
+//  End PromoCode -------------------------------------------------------}}}

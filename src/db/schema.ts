@@ -29,6 +29,11 @@ const Schema = {
     queue: {
       uniqueId: "NotificationPackage",
     },
+    promoCodes: {
+      promotionCode: {
+        FirebaseUniqueTimeSortableId: "PromoCodePack",
+      },
+    },
     purchasedBevegrams: {
       firebaseId: {
         summary: "PurchasedBevegramSummary",
@@ -162,4 +167,8 @@ export const GetRedeemedBevegramUserDbUrl = (firebaseId: string): string => {
 
 export const GetRedeemedBevegramUserListDbUrl = (firebaseId: string): string => {
   return GetSchemaDbUrl("redeemedBevegrams.users.firebaseId", {firebaseId: firebaseId});
+};
+
+export const GetPromoCodeDbUrl = (promotionCode: string): string => {
+  return GetSchemaDbUrl("promoCodes.promotionCode", {promotionCode: promotionCode});
 };

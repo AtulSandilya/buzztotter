@@ -4,6 +4,7 @@ import { call, put, select } from 'redux-saga/effects';
 import {FirebaseUser, UserState} from '../reducers/user';
 
 import {
+  PromoCodePackage,
   PurchasedBevegram,
   ReceivedBevegram,
   RedeemedBevegram,
@@ -13,6 +14,7 @@ import {
 import {StringifyDate} from '../Utilities';
 
 import {
+  addPromoCode,
   addPurchasedBevegramToUser,
   addReceivedBevegramToReceiverBevegrams,
   addRedeemedBevegram,
@@ -267,4 +269,14 @@ export function *updateAllLists() {
   yield put({type: 'SET_SENT_BEVEGRAM_LIST', payload: {list: sentList}})
   yield put({type: 'SET_RECEIVED_BEVEGRAM_LIST', payload: {list: receivedList}})
   yield put({type: 'SET_REDEEMED_BEVEGRAM_LIST', payload: {list: redeemedList}})
+}
+
+export function *addPromoCodeToDB(promoCode: string) {
+  const userFirebaseId: string = yield select<{user: UserState}>((state) => state.user.firebase.uid);
+  const promoCodePackage: PromoCodePackage = {
+    purchasedByUserId: userFirebaseId,
+    purchaseDate: StringifyDate(),
+  }
+
+  yield call(addPromoCode, promoCode, promoCodePackage);
 }

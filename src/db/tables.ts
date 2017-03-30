@@ -117,3 +117,11 @@ export const NotificationActions = {
 };
 
 //  End Notifications ---------------------------------------------------}}}
+//  PromoCodePackage ----------------------------------------------------------{{{
+
+export interface PromoCodePackage {
+  purchasedByUserId: string;
+  purchaseDate: string;
+}
+
+//  End PromoCodePackage ------------------------------------------------------}}}

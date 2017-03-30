@@ -31,6 +31,7 @@ import {
 } from "./routes";
 
 import {
+  addPromoCodeToDB,
   addPurchasedBevegramToDB,
   addReceivedBevegramToDB,
   addRedeemedBevegramToDB,
@@ -87,6 +88,12 @@ export default function* rootSaga() {
     yield put({type: "ADD_PURCHASED_BEVEGRAM", payload: {
       purchasedBevegramPack: purchasedBevegramPack,
     }});
+
+    const promoCode = action.payload.purchaseData.promoCode;
+    if(promoCode !== "") {
+      yield call(addPromoCodeToDB, promoCode);
+    }
+
     return purchasedBevegramPack.id;
   }
 

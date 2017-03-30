@@ -2,6 +2,7 @@ export interface PurchaseData {
   amount: number;
   description: string;
   quantity: number;
+  promoCode: string;
 }
 
 export interface PurchaseState {

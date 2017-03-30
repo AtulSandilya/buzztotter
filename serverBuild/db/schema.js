@@ -1,4 +1,4 @@
-Object.defineProperty(exports,"__esModule",{value:true});exports.GetRedeemedBevegramUserListDbUrl=exports.GetRedeemedBevegramUserDbUrl=exports.GetRedeemedBevegramVendorCustomerDbUrl=exports.GetRedeemedBevegramVendorDbUrl=exports.GetReceivedBevegramSummaryDbUrl=exports.GetReceivedBevegramListDbUrl=exports.GetSentBevegramSummaryDbUrl=exports.GetSentBevegramListDbUrl=exports.GetPurchasedBevegramSummaryDbUrl=exports.GetPurchasedBevegramListDbUrl=exports.GetNotificationQueueUrl=exports.GetFcmTokenDbUrl=exports.GetFirebaseIdDbUrl=exports.GetVendorDbUrl=exports.GetUserDbUrl=exports.GetSchemaDbUrl=undefined;var _lodash=require("lodash");var _lodash2=_interopRequireDefault(_lodash);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}
+Object.defineProperty(exports,"__esModule",{value:true});exports.GetPromoCodeDbUrl=exports.GetRedeemedBevegramUserListDbUrl=exports.GetRedeemedBevegramUserDbUrl=exports.GetRedeemedBevegramVendorCustomerDbUrl=exports.GetRedeemedBevegramVendorDbUrl=exports.GetReceivedBevegramSummaryDbUrl=exports.GetReceivedBevegramListDbUrl=exports.GetSentBevegramSummaryDbUrl=exports.GetSentBevegramListDbUrl=exports.GetPurchasedBevegramSummaryDbUrl=exports.GetPurchasedBevegramListDbUrl=exports.GetNotificationQueueUrl=exports.GetFcmTokenDbUrl=exports.GetFirebaseIdDbUrl=exports.GetVendorDbUrl=exports.GetUserDbUrl=exports.GetSchemaDbUrl=undefined;var _lodash=require("lodash");var _lodash2=_interopRequireDefault(_lodash);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}
 
 
 var Schema={
@@ -17,6 +17,11 @@ vendorId:"Vendor"},
 
 queue:{
 uniqueId:"NotificationPackage"},
+
+promoCodes:{
+promotionCode:{
+FirebaseUniqueTimeSortableId:"PromoCodePack"}},
+
 
 purchasedBevegrams:{
 firebaseId:{
@@ -130,4 +135,7 @@ return GetSchemaDbUrl("redeemedBevegrams.users.firebaseId",{firebaseId:firebaseI
 };
 var GetRedeemedBevegramUserListDbUrl=exports.GetRedeemedBevegramUserListDbUrl=function GetRedeemedBevegramUserListDbUrl(firebaseId){
 return GetSchemaDbUrl("redeemedBevegrams.users.firebaseId",{firebaseId:firebaseId});
+};
+var GetPromoCodeDbUrl=exports.GetPromoCodeDbUrl=function GetPromoCodeDbUrl(promotionCode){
+return GetSchemaDbUrl("promoCodes.promotionCode",{promotionCode:promotionCode});
 };
