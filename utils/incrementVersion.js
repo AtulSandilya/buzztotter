@@ -44,10 +44,9 @@ if(hasCleanGitStatus()){
       jsonfile.writeFileSync("package.json", packageWithUpdatedVersion, {spaces: 2});
       versionIOS.run(newVersion);
 
-      console.log("git add " + filesToCommit.join(" "));
       exec("git add " + filesToCommit.join(" "), {encoding: 'utf8'});
-      console.log("git tag " + "v" + newVersion + ' -m "' + nextAnswer.commitNote + '"');
-      exec("git tag " + "v" + newVersion + ' -m "' + nextAnswer.commitNote + '"');
+      exec(`git commit -m "v${newVersion}: ${nextAnswer.commitNote}"`);
+      exec("git tag " + "v" + newVersion);
       console.log("Updated version to " + newVersion + " with message " + nextAnswer.commitNote);
     }).catch((error) => {
       console.log("Inner error", error);
