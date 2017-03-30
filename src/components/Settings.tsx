@@ -1,17 +1,17 @@
 import * as React from "react";
-import { Component, PropTypes } from 'react';
-import { Linking, StyleSheet, Switch, Text, View } from 'react-native';
+import { Component, PropTypes } from "react";
+import { Linking, StyleSheet, Switch, Text, View } from "react-native";
 
-import {settingsKeys} from '../reducers/settings';
+import {settingsKeys} from "../reducers/settings";
 
-import {isAndroid} from '../Utilities';
+import {isAndroid} from "../Utilities";
 
-import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
-import TitleText from './TitleText';
-import BevButton from './BevButton';
-import CFacebookLoginButton from '../containers/CFacebookLoginButton';
+import CFacebookLoginButton from "../containers/CFacebookLoginButton";
+import BevButton from "./BevButton";
+import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
+import TitleText from "./TitleText";
 
-import {globalColors} from './GlobalStyles';
+import {globalColors} from "./GlobalStyles";
 
 interface Style {
   settingLine: React.ViewStyle;
@@ -21,12 +21,12 @@ const linePadding = 8;
 
 const styles = StyleSheet.create<Style>({
   settingLine: {
-      flex: 1,
-      flexDirection: 'row',
       borderBottomWidth: 1,
       borderColor: globalColors.subtleSeparator,
+      flex: 1,
+      flexDirection: "row",
       paddingVertical: linePadding,
-  }
+  },
 });
 
 interface SettingsProps {
@@ -34,7 +34,7 @@ interface SettingsProps {
   location: boolean;
   version: string;
   fullName: string;
-  onSettingToggle(string): void;
+  onSettingToggle(setting): void;
   logoutActions(): void;
 }
 
@@ -65,9 +65,9 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({
           </SettingLeft>
           <SettingRight>
             <View style={{
+              alignItems: "flex-end",
               flex: 1,
-              alignItems: 'flex-end',
-              justifyContent: 'flex-end',
+              justifyContent: "flex-end",
             }}>
               <CFacebookLoginButton
                 logoutActions={logoutActions}
@@ -165,7 +165,7 @@ const SettingLine = (props) => (
 );
 
 const SettingName = (props) => (
-  <Text style={{fontSize: 20, fontWeight: 'bold'}}>{props.children}</Text>
+  <Text style={{fontSize: 20, fontWeight: "bold"}}>{props.children}</Text>
 );
 
 const SettingNameLight = (props) => (
