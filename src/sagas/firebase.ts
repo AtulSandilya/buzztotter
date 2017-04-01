@@ -162,6 +162,7 @@ export function *addPurchasedBevegramToDB(action, chargeId) { // returns Purchas
     purchasePrice: action.payload.purchaseData.amount,
     // Used on credit card statement.
     description: action.payload.purchaseData.description,
+    promoCode: action.payload.purchaseData.promoCode,
   }
 
   const purchaseId = yield call(addPurchasedBevegramToUser, user.firebase.uid, purchasedBevegram);

@@ -39,6 +39,7 @@ export interface PurchasedBevegram {
   purchasePrice: number;
   // Used on credit card statement.
   description: string;
+  promoCode: string;
   sentBevegramId?: string;
 }
 
