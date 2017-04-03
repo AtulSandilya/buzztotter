@@ -272,11 +272,12 @@ export function *updateAllLists() {
   yield put({type: 'SET_REDEEMED_BEVEGRAM_LIST', payload: {list: redeemedList}})
 }
 
-export function *addPromoCodeToDB(promoCode: string) {
+export function *addPromoCodeToDB(promoCode: string, quantity: number) {
   const userFirebaseId: string = yield select<{user: UserState}>((state) => state.user.firebase.uid);
   const promoCodePackage: PromoCodePackage = {
     purchasedByUserId: userFirebaseId,
     purchaseDate: StringifyDate(),
+    quantity: quantity,
   }
 
   yield call(addPromoCode, promoCode, promoCodePackage);

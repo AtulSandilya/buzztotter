@@ -90,8 +90,8 @@ export default function* rootSaga() {
     }});
 
     const promoCode = action.payload.purchaseData.promoCode;
-    if(promoCode !== "") {
-      yield call(addPromoCodeToDB, promoCode);
+    if (promoCode !== "") {
+      yield call(addPromoCodeToDB, promoCode, action.payload.purchaseData.quantity);
     }
 
     return purchasedBevegramPack.id;

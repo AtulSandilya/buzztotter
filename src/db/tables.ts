@@ -123,6 +123,7 @@ export const NotificationActions = {
 export interface PromoCodePackage {
   purchasedByUserId: string;
   purchaseDate: string;
+  quantity: number;
 }
 
 //  End PromoCodePackage ------------------------------------------------------}}}

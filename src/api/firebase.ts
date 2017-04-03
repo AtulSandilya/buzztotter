@@ -6,7 +6,8 @@ import {
   GetFcmTokenDbUrl,
   GetFirebaseIdDbUrl,
   GetNotificationQueueUrl,
-  GetPromoCodeDbUrl,
+  GetPromoCodeListDbUrl,
+  GetPromoCodeSummaryDbUrl,
   GetPurchasedBevegramListDbUrl,
   GetPurchasedBevegramSummaryDbUrl,
   GetReceivedBevegramListDbUrl,
@@ -379,8 +380,17 @@ export const addNotificationToNotificationQueue = (notification: Notification) =
 //  End Queue Notification ----------------------------------------------}}}
 //  PromoCode -----------------------------------------------------------{{{
 
+const updatePromoCodeSummary = (promoCode: string, promoCodePack: PromoCodePackage) => {
+  UpdateNode(GetPromoCodeSummaryDbUrl(promoCode), (summary) => {
+    return Object.assign({}, {
+        total: SafeAdd(promoCodePack.quantity, summary.total),
+    });
+  });
+};
+
 export const addPromoCode = (promoCode: string, promoCodePack: PromoCodePackage) => {
-  PushToUrl(GetPromoCodeDbUrl(promoCode), promoCodePack);
+  updatePromoCodeSummary(promoCode, promoCodePack);
+  PushToUrl(GetPromoCodeListDbUrl(promoCode), promoCodePack);
 };
 
 //  End PromoCode -------------------------------------------------------}}}

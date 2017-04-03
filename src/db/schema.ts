@@ -31,7 +31,10 @@ const Schema = {
     },
     promoCodes: {
       promotionCode: {
-        FirebaseUniqueTimeSortableId: "PromoCodePack",
+        summary: "PromoCodesSummary",
+        list: {
+          FirebaseUniqueTimeSortableId: "PromoCodePack",
+        },
       },
     },
     purchasedBevegrams: {
@@ -169,6 +172,10 @@ export const GetRedeemedBevegramUserListDbUrl = (firebaseId: string): string => 
   return GetSchemaDbUrl("redeemedBevegrams.users.firebaseId", {firebaseId: firebaseId});
 };
 
-export const GetPromoCodeDbUrl = (promotionCode: string): string => {
-  return GetSchemaDbUrl("promoCodes.promotionCode", {promotionCode: promotionCode});
+export const GetPromoCodeListDbUrl = (promotionCode: string): string => {
+  return GetSchemaDbUrl("promoCodes.promotionCode.list", {promotionCode: promotionCode});
+};
+
+export const GetPromoCodeSummaryDbUrl = (promotionCode: string): string => {
+  return GetSchemaDbUrl("promoCodes.promotionCode.summary", {promotionCode: promotionCode});
 };
