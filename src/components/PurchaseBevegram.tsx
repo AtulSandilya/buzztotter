@@ -377,7 +377,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
                 width: 65,
               }}
               ref="promoCodeInput"
-              maxLength={4}
+              maxLength={8}
               placeholder={"ABCD"}
               placeholderTextColor={"#cccccc"}
               onChangeText={(text) => {
