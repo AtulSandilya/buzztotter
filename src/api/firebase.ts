@@ -67,6 +67,14 @@ export const isUserLoggedIn = () => {
 //  Utilities ----------------------------------------------------------{{{
 
 const PushToUrl = (url: string, pushObject: any): string => {
+  Object.keys(pushObject).map((key) => {
+    if (typeof(pushObject[key]) === "undefined") {
+      console.error(`Firebase chokes on objects with undefined values!
+                     Value of key '${key}' for url '${url}' is undefined!`);
+      return "";
+    }
+  });
+
   const ref = db.ref(url);
   const newNode = ref.push();
   newNode.set(pushObject);
