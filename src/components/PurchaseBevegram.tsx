@@ -154,7 +154,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
   private initiatePurchaseOrSendOrBoth() {
     if (this.userIsPurchasing()) {
       if (this.props.creditCards.length === 0) {
-        alert("xlease Add a Credit Card!");
+        alert("Please Add a Credit Card!");
         return;
       }
     }
