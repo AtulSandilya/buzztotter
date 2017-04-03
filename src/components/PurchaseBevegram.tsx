@@ -173,7 +173,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     return {
       amount: pack.price * 100,
       description: `Purchased ${pack.quantity} Bevegram${pack.quantity > 1 ? "s" : ""} via Buzz Otter`,
-      promoCode: this.state.promoCode,
+      promoCode: this.state.promoCode.toUpperCase(),
       quantity: pack.quantity,
     };
   }
