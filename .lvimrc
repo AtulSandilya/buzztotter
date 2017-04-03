@@ -102,12 +102,10 @@ endfunction
 function! ShowErrorsOrLint()
   let ycm_errors = youcompleteme#GetErrorCount()
   if ycm_errors > 0
-    execute ("ALEToggle")
     exe "YcmDiags"
     redraw
     echo printf("Skipping Compilation: %s Error%s Found!", ycm_errors, ycm_errors == 1 ? "" : "s")
   else
-    execute ("ALEToggle")
     exe "Neomake inc"
     redraw
     echo "Compiling ..."
