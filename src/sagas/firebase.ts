@@ -1,7 +1,7 @@
-import {Alert} from 'react-native';
-import { call, put, select } from 'redux-saga/effects';
+import {Alert} from "react-native";
+import { call, put, select } from "redux-saga/effects";
 
-import {FirebaseUser, UserState} from '../reducers/user';
+import {FirebaseUser, UserState} from "../reducers/user";
 
 import {
   PromoCodePackage,
@@ -9,9 +9,9 @@ import {
   ReceivedBevegram,
   RedeemedBevegram,
   SentBevegram,
-} from '../db/tables';
+} from "../db/tables";
 
-import {StringifyDate} from '../Utilities';
+import {StringifyDate} from "../Utilities";
 
 import {
   addPromoCode,
@@ -19,26 +19,26 @@ import {
   addReceivedBevegramToReceiverBevegrams,
   addRedeemedBevegram,
   addSentBevegramToUser,
-  firebaseLogOut as apiFirebaseLogOut,
   firebaseLoginViaFacebookToken,
+  firebaseLogOut as apiFirebaseLogOut,
   getFirebaseId,
   getFirebaseUser,
   initializeFirebaseUserFacebookId,
   isUserLoggedIn,
   readPurchasedBevegrams,
-  readSentBevegrams,
   readReceivedBevegrams,
   readRedeemedBevegrams,
+  readSentBevegrams,
   updateFirebaseUser as apiUpdateFirebaseUser,
   updatePurchasedBevegramWithSendId,
-  updateReceivedBevegramAsRedeemed
-} from '../api/firebase';
+  updateReceivedBevegramAsRedeemed,
+} from "../api/firebase";
 
 //  Login / Logout ------------------------------------------------------{{{
 
 export function *firebaseFacebookLogin(action) {
   try {
-    yield put({type: 'ATTEMPING_FIREBASE_LOGIN'});
+    yield put({type: "ATTEMPING_FIREBASE_LOGIN"});
     const firebaseCredential = yield call(firebaseLoginViaFacebookToken, action.payload.token);
 
     const firebaseUser: FirebaseUser = Object.assign({}, {
@@ -48,29 +48,29 @@ export function *firebaseFacebookLogin(action) {
       photoURL: firebaseCredential.photoURL,
       refreshToken: firebaseCredential.refreshToken,
       uid: firebaseCredential.uid,
-    })
+    });
 
-    const facebookId = yield select<any>((state) => state.user.facebook.id)
+    const facebookId = yield select<any>((state) => state.user.facebook.id);
     yield call(initializeFirebaseUserFacebookId, firebaseUser.uid, facebookId);
 
-    yield put({type: 'SUCCESSFUL_FIREBASE_LOGIN', payload: {
-      firebaseUser: firebaseUser
+    yield put({type: "SUCCESSFUL_FIREBASE_LOGIN", payload: {
+      firebaseUser: firebaseUser,
     }});
 
     yield call(updateFirebaseUser);
 
-  } catch(e) {
-    yield put({type: 'FAILED_FIREBASE_LOGIN'});
+  } catch (e) {
+    yield put({type: "FAILED_FIREBASE_LOGIN"});
   }
 }
 
-export function *firebaseLogOut(action){
-  try{
-    yield put({type: 'ATTEMPTING_FIREBASE_LOGOUT'});
+export function *firebaseLogOut(action) {
+  try {
+    yield put({type: "ATTEMPTING_FIREBASE_LOGOUT"});
     yield call(apiFirebaseLogOut);
-    yield put({type: 'SUCCESSFUL_FIREBASE_LOGOUT'});
-  } catch(e){
-    yield put({type: 'FAILED_FIREBASE_LOGOUT'});
+    yield put({type: "SUCCESSFUL_FIREBASE_LOGOUT"});
+  } catch (e) {
+    yield put({type: "FAILED_FIREBASE_LOGOUT"});
   }
 }
 
@@ -86,7 +86,7 @@ export function *firebaseLogOut(action){
 //         text: "Relogin",
 //         onPress: () => {
 //           console.log("Re logging in");
-//           yield put({type: ''})
+//           yield put({type: ""})
 //         }
 //       },
 //       {
@@ -110,9 +110,9 @@ export function *verifyReceiverExists(action) {
   let receiverFirebaseId: string;
   try {
     receiverFirebaseId = yield call(getFirebaseId, receiverFacebookId);
-    if(!receiverFirebaseId) throw Error;
+    if (!receiverFirebaseId) { throw Error; }
     return receiverFirebaseId;
-  } catch(e) {
+  } catch (e) {
     alert(`Unable to send Bevegram! ${action.payload.sendBevegramData.recipentName} does not exist in our records.`);
     throw Error(`getFirebaseId for receiver "${receiverFacebookId}" does not exist!`);
   }
@@ -124,18 +124,18 @@ export function *verifyReceiverExists(action) {
 export function *updateFirebaseUser(action) {
   yield put({type: "UPDATE_LAST_MODIFIED", payload: {
     lastModified: StringifyDate(),
-  }})
+  }});
 
   const user: UserState = yield select<{user: UserState}>((state) => state.user);
 
   try {
-    yield put({type: 'ATTEMPTING_FIREBASE_UPDATE_USER'});
+    yield put({type: "ATTEMPTING_FIREBASE_UPDATE_USER"});
 
     yield call(apiUpdateFirebaseUser, user);
 
-    yield put({type: 'SUCCESSFUL_FIREBASE_UPDATE_USER'});
-  } catch(e){
-    yield put({type: 'FAILED_FIREBASE_UPDATE_USER', payload: {
+    yield put({type: "SUCCESSFUL_FIREBASE_UPDATE_USER"});
+  } catch (e) {
+    yield put({type: "FAILED_FIREBASE_UPDATE_USER", payload: {
       error: e,
     }});
   }
@@ -152,25 +152,25 @@ interface PurchasedBevegramPack {
 export function *addPurchasedBevegramToDB(action, chargeId) { // returns PurchaseBevegramPack
   const user: UserState = yield select<{user: UserState}>((state) => state.user);
   const purchasedBevegram: PurchasedBevegram = {
-    purchasedByName: user.fullName,
-    purchasedById: user.firebase.uid,
-    purchasedByFacebookId: user.facebook.id,
-    purchaseDate: StringifyDate(),
     chargeId: chargeId,
-    quantity: action.payload.purchaseData.quantity,
-    // In cents
-    purchasePrice: action.payload.purchaseData.amount,
     // Used on credit card statement.
     description: action.payload.purchaseData.description,
     promoCode: action.payload.purchaseData.promoCode,
-  }
+    purchaseDate: StringifyDate(),
+    // In cents
+    purchasePrice: action.payload.purchaseData.amount,
+    purchasedByFacebookId: user.facebook.id,
+    purchasedById: user.firebase.uid,
+    purchasedByName: user.fullName,
+    quantity: action.payload.purchaseData.quantity,
+  };
 
   const purchaseId = yield call(addPurchasedBevegramToUser, user.firebase.uid, purchasedBevegram);
 
   return {
     id: purchaseId,
     purchasedBevegram: purchasedBevegram,
-  }
+  };
 }
 
 //  End Purchasing ------------------------------------------------------}}}
@@ -183,14 +183,14 @@ export function *addSentBevegramToDB(action, purchasedBevegramId) {
     quantity: action.payload.sendBevegramData.quantity,
     receiverName: action.payload.sendBevegramData.recipentName,
     sendDate: StringifyDate(),
-  }
+  };
 
   const sendId = yield call(addSentBevegramToUser, user.firebase.uid, sentBevegram);
 
   return {
     id: sendId,
     sentBevegram: sentBevegram,
-  }
+  };
 }
 
 export function *addSendIdToPurchasedBevegram(action, purchaseId: string, sendId: string) {
@@ -204,14 +204,14 @@ export function *addSendIdToPurchasedBevegram(action, purchaseId: string, sendId
 export function *addReceivedBevegramToDB(action, receiverFirebaseId: string) {
   const user: UserState = yield select<{user: UserState}>((state) => state.user);
   const receivedBevegram: ReceivedBevegram = {
-    sentFromName: user.fullName,
-    sentFromFacebookId: user.facebook.id,
-    sentFromPhotoUrl: user.firebase.photoURL,
-    receivedDate: StringifyDate(),
-    message: action.payload.sendBevegramData.message,
     isRedeemed: false,
+    message: action.payload.sendBevegramData.message,
     quantity: action.payload.sendBevegramData.quantity,
-  }
+    receivedDate: StringifyDate(),
+    sentFromFacebookId: user.facebook.id,
+    sentFromName: user.fullName,
+    sentFromPhotoUrl: user.firebase.photoURL,
+  };
 
   yield call(addReceivedBevegramToReceiverBevegrams, receiverFirebaseId, receivedBevegram);
 }
@@ -233,16 +233,16 @@ interface RedeemedBevegramPack {
 export function *addRedeemedBevegramToDB(action) {
   const user: UserState = yield select<{user: UserState}>((state) => state.user);
   const redeemedBevegram: RedeemedBevegram = {
-    redeemedByName: user.fullName,
+    // TODO: Read props below from action.payload
+    quantity: 1,
     redeemedByFacebookId: user.facebook.id,
+    redeemedByName: user.fullName,
     redeemedByPhotoUrl: user.firebase.photoURL,
     redeemedDate: StringifyDate(),
-    // TODO: Read props below from action.payload
+    vendorId: "string",
     vendorName: "string",
     vendorPin: "string",
-    vendorId: "string",
-    quantity: 1
-  }
+  };
 
   const id = yield call(addRedeemedBevegram, user.firebase.uid, "vendorId", redeemedBevegram);
   yield call(updateReceivedBevegramAsRedeemed, user.firebase.uid, action.payload.receivedBevegramId);
@@ -250,7 +250,7 @@ export function *addRedeemedBevegramToDB(action) {
   return {
     id: id,
     redeemedBevegram: redeemedBevegram,
-  }
+  };
 }
 
 //  End Redeeming -------------------------------------------------------}}}
@@ -266,19 +266,19 @@ export function *updateAllLists() {
 
   // In theory doing a lot of puts at the same time should update the state
   // only once.
-  yield put({type: 'SET_PURCHASED_BEVEGRAM_LIST', payload: {list: purchasedList}})
-  yield put({type: 'SET_SENT_BEVEGRAM_LIST', payload: {list: sentList}})
-  yield put({type: 'SET_RECEIVED_BEVEGRAM_LIST', payload: {list: receivedList}})
-  yield put({type: 'SET_REDEEMED_BEVEGRAM_LIST', payload: {list: redeemedList}})
+  yield put({type: "SET_PURCHASED_BEVEGRAM_LIST", payload: {list: purchasedList}});
+  yield put({type: "SET_SENT_BEVEGRAM_LIST", payload: {list: sentList}});
+  yield put({type: "SET_RECEIVED_BEVEGRAM_LIST", payload: {list: receivedList}});
+  yield put({type: "SET_REDEEMED_BEVEGRAM_LIST", payload: {list: redeemedList}});
 }
 
 export function *addPromoCodeToDB(promoCode: string, quantity: number) {
   const userFirebaseId: string = yield select<{user: UserState}>((state) => state.user.firebase.uid);
   const promoCodePackage: PromoCodePackage = {
-    purchasedByUserId: userFirebaseId,
     purchaseDate: StringifyDate(),
+    purchasedByUserId: userFirebaseId,
     quantity: quantity,
-  }
+  };
 
   yield call(addPromoCode, promoCode, promoCodePackage);
 }
