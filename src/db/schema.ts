@@ -26,8 +26,17 @@ const Schema = {
     vendors: {
       vendorId: "Vendor",
     },
-    queue: {
-      uniqueId: "NotificationPackage",
+    addCreditCardToCustomerQueue: {
+      uniqueId: "AddCreditCardToCustomerPackage",
+    },
+    removeCreditCardFromCustomerQueue: {
+      uniqueId: "RemoveCreditCardFromCustomerPackage",
+    },
+    purchaseQueue: {
+      uniqueId: "PurchasePackage",
+    },
+    redeemQueue: {
+      uniqueId: "RedeemPackage",
     },
     promoCodes: {
       promotionCode: {
@@ -128,8 +137,20 @@ export const GetFcmTokenDbUrl = (facebookId: string) => {
   return GetSchemaDbUrl("fcmTokens.facebookId", {facebookId: facebookId});
 };
 
-export const GetNotificationQueueUrl = () => {
-  return GetSchemaDbUrl("queue");
+export const GetAddCreditCardToCustomerQueueUrl = () => {
+  return GetSchemaDbUrl("addCreditCardToCustomerQueue");
+};
+
+export const GetRemoveCreditCardFromCustomerQueueUrl = () => {
+  return GetSchemaDbUrl("removeCreditCardFromCustomerQueue");
+};
+
+export const GetPurchaseQueueUrl = () => {
+  return GetSchemaDbUrl("purchaseQueue");
+};
+
+export const GetRedeemQueueUrl = () => {
+  return GetSchemaDbUrl("redeemQueue");
 };
 
 export const GetPurchasedBevegramListDbUrl = (firebaseId: string): string => {

@@ -1,4 +1,4 @@
-Object.defineProperty(exports,"__esModule",{value:true});exports.GetPromoCodeSummaryDbUrl=exports.GetPromoCodeListDbUrl=exports.GetRedeemedBevegramUserListDbUrl=exports.GetRedeemedBevegramUserDbUrl=exports.GetRedeemedBevegramVendorCustomerDbUrl=exports.GetRedeemedBevegramVendorDbUrl=exports.GetReceivedBevegramSummaryDbUrl=exports.GetReceivedBevegramListDbUrl=exports.GetSentBevegramSummaryDbUrl=exports.GetSentBevegramListDbUrl=exports.GetPurchasedBevegramSummaryDbUrl=exports.GetPurchasedBevegramListDbUrl=exports.GetNotificationQueueUrl=exports.GetFcmTokenDbUrl=exports.GetFirebaseIdDbUrl=exports.GetVendorDbUrl=exports.GetUserDbUrl=exports.GetSchemaDbUrl=undefined;var _lodash=require("lodash");var _lodash2=_interopRequireDefault(_lodash);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}
+Object.defineProperty(exports,"__esModule",{value:true});exports.GetPromoCodeSummaryDbUrl=exports.GetPromoCodeListDbUrl=exports.GetRedeemedBevegramUserListDbUrl=exports.GetRedeemedBevegramUserDbUrl=exports.GetRedeemedBevegramVendorCustomerDbUrl=exports.GetRedeemedBevegramVendorDbUrl=exports.GetReceivedBevegramSummaryDbUrl=exports.GetReceivedBevegramListDbUrl=exports.GetSentBevegramSummaryDbUrl=exports.GetSentBevegramListDbUrl=exports.GetPurchasedBevegramSummaryDbUrl=exports.GetPurchasedBevegramListDbUrl=exports.GetRedeemQueueUrl=exports.GetPurchaseQueueUrl=exports.GetRemoveCreditCardFromCustomerQueueUrl=exports.GetAddCreditCardToCustomerQueueUrl=exports.GetFcmTokenDbUrl=exports.GetFirebaseIdDbUrl=exports.GetVendorDbUrl=exports.GetUserDbUrl=exports.GetSchemaDbUrl=undefined;var _lodash=require("lodash");var _lodash2=_interopRequireDefault(_lodash);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}
 
 
 var Schema={
@@ -15,8 +15,17 @@ facebookId:"fcmToken"},
 vendors:{
 vendorId:"Vendor"},
 
-queue:{
-uniqueId:"NotificationPackage"},
+addCreditCardToCustomerQueue:{
+uniqueId:"AddCreditCardToCustomerPackage"},
+
+removeCreditCardFromCustomerQueue:{
+uniqueId:"RemoveCreditCardFromCustomerPackage"},
+
+purchaseQueue:{
+uniqueId:"PurchasePackage"},
+
+redeemQueue:{
+uniqueId:"RedeemPackage"},
 
 promoCodes:{
 promotionCode:{
@@ -106,8 +115,17 @@ return GetSchemaDbUrl("firebaseIds.facebookId",{facebookId:facebookId});
 var GetFcmTokenDbUrl=exports.GetFcmTokenDbUrl=function GetFcmTokenDbUrl(facebookId){
 return GetSchemaDbUrl("fcmTokens.facebookId",{facebookId:facebookId});
 };
-var GetNotificationQueueUrl=exports.GetNotificationQueueUrl=function GetNotificationQueueUrl(){
-return GetSchemaDbUrl("queue");
+var GetAddCreditCardToCustomerQueueUrl=exports.GetAddCreditCardToCustomerQueueUrl=function GetAddCreditCardToCustomerQueueUrl(){
+return GetSchemaDbUrl("addCreditCardToCustomerQueue");
+};
+var GetRemoveCreditCardFromCustomerQueueUrl=exports.GetRemoveCreditCardFromCustomerQueueUrl=function GetRemoveCreditCardFromCustomerQueueUrl(){
+return GetSchemaDbUrl("removeCreditCardFromCustomerQueue");
+};
+var GetPurchaseQueueUrl=exports.GetPurchaseQueueUrl=function GetPurchaseQueueUrl(){
+return GetSchemaDbUrl("purchaseQueue");
+};
+var GetRedeemQueueUrl=exports.GetRedeemQueueUrl=function GetRedeemQueueUrl(){
+return GetSchemaDbUrl("redeemQueue");
 };
 var GetPurchasedBevegramListDbUrl=exports.GetPurchasedBevegramListDbUrl=function GetPurchasedBevegramListDbUrl(firebaseId){
 return GetSchemaDbUrl("purchasedBevegrams.firebaseId.list",{firebaseId:firebaseId});
