@@ -1,6 +1,6 @@
 import * as firebase from "firebase";
 
-import secrets from "../secrets";
+import publicApiKeys from "../publicApiKeys";
 
 import {
   GetFcmTokenDbUrl,
@@ -38,10 +38,10 @@ import {UserState} from "../reducers/user";
 //  Init Firebase ------------------------------------------------------ {{{
 
 const firebaseConfig = {
-  apiKey: secrets.firebaseApiKey,
-  authDomain: secrets.firebaseAuthDomain,
-  databaseURL: secrets.firebaseDatabaseURL,
-  storageBucket: secrets.firebaseStorageBucket,
+  apiKey: publicApiKeys.firebaseApiKey,
+  authDomain: publicApiKeys.firebaseAuthDomain,
+  databaseURL: publicApiKeys.firebaseDatabaseURL,
+  storageBucket: publicApiKeys.firebaseStorageBucket,
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);

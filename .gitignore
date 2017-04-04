@@ -46,7 +46,7 @@ android/keystores/debug.keystore
 android/ReleaseBuilds
 
 # Api keys
-src/secrets.ts
+src/publicApiKeys.ts
 buzzotter*.json
 android/app/google-services.json
 .env
