@@ -6,6 +6,7 @@ export interface Location {
   typicalHours: string;
 }
 
+/* tslint:disable:object-literal-sort-keys */
 export const defaultLocationsState = [
   {
     name: "Lowry Beer Garden",
@@ -52,8 +53,8 @@ export const defaultLocationsState = [
 ]
 
 export const locations = (state = defaultLocationsState, action) => {
-  switch(action.type){
+  switch (action.type) {
     default:
       return state;
   }
-}
+};
