@@ -1,9 +1,7 @@
 import moment from "moment";
 
-import secrets from "../secrets";
-
 const stripeUrl = "https://api.stripe.com/v1/";
-const apiKey = secrets.stripeApiKey;
+const stripePrivateApiKey = process.env.STRIPE_PRIVATE_API_KEY;
 
 const uriEncodeObjectToString = (inputObj, separator = "&") => {
   const result = [];
@@ -43,7 +41,7 @@ const stripeRequest = (
     body: uriEncodeObjectToString(requestDetails),
     headers: {
       "Accept": "application/json",
-      "Authorization": "Bearer " + secrets.stripeApiKey,
+      "Authorization": "Bearer " + stripePrivateApiKey,
       "Content-Type": "application/x-www-form-urlencoded",
     },
     method: method,
