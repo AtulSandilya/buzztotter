@@ -2,14 +2,14 @@ import {
   Dimensions,
   Platform,
   StatusBar,
-} from 'react-native';
+} from "react-native";
 
-import { DeviceLocation } from './reducers/redeemView';
+import { DeviceLocation } from "./reducers/redeemView";
 
-export const isAndroid = Platform.OS === 'android';
-export const isIOS  = Platform.OS === 'ios';
+export const isAndroid = Platform.OS === "android";
+export const isIOS  = Platform.OS === "ios";
 
-const {height, width} = Dimensions.get("window")
+const {height, width} = Dimensions.get("window");
 export const WindowHeight = height;
 export const WindowWidth = width;
 export const isNarrow = WindowWidth <= 320;
@@ -18,7 +18,7 @@ export const StatusBarHeight = isIOS ? 20 : (isAndroid ? StatusBar.currentHeight
 
 export const StringifyDate = (): string => {
   return (new Date().toJSON());
-}
+};
 
 export const LocationsMatch = (a: DeviceLocation, b: DeviceLocation, name: string): boolean => {
   // Meters
@@ -26,7 +26,7 @@ export const LocationsMatch = (a: DeviceLocation, b: DeviceLocation, name: strin
   const metersBetweenPoints = HaversineFormula(a, b) * 1000;
 
   return tolerance > metersBetweenPoints;
-}
+};
 
 // Returns the distance between two points in kilometers.
 // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
@@ -42,9 +42,8 @@ const HaversineFormula = (a: DeviceLocation, b: DeviceLocation) => {
             Math.sin(dLong / 2) * Math.sin(dLong / 2);
   const z = 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
   return R * z;
-}
+};
 
 export const Pluralize = (input: number, suffix: string = "s"): string => {
   return input !== 1 ? suffix : "";
-}
-
+};
