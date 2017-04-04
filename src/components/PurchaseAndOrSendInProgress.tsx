@@ -1,17 +1,17 @@
 import * as React from "react";
-import { Component, PropTypes } from 'react';
+import { Component, PropTypes } from "react";
 import {
   Image,
   Text,
-  View
-} from 'react-native';
+  View,
+} from "react-native";
 
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import {globalStyles} from './GlobalStyles';
-import StatusLine from './StatusLine';
-import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
-import BevButton, {getButtonHeight} from './BevButton';
+import BevButton, {getButtonHeight} from "./BevButton";
+import {globalStyles} from "./GlobalStyles";
+import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
+import StatusLine from "./StatusLine";
 
 export interface InProgressData {
   bevegramsUserIsSending: number;
@@ -32,30 +32,35 @@ export interface PurchaseOrSendInProgressProps {
   purchaseFailed: boolean;
   purchaseFailedMessage: string;
   sendConfirmed: boolean;
-  closeRoute();
-  resetPurchase();
   // From Caller
   bevegramsUserIsSending: number;
   bevegramsUserIsPurchasing: number;
   bevegramsPurchasePrice: string;
-  cardLast4: string,
-  cardFontAwesomeIcon: string,
+  cardLast4: string;
+  cardFontAwesomeIcon: string;
   userIsPurchasing: boolean;
   userIsSending: boolean;
   recipentFullName: string;
   recipentImage: string;
   buttonFontSize: number;
+  closeRoute();
+  resetPurchase();
 }
 
-export const IsPurchaseAndOrSendCompleted = (userIsPurchasing: boolean, userIsSending: boolean, purchaseConfirmed: boolean, sendConfirmed: boolean) => {
-    if(userIsPurchasing && userIsSending){
+export const IsPurchaseAndOrSendCompleted = (
+  userIsPurchasing: boolean,
+  userIsSending: boolean,
+  purchaseConfirmed: boolean,
+  sendConfirmed: boolean,
+) => {
+    if (userIsPurchasing && userIsSending) {
       return purchaseConfirmed && sendConfirmed;
-    } else if (userIsSending){
+    } else if (userIsSending) {
       return sendConfirmed;
-    } else if (userIsPurchasing){
+    } else if (userIsPurchasing) {
       return purchaseConfirmed;
     }
-}
+};
 
 const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgressProps> = ({
   bevegramsUserIsSending,
@@ -76,38 +81,44 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
   buttonFontSize,
 }) => {
   const renderPurchaseOrSendOrBothComplete = () => {
-    const showCompleted = IsPurchaseAndOrSendCompleted(userIsPurchasing, userIsSending, purchaseConfirmed, sendConfirmed);
+    const showCompleted = IsPurchaseAndOrSendCompleted(
+      userIsPurchasing,
+      userIsSending,
+      purchaseConfirmed,
+      sendConfirmed,
+    );
 
-    if(!showCompleted){
-      return <View/>
+    if (!showCompleted) {
+      return <View/>;
     }
 
     const bevStr = (numBevs: number) => {
-      if(numBevs === 1){
+      if (numBevs === 1) {
         return "Bevegram";
       }
-      return "Bevegrams"
-    }
+      return "Bevegrams";
+    };
 
     const bevegramsUserSent = bevegramsUserIsSending;
     const bevegramsUserPurchased = bevegramsUserIsPurchasing;
     const sentSummaryText = `Sent ${bevegramsUserSent} ${bevStr(bevegramsUserSent)} to ${recipentFullName}`;
+    /* tslint:disable:max-line-length */
     const purchasedSummaryText = `Purchased ${bevegramsUserPurchased} ${bevStr(bevegramsUserPurchased)} for $${bevegramsPurchasePrice}`;
     const purchasedAndSentSummaryText = `Purchased & Sent ${bevegramsUserIsPurchasing} ${bevStr(bevegramsUserIsPurchasing)} to ${recipentFullName} for $${bevegramsPurchasePrice}`;
 
     let summaryText: string;
-    if(userIsPurchasing && userIsSending){
+    if (userIsPurchasing && userIsSending) {
       summaryText = purchasedAndSentSummaryText;
-    } else if (userIsPurchasing){
+    } else if (userIsPurchasing) {
       summaryText = purchasedSummaryText;
-    } else if (userIsSending){
+    } else if (userIsSending) {
       summaryText = sentSummaryText;
     }
 
     return (
       <View>
         <View style={globalStyles.bevLine}>
-          <View style={[globalStyles.bevLineLeft, {justifyContent: 'flex-start'}]}>
+          <View style={[globalStyles.bevLineLeft, {justifyContent: "flex-start"}]}>
             <Text style={[globalStyles.bevLineTextTitle, {paddingRight: 10}]}>
               Summary:
             </Text>
@@ -122,7 +133,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
           </View>
         </View>
         <View>
-          <View style={{alignItems: 'flex-end', paddingTop: 10}}>
+          <View style={{alignItems: "flex-end", paddingTop: 10}}>
             <BevButton
               onPress={closeRoute}
               text={"Close"}
@@ -133,8 +144,8 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
           </View>
         </View>
       </View>
-    )
-  }
+    );
+  };
 
   return (
     <RouteWithNavBarWrapper>
@@ -164,7 +175,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
                 <Text style={globalStyles.bevLineTextTitle}>Card Used:</Text>
               </View>
               <View style={globalStyles.bevLineRight}>
-                <View style={{flex: -1, flexDirection: "row", justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{flex: -1, flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
                   <FontAwesome name={cardFontAwesomeIcon} size={30} style={{paddingRight: 10}}/>
                   <Text style={globalStyles.bevLineText}>.... {cardLast4}</Text>
                 </View>
@@ -205,8 +216,8 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
                   source={{uri: recipentImage}}
                   style={{
                     height: 40,
-                    width: 40,
                     marginRight: 10,
+                    width: 40,
                   }}
                 />
                 <Text style={globalStyles.bevLineText}>
@@ -230,7 +241,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
         {purchaseFailed ?
         <View>
           <View style={globalStyles.bevLineNoSep}>
-            <Text style={[globalStyles.bevLineTextTitle, {color: 'red'}]}>Purchase Error:</Text>
+            <Text style={[globalStyles.bevLineTextTitle, {color: "red"}]}>Purchase Error:</Text>
           </View>
           <View style={globalStyles.bevLine}>
             <Text style={globalStyles.bevLineText}numberOfLines={5}>{purchaseFailedMessage}</Text>
@@ -238,9 +249,9 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
           <View>
             <View style={{
               flex: 1,
-              flexDirection: 'row',
+              flexDirection: "row",
             }}>
-              <View style={{flex: 1, alignItems: 'flex-start', paddingTop: 10}}>
+              <View style={{flex: 1, alignItems: "flex-start", paddingTop: 10}}>
                 <BevButton
                   onPress={closeRoute}
                   text={"Close"}
@@ -249,7 +260,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
                   buttonFontSize={buttonFontSize}
                 />
               </View>
-              <View style={{flex: 1, alignItems: 'flex-end', paddingTop: 10}}>
+              <View style={{flex: 1, alignItems: "flex-end", paddingTop: 10}}>
                 <BevButton
                   onPress={resetPurchase}
                   text={"Try Again"}
@@ -267,7 +278,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
         {renderPurchaseOrSendOrBothComplete()}
       </View>
     </RouteWithNavBarWrapper>
-  )
-}
+  );
+};
 
 export default PurchaseOrSendInProgess;
