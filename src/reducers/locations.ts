@@ -4,6 +4,7 @@ export interface Location {
   latitude: number;
   longitude: number;
   typicalHours: string;
+  squareFootage?: string;
 }
 
 /* tslint:disable:object-literal-sort-keys */
@@ -49,8 +50,25 @@ export const defaultLocationsState = [
     latitude: 39.779896,
     longitude: -105.043731,
     typicalHours: "3pm - 2am",
+    squareFootage: 2000,
   },
-]
+  {
+    name: "MAS KAOS",
+    address: "4526 Tennyson St, Denver, CO, 80212",
+    latitude: 39.77887,
+    longitude: -105.04362900000001,
+    typicalHours: "11:30am - 9pm",
+    squareFootage: 1000,
+  },
+  {
+    name: "Call to Arms Brewing Company",
+    address: "4526 Tennyson St, Denver, CO, 80212",
+    latitude: 39.77887,
+    longitude: -105.04362900000001,
+    typicalHours: "3pm - 10pm",
+    squareFootage: 1000,
+  },
+];
 
 export const locations = (state = defaultLocationsState, action) => {
   switch (action.type) {
