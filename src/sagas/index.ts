@@ -51,6 +51,7 @@ import {
 } from "./notifications";
 
 // Like combine reducers
+/* tslint:disable:object-literal-sort-keys */
 export default function* rootSaga() {
   // Facebook
   yield fork(takeEvery, "USER_FETCH_REQUESTED", fetchUser);
