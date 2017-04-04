@@ -376,6 +376,8 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
                 textAlign: "center",
                 width: 65,
               }}
+              autoCorrect={false}
+              autoCapitalize="none"
               ref="promoCodeInput"
               maxLength={8}
               placeholder={"ABCD"}
