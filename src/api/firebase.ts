@@ -3,22 +3,26 @@ import * as firebase from "firebase";
 import publicApiKeys from "../publicApiKeys";
 
 import {
+  GetAddCreditCardToCustomerQueueUrl,
   GetFcmTokenDbUrl,
   GetFirebaseIdDbUrl,
-  GetNotificationQueueUrl,
   GetPromoCodeListDbUrl,
   GetPromoCodeSummaryDbUrl,
   GetPurchasedBevegramListDbUrl,
   GetPurchasedBevegramSummaryDbUrl,
+  GetPurchaseQueueUrl,
   GetReceivedBevegramListDbUrl,
   GetReceivedBevegramSummaryDbUrl,
   GetRedeemedBevegramUserDbUrl,
   GetRedeemedBevegramUserListDbUrl,
   GetRedeemedBevegramVendorCustomerDbUrl,
   GetRedeemedBevegramVendorDbUrl,
+  GetRedeemQueueUrl,
+  GetRemoveCreditCardFromCustomerQueueUrl,
   GetSentBevegramListDbUrl,
   GetSentBevegramSummaryDbUrl,
   GetUserDbUrl,
+  GetUserVerificationTokenDbUrl,
 } from "../db/schema";
 
 import {
@@ -371,13 +375,6 @@ export const readRedeemedBevegrams = (userFirebaseId: string) => {
 };
 
 //  End Redeemed List ---------------------------------------------------}}}
-//  Queue Notification --------------------------------------------------{{{
-
-export const addNotificationToNotificationQueue = (notification: Notification) => {
-  PushToUrl(GetNotificationQueueUrl() + "/tasks", notification);
-};
-
-//  End Queue Notification ----------------------------------------------}}}
 //  PromoCode -----------------------------------------------------------{{{
 
 const updatePromoCodeSummary = (promoCode: string, promoCodePack: PromoCodePackage) => {
@@ -394,3 +391,36 @@ export const addPromoCode = (promoCode: string, promoCodePack: PromoCodePackage)
 };
 
 //  End PromoCode -------------------------------------------------------}}}
+//  Queue Notification --------------------------------------------------{{{
+
+// Adding an object to a queue url requires putting the object in the
+// "tasks" node
+const TaskifyUrl = (url: string): string => {
+  return `${url}/tasks`;
+};
+
+// TODO: Add type to inputPackage
+export const QueueAddCreditCardToCustomerPackage = (inputPackage: any) => {
+  PushToUrl(TaskifyUrl(GetAddCreditCardToCustomerQueueUrl()), inputPackage);
+};
+
+// TODO: Add type to inputPackage
+export const QueueRemoveCreditCardFromCustomerPackage = (inputPackage: any) => {
+  PushToUrl(TaskifyUrl(GetRemoveCreditCardFromCustomerQueueUrl()), inputPackage);
+};
+
+// TODO: Add type to inputPackage
+export const QueuePurchasePackage = (inputPackage: any) => {
+  PushToUrl(TaskifyUrl(GetPurchaseQueueUrl()), inputPackage);
+};
+
+// TODO: Add type to inputPackage
+export const QueueRedeemPackage = (inputPackage: any) => {
+  PushToUrl(TaskifyUrl(GetRedeemQueueUrl()), inputPackage);
+};
+
+export const DbWriteUserVerificationToken = (token: string, userFirebaseId: string) => {
+  WriteNode(GetUserVerificationTokenDbUrl(userFirebaseId), token);
+};
+
+//  End Queue Notification ----------------------------------------------}}}
