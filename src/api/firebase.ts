@@ -2,28 +2,7 @@ import * as firebase from "firebase";
 
 import publicApiKeys from "../publicApiKeys";
 
-import {
-  GetAddCreditCardToCustomerQueueUrl,
-  GetFcmTokenDbUrl,
-  GetFirebaseIdDbUrl,
-  GetPromoCodeListDbUrl,
-  GetPromoCodeSummaryDbUrl,
-  GetPurchasedBevegramListDbUrl,
-  GetPurchasedBevegramSummaryDbUrl,
-  GetPurchaseQueueUrl,
-  GetReceivedBevegramListDbUrl,
-  GetReceivedBevegramSummaryDbUrl,
-  GetRedeemedBevegramUserDbUrl,
-  GetRedeemedBevegramUserListDbUrl,
-  GetRedeemedBevegramVendorCustomerDbUrl,
-  GetRedeemedBevegramVendorDbUrl,
-  GetRedeemQueueUrl,
-  GetRemoveCreditCardFromCustomerQueueUrl,
-  GetSentBevegramListDbUrl,
-  GetSentBevegramSummaryDbUrl,
-  GetUserDbUrl,
-  GetUserVerificationTokenDbUrl,
-} from "../db/schema";
+import * as DbSchema from "../db/schema";
 
 import {
   PromoCodePackage,
@@ -118,7 +97,7 @@ const SafeSubtract = (num1: number, num2: number) => {
 //  User -------------------------------------------------------{{{
 
 export const initializeFirebaseUserFacebookId = (firebaseId: string, facebookId: string): any => {
-  return WriteNode(GetFirebaseIdDbUrl(facebookId), firebaseId);
+  return WriteNode(DbSchema.GetFirebaseIdDbUrl(facebookId), firebaseId);
 };
 
 export const updateFirebaseUser = (user: UserState): any => {
@@ -136,42 +115,42 @@ export const updateFirebaseUser = (user: UserState): any => {
   // if(user.lastModified != savedUserState.lastModified) {
   // }
 
-  return db.ref(GetUserDbUrl(userFirebaseId)).set(user);
+  return db.ref(DbSchema.GetUserDbUrl(userFirebaseId)).set(user);
 };
 
 export const getFirebaseUser = (userFirebaseId: string): any => {
-  return ReadNode(GetUserDbUrl(userFirebaseId));
+  return ReadNode(DbSchema.GetUserDbUrl(userFirebaseId));
 };
 
 //  End User ---------------------------------------------------}}}
 //  Firebase / Facebook Id Conversion -----------------------------------{{{
 
 export const getFirebaseId = (facebookId: string): any => {
-  return ReadNode(GetFirebaseIdDbUrl(facebookId));
+  return ReadNode(DbSchema.GetFirebaseIdDbUrl(facebookId));
 };
 
 //  End Firebase / Facebook Id Conversion -------------------------------}}}
 //  Fcm Tokens ----------------------------------------------------------{{{
 
 export const setFcmToken = (facebookId: string, fcmToken: string): any => {
-  return WriteNode(GetFcmTokenDbUrl(facebookId), fcmToken);
+  return WriteNode(DbSchema.GetFcmTokenDbUrl(facebookId), fcmToken);
 };
 
 export const getFcmToken = (facebookId: string): any => {
-  return ReadNode(GetFcmTokenDbUrl(facebookId));
+  return ReadNode(DbSchema.GetFcmTokenDbUrl(facebookId));
 };
 
 //  End Fcm Tokens ------------------------------------------------------}}}
 //  Purchase List ------------------------------------------------------{{{
 
 export const addPurchasedBevegramToUser = (userFirebaseId: string, purchasedBevegram: PurchasedBevegram): string => {
-  const id = PushToUrl(GetPurchasedBevegramListDbUrl(userFirebaseId), purchasedBevegram);
+  const id = PushToUrl(DbSchema.GetPurchasedBevegramListDbUrl(userFirebaseId), purchasedBevegram);
   addPurchasedBevegramToUserPurchaseSummary(userFirebaseId, purchasedBevegram);
   return id;
 };
 
 export const updatePurchasedBevegramWithSendId = (firebaseId: string, purchaseId: string, sendId: string): any => {
-  UpdateNode(GetPurchasedBevegramListDbUrl(firebaseId) + `/${purchaseId}`, (purchasedBevegram) => {
+  UpdateNode(DbSchema.GetPurchasedBevegramListDbUrl(firebaseId) + `/${purchaseId}`, (purchasedBevegram) => {
     return Object.assign({}, purchasedBevegram, {
       sentBevegramId: sendId,
     });
@@ -179,11 +158,11 @@ export const updatePurchasedBevegramWithSendId = (firebaseId: string, purchaseId
 };
 
 export const readPurchasedBevegrams = (userFirebaseId: string) => {
-  return ReadNode(GetPurchasedBevegramListDbUrl(userFirebaseId));
+  return ReadNode(DbSchema.GetPurchasedBevegramListDbUrl(userFirebaseId));
 };
 
 export const readPurchasedBevegramsSummary = (userFirebaseId: string) => {
-  return ReadNode(GetPurchasedBevegramSummaryDbUrl(userFirebaseId));
+  return ReadNode(DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId));
 };
 
 //  End Purchase List --------------------------------------------------}}}
@@ -204,7 +183,7 @@ const addPurchasedBevegramToUserPurchaseSummary = (
   userFirebaseId: string,
   purchasedBevegram: PurchasedBevegram,
 ) => {
-  UpdateNode(GetPurchasedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
+  UpdateNode(DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
     return addPurchasedBevegramToPurchaseSummary(summary, purchasedBevegram);
   });
 };
@@ -224,7 +203,7 @@ const removeSentBevegramFromUserPurchaseSummary = (
   userFirebaseId: string,
   sentBevegram: SentBevegram,
 ) => {
-  UpdateNode(GetPurchasedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
+  UpdateNode(DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
     return removeSentBevegramFromPurchaseSummary(summary, sentBevegram);
   });
 };
@@ -233,7 +212,7 @@ const removeSentBevegramFromUserPurchaseSummary = (
 //  Sent List -----------------------------------------------------------{{{
 
 export const addSentBevegramToUser = (userFirebaseId: string, sentBevegram: SentBevegram) => {
-  const id = PushToUrl(GetSentBevegramListDbUrl(userFirebaseId), sentBevegram);
+  const id = PushToUrl(DbSchema.GetSentBevegramListDbUrl(userFirebaseId), sentBevegram);
 
   removeSentBevegramFromUserSentSummary(userFirebaseId, sentBevegram);
   removeSentBevegramFromUserPurchaseSummary(userFirebaseId, sentBevegram);
@@ -242,7 +221,7 @@ export const addSentBevegramToUser = (userFirebaseId: string, sentBevegram: Sent
 };
 
 export const readSentBevegrams = (userFirebaseId: string) => {
-  return ReadNode(GetSentBevegramListDbUrl(userFirebaseId));
+  return ReadNode(DbSchema.GetSentBevegramListDbUrl(userFirebaseId));
 };
 
 //  End Sent List -------------------------------------------------------}}}
@@ -262,7 +241,7 @@ const addSentBevegramToUserSentSummary = (
   userFirebaseId: string,
   sentBevegram: SentBevegram,
 ) => {
-  UpdateNode(GetSentBevegramListDbUrl(userFirebaseId), (summary) => {
+  UpdateNode(DbSchema.GetSentBevegramListDbUrl(userFirebaseId), (summary) => {
     return addSentBevegramToSentSummary(summary, sentBevegram);
   });
 };
@@ -278,7 +257,7 @@ export const removeSentBevegramFromSentSummary = (
 };
 
 const removeSentBevegramFromUserSentSummary = (userFirebaseId: string, sentBevegram: SentBevegram) => {
-  UpdateNode(GetSentBevegramSummaryDbUrl(userFirebaseId), (summary) => {
+  UpdateNode(DbSchema.GetSentBevegramSummaryDbUrl(userFirebaseId), (summary) => {
     return removeSentBevegramFromSentSummary(summary, sentBevegram);
   });
 };
@@ -290,7 +269,7 @@ export const addReceivedBevegramToReceiverBevegrams = (
   receiverFirebaseId: string,
   receivedBevegram: ReceivedBevegram,
 ) => {
-  const id = PushToUrl(GetReceivedBevegramListDbUrl(receiverFirebaseId), receivedBevegram);
+  const id = PushToUrl(DbSchema.GetReceivedBevegramListDbUrl(receiverFirebaseId), receivedBevegram);
 
   addReceivedBevegramToReceiverReceivedSummary(receiverFirebaseId, receivedBevegram);
 
@@ -298,11 +277,11 @@ export const addReceivedBevegramToReceiverBevegrams = (
 };
 
 export const readReceivedBevegrams = (userFirebaseId: string) => {
-  return ReadNode(GetReceivedBevegramListDbUrl(userFirebaseId));
+  return ReadNode(DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId));
 };
 
 export const updateReceivedBevegramAsRedeemed = (userFirebaseId: string, receivedBevegramId: string): any => {
-  UpdateNode(GetReceivedBevegramListDbUrl(userFirebaseId) + `/${receivedBevegramId}`, (receivedBevegram) => {
+  UpdateNode(DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId) + `/${receivedBevegramId}`, (receivedBevegram) => {
     return Object.assign({}, receivedBevegram, {
       isRedeemed: true,
     });
@@ -327,7 +306,7 @@ export const addReceivedBevegramToReceiverReceivedSummary = (
   receiverFirebaseId: string,
   receivedBevegram: ReceivedBevegram,
 ) => {
-  UpdateNode(GetReceivedBevegramSummaryDbUrl(receiverFirebaseId), (summary) => {
+  UpdateNode(DbSchema.GetReceivedBevegramSummaryDbUrl(receiverFirebaseId), (summary) => {
     return addReceivedBevegramToReceivedSummary(summary, receivedBevegram);
   });
 };
@@ -347,7 +326,7 @@ const removeRedeemedBevegramFromUserReceivedSummary = (
   userFirebaseId: string,
   redeemedBevegram: RedeemedBevegram,
 ) => {
-  UpdateNode(GetReceivedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
+  UpdateNode(DbSchema.GetReceivedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
     return removeRedeemedBevegramFromReceivedSummary(summary, redeemedBevegram);
   });
 };
@@ -357,11 +336,11 @@ const removeRedeemedBevegramFromUserReceivedSummary = (
 
 // Batch all redeemed db calls into one function
 export const addRedeemedBevegram = (userFirebaseId: string, vendorId: string, redeemedBevegram: RedeemedBevegram) => {
-  PushToUrl(GetRedeemedBevegramVendorDbUrl(vendorId), redeemedBevegram);
+  PushToUrl(DbSchema.GetRedeemedBevegramVendorDbUrl(vendorId), redeemedBevegram);
 
-  const id = PushToUrl(GetRedeemedBevegramUserDbUrl(userFirebaseId), redeemedBevegram);
+  const id = PushToUrl(DbSchema.GetRedeemedBevegramUserDbUrl(userFirebaseId), redeemedBevegram);
 
-  UpdateNode(GetRedeemedBevegramVendorCustomerDbUrl(vendorId), (customerList) => {
+  UpdateNode(DbSchema.GetRedeemedBevegramVendorCustomerDbUrl(vendorId), (customerList) => {
     const newCustomer = {};
     newCustomer[userFirebaseId] = true;
     return Object.assign({}, customerList, newCustomer);
@@ -371,14 +350,14 @@ export const addRedeemedBevegram = (userFirebaseId: string, vendorId: string, re
 };
 
 export const readRedeemedBevegrams = (userFirebaseId: string) => {
-  return ReadNode(GetRedeemedBevegramUserListDbUrl(userFirebaseId));
+  return ReadNode(DbSchema.GetRedeemedBevegramUserListDbUrl(userFirebaseId));
 };
 
 //  End Redeemed List ---------------------------------------------------}}}
 //  PromoCode -----------------------------------------------------------{{{
 
 const updatePromoCodeSummary = (promoCode: string, promoCodePack: PromoCodePackage) => {
-  UpdateNode(GetPromoCodeSummaryDbUrl(promoCode), (summary) => {
+  UpdateNode(DbSchema.GetPromoCodeSummaryDbUrl(promoCode), (summary) => {
     return Object.assign({}, {
         total: SafeAdd(promoCodePack.quantity, summary.total),
     });
@@ -387,7 +366,7 @@ const updatePromoCodeSummary = (promoCode: string, promoCodePack: PromoCodePacka
 
 export const addPromoCode = (promoCode: string, promoCodePack: PromoCodePackage) => {
   updatePromoCodeSummary(promoCode, promoCodePack);
-  PushToUrl(GetPromoCodeListDbUrl(promoCode), promoCodePack);
+  PushToUrl(DbSchema.GetPromoCodeListDbUrl(promoCode), promoCodePack);
 };
 
 //  End PromoCode -------------------------------------------------------}}}
@@ -401,26 +380,26 @@ const TaskifyUrl = (url: string): string => {
 
 // TODO: Add type to inputPackage
 export const QueueAddCreditCardToCustomerPackage = (inputPackage: any) => {
-  PushToUrl(TaskifyUrl(GetAddCreditCardToCustomerQueueUrl()), inputPackage);
+  PushToUrl(TaskifyUrl(DbSchema.GetAddCreditCardToCustomerQueueUrl()), inputPackage);
 };
 
 // TODO: Add type to inputPackage
 export const QueueRemoveCreditCardFromCustomerPackage = (inputPackage: any) => {
-  PushToUrl(TaskifyUrl(GetRemoveCreditCardFromCustomerQueueUrl()), inputPackage);
+  PushToUrl(TaskifyUrl(DbSchema.GetRemoveCreditCardFromCustomerQueueUrl()), inputPackage);
 };
 
 // TODO: Add type to inputPackage
 export const QueuePurchasePackage = (inputPackage: any) => {
-  PushToUrl(TaskifyUrl(GetPurchaseQueueUrl()), inputPackage);
+  PushToUrl(TaskifyUrl(DbSchema.GetPurchaseQueueUrl()), inputPackage);
 };
 
 // TODO: Add type to inputPackage
 export const QueueRedeemPackage = (inputPackage: any) => {
-  PushToUrl(TaskifyUrl(GetRedeemQueueUrl()), inputPackage);
+  PushToUrl(TaskifyUrl(DbSchema.GetRedeemQueueUrl()), inputPackage);
 };
 
 export const DbWriteUserVerificationToken = (token: string, userFirebaseId: string) => {
-  WriteNode(GetUserVerificationTokenDbUrl(userFirebaseId), token);
+  WriteNode(DbSchema.GetUserVerificationTokenDbUrl(userFirebaseId), token);
 };
 
 //  End Queue Notification ----------------------------------------------}}}
