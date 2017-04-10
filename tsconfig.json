@@ -5,7 +5,7 @@
         "jsx": "react",
         "outDir": "build",
         "rootDir": "src",
-        "sourceMap": true,
+        "sourceMap": false,
         "noImplicitAny": false,
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
