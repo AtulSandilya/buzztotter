@@ -1,47 +1,47 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
-import { settings           } from './settings';
-import { view               } from './view';
-import { contacts           } from './contacts';
-import { bevegrams          } from './bevegrams';
-import { modals             } from './modals';
-import { login              } from './login';
-import { locations          } from './locations';
-import { user               } from './user';
-import { purchase           } from './purchase';
-import { app                } from './app';
-import { routes             } from './routes';
-import { addCreditCard      } from './addCreditCard';
-import { purchasedBevegrams } from './purchasedBevegrams';
-import { sentBevegrams      } from './sentBevegrams';
-import { receivedBevegrams  } from './receivedBevegrams';
-import { redeemedBevegrams  } from './redeemedBevegrams';
-import { bevegramsTab       } from './bevegramsTab';
-import { badges             } from './badges';
-import { redeemView         } from './redeemView';
-import { historyView        } from './historyView';
-import { contactsView       } from './contactsView';
+import { addCreditCard      } from "./addCreditCard";
+import { app                } from "./app";
+import { badges             } from "./badges";
+import { bevegrams          } from "./bevegrams";
+import { bevegramsTab       } from "./bevegramsTab";
+import { contacts           } from "./contacts";
+import { contactsView       } from "./contactsView";
+import { historyView        } from "./historyView";
+import { locations          } from "./locations";
+import { login              } from "./login";
+import { modals             } from "./modals";
+import { purchase           } from "./purchase";
+import { purchasedBevegrams } from "./purchasedBevegrams";
+import { receivedBevegrams  } from "./receivedBevegrams";
+import { redeemedBevegrams  } from "./redeemedBevegrams";
+import { redeemView         } from "./redeemView";
+import { routes             } from "./routes";
+import { sentBevegrams      } from "./sentBevegrams";
+import { settings           } from "./settings";
+import { user               } from "./user";
+import { view               } from "./view";
 
 export default combineReducers({
-  settings,
-  view,
-  contacts,
-  bevegrams,
-  modals,
-  login,
-  locations,
-  user,
-  purchase,
-  app,
-  routes,
   addCreditCard,
+  app,
+  badges,
+  bevegrams,
+  bevegramsTab,
+  contacts,
+  contactsView,
+  historyView,
+  locations,
+  login,
+  modals,
+  purchase,
   purchasedBevegrams,
-  sentBevegrams,
   receivedBevegrams,
   redeemedBevegrams,
-  bevegramsTab,
-  badges,
   redeemView,
-  historyView,
-  contactsView,
-})
+  routes,
+  sentBevegrams,
+  settings,
+  user,
+  view,
+});
