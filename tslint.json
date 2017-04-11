@@ -2,6 +2,7 @@
   "extends": "tslint:latest",
   "rules": {
     "interface-name": [true, "never-prefix"],
-    "object-literal-shorthand": false
+    "object-literal-shorthand": false,
+    "no-magic-numbers": true
   }
 }
