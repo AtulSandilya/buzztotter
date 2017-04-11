@@ -1,28 +1,28 @@
-import { put, select } from 'redux-saga/effects';
 import {
   Keyboard,
   ToastAndroid,
-} from 'react-native';
+} from "react-native";
+import { put, select } from "redux-saga/effects";
 
-import { Actions, ActionConst } from 'react-native-router-flux';
+import { ActionConst, Actions } from "react-native-router-flux";
 
-import {RouteState} from '../reducers/routes';
+import {RouteState} from "../reducers/routes";
 
-import {isAndroid, isIOS} from '../Utilities';
+import {isAndroid, isIOS} from "../Utilities";
 
-import { IsPurchaseAndOrSendCompleted } from '../components/PurchaseAndOrSendInProgress';
+import { IsPurchaseAndOrSendCompleted } from "../components/PurchaseAndOrSendInProgress";
 
-export function *goToRoute(action){
+export function *goToRoute(action) {
 
   const nextRoute = action.payload.route;
   let nextRouteData = {};
-  if(action.payload.routeData){
+  if (action.payload.routeData) {
     nextRouteData = action.payload.routeData;
   }
 
-  yield put({type: 'ADD_ROUTE', payload: {
-      route: nextRoute,
+  yield put({type: "ADD_ROUTE", payload: {
       data: nextRouteData,
+      route: nextRoute,
   }});
 
   Actions[nextRoute]();
@@ -40,16 +40,16 @@ export function *goBackRoute(action) {
   const currentRoute = yield select<{routes: RouteState}>((state) => state.routes.currentRoute);
 
   const routesThatDontGoBack = {
-    "MainUi": true,
-    "Login": true,
-  }
+    Login: true,
+    MainUi: true,
+  };
 
-  if(routesThatDontGoBack[currentRoute] === undefined){
+  if (routesThatDontGoBack[currentRoute] === undefined) {
     Keyboard.dismiss();
 
     // Android: Disable the back button while a purchase and/or send
     // is in progress
-    if(currentRoute === "PurchaseInProgress" || currentRoute === "SendInProgress"){
+    if (currentRoute === "PurchaseInProgress" || currentRoute === "SendInProgress") {
       const purchaseState = yield select<any>((state) => state.purchase);
       const routeState = yield select<{routes: RouteState}>((state) => {
         return Object.assign({},
@@ -65,13 +65,13 @@ export function *goBackRoute(action) {
         purchaseState.completedSend,
       );
 
-      if(!allowGoBack){
-        if(isAndroid){
+      if (!allowGoBack) {
+        if (isAndroid) {
 
           ToastAndroid.showWithGravity(
             `Please wait until ${routeState.userIsPurchasing ? "purchasing" : "sending"} is complete.`,
             ToastAndroid.SHORT,
-            ToastAndroid.BOTTOM
+            ToastAndroid.BOTTOM,
           );
         }
         return;
@@ -82,34 +82,32 @@ export function *goBackRoute(action) {
       Actions[nextRoute]({type: ActionConst.BACK});
     }
 
-
-    yield put({type: 'CLOSE_ROUTE', payload: {
+    yield put({type: "CLOSE_ROUTE", payload: {
         route: currentRoute,
     }});
   // Inside the `MainUi` route the back button should go back a tab
-  } else if (currentRoute === "MainUi"){
-    yield put({type: 'GOBACK_VIEW'});
+  } else if (currentRoute === "MainUi") {
+    yield put({type: "GOBACK_VIEW"});
   }
 }
 
 export function *onFocusRoute(action) {
-  if(action.scene){
-    yield put({type: 'UPDATE_CURRENT_ROUTE', payload: {
+  if (action.scene) {
+    yield put({type: "UPDATE_CURRENT_ROUTE", payload: {
       currentRoute: action.scene.name,
     }});
 
     // Dispatch actions when a scene comes into focus. This avoids updating a
     // scene during a transition.
-    switch(action.scene.name){
+    switch (action.scene.name) {
       case "PurchaseBevegram":
       case "SendBevegram":
-        yield put({type: 'END_CREDIT_CARD_VERIFICATION_IF_NOT_ATTEMPTING'});
+        yield put({type: "END_CREDIT_CARD_VERIFICATION_IF_NOT_ATTEMPTING"});
       case "MainUi":
-        yield put({type: 'END_CREDIT_CARD_PURCHASE_IF_NOT_ATTEMPTING'});
-        yield put({type: 'CLEAR_ROUTES'});
+        yield put({type: "END_CREDIT_CARD_PURCHASE_IF_NOT_ATTEMPTING"});
+        yield put({type: "CLEAR_ROUTES"});
       default:
         return;
     }
   }
 }
-
