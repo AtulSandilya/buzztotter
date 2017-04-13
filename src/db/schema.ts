@@ -32,6 +32,9 @@ const Schema = {
     removeCreditCardFromCustomerQueue: {
       uniqueId: "RemoveCreditCardFromCustomerPackage",
     },
+    updateDefaultCreditCardQueue: {
+      uniqueId: "UpdateDefaultCreditCardForCustomerPackageForQueue",
+    },
     purchaseQueue: {
       uniqueId: "PurchasePackage",
     },
@@ -143,6 +146,10 @@ export const GetAddCreditCardToCustomerQueueUrl = () => {
 
 export const GetRemoveCreditCardFromCustomerQueueUrl = () => {
   return GetSchemaDbUrl("removeCreditCardFromCustomerQueue");
+};
+
+export const GetUpdateDefaultCreditCardForCustomerUrl = () => {
+  return GetSchemaDbUrl("updateDefaultCreditCardQueue");
 };
 
 export const GetPurchaseQueueUrl = () => {
