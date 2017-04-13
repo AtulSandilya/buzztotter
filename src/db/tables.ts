@@ -127,3 +127,40 @@ export interface PromoCodePackage {
 }
 
 //  End PromoCodePackage ------------------------------------------------------}}}
+//  Queue ---------------------------------------------------------------{{{
+
+export interface AddCreditCardToCustomerPackageForQueue {
+  stripeCreditCardToken: string;
+  userFirebaseId: string;
+  verificationToken: string;
+}
+
+export interface RemoveCreditCardFromCustomerPackageForQueue {
+  stripeCardId: string;
+  userFirebaseId: string;
+  verificationToken: string;
+}
+
+export interface UpdateDefaultCreditCardForCustomerPackageForQueue {
+  stripeCardId: string;
+  userFirebaseId: string;
+  verificationToken: string;
+}
+
+export interface PurchasePackageForQueue {
+  userFirebaseId: string;
+  receiverFacebookId: string;
+  purchaseQuantity: string;
+  promoCode: string;
+  message: string;
+  verificationToken: string;
+}
+
+export interface RedeemPackageForQueue {
+  userFirebaseId: string;
+  redeemId: string;
+  locationId: string;
+  verificationToken: string;
+}
+
+//  End Queue -----------------------------------------------------------}}}
