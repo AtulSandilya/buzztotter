@@ -1,32 +1,32 @@
 import * as React from "react";
-import { Component, PropTypes } from 'react';
+import { Component, PropTypes } from "react";
 import {
   Dimensions,
   Image,
   StyleSheet,
   Text,
   View,
-} from 'react-native';
+} from "react-native";
 
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { Actions, Router, Scene } from 'react-native-router-flux';
+import { Actions, Router, Scene } from "react-native-router-flux";
 
-import store from '../configureStore';
+import store from "../configureStore";
 
-import {globalColors} from '../components/GlobalStyles';
-import {isAndroid, isIOS, isNarrow} from '../Utilities';
+import {globalColors} from "../components/GlobalStyles";
+import {isAndroid, isIOS, isNarrow} from "../Utilities";
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from "react-native-vector-icons/Ionicons";
 
-import MainUi from '../components/MainUi';
-import CLogin from '../containers/CLogin';
-import CPurchaseBevegram from '../containers/CPurchaseBevegram';
-import CSettings from '../containers/CSettings';
-import CRedeemBeer from '../containers/CRedeemBeer';
-import CAddCreditCard from '../containers/CAddCreditCard';
-import CBranding from '../containers/CBranding';
-import CPurchaseAndOrSendInProgress from '../containers/CPurchaseAndOrSendInProgress';
+import MainUi from "../components/MainUi";
+import CAddCreditCard from "../containers/CAddCreditCard";
+import CBranding from "../containers/CBranding";
+import CLogin from "../containers/CLogin";
+import CPurchaseAndOrSendInProgress from "../containers/CPurchaseAndOrSendInProgress";
+import CPurchaseBevegram from "../containers/CPurchaseBevegram";
+import CRedeemBeer from "../containers/CRedeemBeer";
+import CSettings from "../containers/CSettings";
 
 const scenes = (showLogin) => {
   return (
@@ -75,7 +75,7 @@ const scenes = (showLogin) => {
         <Scene
           key="PurchaseInProgress"
           component={CPurchaseAndOrSendInProgress}
-          // Don't let the user out of this view until it is complete
+          // Don"t let the user out of this view until it is complete
           panHandlers={null}
           navBar={() => (
             <CBranding
@@ -86,7 +86,7 @@ const scenes = (showLogin) => {
         <Scene
           key="SendInProgress"
           component={CPurchaseAndOrSendInProgress}
-          // Don't let the user out of this view until it is complete
+          // Don"t let the user out of this view until it is complete
           panHandlers={null}
           navBar={() => (
             <CBranding
@@ -124,10 +124,10 @@ const scenes = (showLogin) => {
             />
           )}
         />
-      </Scene>
+      </Scene>,
     )
-  )
-}
+  );
+};
 
 const CRouter = connect()(Router);
 
@@ -138,17 +138,17 @@ export interface InitialRouterProps {
 }
 
 export default class InitialRouter extends Component<InitialRouterProps, {}> {
-  render() {
-    if(this.props.isLoading) {
+  public render() {
+    if (this.props.isLoading) {
       return (
         <View style={{
+          alignItems: "center",
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: "center",
         }}>
           <Text>Loading!</Text>
         </View>
-      )
+      );
     }
 
     return(
