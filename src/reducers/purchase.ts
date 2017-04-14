@@ -18,13 +18,6 @@ export interface PurchaseState {
   selectedPurchasePackageIndex: number;
 }
 
-export interface CreditCard {
-  token: string;
-  brand: string;
-  last4: string;
-  id: string;
-}
-
 export interface PurchasePackage {
   name: string;
   quantity: number;
