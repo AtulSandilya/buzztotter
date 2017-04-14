@@ -1,8 +1,8 @@
 import * as firebase from "firebase";
 
-import publicApiKeys from "../publicApiKeys";
+import publicApiKeys from "../../publicApiKeys";
 
-import * as DbSchema from "../db/schema";
+import * as DbSchema from "../../db/schema";
 
 import {
   PromoCodePackage,
@@ -13,10 +13,10 @@ import {
   RedeemedBevegram,
   SentBevegram,
   SentBevegramSummary,
-} from "../db/tables";
 
 import {Notification} from "../db/tables";
 import {UserState} from "../reducers/user";
+} from "../../db/tables";
 
 //  Init Firebase ------------------------------------------------------ {{{
 
