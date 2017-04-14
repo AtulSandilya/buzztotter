@@ -1,6 +1,7 @@
 import {Alert} from "react-native";
 import { call, put, select } from "redux-saga/effects";
 
+import FirebaseDb from "../api/firebase/FirebaseDb";
 import {FirebaseUser, User} from "../db/tables";
 
 import {
@@ -126,12 +127,16 @@ export function *updateFirebaseUser(action) {
     lastModified: StringifyDate(),
   }});
 
-  const user: UserState = yield select<{user: UserState}>((state) => state.user);
+  const user: User = yield select<{user: User}>((state) => state.user);
+  const userInDb: User = FirebaseDb.SanitizeDbInput(yield call(getFirebaseUser, user.firebase.uid));
+  const mergedUser = Object.assign({}, userInDb, user, {
+    stripe: userInDb.stripe,
+  });
 
   try {
     yield put({type: "ATTEMPTING_FIREBASE_UPDATE_USER"});
 
-    yield call(apiUpdateFirebaseUser, user);
+    yield call(apiUpdateFirebaseUser, mergedUser);
 
     yield put({type: "SUCCESSFUL_FIREBASE_UPDATE_USER"});
   } catch (e) {
