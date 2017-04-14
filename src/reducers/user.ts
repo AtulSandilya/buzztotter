@@ -22,7 +22,7 @@ const mapFacebookDataToState = (state, action): User => {
   );
 }
 
-export const user = (state = defaultState, action): UserState => {
+export const user = (state = defaultState, action): User => {
   switch(action.type){
     case('POPULATE_USER_DATA_FROM_FACEBOOK'):
       return mapFacebookDataToState(state, action);
@@ -46,7 +46,8 @@ export const user = (state = defaultState, action): UserState => {
       return Object.assign({}, state, {
         lastModified: action.payload.lastModified,
     })
-
+    case "REWRITE_USER":
+      return Object.assign({}, action.payload.updatedUser);
     default:
       return state;
   }
