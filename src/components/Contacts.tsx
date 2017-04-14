@@ -36,9 +36,8 @@ export interface ContactsProps {
   reloading?: boolean;
   reloadingFailed?: boolean;
   purchaseModalIsOpen?: boolean;
-  facebookToken?: string;
   toastContactsReloaded?: boolean;
-  reloadContacts?(token: string);
+  reloadContacts?();
   searchQuery?: string;
   activeSortingMethod?: ContactsSortingMethod;
   sortingMethodsList?: ContactsSortOptionsViewLine[];
@@ -58,7 +57,6 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
   loadingFailed,
   reloading,
   reloadingFailed,
-  facebookToken,
   toastContactsReloaded,
   purchaseModalIsOpen,
   reloadContacts,
@@ -339,7 +337,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
             refreshing={reloading || loading}
             onRefresh={() => {
               if(!reloading){
-                reloadContacts(facebookToken);
+                reloadContacts();
               }
             }}
             title="Updating..."

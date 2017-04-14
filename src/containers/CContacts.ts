@@ -88,7 +88,6 @@ const mapStateToProps = (state): StateProps => {
     purchaseModalIsOpen: state.modals.purchaseBeerModal.isOpen,
     reloading: state.contacts.reloadingFromFacebook,
     reloadingFailed: state.contacts.reloadingFromFacebookFailed,
-    facebookToken: state.user.facebook.token,
     toastContactsReloaded: state.contacts.toastContactsReloaded,
     activeSortingMethod: state.contactsView.sortingMethod,
     searchQuery: state.contactsView.searchQuery,
@@ -109,8 +108,8 @@ interface DispatchProps {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    reloadContacts: (fbToken) => {
-      dispatch({type: 'FACEBOOK_CONTACTS_RELOAD_REQUEST', payload: {token: fbToken}});
+    reloadContacts: () => {
+      dispatch({type: 'FACEBOOK_CONTACTS_RELOAD_REQUEST'});
     },
     changeSortMethod: (newSortingMethod: ContactsSortingMethod) => {
       dispatch({type: 'CHANGE_CONTACTS_SORT_METHOD', payload: {
