@@ -3,6 +3,7 @@ import * as firebase from "firebase";
 import publicApiKeys from "../../publicApiKeys";
 
 import * as DbSchema from "../../db/schema";
+import FirebaseDb from "./FirebaseDb";
 
 import {
   AddCreditCardToCustomerPackageForQueue,
@@ -32,8 +33,7 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-
-const db = firebase.database();
+const firebaseUserDb = new FirebaseDb(firebase.database());
 
 //  End Init Firebase -------------------------------------------------- }}}
 //  Login/Logout ----------------------------------------------------- {{{
@@ -54,33 +54,11 @@ export const isUserLoggedIn = () => {
 //  End Login/Logout ------------------------------------------------- }}}
 //  Utilities ----------------------------------------------------------{{{
 
-const PushToUrl = (url: string, pushObject: any): string => {
-  Object.keys(pushObject).map((key) => {
-    if (typeof(pushObject[key]) === "undefined") {
-      console.error(`Firebase chokes on objects with undefined values!
-                     Value of key '${key}' for url '${url}' is undefined!`);
-      return "";
-    }
-  });
-
-  const ref = db.ref(url);
-  const newNode = ref.push();
-  newNode.set(pushObject);
-  return newNode.toString().split("/").slice(-1)[0];
-};
-
-const WriteNode = (url: string, data: any): any => {
-  return db.ref(url).set(data);
-};
-
-const UpdateNode = (url: string, updateFunction: (Object) => any) => {
-  db.ref(url).transaction((currentData) => {
-    return updateFunction(currentData ? currentData : {});
 type FirebaseDbEvent =  "child_added" | "child_changed" | "child_removed";
 
 export const OnNextNodeEvent = (url: string, firebaseDbEvent: FirebaseDbEvent) => {
   return new Promise((resolve) => {
-    userDb.ref(url).once(firebaseDbEvent, (data) => {
+    firebaseUserDb.getRef(url).once(firebaseDbEvent, (data) => {
       // Resolve the whole node instead of just the updated data (data.val())
       firebaseUserDb.readNode(url).then((newValue) => {
         resolve(newValue);
@@ -89,12 +67,6 @@ export const OnNextNodeEvent = (url: string, firebaseDbEvent: FirebaseDbEvent) =
   });
 };
 
-const ReadNode = (url: string): any => {
-  return db.ref(url).once("value").then((snapshot) => {
-    return snapshot.val();
-  }).catch((error) => {
-    return {};
-  });
 // Caveat: This event only triggers when the node at the url is changed, if a
 // node is added or removed this event does not fire. The way the server
 // handles this is to always update the `lastModified` value of `user` which
@@ -108,24 +80,14 @@ export const OnNextUserNodeChange = (userFirebaseId: string) => {
   return OnNextNodeEvent(DbSchema.GetUserDbUrl(userFirebaseId), "child_changed");
 };
 
-// Always returns a number
-const SafeAdd = (num1: number, num2: number) => {
-  return (!num1 ? 0 : num1) + (!num2 ? 0 : num2);
-};
-
-// Always returns a number
-const SafeSubtract = (num1: number, num2: number) => {
-  return (!num1 ? 0 : num1) - (!num2 ? 0 : num2);
-};
-
 //  End Utilities ------------------------------------------------------}}}
 //  User -------------------------------------------------------{{{
 
 export const initializeFirebaseUserFacebookId = (firebaseId: string, facebookId: string): any => {
-  return WriteNode(DbSchema.GetFirebaseIdDbUrl(facebookId), firebaseId);
+  return firebaseUserDb.writeNode(DbSchema.GetFirebaseIdDbUrl(facebookId), firebaseId);
 };
 
-export const updateFirebaseUser = (user: UserState): any => {
+export const updateFirebaseUser = (user: User): any => {
   const userFirebaseId = user.firebase.uid;
 
   // TODO: Is it possible to have differences between the on device user state
@@ -135,59 +97,62 @@ export const updateFirebaseUser = (user: UserState): any => {
   // updates) and use the one with the most current lastModified date.
   //
   // Or, just use firebase's realtime data features?
-  // const savedUserState: UserState = getFirebaseUser(user.firebase.uid);
+  // const savedUserState: User = getFirebaseUser(user.firebase.uid);
 
   // if(user.lastModified != savedUserState.lastModified) {
   // }
 
-  return db.ref(DbSchema.GetUserDbUrl(userFirebaseId)).set(user);
+  // return db.ref(DbSchema.GetUserDbUrl(userFirebaseId)).set(user);
+  return firebaseUserDb.writeNode(DbSchema.GetUserDbUrl(userFirebaseId), user);
 };
 
 export const getFirebaseUser = (userFirebaseId: string): any => {
-  return ReadNode(DbSchema.GetUserDbUrl(userFirebaseId));
+  return firebaseUserDb.readNode(DbSchema.GetUserDbUrl(userFirebaseId));
 };
 
 //  End User ---------------------------------------------------}}}
 //  Firebase / Facebook Id Conversion -----------------------------------{{{
 
 export const getFirebaseId = (facebookId: string): any => {
-  return ReadNode(DbSchema.GetFirebaseIdDbUrl(facebookId));
+  return firebaseUserDb.readNode(DbSchema.GetFirebaseIdDbUrl(facebookId));
 };
 
 //  End Firebase / Facebook Id Conversion -------------------------------}}}
 //  Fcm Tokens ----------------------------------------------------------{{{
 
 export const setFcmToken = (facebookId: string, fcmToken: string): any => {
-  return WriteNode(DbSchema.GetFcmTokenDbUrl(facebookId), fcmToken);
+  return firebaseUserDb.writeNode(DbSchema.GetFcmTokenDbUrl(facebookId), fcmToken);
 };
 
 export const getFcmToken = (facebookId: string): any => {
-  return ReadNode(DbSchema.GetFcmTokenDbUrl(facebookId));
+  return firebaseUserDb.readNode(DbSchema.GetFcmTokenDbUrl(facebookId));
 };
 
 //  End Fcm Tokens ------------------------------------------------------}}}
 //  Purchase List ------------------------------------------------------{{{
 
 export const addPurchasedBevegramToUser = (userFirebaseId: string, purchasedBevegram: PurchasedBevegram): string => {
-  const id = PushToUrl(DbSchema.GetPurchasedBevegramListDbUrl(userFirebaseId), purchasedBevegram);
+  const id = firebaseUserDb.pushNode(DbSchema.GetPurchasedBevegramListDbUrl(userFirebaseId), purchasedBevegram);
   addPurchasedBevegramToUserPurchaseSummary(userFirebaseId, purchasedBevegram);
   return id;
 };
 
 export const updatePurchasedBevegramWithSendId = (firebaseId: string, purchaseId: string, sendId: string): any => {
-  UpdateNode(DbSchema.GetPurchasedBevegramListDbUrl(firebaseId) + `/${purchaseId}`, (purchasedBevegram) => {
-    return Object.assign({}, purchasedBevegram, {
-      sentBevegramId: sendId,
-    });
+  firebaseUserDb.updateNode(
+    DbSchema.GetPurchasedBevegramListDbUrl(firebaseId) + `/${purchaseId}`,
+    (purchasedBevegram) => {
+      return Object.assign({}, purchasedBevegram, {
+        sentBevegramId: sendId,
+      });
   });
 };
 
 export const readPurchasedBevegrams = (userFirebaseId: string) => {
-  return ReadNode(DbSchema.GetPurchasedBevegramListDbUrl(userFirebaseId));
+  return firebaseUserDb.readNode(DbSchema.GetPurchasedBevegramListDbUrl(userFirebaseId));
 };
 
 export const readPurchasedBevegramsSummary = (userFirebaseId: string) => {
-  return ReadNode(DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId));
+  return firebaseUserDb.readNode(DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId));
 };
 
 //  End Purchase List --------------------------------------------------}}}
@@ -198,9 +163,9 @@ export const addPurchasedBevegramToPurchaseSummary = (
   purchasedBevegram: PurchasedBevegram,
 ): PurchasedBevegramSummary => {
   return Object.assign({}, summary, {
-    availableToSend: SafeAdd(summary.availableToSend, purchasedBevegram.quantity),
-    quantityPurchased: SafeAdd(summary.quantityPurchased, purchasedBevegram.quantity),
-    sent: SafeAdd(summary.sent, 0),
+    availableToSend: FirebaseDb.SafeAdd(summary.availableToSend, purchasedBevegram.quantity),
+    quantityPurchased: FirebaseDb.SafeAdd(summary.quantityPurchased, purchasedBevegram.quantity),
+    sent: FirebaseDb.SafeAdd(summary.sent, 0),
   });
 };
 
@@ -208,7 +173,7 @@ const addPurchasedBevegramToUserPurchaseSummary = (
   userFirebaseId: string,
   purchasedBevegram: PurchasedBevegram,
 ) => {
-  UpdateNode(DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
+  firebaseUserDb.updateNode(DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
     return addPurchasedBevegramToPurchaseSummary(summary, purchasedBevegram);
   });
 };
@@ -218,9 +183,9 @@ export const removeSentBevegramFromPurchaseSummary = (
   sentBevegram: SentBevegram,
 ): PurchasedBevegramSummary => {
   return Object.assign({}, purchaseSummary, {
-    availableToSend: SafeSubtract(purchaseSummary.availableToSend, sentBevegram.quantity),
-    quantityPurchased: SafeAdd(purchaseSummary.quantityPurchased, 0),
-    sent: SafeAdd(purchaseSummary.sent, sentBevegram.quantity),
+    availableToSend: FirebaseDb.SafeSubtract(purchaseSummary.availableToSend, sentBevegram.quantity),
+    quantityPurchased: FirebaseDb.SafeAdd(purchaseSummary.quantityPurchased, 0),
+    sent: FirebaseDb.SafeAdd(purchaseSummary.sent, sentBevegram.quantity),
   });
 };
 
@@ -228,7 +193,7 @@ const removeSentBevegramFromUserPurchaseSummary = (
   userFirebaseId: string,
   sentBevegram: SentBevegram,
 ) => {
-  UpdateNode(DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
+  firebaseUserDb.updateNode(DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
     return removeSentBevegramFromPurchaseSummary(summary, sentBevegram);
   });
 };
@@ -237,7 +202,7 @@ const removeSentBevegramFromUserPurchaseSummary = (
 //  Sent List -----------------------------------------------------------{{{
 
 export const addSentBevegramToUser = (userFirebaseId: string, sentBevegram: SentBevegram) => {
-  const id = PushToUrl(DbSchema.GetSentBevegramListDbUrl(userFirebaseId), sentBevegram);
+  const id = firebaseUserDb.pushNode(DbSchema.GetSentBevegramListDbUrl(userFirebaseId), sentBevegram);
 
   removeSentBevegramFromUserSentSummary(userFirebaseId, sentBevegram);
   removeSentBevegramFromUserPurchaseSummary(userFirebaseId, sentBevegram);
@@ -246,7 +211,7 @@ export const addSentBevegramToUser = (userFirebaseId: string, sentBevegram: Sent
 };
 
 export const readSentBevegrams = (userFirebaseId: string) => {
-  return ReadNode(DbSchema.GetSentBevegramListDbUrl(userFirebaseId));
+  return firebaseUserDb.readNode(DbSchema.GetSentBevegramListDbUrl(userFirebaseId));
 };
 
 //  End Sent List -------------------------------------------------------}}}
@@ -257,8 +222,8 @@ export const addSentBevegramToSentSummary = (
   sentBevegram: SentBevegram,
 ): SentBevegramSummary => {
   return Object.assign({}, summary, {
-    availableToSend: SafeAdd(summary.availableToSend, 0),
-    sent: SafeAdd(summary.sent, sentBevegram.quantity),
+    availableToSend: FirebaseDb.SafeAdd(summary.availableToSend, 0),
+    sent: FirebaseDb.SafeAdd(summary.sent, sentBevegram.quantity),
   });
 };
 
@@ -266,7 +231,7 @@ const addSentBevegramToUserSentSummary = (
   userFirebaseId: string,
   sentBevegram: SentBevegram,
 ) => {
-  UpdateNode(DbSchema.GetSentBevegramListDbUrl(userFirebaseId), (summary) => {
+  firebaseUserDb.updateNode(DbSchema.GetSentBevegramListDbUrl(userFirebaseId), (summary) => {
     return addSentBevegramToSentSummary(summary, sentBevegram);
   });
 };
@@ -276,13 +241,13 @@ export const removeSentBevegramFromSentSummary = (
   sentBevegram: SentBevegram,
 ) => {
   return Object.assign({}, {
-    availableToSend: SafeSubtract(summary.availableToSend, sentBevegram.quantity),
-    sent: SafeAdd(summary.sent, sentBevegram.quantity),
+    availableToSend: FirebaseDb.SafeSubtract(summary.availableToSend, sentBevegram.quantity),
+    sent: FirebaseDb.SafeAdd(summary.sent, sentBevegram.quantity),
   });
 };
 
 const removeSentBevegramFromUserSentSummary = (userFirebaseId: string, sentBevegram: SentBevegram) => {
-  UpdateNode(DbSchema.GetSentBevegramSummaryDbUrl(userFirebaseId), (summary) => {
+  firebaseUserDb.updateNode(DbSchema.GetSentBevegramSummaryDbUrl(userFirebaseId), (summary) => {
     return removeSentBevegramFromSentSummary(summary, sentBevegram);
   });
 };
@@ -294,7 +259,7 @@ export const addReceivedBevegramToReceiverBevegrams = (
   receiverFirebaseId: string,
   receivedBevegram: ReceivedBevegram,
 ) => {
-  const id = PushToUrl(DbSchema.GetReceivedBevegramListDbUrl(receiverFirebaseId), receivedBevegram);
+  const id = firebaseUserDb.pushNode(DbSchema.GetReceivedBevegramListDbUrl(receiverFirebaseId), receivedBevegram);
 
   addReceivedBevegramToReceiverReceivedSummary(receiverFirebaseId, receivedBevegram);
 
@@ -302,13 +267,15 @@ export const addReceivedBevegramToReceiverBevegrams = (
 };
 
 export const readReceivedBevegrams = (userFirebaseId: string) => {
-  return ReadNode(DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId));
+  return firebaseUserDb.readNode(DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId));
 };
 
 export const updateReceivedBevegramAsRedeemed = (userFirebaseId: string, receivedBevegramId: string): any => {
-  UpdateNode(DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId) + `/${receivedBevegramId}`, (receivedBevegram) => {
-    return Object.assign({}, receivedBevegram, {
-      isRedeemed: true,
+  firebaseUserDb.updateNode(
+    DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId) + `/${receivedBevegramId}`,
+    (receivedBevegram) => {
+      return Object.assign({}, receivedBevegram, {
+        isRedeemed: true,
     });
   });
 };
@@ -321,9 +288,9 @@ export const addReceivedBevegramToReceivedSummary = (
   receivedBevegram: ReceivedBevegram,
 ) => {
   return Object.assign({}, summary, {
-    availableToRedeem: SafeAdd(summary.availableToRedeem, receivedBevegram.quantity),
-    redeemed: SafeAdd(summary.redeemed, 0),
-    total: SafeAdd(summary.total, receivedBevegram.quantity),
+    availableToRedeem: FirebaseDb.SafeAdd(summary.availableToRedeem, receivedBevegram.quantity),
+    redeemed: FirebaseDb.SafeAdd(summary.redeemed, 0),
+    total: FirebaseDb.SafeAdd(summary.total, receivedBevegram.quantity),
   });
 };
 
@@ -331,7 +298,7 @@ export const addReceivedBevegramToReceiverReceivedSummary = (
   receiverFirebaseId: string,
   receivedBevegram: ReceivedBevegram,
 ) => {
-  UpdateNode(DbSchema.GetReceivedBevegramSummaryDbUrl(receiverFirebaseId), (summary) => {
+  firebaseUserDb.updateNode(DbSchema.GetReceivedBevegramSummaryDbUrl(receiverFirebaseId), (summary) => {
     return addReceivedBevegramToReceivedSummary(summary, receivedBevegram);
   });
 };
@@ -341,9 +308,9 @@ export const removeRedeemedBevegramFromReceivedSummary = (
   redeemedBevegram: RedeemedBevegram,
 ) => {
   return Object.assign({}, summary, {
-    availableToRedeem: SafeSubtract(summary.availableToRedeem, redeemedBevegram.quantity),
-    redeemed: SafeAdd(summary.redeemed, redeemedBevegram.quantity),
-    total: SafeAdd(summary.redeemed, 0),
+    availableToRedeem: FirebaseDb.SafeSubtract(summary.availableToRedeem, redeemedBevegram.quantity),
+    redeemed: FirebaseDb.SafeAdd(summary.redeemed, redeemedBevegram.quantity),
+    total: FirebaseDb.SafeAdd(summary.redeemed, 0),
   });
 };
 
@@ -351,7 +318,7 @@ const removeRedeemedBevegramFromUserReceivedSummary = (
   userFirebaseId: string,
   redeemedBevegram: RedeemedBevegram,
 ) => {
-  UpdateNode(DbSchema.GetReceivedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
+  firebaseUserDb.updateNode(DbSchema.GetReceivedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
     return removeRedeemedBevegramFromReceivedSummary(summary, redeemedBevegram);
   });
 };
@@ -361,11 +328,11 @@ const removeRedeemedBevegramFromUserReceivedSummary = (
 
 // Batch all redeemed db calls into one function
 export const addRedeemedBevegram = (userFirebaseId: string, vendorId: string, redeemedBevegram: RedeemedBevegram) => {
-  PushToUrl(DbSchema.GetRedeemedBevegramVendorDbUrl(vendorId), redeemedBevegram);
+  firebaseUserDb.pushNode(DbSchema.GetRedeemedBevegramVendorDbUrl(vendorId), redeemedBevegram);
 
-  const id = PushToUrl(DbSchema.GetRedeemedBevegramUserDbUrl(userFirebaseId), redeemedBevegram);
+  const id = firebaseUserDb.pushNode(DbSchema.GetRedeemedBevegramUserDbUrl(userFirebaseId), redeemedBevegram);
 
-  UpdateNode(DbSchema.GetRedeemedBevegramVendorCustomerDbUrl(vendorId), (customerList) => {
+  firebaseUserDb.updateNode(DbSchema.GetRedeemedBevegramVendorCustomerDbUrl(vendorId), (customerList) => {
     const newCustomer = {};
     newCustomer[userFirebaseId] = true;
     return Object.assign({}, customerList, newCustomer);
@@ -375,23 +342,23 @@ export const addRedeemedBevegram = (userFirebaseId: string, vendorId: string, re
 };
 
 export const readRedeemedBevegrams = (userFirebaseId: string) => {
-  return ReadNode(DbSchema.GetRedeemedBevegramUserListDbUrl(userFirebaseId));
+  return firebaseUserDb.readNode(DbSchema.GetRedeemedBevegramUserListDbUrl(userFirebaseId));
 };
 
 //  End Redeemed List ---------------------------------------------------}}}
 //  PromoCode -----------------------------------------------------------{{{
 
 const updatePromoCodeSummary = (promoCode: string, promoCodePack: PromoCodePackage) => {
-  UpdateNode(DbSchema.GetPromoCodeSummaryDbUrl(promoCode), (summary) => {
+  firebaseUserDb.updateNode(DbSchema.GetPromoCodeSummaryDbUrl(promoCode), (summary) => {
     return Object.assign({}, {
-        total: SafeAdd(promoCodePack.quantity, summary.total),
+        total: FirebaseDb.SafeAdd(promoCodePack.quantity, summary.total),
     });
   });
 };
 
 export const addPromoCode = (promoCode: string, promoCodePack: PromoCodePackage) => {
   updatePromoCodeSummary(promoCode, promoCodePack);
-  PushToUrl(DbSchema.GetPromoCodeListDbUrl(promoCode), promoCodePack);
+  firebaseUserDb.pushNode(DbSchema.GetPromoCodeListDbUrl(promoCode), promoCodePack);
 };
 
 //  End PromoCode -------------------------------------------------------}}}
@@ -403,28 +370,28 @@ const TaskifyUrl = (url: string): string => {
   return `${url}/tasks`;
 };
 
-// TODO: Add type to inputPackage
-export const QueueAddCreditCardToCustomerPackage = (inputPackage: any) => {
-  PushToUrl(TaskifyUrl(DbSchema.GetAddCreditCardToCustomerQueueUrl()), inputPackage);
+export const QueueAddCreditCardToCustomerPackage = (inputPackage: AddCreditCardToCustomerPackageForQueue) => {
+  firebaseUserDb.pushNode(TaskifyUrl(DbSchema.GetAddCreditCardToCustomerQueueUrl()), inputPackage);
 };
 
-// TODO: Add type to inputPackage
-export const QueueRemoveCreditCardFromCustomerPackage = (inputPackage: any) => {
-  PushToUrl(TaskifyUrl(DbSchema.GetRemoveCreditCardFromCustomerQueueUrl()), inputPackage);
+export const QueueRemoveCreditCardFromCustomerPackage = (inputPackage: RemoveCreditCardFromCustomerPackageForQueue) => {
+  firebaseUserDb.pushNode(TaskifyUrl(DbSchema.GetRemoveCreditCardFromCustomerQueueUrl()), inputPackage);
 };
 
-// TODO: Add type to inputPackage
-export const QueuePurchasePackage = (inputPackage: any) => {
-  PushToUrl(TaskifyUrl(DbSchema.GetPurchaseQueueUrl()), inputPackage);
+export const QueueUpdateDefaultCreditCard = (input: UpdateDefaultCreditCardForCustomerPackageForQueue) => {
+  firebaseUserDb.pushNode(TaskifyUrl(DbSchema.GetUpdateDefaultCreditCardForCustomerUrl()), input);
 };
 
-// TODO: Add type to inputPackage
-export const QueueRedeemPackage = (inputPackage: any) => {
-  PushToUrl(TaskifyUrl(DbSchema.GetRedeemQueueUrl()), inputPackage);
+export const QueuePurchasePackage = (inputPackage: PurchasePackageForQueue) => {
+  firebaseUserDb.pushNode(TaskifyUrl(DbSchema.GetPurchaseQueueUrl()), inputPackage);
+};
+
+export const QueueRedeemPackage = (inputPackage: RedeemPackageForQueue) => {
+  firebaseUserDb.pushNode(TaskifyUrl(DbSchema.GetRedeemQueueUrl()), inputPackage);
 };
 
 export const DbWriteUserVerificationToken = (token: string, userFirebaseId: string) => {
-  WriteNode(DbSchema.GetUserVerificationTokenDbUrl(userFirebaseId), token);
+  firebaseUserDb.writeNode(DbSchema.GetUserVerificationTokenDbUrl(userFirebaseId), token);
 };
 
 //  End Queue Notification ----------------------------------------------}}}
