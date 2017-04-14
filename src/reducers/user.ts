@@ -1,54 +1,9 @@
-import {CreditCard} from './purchase';
-
-export interface FirebaseUser {
-  displayName: string;
-  email: string;
-  emailVerified: boolean;
-  photoURL: string;
-  refreshToken: string;
-  uid: string;
-}
-
-export interface UserState {
-  isLoggedIn: boolean;
-  facebook: {token: string, id: string};
-  firstName: string;
-  lastName: string;
-  fullName: string;
-  birthday: string;
-  email: string;
-  lastModified: string;
-  fcmToken: string;
-  stripe: {
-    customerId: string,
-    creditCards: CreditCard[],
-    activeCardId: string,
-  };
-  firebase: FirebaseUser;
-}
-
+import {User} from "../db/tables";
 // null is used here because this is converted to json before writing to
 // firebase and json uses null instead of undefined
-const defaultState: UserState = {
+const defaultState: User = {
   isLoggedIn: false,
-  facebook: {
-    token: null,
-    id: null,
-  },
-  firstName: null,
-  lastName: null,
-  fullName: null,
-  birthday: null,
-  email: null,
-  lastModified: null,
-  fcmToken: null,
-  stripe: {
-    customerId: null,
-    creditCards: [],
-    activeCardId: null,
-  },
-  firebase: null,
-}
+};
 
 const mapFacebookDataToState = (state, action): UserState => {
   const data = action.payload.userData;

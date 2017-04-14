@@ -1,12 +1,26 @@
 //  User ----------------------------------------------------------------{{{
 
-export interface User {
-  userId: string;
-  userType: "user" | "vendor" | "admin";
-  firstName: string;
-  lastName: string;
+export interface FirebaseUser {
+  displayName: string;
   email: string;
-  createdDate: Date;
+  emailVerified: boolean;
+  photoURL: string;
+  refreshToken: string;
+  uid: string;
+}
+
+export interface User {
+  isLoggedIn: boolean;
+  facebook?: {token: string, id: string};
+  firstName?: string;
+  lastName?: string;
+  fullName?: string;
+  birthday?: string;
+  email?: string;
+  lastModified?: string;
+  fcmToken?: string;
+  stripe?: StripeCustomer;
+  firebase?: FirebaseUser;
 }
 
 //  End User ------------------------------------------------------------}}}
