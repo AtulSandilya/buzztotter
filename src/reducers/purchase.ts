@@ -95,6 +95,7 @@ export const purchase = (state = initialPurchaseState, action) => {
         attemptingStripeUpdate: true,
       });
     case 'RENDER_SUCCESSFUL_STRIPE_DEFAULT_CARD_UPDATE':
+    case 'RENDER_FAILED_STRIPE_DEFAULT_CARD_UPDATE':
       return Object.assign({}, state, {
         attemptingStripeUpdate: false,
       });
@@ -103,6 +104,7 @@ export const purchase = (state = initialPurchaseState, action) => {
         attemptingStripeUpdate: true,
       });
     case 'RENDER_SUCCESSFUL_STRIPE_REMOVE_CARD':
+    case 'RENDER_FAILED_STRIPE_REMOVE_CARD':
       return Object.assign({}, state, {
         attemptingStripeUpdate: false,
       });
