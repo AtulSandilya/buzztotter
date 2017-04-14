@@ -1,24 +1,26 @@
 import * as React from "react";
-import { Component, PropTypes } from 'react';
+import { Component, PropTypes } from "react";
 import {
   Dimensions,
   Image,
+  Keyboard,
   StyleSheet,
   Text,
+  TextInput,
   TouchableHighlight,
   View,
-} from 'react-native';
+} from "react-native";
 
-import {connect} from 'react-redux';
+import {connect} from "react-redux";
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from "react-native-vector-icons/Ionicons";
 
-import {isAndroid, isIOS, StatusBarHeight} from '../Utilities';
+import {isAndroid, isIOS, StatusBarHeight} from "../Utilities";
 
-import CenteredModal from './CenteredModal';
-import CSettings from '../containers/CSettings';
+import CSettings from "../containers/CSettings";
+import CenteredModal from "./CenteredModal";
 
-import {globalColors, globalStyles} from './GlobalStyles';
+import {globalColors, globalStyles} from "./GlobalStyles";
 
 export const BrandingHeight = (isIOS ? 75 : 75) + 10;
 export const NavBarHeight = BrandingHeight;
@@ -43,47 +45,47 @@ interface Style {
 
 const styles = StyleSheet.create<Style>({
   wrapper: {
-    height: BrandingHeight,
     backgroundColor: globalColors.bevPrimary,
-    position: 'absolute',
+    flexDirection: "row",
+    height: BrandingHeight,
     left: 0,
+    position: "absolute",
     top: 0,
     width: Dimensions.get("window").width,
-    flexDirection: 'row',
   },
   section: {
     flex: 1,
   },
   content: {
+    backgroundColor: globalColors.bevPrimary,
     flex: 1,
+    flexDirection: "row",
     height: contentHeight,
     marginTop: StatusBarHeight,
-    overflow: 'hidden',
-    paddingVertical: verticalPadding,
+    overflow: "hidden",
     paddingHorizontal: 10,
-    backgroundColor: globalColors.bevPrimary,
-    flexDirection: 'row',
+    paddingVertical: verticalPadding,
   },
   leftContainer: {
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
   },
   centerContainer: {
-    overflow: 'visible',
+    overflow: "visible",
   },
   rightContainer: {
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
   icon: {
-    paddingTop: 3,
+    alignSelf: "center",
     color: "#ffffff",
-    alignSelf: 'center',
+    paddingTop: 3,
   },
   text: {
-    fontSize: logoHeight * textSizeMultiplier,
+    alignSelf: "center",
     color: "#ffffff",
-    alignSelf: 'center',
-  }
-})
+    fontSize: logoHeight * textSizeMultiplier,
+  },
+});
 
 export interface BrandingProps {
   showLogo?: boolean;
@@ -113,14 +115,14 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
         <View style={[styles.section, styles.leftContainer]}>
           {showLogo ?
             <Image
-              source={require('../../img/logos/logo-on-brown.png')}
+              source={require("../../img/logos/logo-on-brown.png")}
               style={{
                 flex: -1,
                 height: 55,
                 width: 95,
               }}
-              resizeMode='contain'
-              resizeMethod='scale'
+              resizeMode="contain"
+              resizeMethod="scale"
             />
           :
             null
@@ -143,7 +145,7 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
                 }
               }}
             >
-              <View style={{flex: -1, flexDirection: 'row'}}>
+              <View style={{flex: -1, flexDirection: "row"}}>
                 <Icon
                   name={(isIOS ? "ios" : "md") + "-arrow-back"}
                   size={logoHeight * 0.9}
@@ -167,13 +169,13 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
           styles.section,
           styles.centerContainer,
           {
-            justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: "center",
+            justifyContent: "center",
           }, centerText.length > 0 ? {flex: 3} : null]}>
           <Text
             style={[styles.text, {
-              alignSelf: 'center',
-              overflow: 'visible',
+              alignSelf: "center",
+              overflow: "visible",
             }]}
             numberOfLines={1}
           >
@@ -198,7 +200,7 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
         </View>
       </View>
     </View>
-  )
-}
+  );
+};
 
 export default Branding;
