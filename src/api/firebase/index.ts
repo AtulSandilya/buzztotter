@@ -72,6 +72,16 @@ const WriteNode = (url: string, data: any): any => {
 const UpdateNode = (url: string, updateFunction: (Object) => any) => {
   db.ref(url).transaction((currentData) => {
     return updateFunction(currentData ? currentData : {});
+type FirebaseDbEvent =  "child_added" | "child_changed" | "child_removed";
+
+export const OnNextNodeEvent = (url: string, firebaseDbEvent: FirebaseDbEvent) => {
+  return new Promise((resolve) => {
+    userDb.ref(url).once(firebaseDbEvent, (data) => {
+      // Resolve the whole node instead of just the updated data (data.val())
+      firebaseUserDb.readNode(url).then((newValue) => {
+        resolve(newValue);
+      });
+    });
   });
 };
 
@@ -81,6 +91,17 @@ const ReadNode = (url: string): any => {
   }).catch((error) => {
     return {};
   });
+// Caveat: This event only triggers when the node at the url is changed, if a
+// node is added or removed this event does not fire. The way the server
+// handles this is to always update the `lastModified` value of `user` which
+// always triggers a `child_changed` event. Currently firebase's `child_added`
+// event does not do what we need it to do (it fires multiple times initially
+// for each node, THEN, waits for events), meaning we can't use `child_added`
+// and `child_removed`.
+// TLDR: This only fires if you change a child node, adding and removing a
+// node is not changing (to firebase).
+export const OnNextUserNodeChange = (userFirebaseId: string) => {
+  return OnNextNodeEvent(DbSchema.GetUserDbUrl(userFirebaseId), "child_changed");
 };
 
 // Always returns a number

@@ -282,3 +282,57 @@ export function *addPromoCodeToDB(promoCode: string, quantity: number) {
 
   yield call(addPromoCode, promoCode, promoCodePackage);
 }
+
+export function *updateUserStateOnNextChange(
+  onSuccessPostActions?: string[],
+  onFailurePostActions?: string[],
+  errorKey?: string,
+  showAlert?: boolean,
+) {
+  const user: User = yield select<{user: User}>((state) => state.user);
+  const userFirebaseId: string = user.firebase.uid;
+
+  const updatedUser = yield call(OnNextUserNodeChange, userFirebaseId);
+
+  yield put({type: "REWRITE_USER", payload: {
+    updatedUser,
+  }});
+
+  let errorMessage;
+  if (errorKey) {
+    errorMessage = Object.assign({}, updatedUser);
+    try {
+      errorMessage = errorMessage[errorKey];
+    } catch (e) {
+      // continue
+    }
+  }
+
+  let postActions;
+  if (errorMessage) {
+    if (showAlert) {
+      alert(errorMessage);
+    }
+
+    postActions = onFailurePostActions.map((val) => {
+      return {
+        type: val,
+        payload: {
+          error: errorMessage,
+        },
+      };
+    });
+  }  else {
+    postActions = onSuccessPostActions.map((val) => {
+      return {
+        type: val,
+      };
+    });
+  }
+
+  if (postActions) {
+    for (const action of postActions) {
+      yield put(action);
+    }
+  }
+}
