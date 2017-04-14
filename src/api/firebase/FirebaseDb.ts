@@ -10,6 +10,69 @@ export class FirebaseDb {
     return (!num1 ? 0 : num1) - (!num2 ? 0 : num2);
   }
 
+  public static RemoveUndefinedValues = (input: any) => {
+    let result;
+    try {
+      if (!input && input !== false) {
+        throw new FirebaseInvalidInputError(`Firebase cannot directly write undefined values`);
+      }
+
+      let throwWhenFinished = false;
+      const undefinedKeys = [];
+      result = JSON.parse(JSON.stringify(input, (jsonKey, value) => {
+        if (!value && value !== false) {
+          throwWhenFinished = true;
+          undefinedKeys.push(jsonKey);
+          return undefined;
+        }
+        return value;
+      }), (jsonKey, value) => {
+        if (value instanceof Array) {
+          return value.filter(( x ) => {
+            if (!x && x !== false) {
+              throwWhenFinished = true;
+              undefinedKeys.push(`Array: ${jsonKey}`);
+              return;
+            }
+            return x;
+          });
+        } else if (typeof(value) === "object"  && value !== null && Object.keys(value).length === 0) {
+          return;
+        } else {
+          return value;
+        }
+      });
+
+      if (throwWhenFinished) {
+        throw new FirebaseUndefinedInObjectError(
+          `Input has undefined value for key(s) '${undefinedKeys.join(", ")}'`,
+        );
+      }
+
+      return input;
+
+    } catch (e) {
+      if (e.name === "FirebaseUndefinedInObjectError") {
+        if ((!result && result !== false) || Object.keys(result).length === 0) {
+          throw new FirebaseInvalidInputError(`Firebase cannot write an object which stringifies to undefined`);
+        } else {
+          console.error(e);
+          return result;
+        }
+      } else {
+        throw e;
+      }
+    }
+  }
+
+  public static SanitizeDbInput = (input: any) => {
+    try {
+      return FirebaseDb.RemoveUndefinedValues(input);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   // Using any as this could be the client side db or the admin db
   private db: any;
 
@@ -18,14 +81,24 @@ export class FirebaseDb {
   }
 
   public pushNode = (url: string, pushObject: any): string => {
-    const ref = this.db.ref(url);
-    const newNode = ref.push();
-    newNode.set(pushObject);
-    return newNode.toString().split("/").slice(-1)[0];
+    try {
+      const sanitizedPushInput = FirebaseDb.SanitizeDbInput(pushObject);
+      const ref = this.db.ref(url);
+      const newNode = ref.push();
+      newNode.set(sanitizedPushInput);
+      return newNode.toString().split("/").slice(-1)[0];
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   public writeNode = (url: string, data: any): any => {
-    return this.db.ref(url).set(data);
+    try {
+      const sanitizedData = FirebaseDb.SanitizeDbInput(data);
+      return this.db.ref(url).set(sanitizedData);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   public readNode = (url: string): any => {
