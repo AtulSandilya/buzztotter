@@ -132,7 +132,15 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
                 flex: -1,
               }}
               onPress={() => {
-                goBackRoute();
+                // Close the keyboard if it is open, otherwise go back a
+                // route. This assumes that the keyboard is open if there is a
+                // text field in focus, this is the simplest way to detect if
+                // the keyboard is open.
+                if (TextInput.State.currentlyFocusedField()) {
+                  Keyboard.dismiss();
+                } else {
+                  goBackRoute();
+                }
               }}
             >
               <View style={{flex: -1, flexDirection: 'row'}}>
