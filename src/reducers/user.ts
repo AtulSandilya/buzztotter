@@ -1,11 +1,10 @@
 import {User} from "../db/tables";
-// null is used here because this is converted to json before writing to
-// firebase and json uses null instead of undefined
+
 const defaultState: User = {
   isLoggedIn: false,
 };
 
-const mapFacebookDataToState = (state, action): UserState => {
+const mapFacebookDataToState = (state, action): User => {
   const data = action.payload.userData;
   return Object.assign({}, state,
     {
