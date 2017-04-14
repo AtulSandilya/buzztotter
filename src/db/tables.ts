@@ -26,6 +26,12 @@ export interface User {
 //  End User ------------------------------------------------------------}}}
 //  Stripe ------------------------------------------------------{{{
 
+// Reasoning:
+// 1. Is the max number of cards stripe returns in one "page" requiring
+// pagination on the server resulting is slower api calls.
+// 2. A typical user should only have a handful of credit cards anyway.
+export const STRIPE_MAX_NUMBER_OF_CREDIT_CARDS = 10;
+
 // For security reasons we store the mimimal amount of stripe data on the
 // client. If necessary we can retrieve details from stripe from the backend.
 export interface StripeCustomer {

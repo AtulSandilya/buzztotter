@@ -17,7 +17,11 @@ import Ionicon from "react-native-vector-icons/Ionicons";
 import {isIOS, WindowWidth} from "../Utilities";
 
 import {
-  CreditCard,
+  STRIPE_MAX_NUMBER_OF_CREDIT_CARDS,
+  StripeCreditCard as CreditCard,
+} from "../db/tables";
+
+import {
   PurchaseData,
   PurchasePackage,
   PurchaseState,
@@ -464,7 +468,11 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
               flexDirection: "row",
             }}
             onPress={() => {
-              this.props.goToAddCreditCardRoute();
+              if (this.props.creditCards.length >= STRIPE_MAX_NUMBER_OF_CREDIT_CARDS) {
+                alert(`Cannot add more than ${STRIPE_MAX_NUMBER_OF_CREDIT_CARDS} credit cards!`);
+              } else {
+                this.props.goToAddCreditCardRoute();
+              }
             }}
           >
             <View style={{flex: 1, flexDirection: "row"}}>
