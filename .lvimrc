@@ -120,19 +120,8 @@ augroup ts_neomake
   autocmd User NeomakeFinished call ServerJobStart()
 augroup END
 
-au FileType typescript let g:neomake_typescript_enabled_makers = ['inc', 'tslint']
 au FileType typescript setlocal makeprg=gulp\ --silent\ incremental-tsc
-
-let g:neomake_typescript_inc_maker = {
-    \ 'exe': 'gulp',
-    \ 'args': ['--silent', 'incremental-tsc'],
-    \ 'append_file': 0,
-    \ 'errorformat':
-        \ '%E%f %#(%l\,%c): error %m,' .
-        \ '%E%f %#(%l\,%c): %m,' .
-        \ '%Eerror %m,' .
-        \ '%C%\s%\+%m'
-    \ }
+au FileType typescript setlocal errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
 
 " Compile
 nnoremap <silent> cp :call BuildReactNative()<CR>
