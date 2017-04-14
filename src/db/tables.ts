@@ -24,6 +24,24 @@ export interface User {
 }
 
 //  End User ------------------------------------------------------------}}}
+//  Stripe ------------------------------------------------------{{{
+
+// For security reasons we store the mimimal amount of stripe data on the
+// client. If necessary we can retrieve details from stripe from the backend.
+export interface StripeCustomer {
+  activeCardId?: string; // An actual stripe id
+  creditCards?: StripeCreditCard[];
+  error?: string;
+}
+
+export interface StripeCreditCard {
+  brand: string;
+  id: string; // Actual stripe ids
+  last4: string;
+  metadata?: any;
+}
+
+//  End Stripe--------------------------------------------------}}}
 //  Vendor -------------------------------------------------------------{{{
 
 export interface Vendor {

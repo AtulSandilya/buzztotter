@@ -209,7 +209,6 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
       brand: undefined,
       id: undefined,
       last4: undefined,
-      token: undefined,
     };
 
     this.props.creditCards.map((card) => {
