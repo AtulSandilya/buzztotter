@@ -1,5 +1,9 @@
 import { delay } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
+
+import {
+  User,
+} from '../db/tables';
 
 import { promiseUserInfoFromFacebook, promiseContactsFromFacebook } from '../api/facebook';
 

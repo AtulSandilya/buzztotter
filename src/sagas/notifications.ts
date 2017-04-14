@@ -14,7 +14,7 @@ import {
   Notification,
   NotificationActions,
 } from "../db/tables";
-import {UserState} from "../reducers/user";
+import {User} from "../db/tables";
 
 export function *sendReceivedNotification(action, receiverFacebookId: string) {
   const receiverFcmToken: string = yield call(getFcmToken, receiverFacebookId);

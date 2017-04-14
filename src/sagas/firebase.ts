@@ -1,7 +1,7 @@
 import {Alert} from "react-native";
 import { call, put, select } from "redux-saga/effects";
 
-import {FirebaseUser, UserState} from "../reducers/user";
+import {FirebaseUser, User} from "../db/tables";
 
 import {
   PromoCodePackage,

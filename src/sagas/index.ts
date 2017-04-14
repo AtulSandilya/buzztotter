@@ -50,6 +50,8 @@ import {
   storeFcmToken,
 } from "./notifications";
 
+import {User} from "../db/tables";
+
 // Like combine reducers
 /* tslint:disable:object-literal-sort-keys */
 export default function* rootSaga() {
