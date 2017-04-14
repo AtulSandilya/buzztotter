@@ -25,6 +25,7 @@ const RouteWithNavBarWrapper: React.StatelessComponent<RouteWithNavBarWrapperPro
         height: WindowHeight - NavBarHeight - viewBelowHeight,
         width: WindowWidth,
       }}
+      extraScrollHeight={30}
     >
       {children}
     </KeyboardAwareScrollView>
