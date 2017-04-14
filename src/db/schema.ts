@@ -41,6 +41,9 @@ const Schema = {
     redeemQueue: {
       uniqueId: "RedeemPackage",
     },
+    userVerificationTokens: {
+      userFirebaseId: "token",
+    },
     promoCodes: {
       promotionCode: {
         summary: "PromoCodesSummary",
@@ -158,6 +161,10 @@ export const GetPurchaseQueueUrl = () => {
 
 export const GetRedeemQueueUrl = () => {
   return GetSchemaDbUrl("redeemQueue");
+};
+
+export const GetUserVerificationTokenDbUrl = (userFirebaseId: string): string => {
+  return GetSchemaDbUrl("userVerificationTokens.userFirebaseId", {userFirebaseId: userFirebaseId});
 };
 
 export const GetPurchasedBevegramListDbUrl = (firebaseId: string): string => {
