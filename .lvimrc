@@ -80,8 +80,13 @@ function! EchoInput(...)
   echo join(a:000[1], " ")
 endfunction
 
-function! EchoError(...)
-  echoerr join(a:000[1], " ")
+let g:tsc_build_error = []
+function! SaveError(...)
+  call add(g:tsc_build_error, join(a:000[1], " "))
+endfunction
+
+function! IncrementalCompile()
+  call jobstart("gulp incremental-tsc", {'on_exit': function("AfterTscCompile")})
 endfunction
 
 function! AfterTscCompile(...)
@@ -89,39 +94,62 @@ function! AfterTscCompile(...)
   call ServerJobStart()
 endfunction
 
+let g:building_server = 0
 function! ServerJobStart()
-  echo "Building Server..."
-  let serverBuildCommand = "npm run-script buildServer"
-  call jobstart(serverBuildCommand, {'on_exit': function('AfterServerBuild'), 'on_stderr': function('EchoError')})
+  if !g:building_server
+    let g:building_server = 1
+    echo "Building Server..."
+    let serverBuildCommand = "npm run-script buildServer"
+    call jobstart(serverBuildCommand, {'on_exit': function('AfterServerBuild'), 'on_stderr': function('SaveError')})
+  endif
 endfunction
 
 function! AfterServerBuild(...)
-  echo "Server Build Complete!"
+  if len(g:tsc_build_error) > 0
+    echoerr "Server Build Failed!"
+    echo join(g:tsc_build_error, "\n")
+    let g:tsc_build_error = []
+  else
+    echo "Server Build Complete!"
+  endif
+  let g:building_server = 0
 endfunction
 
-function! ShowErrorsOrLint()
+function! ShowErrorsIfNecessary()
+  " Show Errors based on their importance
+  " Ycm (loclist) errors are shows if they exist
+  " tslint (ale -> quickfix) are shown if they exist
   let ycm_errors = youcompleteme#GetErrorCount()
   if ycm_errors > 0
     exe "YcmDiags"
     redraw
-    echo printf("Skipping Compilation: %s Error%s Found!", ycm_errors, ycm_errors == 1 ? "" : "s")
+    echo printf("TSC: %s Error%s Found!", ycm_errors, ycm_errors == 1 ? "" : "s")
   else
-    exe "Neomake inc"
-    redraw
-    echo "Compiling ..."
+    execute "lclose"
   endif
+
+  if ale#statusline#Status() != "OK" && ycm_errors == 0
+    execute "copen"
+  else
+    execute "cclose"
+  end
 endfunction
 
-au FileType javascript,typescript set shiftwidth=2 tabstop=2
-au BufWritePost *.ts,*.tsx call jobstart("ctags src -R")
-augroup ts_neomake
-  au!
-  autocmd BufWritePost *.ts,*.tsx call ShowErrorsOrLint()
-  autocmd User NeomakeFinished call ServerJobStart()
-augroup END
+function! OnTypescriptSave()
+  call ShowErrorsIfNecessary()
+  call IncrementalCompile()
+endfunction
 
-au FileType typescript setlocal makeprg=gulp\ --silent\ incremental-tsc
-au FileType typescript setlocal errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
+augroup ts_config
+  au!
+  au FileType javascript,typescript set shiftwidth=2 tabstop=2
+
+  au BufWritePost *.ts,*.tsx call jobstart("ctags src -R")
+  autocmd BufWritePost *.ts,*.tsx call OnTypescriptSave()
+
+  au FileType typescript setlocal makeprg=gulp\ --silent\ incremental-tsc
+  au FileType typescript setlocal errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
+augroup END
 
 " Compile
 nnoremap <silent> cp :call BuildReactNative()<CR>
