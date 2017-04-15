@@ -75,6 +75,7 @@ interface PurchaseBevegramProps {
   selectedPurchasePackageIndex: number;
   attemptingSend: boolean;
   completedSend: boolean;
+  isRefreshing: boolean;
   resetPurchase();
   closePurchaseRoute();
   goToAddCreditCardRoute();
@@ -84,6 +85,7 @@ interface PurchaseBevegramProps {
   startCreditCardPurchase(PurchaseData, InProgressData): void;
   sendBevegram(SendBevegramData, InProgressData): void;
   purchaseAndSend(PurchaseData, SendBevegramData, InProgressData): void;
+  getUser();
 }
 
 interface PurchaseBevegramState {
@@ -521,6 +523,9 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
         <View style={{flex: listFlex, backgroundColor: "#ffffff"}}>
           <RouteWithNavBarWrapper
             viewBelowHeight={viewBelowHeight}
+            refreshAction={this.props.getUser}
+            isRefreshing={this.props.isRefreshing}
+            refreshText={"Updating..."}
           >
             <View style={[globalStyles.bevContainer]}>
               {this.renderSendOptions()}

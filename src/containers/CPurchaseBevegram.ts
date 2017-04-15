@@ -10,6 +10,7 @@ const mapStateToProps = (state) => {
   return {
     fullName: state.routes.SendBevegram.data.fullName,
     firstName: state.routes.SendBevegram.data.firstName,
+    isRefreshing: state.purchase.isRefreshingUser,
     imageUri: state.routes.SendBevegram.data.imageUri,
     facebookId: state.routes.SendBevegram.data.facebookId,
     purchase: state.purchase,
@@ -73,6 +74,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({type: 'SELECT_PURCHASE_PACKAGE', payload: {
         newSelectedPurchasePackageIndex: newSelectedPurchasePackageIndex,
       }})
+    },
+    getUser: () => {
+      dispatch({type: 'PURCHASE_REQUEST_UPDATE_USER'});
     }
   }
 }

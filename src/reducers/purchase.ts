@@ -12,6 +12,7 @@ export interface PurchaseState {
   paymentMethod: string;
   confirmed: boolean; // tristate
   failed: boolean;
+  isRefreshingUser: boolean;
   failMessage: string;
   attemptingStripeUpdate: boolean;
   purchasePackages: PurchasePackage[];
@@ -32,6 +33,7 @@ export const initialPurchaseState: PurchaseState = {
   confirmed: undefined,
   failed: false,
   failMessage: "",
+  isRefreshingUser: false,
   attemptingStripeUpdate: false,
   // Order packages from smallest to largest.
   purchasePackages: [
@@ -123,6 +125,16 @@ export const purchase = (state = initialPurchaseState, action) => {
       return Object.assign({}, state, {
         completedSend: true,
       });
+    case "ATTEMPTING_USER_REFRESH_FOR_PURCHASE":
+      return Object.assign({}, state, {
+        attemptingStripeUpdate: true,
+        isRefreshingUser: true,
+      });
+    case "COMPLETED_USER_REFRESH_FOR_PURCHASE":
+      return Object.assign({}, state, {
+        attemptingStripeUpdate: false,
+        isRefreshingUser: false,
+      })
     default:
       return state;
   }
