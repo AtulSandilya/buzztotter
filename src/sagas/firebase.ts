@@ -152,6 +152,14 @@ export function *updateFirebaseUser(action) {
   }
 }
 
+export function * getUser(){
+  const user: User = yield select<{user: User}>((state) => state.user);
+  const updatedUser: User = yield call(getFirebaseUser, user.firebase.uid);
+  yield put({type: "REWRITE_USER", payload: {
+    updatedUser,
+  }});
+}
+
 //  End User ------------------------------------------------------------}}}
 //  Purchasing ----------------------------------------------------------{{{
 
