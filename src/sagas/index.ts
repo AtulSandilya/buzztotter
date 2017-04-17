@@ -8,14 +8,7 @@ import {
 
 import {ActionConst} from "react-native-router-flux";
 
-import {
-  fetchAllFacebookData,
-  fetchContacts,
-  fetchUser,
-  logOutFacebook,
-  reloadContacts,
-  successfulLogin,
-} from "./facebook";
+import * as facebook from "./facebook";
 
 import {
   fetchCreditCardPurchase,
@@ -56,12 +49,12 @@ import {User} from "../db/tables";
 /* tslint:disable:object-literal-sort-keys */
 export default function* rootSaga() {
   // Facebook
-  yield fork(takeEvery, "USER_FETCH_REQUESTED", fetchUser);
-  yield fork(takeEvery, "CONTACTS_FETCH_REQUESTED", fetchContacts);
-  yield fork(takeEvery, "FACEBOOK_CONTACTS_RELOAD_REQUEST", reloadContacts);
+  yield fork(takeEvery, "USER_FETCH_REQUESTED", facebook.fetchUser);
+  yield fork(takeEvery, "CONTACTS_FETCH_REQUESTED", facebook.fetchContacts);
+  yield fork(takeEvery, "FACEBOOK_CONTACTS_RELOAD_REQUEST", facebook.reloadContacts);
 
   // Logging In
-  yield fork(takeEvery, "SUCCESSFUL_FACEBOOK_LOGIN", successfulLogin);
+  yield fork(takeEvery, "SUCCESSFUL_FACEBOOK_LOGIN", facebook.successfulLogin);
   yield fork(takeEvery, "INITIALIZE_USER_DATA_WITH_FACEBOOK_TOKEN", function *(action) {
     // Facebook user info is required to properly initialize a firebase user
     yield call(fetchUser, action);
@@ -72,7 +65,7 @@ export default function* rootSaga() {
 
   // Logging Out
   yield fork(takeEvery, "REQUEST_LOGOUT", function *(action) {
-    yield call(logOutFacebook);
+    yield call(facebook.logOutFacebook);
     yield call(goToRoute, action);
     yield call(firebaseLogOut, action);
   });
