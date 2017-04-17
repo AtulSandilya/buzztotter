@@ -2,6 +2,7 @@ import {
   call,
   fork,
   put,
+  select,
   takeEvery,
   takeLatest,
 } from "redux-saga/effects";
@@ -11,10 +12,7 @@ import {ActionConst} from "react-native-router-flux";
 import * as facebook from "./facebook";
 
 import {
-  fetchCreditCardPurchase,
-  fetchDeleteCustomerCard,
-  fetchUpdateDefaultCard,
-  fetchVerifyCreditCard,
+  fetchCreditCardToken,
 } from "./stripe";
 
 import {
@@ -35,6 +33,7 @@ import {
   updateAllLists,
   updateFirebaseUser,
   updateReceivedBevegrams,
+  updateUserStateOnNextChange,
   verifyReceiverExists,
 } from "./firebase";
 
@@ -45,6 +44,8 @@ import {
 } from "./notifications";
 
 import * as Util from "../Utilities";
+import * as queue from "./queue";
+
 import {User} from "../db/tables";
 
 // Like combine reducers
@@ -79,9 +80,48 @@ export default function* rootSaga() {
   });
 
   // Handling credit cards
-  yield fork(takeEvery, "REQUEST_CREDIT_CARD_VERIFICATION", fetchVerifyCreditCard);
-  yield fork(takeEvery, "REQUEST_UPDATE_DEFAULT_CARD", fetchUpdateDefaultCard);
-  yield fork(takeEvery, "REQUEST_REMOVE_CARD", fetchDeleteCustomerCard);
+  yield fork(takeEvery, "REQUEST_CREDIT_CARD_VERIFICATION", function *(action) {
+    const cardToken = yield call(fetchCreditCardToken, action);
+    if (cardToken) {
+      yield call(queue.addCreditCardToCustomer, cardToken);
+      yield call(
+        updateUserStateOnNextChange,
+        ["SUCCESSFUL_CREDIT_CARD_VERIFICATION", "GO_BACK_ROUTE"],
+        ["FAILED_CREDIT_CARD_VERIFICATION"],
+        "stripe.error",
+      );
+    }
+  });
+
+  yield fork(takeEvery, "REQUEST_UPDATE_DEFAULT_CARD", function *(action) {
+    yield put({type: "ATTEMPTING_STRIPE_DEFAULT_CARD_UPDATE"});
+    yield call(queue.updateDefaultCard, action);
+    yield call(
+      updateUserStateOnNextChange,
+      ["RENDER_SUCCESSFUL_STRIPE_DEFAULT_CARD_UPDATE"],
+      ["RENDER_FAILED_STRIPE_DEFAULT_CARD_UPDATE"],
+      "stripe.error",
+      true,
+    );
+  });
+
+  yield fork(takeEvery, "REQUEST_REMOVE_CARD", function *(action) {
+    yield put({type: "ATTEMPTING_STRIPE_REMOVE_CARD"});
+    yield call(queue.removeCreditCardFromCustomer, action);
+    yield call(
+      updateUserStateOnNextChange,
+      ["RENDER_SUCCESSFUL_STRIPE_REMOVE_CARD"],
+      ["RENDER_FAILED_STRIPE_REMOVE_CARD"],
+      "stripe.error",
+      true,
+    );
+  });
+
+  yield fork(takeEvery, "PURCHASE_REQUEST_UPDATE_USER", function *() {
+    yield put({type: "ATTEMPTING_USER_REFRESH_FOR_PURCHASE"});
+    yield call(getUser);
+    yield put({type: "COMPLETED_USER_REFRESH_FOR_PURCHASE"});
+  });
 
   // Purchasing Bevegrams
   function *purchaseBevegram(action) {
