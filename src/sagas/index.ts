@@ -31,6 +31,7 @@ import {
   addSentBevegramToDB,
   firebaseFacebookLogin,
   firebaseLogOut,
+  getUser,
   updateAllLists,
   updateFirebaseUser,
   updateReceivedBevegrams,
@@ -43,6 +44,7 @@ import {
   storeFcmToken,
 } from "./notifications";
 
+import * as Util from "../Utilities";
 import {User} from "../db/tables";
 
 // Like combine reducers
@@ -63,8 +65,10 @@ export default function* rootSaga() {
     ];
 
     yield call(firebaseFacebookLogin, action);
-    yield call(fetchContacts, action);
-    yield call(dbWriteFcmToken);
+    yield call(getUser);
+    if (Util.isAndroid) {
+      yield call(dbWriteFcmToken);
+    }
   });
 
   // Logging Out
