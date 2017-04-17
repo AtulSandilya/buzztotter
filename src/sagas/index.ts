@@ -57,7 +57,11 @@ export default function* rootSaga() {
   yield fork(takeEvery, "SUCCESSFUL_FACEBOOK_LOGIN", facebook.successfulLogin);
   yield fork(takeEvery, "INITIALIZE_USER_DATA_WITH_FACEBOOK_TOKEN", function *(action) {
     // Facebook user info is required to properly initialize a firebase user
-    yield call(fetchUser, action);
+    yield [
+      yield call(facebook.fetchContacts, action),
+      yield call(facebook.fetchUser, action),
+    ];
+
     yield call(firebaseFacebookLogin, action);
     yield call(fetchContacts, action);
     yield call(dbWriteFcmToken);
