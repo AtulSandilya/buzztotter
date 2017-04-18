@@ -1,6 +1,6 @@
 /* tslint:disable:no-console */
-class Logger {
-  public static PrintStartQueueMessage = (url: string) => {
+class Log {
+  public static StartQueueMessage = (url: string) => {
     console.log("Listening for changes on node: ", url);
   }
 
@@ -12,11 +12,11 @@ class Logger {
     this.start = this.getUnixTime();
   }
 
-  public printFinishedMessage = () => {
+  public successMessage = () => {
     console.log(`Successfully completed ${this.action} in ${this.getTimeElapsed()} ms`);
   }
 
-  public printFailedMessage = (error: Error) => {
+  public failedMessage = (error: Error) => {
     console.log(`Failed ${this.action} in ${this.getTimeElapsed()} ms`);
     console.log(`Error for ${this.action}: ${error}`);
   }
@@ -30,4 +30,4 @@ class Logger {
   }
 }
 
-export default Logger;
+export default Log;
