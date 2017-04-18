@@ -1,7 +1,10 @@
 import moment from "moment";
+import fetch from "node-fetch";
 
 const stripeUrl = "https://api.stripe.com/v1/";
 const stripePrivateApiKey = process.env.STRIPE_PRIVATE_API_KEY;
+
+//  Perform Stripe Request ----------------------------------------------{{{
 
 const uriEncodeObjectToString = (inputObj, separator = "&") => {
   const result = [];
@@ -31,13 +34,13 @@ const uriEncodeNestedObject = (inputObj, objName) => {
   return result.join("&");
 };
 
-const stripeRequest = (
+const stripeRequest = async (
   url: string,
   requestDetails: any,
   method: string = "POST",
 ) => {
   const body = uriEncodeObjectToString(requestDetails);
-  return fetch(stripeUrl + url, {
+  const response = await fetch(stripeUrl + url, {
     body: uriEncodeObjectToString(requestDetails),
     headers: {
       "Accept": "application/json",
@@ -46,27 +49,19 @@ const stripeRequest = (
     },
     method: method,
   })
-  .then((response) => {
-    return response.json();
-  })
-  .catch((error) => {
+  .catch( (error) => {
     throw Error(`Error ${method}ing ${body} to ${url}: ${error}`);
   });
+  const json = await response.json();
+
+  if (json.error) {
+    throw new StripeError(json.error.message);
+  }
+
+  return json;
 };
 
-// Verify a credit card. Returns a token if verification is successful.
-export const promiseCreditCardToken = (cardNumber, expMonth, expYear, cvc) => {
-  const cardDetails = {
-    card: {
-      cvc: cvc,
-      exp_month: expMonth,
-      exp_year: expYear,
-      number: cardNumber,
-    },
-  };
-
-  return stripeRequest("tokens", cardDetails);
-};
+//  End Perform Stripe Request ------------------------------------------}}}
 
 export const promiseCreditCardPurchase = (customerId, amount, description) => {
   const purchaseDetails = {
