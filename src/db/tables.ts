@@ -189,9 +189,9 @@ export interface PurchasePackageForQueue {
   userFirebaseId: string;
   receiverFacebookId: string;
   purchaseQuantity: string;
-  promoCode: string;
-  message: string;
   verificationToken: string;
+  promoCode?: string;
+  message?: string;
 }
 
 export interface RedeemPackageForQueue {
