@@ -16,7 +16,7 @@ class Log {
     console.log(`Successfully completed ${this.action} in ${this.getTimeElapsed()} ms`);
   }
 
-  public failedMessage = (error: Error) => {
+  public failMessage = (error: Error) => {
     console.log(`Failed ${this.action} in ${this.getTimeElapsed()} ms`);
     console.log(`Error for ${this.action}: ${error}`);
   }
