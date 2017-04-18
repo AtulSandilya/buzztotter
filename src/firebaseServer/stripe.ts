@@ -1,5 +1,13 @@
 import moment from "moment";
 import fetch from "node-fetch";
+import uuid from "uuid/v4";
+
+import {config} from "dotenv";
+config();
+
+import {
+  StripeCustomer,
+} from "../db/tables";
 
 const stripeUrl = "https://api.stripe.com/v1/";
 const stripePrivateApiKey = process.env.STRIPE_PRIVATE_API_KEY;
@@ -74,7 +82,6 @@ export const promiseCreditCardPurchase = (customerId, amount, description) => {
   return stripeRequest("charges", purchaseDetails);
 };
 
-// Create a new empty stripe customer
 export const promiseNewCustomer = (fullName: string, email: string) => {
   const newCustomerDetails = {
     description: `${fullName}: ${email}`,
@@ -90,13 +97,19 @@ export const promiseNewCustomer = (fullName: string, email: string) => {
 
 export const promiseAddCardToCustomer = (customerId: string, token: string) => {
   const customerDetails = {
+    metadata: {
+      // Allows sorting cards
+      creationDate: Date.now().toString(),
+      generatedId: uuid(),
+    },
     source: token,
   };
 
   return stripeRequest("customers/" + customerId + "/sources", customerDetails);
 };
 
-export const promiseUpdateCustomerDefaultCard = (customerId: string, newDefaultCard: string) => {
+export const promiseUpdateCustomerDefaultCard = async (customerId: string, newDefaultCardGeneratedId: string) => {
+  const newDefaultCard = await convertGeneratedIdToStripeCardId(customerId, newDefaultCardGeneratedId);
   const update = {
     default_source: newDefaultCard,
   };
@@ -104,10 +117,59 @@ export const promiseUpdateCustomerDefaultCard = (customerId: string, newDefaultC
   return stripeRequest("customers/" + customerId, update);
 };
 
-export const promiseCustomer = (customerId: string) => {
-  return stripeRequest("customers/" + customerId, {});
-};
-
-export const promiseDeleteCustomerCard = (customerId: string, cardToDelete: string) => {
+export const promiseDeleteCustomerCard = async (customerId: string, cardToDeleteGeneratedId: string) => {
+  const cardToDelete = await convertGeneratedIdToStripeCardId(customerId, cardToDeleteGeneratedId);
   return stripeRequest("customers/" + customerId + "/sources/" + cardToDelete, {}, "DELETE");
 };
+
+const convertGeneratedIdToStripeCardId = async (customerId: string, generatedCardId: string) => {
+  const rawCustomer = await stripeRequest("customers/" + customerId, {});
+  try {
+    return rawCustomer.sources.data.filter((val) => {
+      return val.metadata.generatedId === generatedCardId;
+    })[0].id;
+  } catch (e) {
+    throw new StripeError(`Could not retrieve your credit card information`);
+  }
+};
+
+// Parse the stripe customer object formatting it for the client
+export const promiseCustomer = async (customerId: string): Promise<StripeCustomer> => {
+  return new Promise<StripeCustomer>( async (resolve) => {
+    const rawCustomer = await stripeRequest("customers/" + customerId, {});
+    if (rawCustomer.sources.data.length > 0) {
+      resolve({
+        // activeCardId: rawCustomer.default_source,
+        activeCardId:  rawCustomer.sources.data.filter((val) => {
+          return val.id === rawCustomer.default_source;
+        })[0].metadata.generatedId,
+        creditCards: rawCustomer.sources.data.sort((a, b) => {
+          if (!a.metadata || !b.metadata) {
+            return true;
+          } else {
+            return a.metadata.creationDate > b.metadata.creationDate;
+          }
+        }).map((val) => {
+          return {
+            brand: val.brand,
+            id: val.metadata.generatedId,
+            last4: val.last4,
+          };
+        }),
+      });
+    } else {
+      resolve();
+    }
+  })
+  .catch((error) => {
+      throw new StripeError(error);
+  });
+};
+
+class StripeError extends Error {
+  constructor(message) {
+    super(message);
+    this.message = message;
+    this.name = "StripeError";
+  }
+}
