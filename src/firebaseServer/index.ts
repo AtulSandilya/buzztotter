@@ -82,10 +82,54 @@ const AddCardToCustomerQueue = new Queue(db.getRef(AddCardToCustomerQueueUrl),
     process();
 });
 
-const notificationQueue = new Queue(db.ref(GetNotificationQueueUrl()), (data, progress, resolve, reject) => {
-  console.log("New Queue Request, data:", data);
-  sendNotification(data);
-  console.log("Completed Queue Request");
+const RemoveCardFromCustomerQueueUrl = DbSchema.GetRemoveCreditCardFromCustomerQueueUrl();
+Log.StartQueueMessage(RemoveCardFromCustomerQueueUrl);
+const RemoveCardFromCustomerQueue = new Queue(
+  db.getRef(RemoveCardFromCustomerQueueUrl),
+  (data, progress, resolve, reject) => {
+    const log = new Log("REMOVE_CARD_FROM_CUSTOMER");
+    const process = async () => {
+      const input: RemoveCreditCardFromCustomerPackageForQueue = data;
+      const {stripeCardId, userFirebaseId, verificationToken} = input;
+
+      try {
+        await verifyUser(verificationToken, userFirebaseId);
+        const userStripeId = await db.readNode(DbSchema.GetStripeCustomerIdDbUrl(userFirebaseId));
+
+        const user: User = await db.readNode(DbSchema.GetUserDbUrl(userFirebaseId));
+        await stripe.promiseDeleteCustomerCard(userStripeId, stripeCardId);
+
+        user.stripe = await stripe.promiseCustomer(userStripeId);
+        if (!user.stripe) {
+          delete user.stripe;
+        }
+
+        await updateUser(input.userFirebaseId, user);
+
+        log.successMessage();
+        resolve();
+      } catch (e) {
+        // This is a special case where the user object from stripe may not
+        // exist but we need to put the error in that object and write it to
+        // the user.
+        const userStripeId = await db.readNode(DbSchema.GetStripeCustomerIdDbUrl(userFirebaseId));
+        const user: User = await db.readNode(DbSchema.GetUserDbUrl(userFirebaseId));
+        user.stripe = await stripe.promiseCustomer(userStripeId);
+
+        if (!user.stripe) {
+          user.stripe = {};
+        }
+
+        user.stripe.error = e;
+
+        await updateUser(input.userFirebaseId, user);
+
+        log.failMessage(e);
+        resolve();
+      }
+    };
+    process();
+});
   resolve();
 });
 
