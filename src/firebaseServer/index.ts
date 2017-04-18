@@ -130,6 +130,44 @@ const RemoveCardFromCustomerQueue = new Queue(
     };
     process();
 });
+
+const UpdateDefaultCardUrl = DbSchema.GetUpdateDefaultCreditCardForCustomerUrl();
+Log.StartQueueMessage(UpdateDefaultCardUrl);
+const UpdateDefaultCardQueue = new Queue(
+  db.getRef(UpdateDefaultCardUrl),
+  (data, progress, resolve, reject) => {
+    const log = new Log("UPDATE_DEFAULT_CARD");
+    const process = async () => {
+      const input: UpdateDefaultCreditCardForCustomerPackageForQueue = data;
+      const {stripeCardId, userFirebaseId, verificationToken} = input;
+
+      const user: User = await db.readNode(DbSchema.GetUserDbUrl(userFirebaseId));
+      try {
+        await verifyUser(verificationToken, userFirebaseId);
+        const userStripeId = await db.readNode(DbSchema.GetStripeCustomerIdDbUrl(userFirebaseId));
+
+        await stripe.promiseUpdateCustomerDefaultCard(userStripeId, stripeCardId);
+
+        user.stripe = await stripe.promiseCustomer(userStripeId);
+
+        await updateUser(input.userFirebaseId, user);
+
+        log.successMessage();
+
+        resolve();
+      } catch (e) {
+        user.stripe = Object.assign({}, user.stripe, {
+          error: e,
+        });
+
+        await updateUser(input.userFirebaseId, user);
+
+        log.failMessage(e);
+        resolve();
+      }
+    };
+    process();
+});
   resolve();
 });
 
