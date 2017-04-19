@@ -362,6 +362,13 @@ export const addPromoCode = (promoCode: string, promoCodePack: PromoCodePackage)
 };
 
 //  End PromoCode -------------------------------------------------------}}}
+//  PurchasePackages ----------------------------------------------------{{{
+
+export const getPurchasePackages = () => {
+  return firebaseUserDb.readNode(DbSchema.GetPurchasePackagesDbUrl());
+};
+
+//  End PurchasePackages ------------------------------------------------}}}
 //  Queue Notification --------------------------------------------------{{{
 
 // Adding an object to a queue url requires putting the object in the

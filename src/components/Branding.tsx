@@ -7,8 +7,10 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TextStyle,
   TouchableHighlight,
   View,
+  ViewStyle,
 } from "react-native";
 
 import {connect} from "react-redux";
@@ -33,14 +35,14 @@ const contentHeight = BrandingHeight - StatusBarHeight;
 const textSizeMultiplier = 0.35;
 
 interface Style {
-  wrapper: React.ViewStyle;
-  content: React.ViewStyle;
-  section: React.ViewStyle;
-  leftContainer: React.ViewStyle;
-  centerContainer: React.ViewStyle;
-  rightContainer: React.ViewStyle;
-  icon: React.TextStyle;
-  text: React.TextStyle;
+  wrapper: ViewStyle;
+  content: ViewStyle;
+  section: ViewStyle;
+  leftContainer: ViewStyle;
+  centerContainer: ViewStyle;
+  rightContainer: ViewStyle;
+  icon: TextStyle;
+  text: TextStyle;
 }
 
 const styles = StyleSheet.create<Style>({
