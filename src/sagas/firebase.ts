@@ -1,5 +1,7 @@
 import {Alert} from "react-native";
-import { call, put, select } from "redux-saga/effects";
+
+import { delay } from "redux-saga";
+import { call, put, race, select } from "redux-saga/effects";
 
 import FirebaseDb from "../api/firebase/FirebaseDb";
 import {FirebaseUser, User} from "../db/tables";
@@ -310,15 +312,24 @@ export function *updateUserStateOnNextChange(
 ) {
   const user: User = yield select<{user: User}>((state) => state.user);
   const userFirebaseId: string = user.firebase.uid;
-
-  const updatedUser = yield call(OnNextUserNodeChange, userFirebaseId);
-
-  yield put({type: "REWRITE_USER", payload: {
-    updatedUser,
-  }});
+  const serverTimeout = 15000;
 
   let errorMessage;
-  if (errorKey) {
+
+  const {updatedUser, timeout} = yield race({
+    timeout: call(delay, serverTimeout),
+    updatedUser: call(OnNextUserNodeChange, userFirebaseId),
+  });
+
+  if (updatedUser) {
+    yield put({type: "REWRITE_USER", payload: {
+      updatedUser,
+    }});
+  } else {
+    errorMessage = "Unable to communicate with our servers!";
+  }
+
+  if (errorKey && !errorMessage) {
     errorMessage = Object.assign({}, updatedUser);
     try {
       errorMessage = errorMessage[errorKey];
