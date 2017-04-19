@@ -140,7 +140,14 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
                 // route. This assumes that the keyboard is open if there is a
                 // text field in focus, this is the simplest way to detect if
                 // the keyboard is open.
-                if (TextInput.State.currentlyFocusedField()) {
+                let shouldDismissKeyboard;
+                try {
+                  shouldDismissKeyboard = TextInput.State.currentlyFocusedField();
+                } catch (e) {
+                  // pass
+                }
+
+                if (shouldDismissKeyboard) {
                   Keyboard.dismiss();
                 } else {
                   goBackRoute();
