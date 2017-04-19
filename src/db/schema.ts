@@ -47,6 +47,7 @@ const Schema = {
     stripeCustomerIds: {
       userFirebaseId: "stripeCustomerId",
     },
+    purchasePackages: "ArrayOfPurchasePackages",
     promoCodes: {
       promotionCode: {
         summary: "PromoCodesSummary",
@@ -220,4 +221,8 @@ export const GetPromoCodeSummaryDbUrl = (promotionCode: string): string => {
 
 export const GetStripeCustomerIdDbUrl = (userFirebaseId: string): string => {
   return GetSchemaDbUrl("stripeCustomerIds.userFirebaseId", {userFirebaseId});
+};
+
+export const GetPurchasePackagesDbUrl = () => {
+  return GetSchemaDbUrl("purchasePackages");
 };
