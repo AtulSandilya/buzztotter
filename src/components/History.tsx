@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Component, PropTypes } from 'react';
+import { Component } from 'react';
 import { ListView, RefreshControl, Text, View } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';

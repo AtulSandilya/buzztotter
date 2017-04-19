@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Component, PropTypes } from "react";
+import { Component } from "react";
 import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";

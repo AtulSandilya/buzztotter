@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Component, PropTypes } from 'react';
+import { Component } from 'react';
 import { BackAndroid, Dimensions, Text, TouchableHighlight, View } from 'react-native';
 
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Component, PropTypes } from 'react';
+import { Component } from 'react';
 import { ListView, RefreshControl, View, Text } from 'react-native';
 
 import {modalKeys} from '../reducers/modals';
