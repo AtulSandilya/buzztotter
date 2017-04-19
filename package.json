@@ -35,7 +35,8 @@
     "redux-saga": "^0.14.2",
     "redux-storage": "^4.1.2",
     "redux-storage-decorator-filter": "^1.1.8",
-    "redux-storage-engine-reactnativeasyncstorage": "^1.0.5"
+    "redux-storage-engine-reactnativeasyncstorage": "^1.0.5",
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "@types/fuse": "^2.5.1",
@@ -45,6 +46,7 @@
     "@types/react": "^15.0.14",
     "@types/react-native": "^0.43.4",
     "@types/react-redux": "^4.4.35",
+    "@types/uuid": "^2.0.29",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.21.0",
     "babel-jest": "^18.0.0",
