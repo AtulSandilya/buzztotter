@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const updateFirebaseWithJson = require('./updateFirebaseWithJson');
-const purchasePackages = require('../staticDbJson/PurchasePackages.json').packages;
+const purchasePackages = require('../serverBuild/staticDbContent/PurchasePackages').default;
 
 const purchasePackagesUrl = "purchasePackages";
 
