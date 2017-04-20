@@ -7,8 +7,10 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TextStyle,
   TouchableHighlight,
   View,
+  ViewStyle,
 } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -585,10 +587,10 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
 }
 
 interface Style {
-  numBeersContainer: React.ViewStyle;
-  numBeersButtonContainer: React.ViewStyle;
-  numBeersButton: React.ViewStyle;
-  numBeersButtonText: React.TextStyle;
+  numBeersContainer: ViewStyle;
+  numBeersButtonContainer: ViewStyle;
+  numBeersButton: ViewStyle;
+  numBeersButtonText: TextStyle;
 }
 
 const styles = StyleSheet.create<Style>({
