@@ -63,6 +63,15 @@ export interface Vendor {
 }
 
 //  End Vendor ---------------------------------------------------------}}}
+//  PurchasePackage -----------------------------------------------------{{{
+
+export interface PurchasePackage {
+  name: string;
+  quantity: number;
+  price: number;
+}
+
+//  End PurchasePackage -------------------------------------------------}}}
 //  PurchasedBevegram ---------------------------------------------------{{{
 
 export interface PurchasedBevegram {

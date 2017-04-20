@@ -32,6 +32,7 @@ import {
   getUser,
   updateAllLists,
   updateFirebaseUser,
+  updatePurchasePackages,
   updateReceivedBevegrams,
   updateUserStateOnNextChange,
   verifyReceiverExists,
@@ -70,6 +71,8 @@ export default function* rootSaga() {
     if (Util.isAndroid) {
       yield call(dbWriteFcmToken);
     }
+
+    yield call(updatePurchasePackages);
   });
 
   // Logging Out
@@ -120,6 +123,7 @@ export default function* rootSaga() {
   yield fork(takeEvery, "PURCHASE_REQUEST_UPDATE_USER", function *() {
     yield put({type: "ATTEMPTING_USER_REFRESH_FOR_PURCHASE"});
     yield call(getUser);
+    yield call(updatePurchasePackages);
     yield put({type: "COMPLETED_USER_REFRESH_FOR_PURCHASE"});
   });
 

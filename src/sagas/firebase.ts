@@ -30,6 +30,7 @@ import {
   firebaseLogOut as apiFirebaseLogOut,
   getFirebaseId,
   getFirebaseUser,
+  getPurchasePackages,
   initializeFirebaseUserFacebookId,
   isUserLoggedIn,
   OnNextUserNodeChange,
@@ -159,6 +160,13 @@ export function * getUser(){
   const updatedUser: User = yield call(getFirebaseUser, user.firebase.uid);
   yield put({type: "REWRITE_USER", payload: {
     updatedUser,
+  }});
+}
+
+export function *updatePurchasePackages() {
+  const purchasePackages = yield call(getPurchasePackages);
+  yield put ({type: "UPDATE_PURCHASE_PACKAGES", payload: {
+    purchasePackages,
   }});
 }
 

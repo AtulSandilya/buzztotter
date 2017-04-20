@@ -1,3 +1,6 @@
+import {PurchasePackage} from "../db/tables";
+import PurchasePackages from "../staticDbContent/PurchasePackages";
+
 export interface PurchaseData {
   amount: number;
   description: string;
@@ -19,45 +22,17 @@ export interface PurchaseState {
   selectedPurchasePackageIndex: number;
 }
 
-export interface PurchasePackage {
-  name: string;
-  quantity: number;
-  price: number;
-}
-
 export const initialPurchaseState: PurchaseState = {
   attemptingPurchase: false,
   attemptingSend: undefined,
-  completedSend: false,
-  paymentMethod: undefined,
-  confirmed: undefined,
-  failed: false,
-  failMessage: "",
-  isRefreshingUser: false,
   attemptingStripeUpdate: false,
-  // Order packages from smallest to largest.
-  purchasePackages: [
-    {
-      name: "One",
-      price: 7.50,
-      quantity: 1,
-    },
-    {
-      name: "Three",
-      price: 21.00,
-      quantity: 3,
-    },
-    {
-      name: "Sixer (6)",
-      price: 37.50,
-      quantity: 6,
-    },
-    {
-      name: "Fourteener (14)",
-      price: 82.50,
-      quantity: 14,
-    }
-  ],
+  completedSend: false,
+  confirmed: undefined,
+  failMessage: "",
+  failed: false,
+  isRefreshingUser: false,
+  paymentMethod: undefined,
+  purchasePackages: PurchasePackages,
   selectedPurchasePackageIndex: 0,
 };
 
@@ -135,6 +110,10 @@ export const purchase = (state = initialPurchaseState, action) => {
         attemptingStripeUpdate: false,
         isRefreshingUser: false,
       })
+    case "UPDATE_PURCHASE_PACKAGES":
+      return Object.assign({}, state, {
+        purchasePackages: action.payload.purchasePackages,
+      });
     default:
       return state;
   }

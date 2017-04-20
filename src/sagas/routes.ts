@@ -1,3 +1,5 @@
+import {call} from "redux-saga/effects";
+
 import {
   Keyboard,
   ToastAndroid,
@@ -12,9 +14,12 @@ import {isAndroid, isIOS} from "../Utilities";
 
 import { IsPurchaseAndOrSendCompleted } from "../components/PurchaseAndOrSendInProgress";
 
+import {updatePurchasePackages} from "./firebase";
+
 export function *goToRoute(action) {
 
   const nextRoute = action.payload.route;
+
   let nextRouteData = {};
   if (action.payload.routeData) {
     nextRouteData = action.payload.routeData;
@@ -26,6 +31,10 @@ export function *goToRoute(action) {
   }});
 
   Actions[nextRoute]();
+
+  if (nextRoute === "SendBevegram" || nextRoute === "PurchaseBevegram") {
+    yield call(updatePurchasePackages);
+  }
 }
 
 interface GoBackRoutePayloadProps {
