@@ -1,24 +1,24 @@
 import * as React from "react";
-import { Component } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { Component } from "react";
+import { ActivityIndicator, Text, View } from "react-native";
 
-import {globalStyles} from './GlobalStyles';
+import {globalStyles} from "./GlobalStyles";
 
 const StatusLine = ({title, input, allFailed, waiting = false}) => {
   let text = "";
   let color = "";
-  if(allFailed){
-    text = "Failed"
+  if (allFailed) {
+    text = "Failed";
     color = "red";
-  } else if(waiting){
-    text = "Waiting"
-  } else if(input === undefined){
-    text = "Pending"
+  } else if (waiting) {
+    text = "Waiting";
+  } else if (input === undefined) {
+    text = "Pending";
   } else if (input === true) {
-    text = "Successful!"
-    color = "green"
+    text = "Successful!";
+    color = "green";
   } else if (input === false) {
-    text = "Failed"
+    text = "Failed";
     color = "red";
   }
 
@@ -32,14 +32,16 @@ const StatusLine = ({title, input, allFailed, waiting = false}) => {
       <View style={globalStyles.bevLineRight}>
         <View
           style={{
+            alignItems: "flex-end",
             flex: 1,
-            flexDirection: 'row',
-            alignItems: 'flex-end',
-            justifyContent: 'center',
+            flexDirection: "row",
+            justifyContent: "center",
           }}
         >
           <View>
-            {input === undefined && waiting === false && allFailed !== true ? <ActivityIndicator style={{marginRight: 10}}/> : <View />}
+            {input === undefined && waiting === false && allFailed !== true ?
+              <ActivityIndicator style={{marginRight: 10}}/>
+            : <View />}
           </View>
           <Text
             style={[globalStyles.bevLineText, color.length > 0 ? {
@@ -51,7 +53,7 @@ const StatusLine = ({title, input, allFailed, waiting = false}) => {
         </View>
       </View>
     </View>
-  )
-}
+  );
+};
 
 export default StatusLine;
