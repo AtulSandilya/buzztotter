@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import InitialRouter, {InitialRouterProps} from '../routers/InitialRouter';
+import InitialRouter, {InitialRouterProps} from "../routers/InitialRouter";
 
 interface MapStateProps {
   showLogin?: boolean;
@@ -9,10 +9,10 @@ interface MapStateProps {
 
 const mapStateToProps = (state): MapStateProps => {
   return {
-    showLogin: !state.user.isLoggedIn,
     isLoading: state.app.isLoading,
-  }
-}
+    showLogin: !state.user.isLoggedIn,
+  };
+};
 
 interface MapDispatchProps {
   goBackRoute?(): void;
@@ -21,10 +21,10 @@ interface MapDispatchProps {
 const mapDispatchToProps = (dispatch) => {
   return {
     goBackRoute: () => {
-      dispatch({type: 'GO_BACK_ROUTE'});
-    }
-  }
-}
+      dispatch({type: "GO_BACK_ROUTE"});
+    },
+  };
+};
 
 const CInitialRouter = connect<MapStateProps, MapDispatchProps, InitialRouterProps>(
   mapStateToProps,
