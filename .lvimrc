@@ -115,6 +115,13 @@ function! AfterServerBuild(...)
   let g:building_server = 0
 endfunction
 
+function! TsLint()
+  let current_file = bufname("%")
+  call system("tslint --fix " . current_file)
+  exe "edit"
+endfunction
+command! TsLint call TsLint()
+
 function! ShowErrorsIfNecessary()
   " Show Errors based on their importance
   " Ycm (loclist) errors are shows if they exist
