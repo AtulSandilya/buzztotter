@@ -1,16 +1,16 @@
-import * as React from 'react';
-import { Component } from 'react';
+import * as React from "react";
+import { Component } from "react";
 import {
   Platform,
   StatusBar,
   View,
-} from 'react-native';
+} from "react-native";
 
-import { Provider } from 'react-redux'
+import { Provider } from "react-redux";
 
-import CInitialRouter from './containers/CInitialRouter.js';
+import CInitialRouter from "./containers/CInitialRouter.js";
 
-import store from './configureStore';
+import store from "./configureStore";
 
 interface BevegramState {
   store: any;
@@ -23,11 +23,10 @@ export default class Bevegram extends Component<{}, BevegramState> {
 
     this.state = {
       store: store,
-    }
+    };
   }
 
-
-  render() {
+  public render() {
     // Holding the store in state allows hot reloading
     return (
       <Provider store={this.state.store}>
