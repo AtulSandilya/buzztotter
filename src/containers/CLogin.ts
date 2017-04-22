@@ -1,8 +1,8 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { Actions } from 'react-native-router-flux';
+import { Actions } from "react-native-router-flux";
 
-import Login, {LoginProps} from '../components/Login';
+import Login, {LoginProps} from "../components/Login";
 
 interface StateProps {
   isLoggedIn: boolean;
@@ -11,8 +11,8 @@ interface StateProps {
 const mapStateToProps = (state): StateProps => {
   return {
     isLoggedIn: state.user.isLoggedIn,
-  }
-}
+  };
+};
 
 interface DispatchProps {
   onSuccessfulFacebookLogin(): void;
@@ -23,18 +23,18 @@ interface DispatchProps {
 const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
     onSuccessfulFacebookLogin: () => {
-      dispatch({type: 'SUCCESSFUL_FACEBOOK_LOGIN'});
-      dispatch({type: 'GO_TO_ROUTE', payload: {
+      dispatch({type: "SUCCESSFUL_FACEBOOK_LOGIN"});
+      dispatch({type: "GO_TO_ROUTE", payload: {
         route: "MainUi",
-      }})
+      }});
     },
     requestFacebookData: (token) => {
-      dispatch({type: 'INITIALIZE_USER_DATA_WITH_FACEBOOK_TOKEN', payload: {
+      dispatch({type: "INITIALIZE_USER_DATA_WITH_FACEBOOK_TOKEN", payload: {
         token: token,
       }});
     },
-  }
-}
+  };
+};
 
 const CLogin = connect<StateProps, DispatchProps, LoginProps>(
   mapStateToProps,
