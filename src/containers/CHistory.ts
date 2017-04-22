@@ -1,13 +1,13 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 import {
   PurchasedBevegram,
-  SentBevegram,
   ReceivedBevegram,
   RedeemedBevegram,
-} from '../db/tables';
+  SentBevegram,
+} from "../db/tables";
 
-import History, {HistoryProps} from '../components/History';
+import History, {HistoryProps} from "../components/History";
 
 interface MapStateProps {
   bevegramHistoryKeys?: string[];
@@ -19,13 +19,13 @@ interface MapStateProps {
   completedInitialLoad?: boolean;
 }
 
-const mergeKeys = (objects: Object[]) => {
-  let keys = [];
+const mergeKeys = (objects: any[]) => {
+  const keys = [];
   objects.map((x) => {
     keys.push.apply(keys, Object.keys(x));
-  })
+  });
   return keys;
-}
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -41,8 +41,8 @@ const mapStateToProps = (state) => {
     redeemedBevegrams: state.redeemedBevegrams,
     isRefreshing: state.historyView.isRefreshing,
     completedInitialLoad: state.historyView.completedInitialLoad,
-  }
-}
+  };
+};
 
 interface MapDispatchProps {
   refreshHistory?(): void;
@@ -51,10 +51,10 @@ interface MapDispatchProps {
 const mapDispatchToProps = (dispatch) => {
   return {
     refreshHistory: () => {
-      dispatch({type: 'REFRESH_HISTORY'});
-    }
-  }
-}
+      dispatch({type: "REFRESH_HISTORY"});
+    },
+  };
+};
 
 const CHistory = connect<MapStateProps, {}, HistoryProps>(
   mapStateToProps,
