@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   Keyboard,
   StyleSheet,
+  TransformsStyle,
   Text,
   TextInput,
   View,
@@ -473,7 +474,7 @@ class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputSta
 
 
 interface Style {
-  rotateSlash: React.TransformsStyle;
+  rotateSlash: TransformsStyle;
 }
 
 const styles = StyleSheet.create<Style>({
