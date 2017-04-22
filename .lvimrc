@@ -154,7 +154,7 @@ augroup ts_config
   au BufWritePost *.ts,*.tsx call jobstart("ctags src -R")
   autocmd BufWritePost *.ts,*.tsx call OnTypescriptSave()
 
-  au FileType typescript setlocal makeprg=gulp\ --silent\ incremental-tsc
+  au FileType typescript setlocal makeprg=tsc\ \\\|\ grep\ -vi\ \"node_modules\\\\\|NodeModule\"
   au FileType typescript setlocal errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
 augroup END
 
