@@ -6,8 +6,10 @@ import {
   PixelRatio,
   StyleSheet,
   Text,
+  TextStyle,
   TouchableHighlight,
   View,
+  ViewStyle,
 } from 'react-native';
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
@@ -17,11 +19,11 @@ import { globalColors } from './GlobalStyles';
 import {isIOS, isAndroid, isNarrow} from '../Utilities';
 
 interface Style {
-  button: React.ViewStyle;
-  greenButton: React.ViewStyle;
-  buttonContainer: React.ViewStyle;
-  buttonText: React.TextStyle;
-  greenButtonText: React.TextStyle;
+  button: ViewStyle;
+  greenButton: ViewStyle;
+  buttonContainer: ViewStyle;
+  buttonText: TextStyle;
+  greenButtonText: TextStyle;
 }
 
 const styles = StyleSheet.create<Style>({
