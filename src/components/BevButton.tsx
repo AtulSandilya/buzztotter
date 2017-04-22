@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Component } from 'react';
+import { Component } from "react";
 import {
   ActivityIndicator,
   Dimensions,
@@ -10,13 +10,13 @@ import {
   TouchableHighlight,
   View,
   ViewStyle,
-} from 'react-native';
+} from "react-native";
 
-import Ionicon from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Ionicon from "react-native-vector-icons/Ionicons";
 
-import { globalColors } from './GlobalStyles';
-import {isIOS, isAndroid, isNarrow} from '../Utilities';
+import {isAndroid, isIOS, isNarrow} from "../Utilities";
+import { globalColors } from "./GlobalStyles";
 
 interface Style {
   button: ViewStyle;
@@ -35,9 +35,9 @@ const styles = StyleSheet.create<Style>({
     padding: 15,
     margin: 15,
     flexDirection: "row",
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#333333',
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#333333",
     shadowOpacity: 0.5,
     shadowRadius: 0.95,
     shadowOffset: {
@@ -51,16 +51,16 @@ const styles = StyleSheet.create<Style>({
   },
   buttonContainer: {
     flex: -1,
-    flexDirection: 'row-reverse',
+    flexDirection: "row-reverse",
   },
   buttonText: {
     color: "#ffffff",
-    backgroundColor: 'rgba(0, 0, 0, 0)',
+    backgroundColor: "rgba(0, 0, 0, 0)",
   },
   greenButtonText: {
     color: "#333333",
   },
-})
+});
 
 // A button should be at least 44dp tall, and taller if the font size is
 // larger than the default 12
@@ -68,7 +68,7 @@ export const getButtonHeight = (buttonFontSize = 12) => {
   const buttonHeight = 44 + (buttonFontSize - 12);
 
   return buttonHeight > 44 ? buttonHeight : 44;
-}
+};
 
 const BevButton  = ({
   text,
@@ -99,14 +99,14 @@ const BevButton  = ({
     } : {
       fontSize: buttonFontSize * 2,
       paddingTop: 2,
-    }
+    };
   const smallIconStyle =
     isAndroid ? {
       fontSize: buttonFontSize * 1.5,
     } : {
       fontSize: buttonFontSize * 1.5,
       paddingTop: 2,
-    }
+    };
 
   const buttonHeight = getButtonHeight(buttonFontSize);
 
@@ -125,8 +125,8 @@ const BevButton  = ({
       >
         <View style={[buttonStyle,
           {margin: margin},
-          showDisabled ? {backgroundColor: 'rgba(128, 128, 128, 0.5)'} : null,
-          rightIcon || (leftIcon.length !== 0)? {paddingVertical: 11} : null,
+          showDisabled ? {backgroundColor: "rgba(128, 128, 128, 0.5)"} : null,
+          rightIcon || (leftIcon.length !== 0) ? {paddingVertical: 11} : null,
           isNarrow ? {paddingVertical: 11} : null,
           {height: buttonHeight},
         ]}>
@@ -157,7 +157,7 @@ const BevButton  = ({
               numberOfLines={1}
               style={[
                 buttonTextStyle,
-                {fontSize: buttonFontSize}
+                {fontSize: buttonFontSize},
             ]}>
               {useShortText ? shortText : text}
             </Text>
@@ -173,7 +173,7 @@ const BevButton  = ({
         </View>
       </TouchableHighlight>
     </View>
-  )
-}
+  );
+};
 
 export default BevButton;
