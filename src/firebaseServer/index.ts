@@ -20,7 +20,7 @@ import FirebaseDb from "../api/firebase/FirebaseDb";
 import Log from "./Log";
 
 import {sendNotification} from "./notifications";
-import {SetupAdminDb} from "./utils";
+import SetupAdminDb from "./SetupAdminDb";
 
 const db = new FirebaseDb(SetupAdminDb());
 
