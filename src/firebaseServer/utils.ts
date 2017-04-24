@@ -1,6 +1,6 @@
 import Admin from "firebase-admin";
 
-export const SetupAdminDb = () => {
+const SetupAdminDb = () => {
   require("dotenv").config();
   const serviceAccount = {
     auth_provider_x509_cert_url: process.env.TEST_FIREBASE_ADMIN_KEY_auth_provider_x509_cert_url,
@@ -22,3 +22,5 @@ export const SetupAdminDb = () => {
 
   return Admin.database();
 };
+
+export default SetupAdminDb;
