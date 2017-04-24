@@ -1,35 +1,35 @@
 import * as React from "react";
-import { Component } from 'react';
-import { Image, Linking, ListView, Text, TouchableHighlight, View } from 'react-native';
+import { Component } from "react";
+import { Image, Linking, ListView, Text, TouchableHighlight, View } from "react-native";
 
-import MapView from 'react-native-maps';
+import MapView from "react-native-maps";
 
-import {isAndroid, isIOS} from '../Utilities';
+import {isAndroid, isIOS} from "../Utilities";
 
-import {Location} from '../reducers/locations';
+import {Location} from "../reducers/locations";
 
-import TitleText from './TitleText';
-import BevButton from './BevButton';
+import BevButton from "./BevButton";
+import TitleText from "./TitleText";
 
-import {globalColors, globalStyles} from './GlobalStyles';
+import {globalColors, globalStyles} from "./GlobalStyles";
 
 const openMapsToAddress = (latitude, longitude, name) => {
   let url;
   // encodeURIComponent properly converts characters into url format.
-  if(isAndroid){
+  if (isAndroid){
     url = `geo:${latitude},${longitude}?q=${latitude},${longitude}(${encodeURIComponent(name)})`;
   } else if (isIOS){
     url = `http://maps.apple.com/?ll=${latitude},${longitude}&q=${encodeURIComponent(name)}`;
   }
 
-  Linking.canOpenURL(url).then(supported => {
-    if(supported){
+  Linking.canOpenURL(url).then((supported) => {
+    if (supported){
       Linking.openURL(url);
     } else {
       alert("External maps not supported!");
     }
-  })
-}
+  });
+};
 
 export interface BevegramLocationsProps {
   markers?: [Location];
@@ -39,7 +39,7 @@ export interface BevegramLocationsProps {
 
 export default class BevegramLocations extends Component<BevegramLocationsProps, {}> {
   render() {
-    const locationDS = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+    const locationDS = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     return(
       <View style={{flex: 1}}>
@@ -62,51 +62,51 @@ export default class BevegramLocations extends Component<BevegramLocationsProps,
                   longitude: markerData.longitude,
                 }}
               >
-              <View style={{flex: 1, alignItems: 'center'}}>
-                <View style={{flex: -1, padding: 10, backgroundColor: globalColors.bevPrimary, borderRadius: 3, flexDirection: 'row', borderWidth: 1, borderColor: '#000000'}}>
-                  <View style={{paddingLeft: 10, flex: -1, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-                    <Text style={{fontSize: 18, fontWeight: 'bold'}}>{markerData.name}</Text>
+              <View style={{flex: 1, alignItems: "center"}}>
+                <View style={{flex: -1, padding: 10, backgroundColor: globalColors.bevPrimary, borderRadius: 3, flexDirection: "row", borderWidth: 1, borderColor: "#000000"}}>
+                  <View style={{paddingLeft: 10, flex: -1, alignItems: "center", justifyContent: "center", flexDirection: "column"}}>
+                    <Text style={{fontSize: 18, fontWeight: "bold"}}>{markerData.name}</Text>
                     <Text>{markerData.typicalHours}</Text>
                   </View>
                 </View>
                 <View style={{
                   flex: -1,
-                  alignSelf: 'center',
+                  alignSelf: "center",
                   width: 0,
                   height: 0,
-                  backgroundColor: 'transparent',
-                  borderStyle: 'solid',
+                  backgroundColor: "transparent",
+                  borderStyle: "solid",
                   borderLeftWidth: 10,
                   borderRightWidth: 10,
                   borderTopWidth: 15,
-                  borderLeftColor: 'transparent',
-                  borderRightColor: 'transparent',
+                  borderLeftColor: "transparent",
+                  borderRightColor: "transparent",
                   borderTopColor: globalColors.bevPrimary,
                   zIndex: 10,
                   top: -1,
                 }}>
                 </View>
                 <View style={{
-                  position: 'relative',
+                  position: "relative",
                   top: -15,
                   flex: -1,
-                  alignSelf: 'center',
+                  alignSelf: "center",
                   width: 0,
                   height: 0,
-                  backgroundColor: 'transparent',
-                  borderStyle: 'solid',
+                  backgroundColor: "transparent",
+                  borderStyle: "solid",
                   borderLeftWidth: 11,
                   borderRightWidth: 11,
                   borderTopWidth: 16,
-                  borderLeftColor: 'transparent',
-                  borderRightColor: 'transparent',
+                  borderLeftColor: "transparent",
+                  borderRightColor: "transparent",
                   borderTopColor: "#000000",
                   zIndex: 5,
                 }}>
                 </View>
               </View>
             </MapView.Marker>
-            )
+            );
           })}
         </MapView>
         <View style={{flex: 4}}>
@@ -118,9 +118,9 @@ export default class BevegramLocations extends Component<BevegramLocationsProps,
               </View>
             )}
             renderRow={(rowData) =>
-              <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 10}}>
-                <View style={{flex: 1, flexDirection: 'column'}}>
-                  <Text style={{fontSize: 20, fontWeight: 'bold'}}>{rowData.name}</Text>
+              <View style={{flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center", padding: 10}}>
+                <View style={{flex: 1, flexDirection: "column"}}>
+                  <Text style={{fontSize: 20, fontWeight: "bold"}}>{rowData.name}</Text>
                   <Text style={{fontSize: 20}}>{rowData.typicalHours}</Text>
                 </View>
                 <View style={{flex: 1}}>
