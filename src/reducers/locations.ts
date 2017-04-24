@@ -1,11 +1,4 @@
-export interface Location {
-  name: string;
-  address: string;
-  latitude: number;
-  longitude: number;
-  typicalHours: string;
-  squareFootage?: string;
-}
+import {Location} from "../db/tables";
 
 /* tslint:disable:object-literal-sort-keys */
 export const defaultLocationsState = [

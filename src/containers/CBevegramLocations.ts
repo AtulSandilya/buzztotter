@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {sceneKeys} from '../reducers/view';
 import BevegramLocations, {BevegramLocationsProps} from '../components/BevegramLocations';
 
-import {Location} from '../reducers/locations';
+import {Location} from '../db/tables';
 
 interface StateProps {
   markers?: [Location];

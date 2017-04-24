@@ -6,7 +6,7 @@ import MapView from "react-native-maps";
 
 import {isAndroid, isIOS} from "../Utilities";
 
-import {Location} from "../reducers/locations";
+import {Location} from "../db/tables";
 
 import BevButton from "./BevButton";
 import TitleText from "./TitleText";

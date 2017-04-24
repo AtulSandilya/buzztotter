@@ -48,6 +48,18 @@ export interface StripeCreditCard {
 }
 
 //  End Stripe--------------------------------------------------}}}
+//  Location ------------------------------------------------------------{{{
+
+export interface Location {
+  name: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  typicalHours: string;
+  squareFootage?: string;
+}
+
+//  End Location --------------------------------------------------------}}}
 //  Vendor -------------------------------------------------------------{{{
 
 export interface Vendor {

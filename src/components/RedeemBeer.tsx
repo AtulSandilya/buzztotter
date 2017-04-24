@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native';
 
-import {Location} from '../reducers/locations';
+import {Location} from '../db/tables';
 import {LocationsMatch} from '../Utilities';
 
 import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
