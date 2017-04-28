@@ -19,7 +19,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {globalStyles, globalColors} from './GlobalStyles.js';
 import {BrandingHeight} from './Branding';
-import { isAndroid, StatusBarHeight, WindowHeight, WindowWidth } from '../Utilities';
+import { isAndroid, StatusBarHeight, WindowHeight, WindowWidth } from '../ReactNativeUtilities';
 
 import CContact from '../containers/CContact';
 import FacebookAppInviteButton from './FacebookAppInviteButton';

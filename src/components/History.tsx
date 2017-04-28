@@ -5,7 +5,7 @@ import { ListView, RefreshControl, Text, View } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import TimeAgo from "react-timeago";
 
-import {Pluralize} from "../Utilities";
+import {Pluralize} from "../CommonUtilities";
 import {globalColors, globalStyles} from "./GlobalStyles";
 
 import {

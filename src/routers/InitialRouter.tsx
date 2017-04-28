@@ -15,7 +15,7 @@ import { Actions, Router, Scene } from "react-native-router-flux";
 import store from "../configureStore";
 
 import {globalColors} from "../components/GlobalStyles";
-import {isAndroid, isIOS, isNarrow} from "../Utilities";
+import {isAndroid, isIOS, isNarrow} from "../ReactNativeUtilities";
 
 import Icon from "react-native-vector-icons/Ionicons";
 

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import {Location} from '../db/tables';
-import {LocationsMatch} from '../Utilities';
+import {LocationsMatch} from '../CommonUtilities';
 
 import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
 import TitleText from './TitleText';

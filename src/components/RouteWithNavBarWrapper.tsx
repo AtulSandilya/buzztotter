@@ -5,7 +5,7 @@ import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import {NavBarHeight} from "../components/Branding";
-import {WindowHeight, WindowWidth} from "../Utilities";
+import {WindowHeight, WindowWidth} from "../ReactNativeUtilities";
 
 import theme from "../theme";
 

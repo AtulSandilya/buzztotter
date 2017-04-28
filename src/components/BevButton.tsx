@@ -15,7 +15,7 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionicon from "react-native-vector-icons/Ionicons";
 
-import {isAndroid, isIOS, isNarrow} from "../Utilities";
+import {isAndroid, isIOS, isNarrow} from "../ReactNativeUtilities";
 import { globalColors } from "./GlobalStyles";
 
 interface Style {

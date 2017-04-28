@@ -10,7 +10,7 @@ import { ActionConst, Actions } from "react-native-router-flux";
 
 import {RouteState} from "../reducers/routes";
 
-import {isAndroid, isIOS} from "../Utilities";
+import {isAndroid, isIOS} from "../ReactNativeUtilities";
 
 import { IsPurchaseAndOrSendCompleted } from "../components/PurchaseAndOrSendInProgress";
 

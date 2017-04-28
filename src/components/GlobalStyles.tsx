@@ -1,6 +1,6 @@
 import { LayoutAnimation, StyleSheet } from 'react-native';
 
-import {isAndroid} from '../Utilities';
+import {isAndroid} from '../ReactNativeUtilities';
 
 export const globalColors = {
   // Tealish Green

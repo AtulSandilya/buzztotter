@@ -1,5 +1,5 @@
 import FCM from "react-native-fcm";
-import {isAndroid} from "../Utilities";
+import {isAndroid} from "../ReactNativeUtilities";
 
 const presentLocalNotification = () => {
   if (isAndroid) {

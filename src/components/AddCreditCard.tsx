@@ -12,7 +12,7 @@ import {
 
 import moment from "moment";
 
-import {isIOS, isNarrow} from "../Utilities";
+import {isIOS, isNarrow} from "../ReactNativeUtilities";
 
 import {CardDataForVerification} from "../reducers/addCreditCard";
 

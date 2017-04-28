@@ -6,7 +6,7 @@ import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-vi
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {isAndroid, isIOS, WindowWidth} from '../Utilities';
+import {isAndroid, isIOS, WindowWidth} from '../ReactNativeUtilities';
 
 import {globalColors} from '../components/GlobalStyles';
 

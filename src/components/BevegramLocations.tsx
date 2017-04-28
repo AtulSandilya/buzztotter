@@ -4,7 +4,7 @@ import { Image, Linking, ListView, Text, TouchableHighlight, View } from "react-
 
 import MapView from "react-native-maps";
 
-import {isAndroid, isIOS} from "../Utilities";
+import {isAndroid, isIOS} from "../ReactNativeUtilities";
 
 import {Location} from "../db/tables";
 

@@ -5,7 +5,7 @@ import { Image, Text, TouchableHighlight, View } from 'react-native';
 import CFacebookLoginButton from '../containers/CFacebookLoginButton';
 
 import {globalColors} from './GlobalStyles';
-import {WindowHeight, WindowWidth} from '../Utilities';
+import {WindowHeight, WindowWidth} from '../ReactNativeUtilities';
 
 export interface LoginProps {
   isLoggedIn: boolean;

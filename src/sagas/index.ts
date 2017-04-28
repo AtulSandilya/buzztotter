@@ -44,7 +44,7 @@ import {
   storeFcmToken,
 } from "./notifications";
 
-import * as Util from "../Utilities";
+import * as ReactNativeUtil from "../ReactNativeUtilities";
 import * as queue from "./queue";
 
 import {User} from "../db/tables";
@@ -68,7 +68,7 @@ export default function* rootSaga() {
 
     yield call(firebaseFacebookLogin, action);
     yield call(getUser);
-    if (Util.isAndroid) {
+    if (ReactNativeUtil.isAndroid) {
       yield call(dbWriteFcmToken);
     }
 

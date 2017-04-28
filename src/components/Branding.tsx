@@ -17,7 +17,7 @@ import {connect} from "react-redux";
 
 import Icon from "react-native-vector-icons/Ionicons";
 
-import {isAndroid, isIOS, StatusBarHeight} from "../Utilities";
+import {isAndroid, isIOS, StatusBarHeight} from "../ReactNativeUtilities";
 
 import CSettings from "../containers/CSettings";
 import CenteredModal from "./CenteredModal";

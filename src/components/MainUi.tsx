@@ -9,7 +9,7 @@ import CMainTabView from '../containers/CMainTabView';
 
 import {BrandingHeight} from './Branding';
 
-import {WindowHeight, WindowWidth} from '../Utilities';
+import {WindowHeight, WindowWidth} from '../ReactNativeUtilities';
 
 const MainUi = () => (
   <View style={{

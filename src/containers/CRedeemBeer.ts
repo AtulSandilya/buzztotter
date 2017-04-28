@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import RedeemBeer, {RedeemBeerProps} from '../components/RedeemBeer';
 
-import {StringifyDate} from '../Utilities';
+import {StringifyDate} from '../CommonUtilities';
 import {Location} from '../db/tables';
 import {DeviceLocation} from '../reducers/redeemView';
 

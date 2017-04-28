@@ -4,7 +4,7 @@ import { Linking, StyleSheet, Switch, Text, View } from "react-native";
 
 import {settingsKeys} from "../reducers/settings";
 
-import {isAndroid} from "../Utilities";
+import {isAndroid} from "../ReactNativeUtilities";
 
 import CFacebookLoginButton from "../containers/CFacebookLoginButton";
 import BevButton from "./BevButton";

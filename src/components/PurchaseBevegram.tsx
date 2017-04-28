@@ -16,7 +16,7 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionicon from "react-native-vector-icons/Ionicons";
 
-import {isIOS, WindowWidth} from "../Utilities";
+import {isIOS, WindowWidth} from "../ReactNativeUtilities";
 
 import {
   STRIPE_MAX_NUMBER_OF_CREDIT_CARDS,
