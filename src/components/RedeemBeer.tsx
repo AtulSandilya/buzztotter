@@ -1,29 +1,29 @@
 import * as React from "react";
-import { Component } from 'react';
+import { Component } from "react";
 import {
   StyleSheet,
   Text,
   TextInput,
   TouchableHighlight,
-  View
-} from 'react-native';
+  View,
+} from "react-native";
 
-import {Location} from '../db/tables';
-import {LocationsMatch} from '../CommonUtilities';
+import {LocationsMatch} from "../CommonUtilities";
+import {Location} from "../db/tables";
 
-import RouteWithNavBarWrapper from './RouteWithNavBarWrapper';
-import TitleText from './TitleText';
-import BevButton from './BevButton';
+import BevButton from "./BevButton";
+import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
+import TitleText from "./TitleText";
 
-import {globalColors, globalStyles} from './GlobalStyles';
+import {globalColors, globalStyles} from "./GlobalStyles";
 
-import {DeviceLocation} from '../reducers/redeemView';
+import {GpsCoordinates} from "../db/tables";
 
 export interface RedeemBeerProps {
   id?: string;
   name?: string;
   quantity?: number;
-  currentLocation?: DeviceLocation;
+  currentLocation?: GpsCoordinates;
   currentLocationBusinessName?: string;
   currentLocationLastModified?: string;
   getLocationFailed?: boolean;
@@ -39,7 +39,7 @@ interface RedeemBeerState {
 }
 
 export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerState> {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       numDrinks: 1,
@@ -51,7 +51,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
   }
 
   purchaseDrink() {
-    if(this.props.getLocationFailed || this.props.currentLocationBusinessName === undefined){
+    if (this.props.getLocationFailed || this.props.currentLocationBusinessName === undefined) {
       alert("You are not at an establishment that accepts bevegrams. Please see the map for establishments that accept bevegrams.");
       return;
     }
@@ -61,14 +61,14 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
     alert("Not implemented");
   }
 
-  renderPurchaseConfirmed(){
-    if(this.props.redeemConfirmed){
+  renderPurchaseConfirmed() {
+    if (this.props.redeemConfirmed) {
       return (
         <View>
-          <View style={{flex: 1, alignItems: 'center', paddingTop: 20}}>
+          <View style={{flex: 1, alignItems: "center", paddingTop: 20}}>
             <Text style={{color: globalColors.bevPrimary, fontSize: 30}}>1 Beer Redeemed!</Text>
           </View>
-          <View style={{alignItems: 'flex-end', paddingTop: 10}}>
+          <View style={{alignItems: "flex-end", paddingTop: 10}}>
             <BevButton
               onPress={this.props.closeRedeem}
               text={"Close"}
@@ -78,31 +78,31 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
             />
           </View>
         </View>
-      )
+      );
     }
   }
 
   updateLocation() {
     try {
       navigator.geolocation.getCurrentPosition((position) => {
-        const deviceLocation: DeviceLocation = {
+        const deviceLocation: GpsCoordinates = {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-        }
+        };
 
         const matchingLocations = this.props.locations.filter((business) => {
           const businessLocation = {
             latitude: business.latitude,
             longitude: business.longitude,
-          }
+          };
 
           return LocationsMatch(deviceLocation, businessLocation, business.name);
-        })
+        });
 
         let businessName: string;
 
-        if(matchingLocations.length === 1){
-          businessName = matchingLocations[0].name + "\n" + matchingLocations[0].address.split(",")[0] + "\n" + matchingLocations[0].address.split(", ").slice(1).join(", ")
+        if (matchingLocations.length === 1) {
+          businessName = matchingLocations[0].name + "\n" + matchingLocations[0].address.split(",")[0] + "\n" + matchingLocations[0].address.split(", ").slice(1).join(", ");
         } else {
           businessName = undefined;
         }
@@ -111,14 +111,14 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
           currentLocation: deviceLocation,
           getLocationFailed: businessName === undefined,
           currentLocationBusinessName: businessName,
-        }))
+        }));
       }, undefined, {enableHighAccuracy: false, timeout: 20000, maximumAge: 1});
-    } catch(e) {
+    } catch (e) {
       this.props.updateLocation(Object.assign({}, {
         location: undefined,
         getLocationFailed: true,
         currentLocationBusinessName: "",
-      }))
+      }));
     }
   }
 
@@ -149,7 +149,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
             <View style={globalStyles.bevLineRight}>
               <TouchableHighlight
                 onPress={() => this.updateLocation()}
-                underlayColor={'rgba(255, 255, 255, 0.1)'}
+                underlayColor={"rgba(255, 255, 255, 0.1)"}
               >
                 <View>
                   {this.props.currentLocationBusinessName ?
@@ -175,7 +175,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
           </View>
           <View style={{paddingBottom: 10}}>
             <View>
-              <Text style={{color: 'red'}}>* Show this to your bartender or server:</Text>
+              <Text style={{color: "red"}}>* Show this to your bartender or server:</Text>
               <Text>1. They enter the vendor id and press "Redeem Bevegram".</Text>
               <Text>2. They get you a nice cold beverage.</Text>
               <Text>3. You enjoy a nice cold beverage.</Text>
@@ -189,13 +189,13 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
               <TextInput
                 placeholder={"1234"}
                 placeholderTextColor={"#bbbbbb"}
-                style={{flex: 1, textAlign: 'right', paddingRight: 10}}
-                keyboardType={'numeric'}
+                style={{flex: 1, textAlign: "right", paddingRight: 10}}
+                keyboardType={"numeric"}
               />
             </View>
           </View>
-          <View style={{flexDirection: 'row', paddingTop: 20}}>
-            <View style={{flex: -1, alignItems: 'flex-start'}}>
+          <View style={{flexDirection: "row", paddingTop: 20}}>
+            <View style={{flex: -1, alignItems: "flex-start"}}>
               <BevButton
                 onPress={this.props.closeRedeem}
                 text={"Close"}
@@ -205,7 +205,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
                 buttonFontSize={18}
               />
             </View>
-            <View style={{flex: -1, alignItems: 'flex-end'}}>
+            <View style={{flex: -1, alignItems: "flex-end"}}>
               <BevButton
                 onPress={this.purchaseDrink.bind(this)}
                 text={`Redeem ${this.props.quantity} Bevegram${this.props.quantity === 1 ? "" : "s"}`}
