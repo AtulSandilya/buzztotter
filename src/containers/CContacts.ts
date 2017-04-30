@@ -1,14 +1,13 @@
-import {connect} from 'react-redux';
+import {connect} from "react-redux";
 
-import moment from 'moment';
-import Fuse from 'fuse.js';
+import Fuse from "fuse.js";
+import moment from "moment";
 
-import {Contact} from '../reducers/contacts';
+import {Contact} from "../reducers/contacts";
 
-import {ContactsSort, ContactsSortingMethod, ContactsSortOptionsViewLine, ContactsSortOptionsViewList} from '../reducers/contactsView';
+import {ContactsSort, ContactsSortingMethod, ContactsSortOptionsViewLine, ContactsSortOptionsViewList} from "../reducers/contactsView";
 
-
-import Contacts, {ContactsProps} from '../components/Contacts';
+import Contacts, {ContactsProps} from "../components/Contacts";
 
 interface StateProps {
   contacts?: any;
@@ -19,33 +18,33 @@ interface StateProps {
   reloadingFailed?: boolean;
   facebookToken?: string;
   toastContactsReloaded?: boolean;
-  activeSortingMethod?: ContactsSortingMethod,
-  searchQuery?: string,
+  activeSortingMethod?: ContactsSortingMethod;
+  searchQuery?: string;
   sortingMethodsList?: ContactsSortOptionsViewLine[];
   searchInputIsFocused?: boolean;
   isSortOptionsVisible?: boolean;
 }
 
 const sortContacts = (sortingMethod: ContactsSortingMethod, contactsList: Contact[], searchQuery: string) => {
-  if(contactsList.length < 2) {
+  if (contactsList.length < 2) {
     return contactsList;
   }
 
-  if(sortingMethod === ContactsSort.Search && searchQuery !== "") {
+  if (sortingMethod === ContactsSort.Search && searchQuery !== "") {
     const fuseOptions = {
       shoultSort: true,
       threshold: 0.6,
       keys: [
         "name.first",
         "name.last",
-      ]
-    }
+      ],
+    };
     const fuse = new Fuse(contactsList, fuseOptions);
     return fuse.search(searchQuery);
   }
 
   return contactsList.sort((a, b) => {
-    switch(sortingMethod) {
+    switch (sortingMethod) {
       case ContactsSort.FirstName:
         return stringCompare(a.name.first, b.name.first);
       case ContactsSort.LastName:
@@ -55,30 +54,30 @@ const sortContacts = (sortingMethod: ContactsSortingMethod, contactsList: Contac
       default:
         return birthdayDayOfYearCompare(a.birthDayOfYear, b.birthDayOfYear);
     }
-  })
-}
+  });
+};
 
 const stringCompare = (a: string, b: string) => {
     return a.localeCompare(b);
-}
+};
 
 const birthdayDayOfYearCompare = (aDayOfYear: number, bDayOfYear: number) => {
 
   const a = normalizeDay(aDayOfYear);
   const b = normalizeDay(bDayOfYear);
 
-  if(a > b) return 1;
-  if(a < b) return -1;
-  if(a === b) return 0;
-}
+  if (a > b) return 1;
+  if (a < b) return -1;
+  if (a === b) return 0;
+};
 
 const normalizeDay = (day: number) => {
   const dayOfYear = moment().dayOfYear();
-  if(day < dayOfYear) {
+  if (day < dayOfYear) {
     return day + 365;
   }
   return day;
-}
+};
 
 const mapStateToProps = (state): StateProps => {
   return {
@@ -94,12 +93,12 @@ const mapStateToProps = (state): StateProps => {
     sortingMethodsList: ContactsSortOptionsViewList,
     searchInputIsFocused: state.contactsView.searchInputIsFocused,
     isSortOptionsVisible: state.contactsView.isSortOptionsVisible,
-  }
-}
+  };
+};
 
 interface DispatchProps {
   reloadContacts?(string);
-  changeSortMethod?(ContactsSortingMethod)
+  changeSortMethod?(ContactsSortingMethod);
   enteredSearchInput?();
   exitedSearchInput?();
   showSortOptions?();
@@ -109,32 +108,32 @@ interface DispatchProps {
 const mapDispatchToProps = (dispatch) => {
   return {
     reloadContacts: () => {
-      dispatch({type: 'FACEBOOK_CONTACTS_RELOAD_REQUEST'});
+      dispatch({type: "FACEBOOK_CONTACTS_RELOAD_REQUEST"});
     },
     changeSortMethod: (newSortingMethod: ContactsSortingMethod) => {
-      dispatch({type: 'CHANGE_CONTACTS_SORT_METHOD', payload: {
+      dispatch({type: "CHANGE_CONTACTS_SORT_METHOD", payload: {
         newSortingMethod: newSortingMethod,
-      }})
+      }});
     },
     updateSearchQuery: (newQuery: string) => {
-      dispatch({type: 'UPDATE_CONTACTS_VIEW_SEARCH_QUERY', payload: {
+      dispatch({type: "UPDATE_CONTACTS_VIEW_SEARCH_QUERY", payload: {
         newQuery: newQuery,
-      }})
+      }});
     },
     enteredSearchInput: () => {
-      dispatch({type: 'ENTERED_SEARCH_INPUT'});
+      dispatch({type: "ENTERED_SEARCH_INPUT"});
     },
     exitedSearchInput: () => {
-      dispatch({type: 'EXITED_SEARCH_INPUT'});
+      dispatch({type: "EXITED_SEARCH_INPUT"});
     },
     showSortOptions: () => {
-      dispatch({type: 'SHOW_SORT_OPTIONS'});
+      dispatch({type: "SHOW_SORT_OPTIONS"});
     },
     hideSortOptions: () => {
-      dispatch({type: 'HIDE_SORT_OPTIONS'});
+      dispatch({type: "HIDE_SORT_OPTIONS"});
     },
-  }
-}
+  };
+};
 
 const CContacts = connect<StateProps, DispatchProps, ContactsProps>(
   mapStateToProps,
