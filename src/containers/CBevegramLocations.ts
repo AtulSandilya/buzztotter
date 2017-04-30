@@ -1,9 +1,9 @@
-import {connect} from 'react-redux';
+import {connect} from "react-redux";
 
-import {sceneKeys} from '../reducers/view';
-import BevegramLocations, {BevegramLocationsProps} from '../components/BevegramLocations';
+import BevegramLocations, {BevegramLocationsProps} from "../components/BevegramLocations";
+import {sceneKeys} from "../reducers/view";
 
-import {Location} from '../db/tables';
+import {Location} from "../db/tables";
 
 interface StateProps {
   markers?: [Location];
@@ -15,9 +15,9 @@ const mapStateToProps = (state): StateProps => {
     markers: state.locations,
     // Somehow this prevents multiple renders of the MapView, this prop is
     // never used but its existence does something.
-    numRenders: state.view.filter(item => item == sceneKeys.bevegramLocations).length,
-  }
-}
+    numRenders: state.view.filter((item) => item === sceneKeys.bevegramLocations).length,
+  };
+};
 
 const CBevegramLocations = connect<StateProps, {}, BevegramLocationsProps>(
   mapStateToProps,
