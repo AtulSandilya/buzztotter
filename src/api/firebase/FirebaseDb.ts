@@ -12,15 +12,19 @@ export class FirebaseDb {
 
   public static RemoveUndefinedValues = (input: any) => {
     let result;
+    const isUndefined = (val): boolean => {
+      return !val && val !== false && val !== 0;
+    };
+
     try {
-      if (!input && input !== false) {
+      if (isUndefined(input)) {
         throw new FirebaseInvalidInputError(`Firebase cannot directly write undefined values`);
       }
 
       let throwWhenFinished = false;
       const undefinedKeys = [];
       result = JSON.parse(JSON.stringify(input, (jsonKey, value) => {
-        if (!value && value !== false) {
+        if (isUndefined(value)) {
           throwWhenFinished = true;
           undefinedKeys.push(jsonKey);
           return undefined;
@@ -29,7 +33,7 @@ export class FirebaseDb {
       }), (jsonKey, value) => {
         if (value instanceof Array) {
           return value.filter(( x ) => {
-            if (!x && x !== false) {
+            if (isUndefined(x)) {
               throwWhenFinished = true;
               undefinedKeys.push(`Array: ${jsonKey}`);
               return;

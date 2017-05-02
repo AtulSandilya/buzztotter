@@ -17,6 +17,11 @@ describe("Firebase db handles objects with undefined values properly", () => {
     expect(FirebaseDb.SanitizeDbInput(5)).toEqual(5);
     expect(FirebaseDb.SanitizeDbInput(55.5)).toEqual(55.5);
     expect(FirebaseDb.SanitizeDbInput("Value")).toEqual("Value");
+  });
+
+  it("handles zero properly", () => {
+    expect(FirebaseDb.SanitizeDbInput(0)).toEqual(0);
+    expect(FirebaseDb.SanitizeDbInput({test: 0})).toEqual({test: 0});
   })
 
   it("throws if an object has one value which is undefined", () => {
