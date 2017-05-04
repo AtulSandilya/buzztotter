@@ -4,7 +4,8 @@ export const StringifyDate = (): string => {
   return (new Date().toJSON());
 };
 
-export const UnixTime = (): number => {
+export const GetTimeNow = (): UnixTime => {
+  // Milliseconds elapsed since UNIX epoch
   return Date.now();
 };
 
