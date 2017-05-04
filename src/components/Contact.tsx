@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Component } from 'react';
-import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableHighlight, View, ViewStyle } from 'react-native';
 
 import BevButton from './BevButton';
 
 interface Styles {
-  parentContainer: React.ViewStyle;
-  infoContainer: React.ViewStyle;
-  infoTextContainer: React.ViewStyle;
-  buttonContainer: React.ViewStyle;
+  parentContainer: ViewStyle;
+  infoContainer: ViewStyle;
+  infoTextContainer: ViewStyle;
+  buttonContainer: ViewStyle;
 }
 
 const styles = StyleSheet.create<Styles>({

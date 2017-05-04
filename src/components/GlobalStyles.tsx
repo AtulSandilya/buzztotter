@@ -1,4 +1,4 @@
-import { LayoutAnimation, StyleSheet } from 'react-native';
+import { LayoutAnimation, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 import {isAndroid} from '../ReactNativeUtilities';
 
@@ -20,27 +20,27 @@ export const globalColors = {
 }
 
 interface Styles {
-  listRowSeparator: React.ViewStyle;
-  titleText: React.TextStyle;
-  importantText: React.TextStyle;
-  titleTextContainer: React.ViewStyle;
-  bevColorPrimary: React.ViewStyle;
-  bevColorSecondary: React.ViewStyle;
-  bevColorActiveSecondary: React.ViewStyle;
-  whiteText: React.TextStyle;
-  bevContainer: React.ViewStyle;
-  bevLine: React.ViewStyle;
-  bevLineNoSep: React.ViewStyle;
-  bevLineNoSepWithMargin: React.ViewStyle;
-  bevLastLine: React.ViewStyle;
-  bevLineTextTitle: React.TextStyle;
-  bevLineText: React.TextStyle;
-  bevMultiLineText: React.TextStyle;
-  bevLineLeft: React.ViewStyle;
-  bevLineRight: React.ViewStyle;
-  bevLineWideRight: React.ViewStyle;
-  bevIcon: React.ViewStyle;
-  bevTipText: React.TextStyle;
+  listRowSeparator: ViewStyle;
+  titleText: TextStyle;
+  importantText: TextStyle;
+  titleTextContainer: ViewStyle;
+  bevColorPrimary: ViewStyle;
+  bevColorSecondary: ViewStyle;
+  bevColorActiveSecondary: ViewStyle;
+  whiteText: TextStyle;
+  bevContainer: ViewStyle;
+  bevLine: ViewStyle;
+  bevLineNoSep: ViewStyle;
+  bevLineNoSepWithMargin: ViewStyle;
+  bevLastLine: ViewStyle;
+  bevLineTextTitle: TextStyle;
+  bevLineText: TextStyle;
+  bevMultiLineText: TextStyle;
+  bevLineLeft: ViewStyle;
+  bevLineRight: ViewStyle;
+  bevLineWideRight: ViewStyle;
+  bevIcon: ViewStyle;
+  bevTipText: TextStyle;
 }
 
 export const globalStyles = StyleSheet.create<Styles>({

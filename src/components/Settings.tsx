@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import { Linking, StyleSheet, Switch, Text, View } from "react-native";
+import { Linking, StyleSheet, Switch, Text, View, ViewStyle } from "react-native";
 
 import {settingsKeys} from "../reducers/settings";
 
@@ -14,7 +14,7 @@ import TitleText from "./TitleText";
 import {globalColors} from "./GlobalStyles";
 
 interface Style {
-  settingLine: React.ViewStyle;
+  settingLine: ViewStyle;
 }
 
 const linePadding = 8;

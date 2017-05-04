@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from 'react';
-import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableHighlight, View, ViewStyle} from 'react-native';
 
 import TimeAgo from 'react-timeago';
 
@@ -10,10 +10,10 @@ import { modalKeys } from '../reducers/modals.js';
 import BevButton from './BevButton';
 
 interface Style {
-  parentContainer: React.ViewStyle;
-  infoContainer: React.ViewStyle;
-  infoTextContainer: React.ViewStyle;
-  buttonContainer: React.ViewStyle;
+  parentContainer: ViewStyle;
+  infoContainer: ViewStyle;
+  infoTextContainer: ViewStyle;
+  buttonContainer: ViewStyle;
 }
 
 const styles = StyleSheet.create<Style>({
