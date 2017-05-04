@@ -4,6 +4,10 @@ export const StringifyDate = (): string => {
   return (new Date().toJSON());
 };
 
+export const UnixTime = (): number => {
+  return Date.now();
+};
+
 export const LocationsMatch = (a: DeviceLocation, b: DeviceLocation, name: string): boolean => {
   // Meters
   const tolerance = 50;
