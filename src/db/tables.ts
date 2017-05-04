@@ -1,3 +1,8 @@
+//  Types ---------------------------------------------------------------{{{
+
+export type UnixTime = number;
+
+//  End Types -----------------------------------------------------------}}}
 //  User ----------------------------------------------------------------{{{
 
 export interface FirebaseUser {
@@ -17,7 +22,7 @@ export interface User {
   fullName?: string;
   birthday?: string;
   email?: string;
-  lastModified?: string;
+  lastModified?: UnixTime;
   fcmToken?: string;
   stripe?: StripeCustomer;
   firebase?: FirebaseUser;
@@ -90,7 +95,7 @@ export interface PurchasedBevegram {
   purchasedByName: string;
   purchasedById: string;
   purchasedByFacebookId: string;
-  purchaseDate: string;
+  purchaseDate: UnixTime;
   // Stripe id for this transaction
   chargeId: string;
   quantity: number;
@@ -114,7 +119,7 @@ export interface PurchasedBevegramSummary {
 export interface SentBevegram {
   purchasedBevegramId: string;
   quantity: number;
-  sendDate: string;
+  sendDate: UnixTime;
   receiverName: string;
 }
 
@@ -133,6 +138,7 @@ export interface ReceivedBevegram {
   sentFromName: string;
   sentFromFacebookId: string;
   sentFromPhotoUrl: string;
+  receivedDate: UnixTime;
   receivedDate: string;
   message: string;
   isRedeemed: boolean;
@@ -181,7 +187,7 @@ export const NotificationActions = {
 
 export interface PromoCodePackage {
   purchasedByUserId: string;
-  purchaseDate: string;
+  purchaseDate: UnixTime;
   quantity: number;
 }
 
