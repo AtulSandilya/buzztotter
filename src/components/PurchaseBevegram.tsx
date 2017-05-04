@@ -19,13 +19,13 @@ import Ionicon from "react-native-vector-icons/Ionicons";
 import {isIOS, WindowWidth} from "../ReactNativeUtilities";
 
 import {
+  PurchasePackage,
   STRIPE_MAX_NUMBER_OF_CREDIT_CARDS,
   StripeCreditCard as CreditCard,
 } from "../db/tables";
 
 import {
   PurchaseData,
-  PurchasePackage,
   PurchaseState,
 } from "../reducers/purchase";
 
@@ -179,8 +179,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
   private packPurchaseData(): PurchaseData {
     const pack = this.props.selectedPurchasePackage;
     return {
-      amount: pack.price * 100,
-      description: `Purchased ${pack.quantity} Bevegram${pack.quantity > 1 ? "s" : ""} via Buzz Otter`,
+      price: pack.price,
       promoCode: this.state.promoCode.toUpperCase(),
       quantity: pack.quantity,
     };
@@ -195,10 +194,16 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     };
   }
 
+  private formatPrice = (rawPriceInCents: number): string => {
+    const centsPerDollar = 100;
+    const postDecimalDigits = 2;
+    return `$ ${(rawPriceInCents / centsPerDollar).toFixed(postDecimalDigits)}`;
+  }
+
   private packInProgressData(): InProgressData {
     const activeCard = this.getActiveCard();
     return {
-      bevegramsPurchasePrice: this.props.selectedPurchasePackage.price.toFixed(2),
+      bevegramsPurchasePrice: this.formatPrice(this.props.selectedPurchasePackage.price),
       bevegramsUserIsPurchasing: this.packPurchaseData().quantity,
       bevegramsUserIsSending: this.state.bevegramsToSend,
       buttonFontSize: this.buttonFontSize,
@@ -331,7 +336,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
                 </Text>
               </View>
               <View style={globalStyles.bevLineRight}>
-                <Text style={globalStyles.bevLineText}>$ {pack.price.toFixed(2)}</Text>
+                <Text style={globalStyles.bevLineText}>{this.formatPrice(pack.price)}</Text>
               </View>
             </View>
           </TouchableHighlight>

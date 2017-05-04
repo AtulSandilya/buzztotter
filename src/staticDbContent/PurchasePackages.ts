@@ -3,23 +3,24 @@ import {PurchasePackage} from "../db/tables";
 // Order packages from smallest to largest.
 const PurchasePackages: PurchasePackage[] = [
   {
-    name: "Uno",
-    price: 7.50,
+    name: "One",
+    // In cents to avoid rounding errors
+    price: 750,
     quantity: 1,
   },
   {
     name: "Three",
-    price: 21.00,
+    price: 2100,
     quantity: 3,
   },
   {
     name: "Sixer (6)",
-    price: 37.50,
+    price: 3750,
     quantity: 6,
   },
   {
     name: "Fourteener (14)",
-    price: 82.50,
+    price: 8250,
     quantity: 14,
   },
 ];
