@@ -19,6 +19,8 @@ import FirebaseDb from "../api/firebase/FirebaseDb";
 
 import Log from "./Log";
 
+import {GetTimeNow} from "../CommonUtilities";
+
 import {sendNotification} from "./notifications";
 import SetupAdminDb from "./SetupAdminDb";
 
@@ -183,8 +185,8 @@ const verifyUser = async (verificationToken: string, userFirebaseId: string) => 
 const updateUser = async (userFirebaseId, user: User) => {
   // This is important as it triggers a "child_changed" event which the
   // client is listening for.
-  const updatedUser = Object.assign({}, user, {
-    lastModified: Date.now().toString(),
+  const updatedUser: User = Object.assign({}, user, {
+    lastModified: GetTimeNow(),
   });
   await db.writeNode(DbSchema.GetUserDbUrl(userFirebaseId), updatedUser);
 };
