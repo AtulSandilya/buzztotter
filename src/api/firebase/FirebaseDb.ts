@@ -78,7 +78,7 @@ export class FirebaseDb {
   }
 
   // Using any as this could be the client side db or the admin db
-  private db: any;
+  protected db: any;
 
   constructor(db) {
     this.db = db;

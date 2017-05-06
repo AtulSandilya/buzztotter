@@ -15,7 +15,7 @@ import {
 
 import * as stripe from "./stripe";
 
-import FirebaseDb from "../api/firebase/FirebaseDb";
+import FirebaseServerDb from "./FirebaseServerDb";
 
 import Log from "./Log";
 
@@ -24,7 +24,7 @@ import {GetTimeNow} from "../CommonUtilities";
 import {sendNotification} from "./notifications";
 import SetupAdminDb from "./SetupAdminDb";
 
-const db = new FirebaseDb(SetupAdminDb());
+const db = new FirebaseServerDb(SetupAdminDb());
 
 /* tslint:disable:no-console */
 const AddCardToCustomerQueueUrl = DbSchema.GetAddCreditCardToCustomerQueueUrl();
