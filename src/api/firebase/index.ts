@@ -7,18 +7,9 @@ import FirebaseDb from "./FirebaseDb";
 
 import {
   AddCreditCardToCustomerPackageForQueue,
-  Notification,
-  PromoCodePackage,
-  PurchasedBevegram,
-  PurchasedBevegramSummary,
   PurchasePackageForQueue,
-  ReceivedBevegram,
-  ReceivedBevegramSummary,
-  RedeemedBevegram,
   RedeemPackageForQueue,
   RemoveCreditCardFromCustomerPackageForQueue,
-  SentBevegram,
-  SentBevegramSummary,
   UpdateDefaultCreditCardForCustomerPackageForQueue,
   User,
 } from "../../db/tables";
@@ -129,23 +120,6 @@ export const getFcmToken = (facebookId: string): any => {
 };
 
 //  End Fcm Tokens ------------------------------------------------------}}}
-//  Purchase List ------------------------------------------------------{{{
-
-export const addPurchasedBevegramToUser = (userFirebaseId: string, purchasedBevegram: PurchasedBevegram): string => {
-  const id = firebaseUserDb.pushNode(DbSchema.GetPurchasedBevegramListDbUrl(userFirebaseId), purchasedBevegram);
-  addPurchasedBevegramToUserPurchaseSummary(userFirebaseId, purchasedBevegram);
-  return id;
-};
-
-export const updatePurchasedBevegramWithSendId = (firebaseId: string, purchaseId: string, sendId: string): any => {
-  firebaseUserDb.updateNode(
-    DbSchema.GetPurchasedBevegramListDbUrl(firebaseId) + `/${purchaseId}`,
-    (purchasedBevegram) => {
-      return Object.assign({}, purchasedBevegram, {
-        sentBevegramId: sendId,
-      });
-  });
-};
 
 export const readPurchasedBevegrams = (userFirebaseId: string) => {
   return firebaseUserDb.readNode(DbSchema.GetPurchasedBevegramListDbUrl(userFirebaseId));
@@ -155,213 +129,17 @@ export const readPurchasedBevegramsSummary = (userFirebaseId: string) => {
   return firebaseUserDb.readNode(DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId));
 };
 
-//  End Purchase List --------------------------------------------------}}}
-//  Purchase Summary ---------------------------------------------------{{{
-
-export const addPurchasedBevegramToPurchaseSummary = (
-  summary: PurchasedBevegramSummary,
-  purchasedBevegram: PurchasedBevegram,
-): PurchasedBevegramSummary => {
-  return Object.assign({}, summary, {
-    availableToSend: FirebaseDb.SafeAdd(summary.availableToSend, purchasedBevegram.quantity),
-    quantityPurchased: FirebaseDb.SafeAdd(summary.quantityPurchased, purchasedBevegram.quantity),
-    sent: FirebaseDb.SafeAdd(summary.sent, 0),
-  });
-};
-
-const addPurchasedBevegramToUserPurchaseSummary = (
-  userFirebaseId: string,
-  purchasedBevegram: PurchasedBevegram,
-) => {
-  firebaseUserDb.updateNode(DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
-    return addPurchasedBevegramToPurchaseSummary(summary, purchasedBevegram);
-  });
-};
-
-export const removeSentBevegramFromPurchaseSummary = (
-  purchaseSummary: PurchasedBevegramSummary,
-  sentBevegram: SentBevegram,
-): PurchasedBevegramSummary => {
-  return Object.assign({}, purchaseSummary, {
-    availableToSend: FirebaseDb.SafeSubtract(purchaseSummary.availableToSend, sentBevegram.quantity),
-    quantityPurchased: FirebaseDb.SafeAdd(purchaseSummary.quantityPurchased, 0),
-    sent: FirebaseDb.SafeAdd(purchaseSummary.sent, sentBevegram.quantity),
-  });
-};
-
-const removeSentBevegramFromUserPurchaseSummary = (
-  userFirebaseId: string,
-  sentBevegram: SentBevegram,
-) => {
-  firebaseUserDb.updateNode(DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
-    return removeSentBevegramFromPurchaseSummary(summary, sentBevegram);
-  });
-};
-
-//  End Purchase Summary -----------------------------------------------}}}
-//  Sent List -----------------------------------------------------------{{{
-
-export const addSentBevegramToUser = (userFirebaseId: string, sentBevegram: SentBevegram) => {
-  const id = firebaseUserDb.pushNode(DbSchema.GetSentBevegramListDbUrl(userFirebaseId), sentBevegram);
-
-  removeSentBevegramFromUserSentSummary(userFirebaseId, sentBevegram);
-  removeSentBevegramFromUserPurchaseSummary(userFirebaseId, sentBevegram);
-
-  return id;
-};
-
 export const readSentBevegrams = (userFirebaseId: string) => {
   return firebaseUserDb.readNode(DbSchema.GetSentBevegramListDbUrl(userFirebaseId));
-};
-
-//  End Sent List -------------------------------------------------------}}}
-//  Sent Summary --------------------------------------------------------{{{
-
-export const addSentBevegramToSentSummary = (
-  summary: SentBevegramSummary,
-  sentBevegram: SentBevegram,
-): SentBevegramSummary => {
-  return Object.assign({}, summary, {
-    availableToSend: FirebaseDb.SafeAdd(summary.availableToSend, 0),
-    sent: FirebaseDb.SafeAdd(summary.sent, sentBevegram.quantity),
-  });
-};
-
-const addSentBevegramToUserSentSummary = (
-  userFirebaseId: string,
-  sentBevegram: SentBevegram,
-) => {
-  firebaseUserDb.updateNode(DbSchema.GetSentBevegramListDbUrl(userFirebaseId), (summary) => {
-    return addSentBevegramToSentSummary(summary, sentBevegram);
-  });
-};
-
-export const removeSentBevegramFromSentSummary = (
-  summary: SentBevegramSummary,
-  sentBevegram: SentBevegram,
-) => {
-  return Object.assign({}, {
-    availableToSend: FirebaseDb.SafeSubtract(summary.availableToSend, sentBevegram.quantity),
-    sent: FirebaseDb.SafeAdd(summary.sent, sentBevegram.quantity),
-  });
-};
-
-const removeSentBevegramFromUserSentSummary = (userFirebaseId: string, sentBevegram: SentBevegram) => {
-  firebaseUserDb.updateNode(DbSchema.GetSentBevegramSummaryDbUrl(userFirebaseId), (summary) => {
-    return removeSentBevegramFromSentSummary(summary, sentBevegram);
-  });
-};
-
-//  End Sent Summary ----------------------------------------------------}}}
-//  Received List -------------------------------------------------------{{{
-
-export const addReceivedBevegramToReceiverBevegrams = (
-  receiverFirebaseId: string,
-  receivedBevegram: ReceivedBevegram,
-) => {
-  const id = firebaseUserDb.pushNode(DbSchema.GetReceivedBevegramListDbUrl(receiverFirebaseId), receivedBevegram);
-
-  addReceivedBevegramToReceiverReceivedSummary(receiverFirebaseId, receivedBevegram);
-
-  return id;
 };
 
 export const readReceivedBevegrams = (userFirebaseId: string) => {
   return firebaseUserDb.readNode(DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId));
 };
 
-export const updateReceivedBevegramAsRedeemed = (userFirebaseId: string, receivedBevegramId: string): any => {
-  firebaseUserDb.updateNode(
-    DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId) + `/${receivedBevegramId}`,
-    (receivedBevegram) => {
-      return Object.assign({}, receivedBevegram, {
-        isRedeemed: true,
-    });
-  });
-};
-
-//  End Received List ---------------------------------------------------}}}
-//  Received Summary ----------------------------------------------------{{{
-
-export const addReceivedBevegramToReceivedSummary = (
-  summary: ReceivedBevegramSummary,
-  receivedBevegram: ReceivedBevegram,
-) => {
-  return Object.assign({}, summary, {
-    availableToRedeem: FirebaseDb.SafeAdd(summary.availableToRedeem, receivedBevegram.quantity),
-    redeemed: FirebaseDb.SafeAdd(summary.redeemed, 0),
-    total: FirebaseDb.SafeAdd(summary.total, receivedBevegram.quantity),
-  });
-};
-
-export const addReceivedBevegramToReceiverReceivedSummary = (
-  receiverFirebaseId: string,
-  receivedBevegram: ReceivedBevegram,
-) => {
-  firebaseUserDb.updateNode(DbSchema.GetReceivedBevegramSummaryDbUrl(receiverFirebaseId), (summary) => {
-    return addReceivedBevegramToReceivedSummary(summary, receivedBevegram);
-  });
-};
-
-export const removeRedeemedBevegramFromReceivedSummary = (
-  summary: ReceivedBevegramSummary,
-  redeemedBevegram: RedeemedBevegram,
-) => {
-  return Object.assign({}, summary, {
-    availableToRedeem: FirebaseDb.SafeSubtract(summary.availableToRedeem, redeemedBevegram.quantity),
-    redeemed: FirebaseDb.SafeAdd(summary.redeemed, redeemedBevegram.quantity),
-    total: FirebaseDb.SafeAdd(summary.redeemed, 0),
-  });
-};
-
-const removeRedeemedBevegramFromUserReceivedSummary = (
-  userFirebaseId: string,
-  redeemedBevegram: RedeemedBevegram,
-) => {
-  firebaseUserDb.updateNode(DbSchema.GetReceivedBevegramSummaryDbUrl(userFirebaseId), (summary) => {
-    return removeRedeemedBevegramFromReceivedSummary(summary, redeemedBevegram);
-  });
-};
-
-//  End Received Summary ------------------------------------------------}}}
-//  Redeemed List -------------------------------------------------------{{{
-
-// Batch all redeemed db calls into one function
-export const addRedeemedBevegram = (userFirebaseId: string, vendorId: string, redeemedBevegram: RedeemedBevegram) => {
-  firebaseUserDb.pushNode(DbSchema.GetRedeemedBevegramVendorDbUrl(vendorId), redeemedBevegram);
-
-  const id = firebaseUserDb.pushNode(DbSchema.GetRedeemedBevegramUserDbUrl(userFirebaseId), redeemedBevegram);
-
-  firebaseUserDb.updateNode(DbSchema.GetRedeemedBevegramVendorCustomerDbUrl(vendorId), (customerList) => {
-    const newCustomer = {};
-    newCustomer[userFirebaseId] = true;
-    return Object.assign({}, customerList, newCustomer);
-  });
-
-  return id;
-};
-
 export const readRedeemedBevegrams = (userFirebaseId: string) => {
   return firebaseUserDb.readNode(DbSchema.GetRedeemedBevegramUserListDbUrl(userFirebaseId));
 };
-
-//  End Redeemed List ---------------------------------------------------}}}
-//  PromoCode -----------------------------------------------------------{{{
-
-const updatePromoCodeSummary = (promoCode: string, promoCodePack: PromoCodePackage) => {
-  firebaseUserDb.updateNode(DbSchema.GetPromoCodeSummaryDbUrl(promoCode), (summary) => {
-    return Object.assign({}, {
-        total: FirebaseDb.SafeAdd(promoCodePack.quantity, summary.total),
-    });
-  });
-};
-
-export const addPromoCode = (promoCode: string, promoCodePack: PromoCodePackage) => {
-  updatePromoCodeSummary(promoCode, promoCodePack);
-  firebaseUserDb.pushNode(DbSchema.GetPromoCodeListDbUrl(promoCode), promoCodePack);
-};
-
-//  End PromoCode -------------------------------------------------------}}}
 //  PurchasePackages ----------------------------------------------------{{{
 
 export const getPurchasePackages = () => {
