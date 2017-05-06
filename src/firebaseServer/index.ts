@@ -26,6 +26,8 @@ import SetupAdminDb from "./SetupAdminDb";
 
 const db = new FirebaseServerDb(SetupAdminDb());
 
+//  Add Card To Customer ------------------------------------------------{{{
+
 /* tslint:disable:no-console */
 const AddCardToCustomerQueueUrl = DbSchema.GetAddCreditCardToCustomerQueueUrl();
 Log.StartQueueMessage(AddCardToCustomerQueueUrl);
@@ -84,6 +86,9 @@ const AddCardToCustomerQueue = new Queue(db.getRef(AddCardToCustomerQueueUrl),
     process();
 });
 
+//  End Add Card To Customer --------------------------------------------}}}
+//  Remove Card From Customer ------------------------------------------{{{
+
 const RemoveCardFromCustomerQueueUrl = DbSchema.GetRemoveCreditCardFromCustomerQueueUrl();
 Log.StartQueueMessage(RemoveCardFromCustomerQueueUrl);
 const RemoveCardFromCustomerQueue = new Queue(
@@ -133,6 +138,9 @@ const RemoveCardFromCustomerQueue = new Queue(
     process();
 });
 
+//  End Remove Card From Customer --------------------------------------}}}
+//  Update Default Card -------------------------------------------------{{{
+
 const UpdateDefaultCardUrl = DbSchema.GetUpdateDefaultCreditCardForCustomerUrl();
 Log.StartQueueMessage(UpdateDefaultCardUrl);
 const UpdateDefaultCardQueue = new Queue(
@@ -170,6 +178,8 @@ const UpdateDefaultCardQueue = new Queue(
     };
     process();
 });
+
+//  End Update Default Card ---------------------------------------------}}}
   resolve();
 });
 
