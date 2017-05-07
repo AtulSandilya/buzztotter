@@ -18,14 +18,9 @@ import {
   SentBevegram,
 } from "../db/tables";
 
-import {StringifyDate} from "../Utilities";
+import {StringifyDate} from "../CommonUtilities";
 
 import {
-  addPromoCode,
-  addPurchasedBevegramToUser,
-  addReceivedBevegramToReceiverBevegrams,
-  addRedeemedBevegram,
-  addSentBevegramToUser,
   firebaseLoginViaFacebookToken,
   firebaseLogOut as apiFirebaseLogOut,
   getFirebaseId,
@@ -40,8 +35,6 @@ import {
   readRedeemedBevegrams,
   readSentBevegrams,
   updateFirebaseUser as apiUpdateFirebaseUser,
-  updatePurchasedBevegramWithSendId,
-  updateReceivedBevegramAsRedeemed,
 } from "../api/firebase";
 
 //  Login / Logout ------------------------------------------------------{{{
@@ -171,118 +164,6 @@ export function *updatePurchasePackages() {
 }
 
 //  End User ------------------------------------------------------------}}}
-//  Purchasing ----------------------------------------------------------{{{
-
-interface PurchasedBevegramPack {
-  id: string;
-  purchasedBevegram: PurchasedBevegram;
-}
-
-export function *addPurchasedBevegramToDB(action, chargeId) { // returns PurchaseBevegramPack
-  const user: User = yield select<{user: User}>((state) => state.user);
-  const purchasedBevegram: PurchasedBevegram = {
-    chargeId: chargeId,
-    // Used on credit card statement.
-    description: action.payload.purchaseData.description,
-    promoCode: action.payload.purchaseData.promoCode,
-    purchaseDate: StringifyDate(),
-    // In cents
-    purchasePrice: action.payload.purchaseData.amount,
-    purchasedByFacebookId: user.facebook.id,
-    purchasedById: user.firebase.uid,
-    purchasedByName: user.fullName,
-    quantity: action.payload.purchaseData.quantity,
-  };
-
-  const purchaseId = yield call(addPurchasedBevegramToUser, user.firebase.uid, purchasedBevegram);
-
-  return {
-    id: purchaseId,
-    purchasedBevegram: purchasedBevegram,
-  };
-}
-
-//  End Purchasing ------------------------------------------------------}}}
-//  Sending -------------------------------------------------------------{{{
-
-export function *addSentBevegramToDB(action, purchasedBevegramId) {
-  const user: User = yield select<{user: User}>((state) => state.user);
-  const sentBevegram: SentBevegram = {
-    purchasedBevegramId: purchasedBevegramId,
-    quantity: action.payload.sendBevegramData.quantity,
-    receiverName: action.payload.sendBevegramData.recipentName,
-    sendDate: StringifyDate(),
-  };
-
-  const sendId = yield call(addSentBevegramToUser, user.firebase.uid, sentBevegram);
-
-  return {
-    id: sendId,
-    sentBevegram: sentBevegram,
-  };
-}
-
-export function *addSendIdToPurchasedBevegram(action, purchaseId: string, sendId: string) {
-  const userId: string = yield select<{user: User}>((state) => state.user.firebase.uid);
-  yield call(updatePurchasedBevegramWithSendId, userId, purchaseId, sendId);
-}
-
-//  End Sending ---------------------------------------------------------}}}
-//  Receiving -----------------------------------------------------------{{{
-
-export function *addReceivedBevegramToDB(action, receiverFirebaseId: string) {
-  const user: User = yield select<{user: User}>((state) => state.user);
-  const receivedBevegram: ReceivedBevegram = {
-    isRedeemed: false,
-    message: action.payload.sendBevegramData.message,
-    quantity: action.payload.sendBevegramData.quantity,
-    receivedDate: StringifyDate(),
-    sentFromFacebookId: user.facebook.id,
-    sentFromName: user.fullName,
-    sentFromPhotoUrl: user.firebase.photoURL,
-  };
-
-  yield call(addReceivedBevegramToReceiverBevegrams, receiverFirebaseId, receivedBevegram);
-}
-
-export function *updateReceivedBevegrams() {
-  const userFirebaseId = yield select<{user: User}>((state) => state.user.firebase.uid);
-  const result = yield call(readReceivedBevegrams, userFirebaseId);
-  return result;
-}
-
-//  End Receiving -------------------------------------------------------}}}
-//  Redeeming -----------------------------------------------------------{{{
-
-interface RedeemedBevegramPack {
-  id: string;
-  redeemedBevegram: RedeemedBevegram;
-}
-
-export function *addRedeemedBevegramToDB(action) {
-  const user: User = yield select<{user: User}>((state) => state.user);
-  const redeemedBevegram: RedeemedBevegram = {
-    // TODO: Read props below from action.payload
-    quantity: 1,
-    redeemedByFacebookId: user.facebook.id,
-    redeemedByName: user.fullName,
-    redeemedByPhotoUrl: user.firebase.photoURL,
-    redeemedDate: StringifyDate(),
-    vendorId: "string",
-    vendorName: "string",
-    vendorPin: "string",
-  };
-
-  const id = yield call(addRedeemedBevegram, user.firebase.uid, "vendorId", redeemedBevegram);
-  yield call(updateReceivedBevegramAsRedeemed, user.firebase.uid, action.payload.receivedBevegramId);
-
-  return {
-    id: id,
-    redeemedBevegram: redeemedBevegram,
-  };
-}
-
-//  End Redeeming -------------------------------------------------------}}}
 
 export function *updateAllLists() {
   const user: User = yield select<{user: User}>((state) => state.user);
@@ -299,17 +180,6 @@ export function *updateAllLists() {
   yield put({type: "SET_SENT_BEVEGRAM_LIST", payload: {list: sentList}});
   yield put({type: "SET_RECEIVED_BEVEGRAM_LIST", payload: {list: receivedList}});
   yield put({type: "SET_REDEEMED_BEVEGRAM_LIST", payload: {list: redeemedList}});
-}
-
-export function *addPromoCodeToDB(promoCode: string, quantity: number) {
-  const userFirebaseId: string = yield select<{user: User}>((state) => state.user.firebase.uid);
-  const promoCodePackage: PromoCodePackage = {
-    purchaseDate: StringifyDate(),
-    purchasedByUserId: userFirebaseId,
-    quantity: quantity,
-  };
-
-  yield call(addPromoCode, promoCode, promoCodePackage);
 }
 
 export function *updateUserStateOnNextChange(
