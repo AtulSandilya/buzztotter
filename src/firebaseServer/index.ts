@@ -4,15 +4,24 @@ import * as DbSchema from "../db/schema";
 
 import {
   AddCreditCardToCustomerPackageForQueue,
+  NotificationActions,
+  NotificationPackage,
+  PromoCodePackage,
+  PurchasedBevegram,
+  PurchasePackage,
   PurchasePackageForQueue,
+  PurchaseTransactionStatus,
+  ReceivedBevegram,
   RedeemPackageForQueue,
   RemoveCreditCardFromCustomerPackageForQueue,
+  SentBevegram,
   STRIPE_MAX_NUMBER_OF_CREDIT_CARDS,
   StripeCreditCard,
   UpdateDefaultCreditCardForCustomerPackageForQueue,
   User,
 } from "../db/tables";
 
+import theme from "../theme";
 import * as stripe from "./stripe";
 
 import FirebaseServerDb from "./FirebaseServerDb";
@@ -180,6 +189,165 @@ const UpdateDefaultCardQueue = new Queue(
 });
 
 //  End Update Default Card ---------------------------------------------}}}
+
+const PurchaseQueueUrl = DbSchema.GetPurchaseQueueUrl();
+Log.StartQueueMessage(PurchaseQueueUrl);
+const PurchaseQueue = new Queue(db.getRef(PurchaseQueueUrl), (data, progress, resolve, reject) => {
+  const log = new Log("PURCHASE");
+  const process = async () => {
+    const input: PurchasePackageForQueue = data;
+    const {userFirebaseId, receiverFacebookId, purchaseQuantity, verificationToken, purchasePrice} = input;
+    const user: User = await db.readNode(DbSchema.GetUserDbUrl(userFirebaseId));
+
+    /* tslint:disable:object-literal-sort-keys */
+    const status: PurchaseTransactionStatus = {
+      connectionEstablished: "complete",
+      creditCardTransaction: "inProgress",
+      updatingDatabase: "pending",
+      sendingNotification: "pending",
+    };
+
+    const updateStatus = async (): Promise<void> => {
+      status.lastModified = GetTimeNow();
+      await db.writeNode(DbSchema.GetPurchaseTransactionStatusDbUrl(userFirebaseId), status);
+    };
+
+    // 1. Verify Sender, get sender info
+    // 2. Verify Receiver, get receiver information
+    // 3. Verify purchase details (price, quantity, etc)
+    // 4. Perform purchase
+    // 5. Update db - take code from api/firebase
+    // 6. Send notification
+
+    try {
+      await verifyUser(verificationToken, userFirebaseId);
+      const userStripeId = await db.readNode(DbSchema.GetStripeCustomerIdDbUrl(userFirebaseId));
+
+      await updateStatus();
+
+      const receiverFirebaseId = await db.readNode(DbSchema.GetFirebaseIdDbUrl(receiverFacebookId));
+      if (!receiverFirebaseId) {
+        throw new QueueServerError("Sender does not exist in our records");
+      }
+
+      const receiver: User = await db.readNode(DbSchema.GetUserDbUrl(receiverFirebaseId));
+
+      const purchasePackages: PurchasePackage[] = await db.readNode(DbSchema.GetPurchasePackagesDbUrl());
+
+      const matchingPurchasePackage = purchasePackages.filter((val) => {
+        if (val.quantity === purchaseQuantity && val.price === purchasePrice) {
+          return true;
+        }
+        return false;
+      });
+
+      if (matchingPurchasePackage.length !== 1) {
+        throw new QueueServerError("Invalid Purchase Details");
+      }
+
+      /* tslint:disable:max-line-length */
+      const purchaseDescription = `Sent ${purchaseQuantity} bevegram${purchaseQuantity !== 1 ? "s" : ""} to ${receiver.fullName}`;
+      const chargeResponse = await stripe.promiseCreditCardPurchase(userStripeId, purchasePrice, purchaseDescription);
+
+      status.creditCardTransaction = "complete";
+      status.updatingDatabase = "inProgress";
+      await updateStatus();
+
+      // Use api/firebase code here to update summaries and lists
+      const purchasedBevegram: PurchasedBevegram = {
+        chargeId: chargeResponse.id,
+        purchaseDate: GetTimeNow(),
+        purchasePrice,
+        purchasedByFacebookId: user.facebook.id,
+        purchasedById: user.firebase.uid,
+        purchasedByName: user.fullName,
+        quantity: purchaseQuantity,
+      };
+
+      // TODO: Consistently format promo code on client and server
+      let promoCode = input.promoCode;
+      if (promoCode) {
+        promoCode = promoCode.toUpperCase();
+        purchasedBevegram.promoCode = promoCode;
+
+        const promoCodePack: PromoCodePackage = {
+          purchaseDate: GetTimeNow(),
+          purchasedByUserId: user.firebase.uid,
+          quantity: purchaseQuantity,
+        };
+
+        await db.addPromoCode(promoCode, promoCodePack);
+      }
+
+      const purchasedBevegramId = await db.addPurchasedBevegramToUser(userFirebaseId, purchasedBevegram);
+
+      const sentBevegram: SentBevegram = {
+        purchasedBevegramId,
+        quantity: purchaseQuantity,
+        receiverName: receiver.fullName,
+        sendDate: GetTimeNow(),
+      };
+
+      const sendId = await db.addSentBevegramToUser(userFirebaseId, sentBevegram);
+      await db.updatePurchasedBevegramWithSendId(userFirebaseId, purchasedBevegramId, sendId);
+
+      const receivedBevegram: ReceivedBevegram = {
+        isRedeemed: false,
+        quantity: purchaseQuantity,
+        quantityRedeemed: 0,
+        receivedDate: GetTimeNow(),
+        sentFromFacebookId: user.facebook.id,
+        sentFromName: user.fullName,
+        sentFromPhotoUrl: user.firebase.photoURL,
+      };
+
+      if (input.message) {
+        receivedBevegram.message = input.message;
+      }
+
+      await db.addReceivedBevegramToReceiverBevegrams(receiver.firebase.uid, receivedBevegram);
+
+      status.updatingDatabase = "complete";
+      status.sendingNotification = "inProgress";
+      await updateStatus();
+
+      const receiverGCMId = await db.readNode(DbSchema.GetFcmTokenDbUrl(receiver.facebook.id));
+
+      if (!receiverGCMId && receiverGCMId.length === 0) {
+        console.log("Could not find receiver fcm token");
+        status.sendingNotification = "complete";
+        await updateStatus();
+      } else {
+        const notif: NotificationPackage = {
+          receiverGCMId,
+          action: NotificationActions.ShowNewReceivedBevegrams,
+          body: `${user.fullName} sent you ${purchaseQuantity} Bevegram${purchaseQuantity !== 1 ? " s" : ""}`,
+          data: {},
+          icon: theme.notificationIcons.beverage,
+          title: "BuzzOtter",
+        };
+
+        const notifResult = await sendNotification(notif);
+        const jsonSpaces = 2;
+        console.log("notifResult: ", notifResult);
+
+        status.sendingNotification = "complete";
+        await updateStatus();
+      }
+
+      log.successMessage();
+    } catch (e) {
+      // TODO: Figure out some way to track progress and roll back the db if
+      // there is a problem
+      status.error = e.message ? e.message : e;
+      await updateStatus();
+      log.failMessage(e);
+    }
+
+    resolve();
+  };
+  process();
+});
   resolve();
 });
 
