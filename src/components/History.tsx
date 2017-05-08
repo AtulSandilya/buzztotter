@@ -34,6 +34,7 @@ interface HistoryItem {
   icon: string;
 }
 
+/* tslint:disable:object-literal-sort-keys */
 const History: React.StatelessComponent<HistoryProps> = ({
   bevegramHistoryKeys,
   purchasedBevegrams,
