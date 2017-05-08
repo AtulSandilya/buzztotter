@@ -16,4 +16,22 @@ describe('database schema string creator', () => {
       GetSchemaDbUrl("badUrl", {"test": "test"});
     }).toThrowError();
   })
+
+  it("replaces invalid characters", () => {
+    const testChars = [
+      [".", "_"],
+      ["#", "!"],
+      ["$", "?"],
+      ["[", "{"],
+      ["]", "}"],
+      ["]", "}"],
+    ];
+
+    for (const testChar of testChars) {
+      expect(GetSchemaDbUrl(
+        "locationsByDegree.latitudeInDegrees.longitudeInDegrees",
+        {latitudeInDegrees: `54${testChar[0]}54`, longitudeInDegrees: `54${testChar[0]}54`},
+      )).toEqual(`locationsByDegree/54${testChar[1]}54/54${testChar[1]}54`);
+    }
+  })
 })
