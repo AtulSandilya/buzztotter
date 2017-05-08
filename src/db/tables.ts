@@ -103,10 +103,10 @@ export interface PurchaseActionData {
 //  SendActionData ------------------------------------------------------{{{
 
 export interface SendActionData {
-  recipentName: string,
-  quantity: number,
-  message: string,
-  facebookId: string,
+  recipentName: string;
+  quantity: number;
+  message: string;
+  facebookId: string;
 }
 
 //  End SendActionData --------------------------------------------------}}}
