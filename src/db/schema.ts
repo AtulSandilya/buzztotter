@@ -106,14 +106,14 @@ const Schema = {
   },
 };
 
-const has = (obj: object, key: string): boolean => {
+const has = (obj: object, key: string): any => {
   let newObj = Object.assign({}, obj);
   key.split(".").map((k) => {
     if (newObj) {
       newObj = newObj[k];
     }
   });
-  return true;
+  return newObj;
 };
 
 export const GetSchemaDbUrl = (table: string, keysToReplace?: string | any): string => {
@@ -123,6 +123,9 @@ export const GetSchemaDbUrl = (table: string, keysToReplace?: string | any): str
   // Check if the table exists in the Schema
   try {
     const tableIsValid = has(Schema, "root." + table);
+    if (tableIsValid === undefined) {
+      throw Error;
+    }
   } catch (e) {
     throw Error(`Db Error: Key "${JSON.stringify(keysToReplace)}" does not exist within the database schema!`);
   }
