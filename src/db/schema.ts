@@ -73,12 +73,16 @@ const Schema = {
       },
     },
     redeemedBevegrams: {
+      userId: {
+        summary: "RedeemedBevegramsSummary",
+        list: {
+          uniqueId: "RedeemedBevegram",
+        },
+      },
+    },
           },
         },
       },
-      users: {
-        firebaseId: {
-          FirebaseUniqueTimeSortableId: "RedeemedBevegram",
     vendors: {
       vendorId: {
         // These fields are for querying and sorting
@@ -207,20 +211,12 @@ export const GetReceivedBevegramSummaryDbUrl = (firebaseId: string): string => {
   return GetSchemaDbUrl("receivedBevegrams.firebaseId.summary", {firebaseId: firebaseId});
 };
 
-export const GetRedeemedBevegramVendorDbUrl = (vendorId: string): string => {
-  return GetSchemaDbUrl("redeemedBevegrams.vendorId.ledger.bevegramList", {vendorId: vendorId});
+export const GetRedeemedBevegramListDbUrl = (firebaseId: string): string => {
+  return GetSchemaDbUrl("redeemedBevegrams.firebaseId.list", {firebaseId});
 };
 
-export const GetRedeemedBevegramVendorCustomerDbUrl = (vendorId: string): string => {
-  return GetSchemaDbUrl("redeemedBevegrams.vendorId.ledger.customerList", {vendorId: vendorId});
-};
-
-export const GetRedeemedBevegramUserDbUrl = (firebaseId: string): string => {
-  return GetSchemaDbUrl("redeemedBevegrams.users.firebaseId", {firebaseId: firebaseId});
-};
-
-export const GetRedeemedBevegramUserListDbUrl = (firebaseId: string): string => {
-  return GetSchemaDbUrl("redeemedBevegrams.users.firebaseId", {firebaseId: firebaseId});
+export const GetRedeemedBevegramSummaryDbUrl = (firebaseId: string): string => {
+  return GetSchemaDbUrl("redeemedBevegrams.firebaseId.summary", {firebaseId});
 };
 
 export const GetPromoCodeListDbUrl = (promotionCode: string): string => {
