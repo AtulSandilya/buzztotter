@@ -19,17 +19,17 @@ import Ionicon from "react-native-vector-icons/Ionicons";
 import {isIOS, WindowWidth} from "../ReactNativeUtilities";
 
 import {
+  PurchaseActionData,
   PurchasePackage,
+  SendActionData,
   STRIPE_MAX_NUMBER_OF_CREDIT_CARDS,
   StripeCreditCard as CreditCard,
 } from "../db/tables";
 
 import {
-  PurchaseData,
   PurchaseState,
 } from "../reducers/purchase";
 
-import {SendBevegramData} from "../sagas/sendBevegram";
 import {InProgressData} from "./PurchaseAndOrSendInProgress";
 
 import BevButton, {getButtonHeight} from "./BevButton";
@@ -84,9 +84,9 @@ interface PurchaseBevegramProps {
   removeCard(id, index): void;
   updateDefaultCard(newDefaultCardId): void;
   selectPackage(packageId): void;
-  startCreditCardPurchase(PurchaseData, InProgressData): void;
-  sendBevegram(SendBevegramData, InProgressData): void;
-  purchaseAndSend(PurchaseData, SendBevegramData, InProgressData): void;
+  startCreditCardPurchase(PurchaseActionData, InProgressData): void;
+  sendBevegram(SendActionData, InProgressData): void;
+  purchaseAndSend(PurchaseActionData, SendActionData, InProgressData): void;
   getUser();
 }
 
@@ -176,7 +176,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     }
   }
 
-  private packPurchaseData(): PurchaseData {
+  private packPurchaseData(): PurchaseActionData {
     const pack = this.props.selectedPurchasePackage;
     return {
       price: pack.price,
@@ -185,7 +185,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
     };
   }
 
-  private packSendData(): SendBevegramData {
+  private packSendData(): SendActionData {
     return {
       facebookId: this.props.facebookId,
       message: this.state.message,
