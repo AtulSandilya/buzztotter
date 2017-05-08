@@ -152,7 +152,7 @@ export const getPurchasePackages = () => {
 };
 
 //  End PurchasePackages ------------------------------------------------}}}
-//  Queue Notification --------------------------------------------------{{{
+//  Queue --------------------------------------------------{{{
 
 // Adding an object to a queue url requires putting the object in the
 // "tasks" node
@@ -184,4 +184,4 @@ export const DbWriteUserVerificationToken = (token: string, userFirebaseId: stri
   firebaseUserDb.writeNode(DbSchema.GetUserVerificationTokenDbUrl(userFirebaseId), token);
 };
 
-//  End Queue Notification ----------------------------------------------}}}
+//  End Queue ----------------------------------------------}}}
