@@ -15,9 +15,6 @@ const Schema = {
     fcmTokens: {
       facebookId: "fcmToken",
     },
-    vendors: {
-      vendorId: "Vendor",
-    },
     addCreditCardToCustomerQueue: {
       uniqueId: "AddCreditCardToCustomerPackage",
     },
@@ -76,23 +73,22 @@ const Schema = {
       },
     },
     redeemedBevegrams: {
-      vendors: {
-        vendorId: {
-          // Any user can write to any vendors ledger
-          ledger: {
-            bevegramList: {
-              FirebaseUniqueTimeSortableId: "RedeemedBevegram",
-            },
-            customerList: {
-              // A user may only write to their firebaseId
-              firebaseId: true,
-            },
           },
         },
       },
       users: {
         firebaseId: {
           FirebaseUniqueTimeSortableId: "RedeemedBevegram",
+    vendors: {
+      vendorId: {
+        // These fields are for querying and sorting
+        name: "string",
+        address: "string",
+        latitude: "string",
+        longitude: "string",
+        metadata: "Vendor",
+        list: {
+          pushId: "RedeemedBevegram",
         },
       },
     },
@@ -153,10 +149,6 @@ export const GetSchemaDbUrl = (table: string, keysToReplace?: string | any): str
 
 export const GetUserDbUrl = (firebaseId: string) => {
   return GetSchemaDbUrl("users", firebaseId);
-};
-
-export const GetVendorDbUrl = (vendorId: string) => {
-  return GetSchemaDbUrl("vendors", vendorId);
 };
 
 export const GetFirebaseIdDbUrl = (facebookId: string) => {
@@ -249,4 +241,20 @@ export const GetPurchasePackagesDbUrl = () => {
 
 export const GetPurchaseTransactionStatusDbUrl = (userFirebaseId: string): string => {
   return GetSchemaDbUrl("purchaseTransactionStatus.userFirebaseId", {userFirebaseId});
+};
+
+export const GetVendorPushDbUrl = () => {
+  return GetSchemaDbUrl("vendors");
+};
+
+export const GetVendorDbUrl = (vendorId: string) => {
+  return GetSchemaDbUrl("vendors.vendorId", {vendorId: vendorId});
+};
+
+export const GetVendorMetadataDbUrl = (vendorId: string) => {
+  return GetSchemaDbUrl("vendors.vendorId.metadata", {vendorId: vendorId});
+};
+
+export const GetVendorRedeemListDbUrl = (vendorId: string) => {
+  return GetSchemaDbUrl("vendors.vendorId.list", {vendorId});
 };
