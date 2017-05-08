@@ -67,12 +67,8 @@ export function *goBackRoute(action) {
         );
       });
 
-      const allowGoBack = IsPurchaseAndOrSendCompleted(
-        routeState.userIsPurchasing,
-        routeState.userIsSending,
-        purchaseState.confirmed,
-        purchaseState.completedSend,
-      );
+      const purchaseTransactionStatus = yield select<{purchase: any}>((state) => state.purchase.purchaseTransactionStatus);
+      const allowGoBack = IsPurchaseAndOrSendCompleted(purchaseTransactionStatus);
 
       if (!allowGoBack) {
         if (isAndroid) {

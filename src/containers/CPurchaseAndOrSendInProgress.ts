@@ -1,20 +1,21 @@
 import { connect } from 'react-redux';
 
+import {
+  PurchaseTransactionStatus,
+} from "../db/tables";
+
 import PurchaseAndOrSendInProgress from '../components/PurchaseAndOrSendInProgress';
 
 
 interface MapStateProps {
   // From State
-  purchaseConfirmed: boolean;
-  purchaseFailed: boolean;
-  purchaseFailedMessage: string;
-  sendConfirmed: boolean;
+  purchaseTransactionStatus: PurchaseTransactionStatus;
   // From route
   bevegramsUserIsSending: number;
   bevegramsUserIsPurchasing: number;
   bevegramsPurchasePrice: string;
-  cardLast4: string,
-  cardFontAwesomeIcon: string,
+  cardLast4: string;
+  cardFontAwesomeIcon: string;
   userIsPurchasing: boolean;
   userIsSending: boolean;
   recipentFullName: string;
@@ -27,10 +28,7 @@ const mapStateToProps = (state): MapStateProps => {
   return Object.assign({},
     state.routes.PurchaseInProgress.data,
     state.routes.SendInProgress.data, {
-      purchaseConfirmed: state.purchase.confirmed,
-      purchaseFailed: state.purchase.failed,
-      purchaseFailedMessage: state.purchase.failMessage,
-      sendConfirmed: state.purchase.completedSend,
+      purchaseTransactionStatus: state.purchase.purchaseTransactionStatus,
   });
 }
 

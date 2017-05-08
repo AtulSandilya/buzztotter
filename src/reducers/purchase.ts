@@ -1,4 +1,7 @@
-import {PurchasePackage} from "../db/tables";
+import {
+  PurchasePackage,
+  PurchaseTransactionStatus,
+} from "../db/tables";
 import PurchasePackages from "../staticDbContent/PurchasePackages";
 
 export interface PurchaseData {
@@ -19,8 +22,17 @@ export interface PurchaseState {
   failMessage: string;
   attemptingStripeUpdate: boolean;
   purchasePackages: PurchasePackage[];
+  purchaseTransactionStatus: PurchaseTransactionStatus;
   selectedPurchasePackageIndex: number;
 }
+
+/* tslint:disable:object-literal-sort-keys */
+const startingPurchaseTransactionStatus: PurchaseTransactionStatus = {
+  connectionEstablished: "pending",
+  creditCardTransaction: "pending",
+  updatingDatabase: "pending",
+  sendingNotification: "pending",
+};
 
 export const initialPurchaseState: PurchaseState = {
   attemptingPurchase: false,
@@ -33,6 +45,7 @@ export const initialPurchaseState: PurchaseState = {
   isRefreshingUser: false,
   paymentMethod: undefined,
   purchasePackages: PurchasePackages,
+  purchaseTransactionStatus: startingPurchaseTransactionStatus,
   selectedPurchasePackageIndex: 0,
 };
 
@@ -113,6 +126,17 @@ export const purchase = (state = initialPurchaseState, action) => {
     case "UPDATE_PURCHASE_PACKAGES":
       return Object.assign({}, state, {
         purchasePackages: action.payload.purchasePackages,
+      });
+    case "UPDATE_PURCHASE_TRANSACTION_STATUS":
+      return Object.assign({}, state, {
+        purchaseTransactionStatus: action.payload.purchaseTransactionStatus,
+      });
+    case "FAILED_PURCHASE_TRANSACTION":
+      const purchaseTransactionStatus = Object.assign({}, state.purchaseTransactionStatus, {
+        error: action.payload.error,
+      });
+      return Object.assign({}, state, {
+        purchaseTransactionStatus,
       });
     default:
       return state;

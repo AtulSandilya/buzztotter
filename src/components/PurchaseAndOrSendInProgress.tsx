@@ -8,6 +8,10 @@ import {
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
+import {
+  PurchaseTransactionStatus,
+} from "../db/tables";
+
 import BevButton, {getButtonHeight} from "./BevButton";
 import {globalStyles} from "./GlobalStyles";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
@@ -28,10 +32,7 @@ export interface InProgressData {
 
 export interface PurchaseOrSendInProgressProps {
   // From Container
-  purchaseConfirmed: boolean;
-  purchaseFailed: boolean;
-  purchaseFailedMessage: string;
-  sendConfirmed: boolean;
+  purchaseTransactionStatus: PurchaseTransactionStatus;
   // From Caller
   bevegramsUserIsSending: number;
   bevegramsUserIsPurchasing: number;
@@ -48,18 +49,14 @@ export interface PurchaseOrSendInProgressProps {
 }
 
 export const IsPurchaseAndOrSendCompleted = (
-  userIsPurchasing: boolean,
-  userIsSending: boolean,
-  purchaseConfirmed: boolean,
-  sendConfirmed: boolean,
+  purchaseTransactionStatus: PurchaseTransactionStatus,
 ) => {
-    if (userIsPurchasing && userIsSending) {
-      return purchaseConfirmed && sendConfirmed;
-    } else if (userIsSending) {
-      return sendConfirmed;
-    } else if (userIsPurchasing) {
-      return purchaseConfirmed;
+  Object.keys(purchaseTransactionStatus).map((key) => {
+    if (key !== "completed") {
+      return false;
     }
+  });
+  return true;
 };
 
 const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgressProps> = ({
@@ -70,22 +67,16 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
   cardFontAwesomeIcon,
   userIsPurchasing,
   userIsSending,
-  purchaseConfirmed,
-  purchaseFailed,
-  purchaseFailedMessage,
-  sendConfirmed,
   recipentFullName,
   recipentImage,
   closeRoute,
   resetPurchase,
   buttonFontSize,
+  purchaseTransactionStatus,
 }) => {
   const renderPurchaseOrSendOrBothComplete = () => {
     const showCompleted = IsPurchaseAndOrSendCompleted(
-      userIsPurchasing,
-      userIsSending,
-      purchaseConfirmed,
-      sendConfirmed,
+      purchaseTransactionStatus,
     );
 
     if (!showCompleted) {
@@ -104,7 +95,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
     const sentSummaryText = `Sent ${bevegramsUserSent} ${bevStr(bevegramsUserSent)} to ${recipentFullName}`;
     /* tslint:disable:max-line-length */
     const purchasedSummaryText = `Purchased ${bevegramsUserPurchased} ${bevStr(bevegramsUserPurchased)} for $${bevegramsPurchasePrice}`;
-    const purchasedAndSentSummaryText = `Purchased & Sent ${bevegramsUserIsPurchasing} ${bevStr(bevegramsUserIsPurchasing)} to ${recipentFullName} for $${bevegramsPurchasePrice}`;
+    const purchasedAndSentSummaryText = `Purchased & Sent ${bevegramsUserIsPurchasing} ${bevStr(bevegramsUserIsPurchasing)} to ${recipentFullName} for ${bevegramsPurchasePrice}`;
 
     let summaryText: string;
     if (userIsPurchasing && userIsSending) {
@@ -183,9 +174,8 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
             </View>
             <StatusLine
               title="Verifying Purchase"
-              input={purchaseConfirmed}
-              waiting={false}
-              allFailed={purchaseFailed}
+              statusObject={purchaseTransactionStatus}
+              statusKey="creditCardTransaction"
             />
           </View>
         :
@@ -231,20 +221,19 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
         {userIsSending ?
           <StatusLine
             title="Sending Bevegram"
-            input={sendConfirmed ? true : undefined}
-            waiting={!userIsPurchasing ? false : !purchaseConfirmed}
-            allFailed={false}
+            statusObject={purchaseTransactionStatus}
+            statusKey="sendingNotification"
           />
         :
           null
         }
-        {purchaseFailed ?
+        {purchaseTransactionStatus.error ?
         <View>
           <View style={globalStyles.bevLineNoSep}>
             <Text style={[globalStyles.bevLineTextTitle, {color: "red"}]}>Purchase Error:</Text>
           </View>
           <View style={globalStyles.bevLine}>
-            <Text style={globalStyles.bevLineText}numberOfLines={5}>{purchaseFailedMessage}</Text>
+            <Text style={globalStyles.bevLineText}numberOfLines={5}>{purchaseTransactionStatus.error}</Text>
           </View>
           <View>
             <View style={{
