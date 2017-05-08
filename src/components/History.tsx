@@ -29,7 +29,7 @@ export interface HistoryProps {
 
 interface HistoryItem {
   label: string;
-  date: string;
+  date: number;
   info: string;
   icon: string;
 }
@@ -96,7 +96,7 @@ const History: React.StatelessComponent<HistoryProps> = ({
       return {
         label: "Unknown",
         icon: "question",
-        date: "",
+        date: 0,
         info: "",
       };
     }
