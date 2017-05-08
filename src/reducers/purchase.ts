@@ -4,13 +4,6 @@ import {
 } from "../db/tables";
 import PurchasePackages from "../staticDbContent/PurchasePackages";
 
-export interface PurchaseData {
-  amount: number;
-  description: string;
-  quantity: number;
-  promoCode: string;
-}
-
 export interface PurchaseState {
   attemptingPurchase: boolean;
   attemptingSend: boolean; // tristate

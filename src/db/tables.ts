@@ -89,6 +89,27 @@ export interface PurchasePackage {
 }
 
 //  End PurchasePackage -------------------------------------------------}}}
+
+//  PurchaseActionData --------------------------------------------------{{{
+
+export interface PurchaseActionData {
+  price: number;
+  quantity: number;
+  promoCode: string;
+}
+
+//  End PurchaseActionData ----------------------------------------------}}}
+
+//  SendActionData ------------------------------------------------------{{{
+
+export interface SendActionData {
+  recipentName: string,
+  quantity: number,
+  message: string,
+  facebookId: string,
+}
+
+//  End SendActionData --------------------------------------------------}}}
 //  PurchasedBevegram ---------------------------------------------------{{{
 
 export interface PurchasedBevegram {
