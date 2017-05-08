@@ -48,8 +48,9 @@ export const isUserLoggedIn = () => {
 type FirebaseDbEvent =  "child_added" | "child_changed" | "child_removed";
 
 export const OnNextNodeEvent = (url: string, firebaseDbEvent: FirebaseDbEvent) => {
-  return new Promise((resolve) => {
-    firebaseUserDb.getRef(url).once(firebaseDbEvent, (data) => {
+  return new Promise(async (resolve) => {
+    const ref = await firebaseUserDb.getRef(url);
+    ref.once(firebaseDbEvent, (data) => {
       // Resolve the whole node instead of just the updated data (data.val())
       firebaseUserDb.readNode(url).then((newValue) => {
         resolve(newValue);
