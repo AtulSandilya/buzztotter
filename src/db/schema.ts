@@ -1,4 +1,3 @@
-import _ from "lodash";
 
 import {
   PurchasedBevegram,
@@ -107,16 +106,26 @@ const Schema = {
   },
 };
 
-export const GetSchemaDbUrl = (table: string, key?: string | any): string => {
+const has = (obj: object, key: string): boolean => {
+  let newObj = Object.assign({}, obj);
+  key.split(".").map((k) => {
+    if (newObj) {
+      newObj = newObj[k];
+    }
+  });
+  return true;
+};
+
+export const GetSchemaDbUrl = (table: string, keysToReplace?: string | any): string => {
   const urlSeparator = "/";
   const periodsRe = /\./g;
 
   // Check if the table exists in the Schema
-  if (_.has(Schema, ["root", table].join("."))) {
-
-    if (!key) {
-      return table.replace(periodsRe, urlSeparator);
-    }
+  try {
+    const tableIsValid = has(Schema, "root." + table);
+  } catch (e) {
+    throw Error(`Db Error: Key "${JSON.stringify(keysToReplace)}" does not exist within the database schema!`);
+  }
 
     // If `key` is an object, replace the the object key in table with the
     // object value
