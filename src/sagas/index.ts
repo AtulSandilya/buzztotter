@@ -22,18 +22,13 @@ import {
 } from "./routes";
 
 import {
-  addPromoCodeToDB,
-  addPurchasedBevegramToDB,
-  addReceivedBevegramToDB,
-  addRedeemedBevegramToDB,
-  addSentBevegramToDB,
   firebaseFacebookLogin,
   firebaseLogOut,
   getUser,
+  handleNextPurchaseTransactionStatusChange,
   updateAllLists,
   updateFirebaseUser,
   updatePurchasePackages,
-  updateReceivedBevegrams,
   updateUserStateOnNextChange,
   verifyReceiverExists,
 } from "./firebase";
@@ -127,73 +122,20 @@ export default function* rootSaga() {
     yield put({type: "COMPLETED_USER_REFRESH_FOR_PURCHASE"});
   });
 
-  // Purchasing Bevegrams
-  function *purchaseBevegram(action) {
-    yield call(goToRoute, action);
-    const chargeId = yield call(fetchCreditCardPurchase, action);
-
-    const purchasedBevegramPack = yield call(addPurchasedBevegramToDB, action, chargeId);
-    yield put({type: "ADD_PURCHASED_BEVEGRAM", payload: {
-      purchasedBevegramPack: purchasedBevegramPack,
-    }});
-
-    const promoCode = action.payload.purchaseData.promoCode;
-    if (promoCode !== "") {
-      yield call(addPromoCodeToDB, promoCode, action.payload.purchaseData.quantity);
-    }
-
-    return purchasedBevegramPack.id;
-  }
-
-  yield fork(takeEvery, "PURCHASE_BEVEGRAM", function *(action) {
-    yield call(purchaseBevegram, action);
-  });
-
-  // Sending Bevegrams
-  function *sendBevegram(action, receiverFirebaseId, purchaseId) {
-    yield put({type: "ATTEMPTING_SEND_BEVEGRAM"});
-    yield call(goToRoute, action);
-    const sentBevegramPack = yield call(addSentBevegramToDB, action, purchaseId);
-    yield call(addReceivedBevegramToDB, action, receiverFirebaseId);
-
-    yield put({type: "ADD_SENT_BEVEGRAM", payload: {
-      sentBevegramPack: sentBevegramPack,
-    }});
-    yield put({type: "REMOVE_SENT_BEVEGRAM_FROM_PURCHASED", payload: {
-      sentBevegramPack: sentBevegramPack,
-    }});
-
-    yield call(sendReceivedNotification, action, action.payload.sendBevegramData.facebookId);
-
-    yield put({type: "COMPLETED_SEND_BEVEGRAM"});
-    return sentBevegramPack.id;
-  }
-
-  yield fork(takeEvery, "SEND_BEVEGRAM", function *(action){
-    try {
-      // Abort sending if the reciever does not have a firebase id
-      const receiverFirebaseId = yield call(verifyReceiverExists, action);
-      yield call(sendBevegram, action);
-    } catch (e) {
-      yield put({type: "FAILED_SEND_BEVEGRAM", payload: {
-        error: e,
-      }});
-    }
-  });
-
   // Purchasing Then Sending
   yield fork(takeEvery, "PURCHASE_THEN_SEND_BEVEGRAM", function *(action) {
-    try {
-      // Don"t allow purchasing or sending if the reciever is not in the
-      // database.
-      const receiverFirebaseId = yield call(verifyReceiverExists, action);
-      const purchasedBevegramId = yield call(purchaseBevegram, action);
-      yield call(sendBevegram, action, receiverFirebaseId, purchasedBevegramId);
-    } catch (e) {
-      yield put({type: "FAILED_PURCHASE_AND_SEND_BEVEGRAM", payload: {
-        error: e,
-      }});
-    }
+    yield call(goToRoute, action);
+    yield call(queue.purchase, action);
+
+    // TODO: Find some way to standardize this across the server/client
+    // Stripe Transaction
+    yield call(handleNextPurchaseTransactionStatusChange);
+    // Db Update
+    yield call(handleNextPurchaseTransactionStatusChange);
+    // Notification Sent
+    yield call(handleNextPurchaseTransactionStatusChange);
+    // Final Update
+    yield call(handleNextPurchaseTransactionStatusChange);
   });
 
   // Receive Bevegrams
