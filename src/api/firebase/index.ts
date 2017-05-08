@@ -45,6 +45,10 @@ export const isUserLoggedIn = () => {
 //  End Login/Logout ------------------------------------------------- }}}
 //  Utilities ----------------------------------------------------------{{{
 
+export const readNode = (url: string) => {
+  return firebaseUserDb.readNode(url);
+};
+
 type FirebaseDbEvent =  "child_added" | "child_changed" | "child_removed";
 
 export const OnNextNodeEvent = (url: string, firebaseDbEvent: FirebaseDbEvent) => {
