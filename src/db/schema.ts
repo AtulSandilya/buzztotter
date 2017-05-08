@@ -130,20 +130,32 @@ export const GetSchemaDbUrl = (table: string, keysToReplace?: string | any): str
     throw Error(`Db Error: Key "${JSON.stringify(keysToReplace)}" does not exist within the database schema!`);
   }
 
-    // If `key` is an object, replace the the object key in table with the
-    // object value
-    if (typeof key === "object") {
-      let newTable = table;
-      Object.keys(key).map((k) => {
-        newTable = newTable.replace(k, key[k]);
-      });
-      return newTable.replace(periodsRe, urlSeparator);
-    }
+  if (!keysToReplace) {
+    return table.replace(periodsRe, urlSeparator);
+  } else if (typeof keysToReplace === "object") {
+    const invalidKeyChars = {
+      "\\.": "_",
+      "\\#": "!",
+      "\\$": "?",
+      "\\[": "{",
+      "\\]": "}",
+    };
 
-    return [table, key.replace(periodsRe, urlSeparator)].join(urlSeparator);
+    let newTable = table.replace(periodsRe, urlSeparator);
+
+    Object.keys(keysToReplace).map((k) => {
+      newTable = newTable.replace(k, keysToReplace[k]);
+    });
+
+    Object.keys(invalidKeyChars).map((key) => {
+      const regex = new RegExp(key, "g");
+      newTable = newTable.replace(regex, invalidKeyChars[key]);
+    });
+
+    return newTable;
+  } else {
+    return [table, keysToReplace.replace(periodsRe, urlSeparator)].join(urlSeparator);
   }
-
-  throw Error(`Db Error: Key "${JSON.stringify(key)}" does not exist within table ${table}!`);
 };
 
 export const GetUserDbUrl = (firebaseId: string) => {
