@@ -2,55 +2,89 @@ import * as React from "react";
 import { Component } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+
+import {
+  EventStatus,
+} from "../db/tables";
+
+import theme from "../theme";
+
 import {globalStyles} from "./GlobalStyles";
 
-const StatusLine = ({title, input, allFailed, waiting = false}) => {
-  let text = "";
-  let color = "";
-  if (allFailed) {
-    text = "Failed";
-    color = "red";
-  } else if (waiting) {
-    text = "Waiting";
-  } else if (input === undefined) {
-    text = "Pending";
-  } else if (input === true) {
-    text = "Successful!";
-    color = "green";
-  } else if (input === false) {
-    text = "Failed";
-    color = "red";
+const iconSize = 30;
+
+const StatusLineIcon = (iconName: string, color: string) => {
+  return (
+    <FontAwesome
+      name={iconName}
+      size={iconSize}
+      color={color}
+      style={{paddingRight: 7}}
+    />
+  );
+};
+
+const StatusLineActivityIndicator = (isSpinning: boolean = true) => (
+  <ActivityIndicator
+    style={{marginRight: 10}}
+    animating={isSpinning}
+  />
+);
+
+interface GenericStatusObject {
+  [eventName: string]: EventStatus;
+}
+
+interface StatusLineProps {
+  statusKey: string;
+  statusObject: any;
+  title: string;
+}
+
+const StatusLine = (props: StatusLineProps) => {
+  const failedKeys = Object.keys(props.statusObject).filter((key) => {
+    return props.statusObject[key] === "failed";
+  });
+
+  const somethingFailed = failedKeys.length > 0;
+  const thisFailed = failedKeys.indexOf(props.statusKey) !== -1;
+
+  const status: EventStatus = props.statusObject[props.statusKey];
+
+  let component;
+  const successIcon = "check-circle-o";
+  const successColor = theme.colors.success;
+
+  const failureIcon = "times-circle-o";
+  const failureColor = theme.colors.failure;
+  if ((somethingFailed && !thisFailed) || props.statusObject.error) {
+    component = StatusLineActivityIndicator(false);
+  } else {
+    switch (status) {
+      case "pending":
+      case "inProgress":
+      default:
+        component = StatusLineActivityIndicator();
+        break;
+      case "complete":
+        component = StatusLineIcon(successIcon, successColor);
+        break;
+      case "failed":
+        component = StatusLineIcon(failureIcon, failureColor);
+        break;
+    }
   }
 
   return (
     <View style={globalStyles.bevLine}>
       <View style={globalStyles.bevLineLeft}>
         <Text style={globalStyles.bevLineTextTitle}>
-          {title}:
+          {props.title}:
         </Text>
       </View>
       <View style={globalStyles.bevLineRight}>
-        <View
-          style={{
-            alignItems: "flex-end",
-            flex: 1,
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <View>
-            {input === undefined && waiting === false && allFailed !== true ?
-              <ActivityIndicator style={{marginRight: 10}}/>
-            : <View />}
-          </View>
-          <Text
-            style={[globalStyles.bevLineText, color.length > 0 ? {
-              color: color,
-            } : null]}
-          >
-            {text}
-          </Text>
-        </View>
+        {component}
       </View>
     </View>
   );
