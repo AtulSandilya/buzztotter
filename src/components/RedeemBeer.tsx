@@ -19,6 +19,8 @@ import {globalColors, globalStyles} from "./GlobalStyles";
 
 import {GpsCoordinates} from "../db/tables";
 
+import {PrettyFormatAddress} from "../CommonUtilities";
+
 export interface RedeemBeerProps {
   id?: string;
   name?: string;
