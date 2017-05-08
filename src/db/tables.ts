@@ -180,6 +180,7 @@ export interface ReceivedBevegram {
   message: string;
   isRedeemed: boolean;
   quantity: number;
+  quantityRedeemed: number;
 }
 
 export interface ReceivedBevegramSummary {
@@ -191,14 +192,26 @@ export interface ReceivedBevegramSummary {
 //  End ReceivedBevegram -----------------------------------------------}}}
 //  RedeemedBevegram ----------------------------------------------------{{{
 
-export interface RedeemedBevegram {
-  redeemedByName: string;
-  redeemedByFacebookId: string;
-  redeemedByPhotoUrl: string;
-  redeemedDate: string;
+export interface UserRedeemedBevegram {
+  receivedId: string;
+  redeemedDate: UnixTime;
   vendorName: string;
   vendorPin: string;
   vendorId: string;
+  quantity: number;
+}
+
+export interface UserRedeemedBevegramSummary {
+  total: number;
+  vendorList: string[];
+}
+
+export interface VendorRedeemedBevegram {
+  receivedId: string;
+  redeemedByName: string;
+  redeemedByUserId: string;
+  redeemedByPhotoUrl: string;
+  redeemedDate: UnixTime;
   quantity: number;
 }
 
@@ -260,8 +273,9 @@ export interface PurchasePackageForQueue {
 
 export interface RedeemPackageForQueue {
   userFirebaseId: string;
-  redeemId: string;
-  locationId: string;
+  receivedId: string;
+  location: Location;
+  quantity: number;
   verificationToken: string;
 }
 
