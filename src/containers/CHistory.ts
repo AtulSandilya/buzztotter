@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import {
   PurchasedBevegram,
   ReceivedBevegram,
-  RedeemedBevegram,
   SentBevegram,
 } from "../db/tables";
 

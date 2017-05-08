@@ -11,7 +11,7 @@ import {globalColors, globalStyles} from "./GlobalStyles";
 import {
   PurchasedBevegram,
   ReceivedBevegram,
-  RedeemedBevegram,
+  UserRedeemedBevegram,
   SentBevegram,
 } from "../db/tables";
 
@@ -74,7 +74,7 @@ const History: React.StatelessComponent<HistoryProps> = ({
     };
   };
 
-  const formatRedeemedBevegram = (input: RedeemedBevegram): HistoryItem => {
+  const formatRedeemedBevegram = (input: UserRedeemedBevegram): HistoryItem => {
     return {
       label: "Redeemed",
       icon: "glass",
