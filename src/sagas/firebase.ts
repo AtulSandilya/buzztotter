@@ -244,3 +244,25 @@ export function *updateUserStateOnNextChange(
     }
   }
 }
+
+export function *handleNextPurchaseTransactionStatusChange() {
+  const user: User = yield select<{user: User}>((state) => state.user);
+  const userFirebaseId: string = user.firebase.uid;
+  const serverTimeout = 25000;
+
+  const {purchaseTransactionStatus, timeout} = yield race({
+    purchaseTransactionStatus: call(OnNextPurchaseTransactionStatusChange, userFirebaseId),
+    timeout: call(delay, serverTimeout),
+  });
+
+  if (timeout) {
+    yield put({type: "FAILED_PURCHASE_TRANSACTION", payload: {
+      error: "Server Timeout",
+    }});
+  } else {
+    yield put({type: "UPDATE_PURCHASE_TRANSACTION_STATUS", payload: {
+      purchaseTransactionStatus,
+    }});
+  }
+
+}

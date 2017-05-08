@@ -71,6 +71,10 @@ export const OnNextUserNodeChange = (userFirebaseId: string) => {
   return OnNextNodeEvent(DbSchema.GetUserDbUrl(userFirebaseId), "child_changed");
 };
 
+export const OnNextPurchaseTransactionStatusChange = (userFirebaseId: string) => {
+  return OnNextNodeEvent(DbSchema.GetPurchaseTransactionStatusDbUrl(userFirebaseId), "child_changed");
+};
+
 //  End Utilities ------------------------------------------------------}}}
 //  User -------------------------------------------------------{{{
 
