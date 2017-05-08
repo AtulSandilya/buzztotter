@@ -38,6 +38,11 @@ import {
   storeFcmToken,
 } from "./notifications";
 
+import {
+  getLocationsAtUserLocation,
+  getLocationsNearUser,
+} from "./location";
+
 import * as ReactNativeUtil from "../ReactNativeUtilities";
 import * as queue from "./queue";
 
@@ -167,4 +172,8 @@ export default function* rootSaga() {
 
   // History
   yield fork(takeEvery, "REFRESH_HISTORY", updateAllLists);
+
+  // Locations Near User
+  yield fork(takeEvery, "REQUEST_LOCATIONS_NEAR_USER", getLocationsNearUser);
+  yield fork(takeEvery, "REQUEST_BAR_AT_USER_LOCATION", getLocationsAtUserLocation);
 }

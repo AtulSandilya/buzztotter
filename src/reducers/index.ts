@@ -9,6 +9,7 @@ import { contacts           } from "./contacts";
 import { contactsView       } from "./contactsView";
 import { historyView        } from "./historyView";
 import { locations          } from "./locations";
+import { locationsView      } from "./locationsView";
 import { login              } from "./login";
 import { modals             } from "./modals";
 import { purchase           } from "./purchase";
@@ -32,6 +33,7 @@ export default combineReducers({
   contactsView,
   historyView,
   locations,
+  locationsView,
   login,
   modals,
   purchase,

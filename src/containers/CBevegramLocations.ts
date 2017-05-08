@@ -8,10 +8,12 @@ import {Location} from "../db/tables";
 interface StateProps {
   markers?: [Location];
   numRenders?: number;
+  isReloading?: boolean;
 }
 
 const mapStateToProps = (state): StateProps => {
   return {
+    isReloading: state.locationsView.isReloading,
     markers: state.locations,
     // Somehow this prevents multiple renders of the MapView, this prop is
     // never used but its existence does something.
@@ -19,9 +21,21 @@ const mapStateToProps = (state): StateProps => {
   };
 };
 
-const CBevegramLocations = connect<StateProps, {}, BevegramLocationsProps>(
+interface MapDispatchProps {
+  getNearestLocations?(): void;
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getNearestLocations: () => {
+      dispatch({type: "REQUEST_LOCATIONS_NEAR_USER"});
+    },
+  };
+};
+
+const CBevegramLocations = connect<StateProps, MapDispatchProps, BevegramLocationsProps>(
   mapStateToProps,
-  undefined,
+  mapDispatchToProps,
 )(BevegramLocations);
 
 export default CBevegramLocations;

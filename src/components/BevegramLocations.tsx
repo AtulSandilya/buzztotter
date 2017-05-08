@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import { Image, Linking, ListView, Text, TouchableHighlight, View } from "react-native";
+import { ActivityIndicator, Image, Linking, ListView, RefreshControl, Text, TouchableHighlight, View } from "react-native";
 
 import MapView from "react-native-maps";
 
@@ -35,6 +35,8 @@ export interface BevegramLocationsProps {
   markers?: [Location];
   numRenders?: number;
   tabLabel?: string;
+  isReloading?: boolean;
+  getNearestLocations?(): void;
 }
 
 export default class BevegramLocations extends Component<BevegramLocationsProps, {}> {
@@ -113,9 +115,25 @@ export default class BevegramLocations extends Component<BevegramLocationsProps,
           <ListView
             dataSource={locationDS.cloneWithRows(this.props.markers)}
             renderHeader={() => (
-              <View style={{margin: 10, marginBottom: 0, borderBottomWidth: 1, borderBottomColor: globalColors.subtleSeparator}}>
-                <Text style={globalStyles.titleText}>Buzz Otter Bars:</Text>
-              </View>
+              <TouchableHighlight
+                underlayColor={"#ffffff"}
+                onPress={() => {
+                  this.props.getNearestLocations();
+                }}
+                style={{
+                  borderBottomColor: globalColors.subtleSeparator,
+                  borderBottomWidth: 1,
+                  flex: 1,
+                  margin: 10,
+                  marginBottom: 0,
+                }}>
+                  <View style={{flex: 1}}>
+                    <Text style={globalStyles.titleText}>Buzz Otter Bars:</Text>
+                    {this.props.isReloading ?
+                      <ActivityIndicator />
+                    : <View/>}
+                  </View>
+              </TouchableHighlight>
             )}
             renderRow={(rowData) =>
               <View style={{flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center", padding: 10}}>
@@ -141,6 +159,20 @@ export default class BevegramLocations extends Component<BevegramLocationsProps,
                 style={globalStyles.listRowSeparator}
               />
             }
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.isReloading}
+              onRefresh={() => {
+                if(!this.props.isReloading){
+                  this.props.getNearestLocations();
+                }
+              }}
+              title="Updating..."
+              tintColor={globalColors.bevPrimary}
+              progressViewOffset={50}
+              colors={[globalColors.bevPrimary]}
+            />
+          }
           />
         </View>
       </View>
