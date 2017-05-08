@@ -29,6 +29,7 @@ import {
   updateAllLists,
   updateFirebaseUser,
   updatePurchasePackages,
+  updateReceivedBevegrams,
   updateUserStateOnNextChange,
   verifyReceiverExists,
 } from "./firebase";
@@ -154,11 +155,10 @@ export default function* rootSaga() {
 
   // Redeem Bevegram
   yield fork(takeEvery, "REDEEM_BEVEGRAM", function *(action){
-    const redeemedBevegramPack = yield call(addRedeemedBevegramToDB, action);
+    const redeemLocation: Location = yield call(getLocationsAtUserLocation);
+    yield call(queue.redeem, action, redeemLocation);
 
-    yield put({type: "ADD_REDEEMED_BEVEGRAMS", payload: {
-      redeemedBevegramPack: redeemedBevegramPack,
-    }});
+    // TODO: Listen for redeem transaction status on some node
   });
 
   // Routes

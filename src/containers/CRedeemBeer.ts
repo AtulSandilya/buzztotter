@@ -3,18 +3,18 @@ import { connect } from 'react-redux';
 import RedeemBeer, {RedeemBeerProps} from '../components/RedeemBeer';
 
 import {StringifyDate} from '../CommonUtilities';
-import {Location} from '../db/tables';
-import {DeviceLocation} from '../reducers/redeemView';
+import {GpsCoordinates, Location} from '../db/tables';
 
 interface StateProps {
   id?: string;
   name?: string;
   quantity?: number;
-  currentLocation?: DeviceLocation;
+  currentLocation?: GpsCoordinates;
   currentLocationBusinessName?: string;
   currentLocationLastModified?: string;
   getLocationFailed?: boolean;
   redeemConfirmed?: boolean;
+  isLoading?: boolean;
   locations?: [Location];
 }
 
@@ -32,26 +32,24 @@ const mapStateToProps = (state): StateProps => {
 }
 
 interface DispatchProps {
-  onRedeemClicked?(inputId: string): void;
+  onRedeemClicked?(quantity: number, receivedId: string): void;
   closeRedeem?(): void;
-  updateLocation?(DeviceLocation): void;
+  updateLocation?(GpsCoordinates): void;
 }
 
 const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
-    onRedeemClicked: (inputId) => {
-      dispatch({type: 'REDEEM_BEVEGRAM', bevegramId: inputId});
-      dispatch({type: 'CONFIRM_ROUTE', route: "RedeemBeer"});
+    onRedeemClicked: (quantity, receivedId) => {
+      dispatch({type: 'REDEEM_BEVEGRAM', payload: {
+        quantity,
+        receivedId,
+      }});
     },
     closeRedeem: () => {
       dispatch({type: 'GO_BACK_ROUTE'});
     },
-    updateLocation: (input) => {
-      dispatch({type: 'UPDATE_LOCATION', payload: {
-        location: input.currentLocation,
-        currentLocationBusinessName: input.currentLocationBusinessName,
-        lastModified: StringifyDate(),
-      }})
+    updateLocation: () => {
+      dispatch({type: 'REQUEST_BAR_AT_USER_LOCATION'});
     }
   }
 }

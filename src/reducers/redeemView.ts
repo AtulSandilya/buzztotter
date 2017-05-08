@@ -1,13 +1,11 @@
-export interface DeviceLocation {
-  latitude: number,
-  longitude: number,
-}
+import {GpsCoordinates} from "../db/tables";
 
 interface RedeemViewState {
-  currentLocation: DeviceLocation,
+  currentLocation: GpsCoordinates,
   currentLocationBusinessName: string;
   lastModified: string;
   getLocationFailed: boolean;
+  isLoading: boolean;
 }
 
 const initialState: RedeemViewState = {
@@ -18,6 +16,7 @@ const initialState: RedeemViewState = {
   lastModified: undefined,
   currentLocationBusinessName: undefined,
   getLocationFailed: false,
+  isLoading: false,
 }
 
 export const redeemView = (state: RedeemViewState = initialState, action) => {
@@ -30,6 +29,20 @@ export const redeemView = (state: RedeemViewState = initialState, action) => {
         getLocationFailed: action.payload.getLocationFailed,
       })
     }
+    case "ATTEMPTING_GET_LOCATIONS_AT_USER_LOCATION":
+      return Object.assign({}, state, {
+        isLoading: true,
+      });
+    case "FAILED_GET_LOCATIONS_AT_USER_LOCATION":
+      return Object.assign({}, state, {
+        isLoading: false,
+        getLocationFailed: true,
+      });
+    case "SUCCESSFUL_GET_LOCATIONS_AT_USER_LOCATION":
+      return Object.assign({}, state, {
+        currentLocationBusinessName: action.payload.location.name,
+        isLoading: false,
+      });
     default:
       return state;
   }

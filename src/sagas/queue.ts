@@ -20,6 +20,7 @@ import {
 
 import {
   AddCreditCardToCustomerPackageForQueue,
+  Location,
   PurchaseActionData,
   PurchasePackageForQueue,
   RedeemPackageForQueue,
@@ -103,6 +104,18 @@ export function *purchase(action: any) {
   yield call(QueuePurchasePackage, purchasePackageForQueue);
 }
 
-export function *redeem(input: any) {
-  yield call(QueueRedeemPackage, input);
+export function *redeem(action, location: Location) {
+  const verificationToken = yield call(writeVerificationToken);
+  const receivedId: string = action.payload.receivedId;
+  const quantity: number = action.payload.quantity;
+
+  const redeemPackageForQueue: RedeemPackageForQueue = {
+    location,
+    quantity,
+    receivedId,
+    userFirebaseId: yield call(getUserFirebaseId),
+    verificationToken,
+  };
+
+  yield call(QueueRedeemPackage, redeemPackageForQueue);
 }

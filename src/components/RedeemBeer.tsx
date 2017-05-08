@@ -8,7 +8,6 @@ import {
   View,
 } from "react-native";
 
-import {LocationsMatch} from "../CommonUtilities";
 import {Location} from "../db/tables";
 
 import BevButton from "./BevButton";
@@ -30,8 +29,9 @@ export interface RedeemBeerProps {
   currentLocationLastModified?: string;
   getLocationFailed?: boolean;
   redeemConfirmed?: boolean;
+  isLoading?: boolean;
   locations?: [Location];
-  onRedeemClicked?(string): void;
+  onRedeemClicked?(quantity: number, receivedId: string): void;
   closeRedeem?(): void;
   updateLocation?(string): void;
 }
@@ -58,9 +58,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
       return;
     }
 
-    // TODO: implement this end to end
-    // this.props.onRedeemClicked(this.props.id);
-    alert("Not implemented");
+    this.props.onRedeemClicked(this.state.numDrinks, this.props.id);
   }
 
   renderPurchaseConfirmed() {
@@ -85,43 +83,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
   }
 
   updateLocation() {
-    try {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const deviceLocation: GpsCoordinates = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        };
-
-        const matchingLocations = this.props.locations.filter((business) => {
-          const businessLocation = {
-            latitude: business.latitude,
-            longitude: business.longitude,
-          };
-
-          return LocationsMatch(deviceLocation, businessLocation, business.name);
-        });
-
-        let businessName: string;
-
-        if (matchingLocations.length === 1) {
-          businessName = matchingLocations[0].name + "\n" + matchingLocations[0].address.split(",")[0] + "\n" + matchingLocations[0].address.split(", ").slice(1).join(", ");
-        } else {
-          businessName = undefined;
-        }
-
-        this.props.updateLocation(Object.assign({}, {
-          currentLocation: deviceLocation,
-          getLocationFailed: businessName === undefined,
-          currentLocationBusinessName: businessName,
-        }));
-      }, undefined, {enableHighAccuracy: false, timeout: 20000, maximumAge: 1});
-    } catch (e) {
-      this.props.updateLocation(Object.assign({}, {
-        location: undefined,
-        getLocationFailed: true,
-        currentLocationBusinessName: "",
-      }));
-    }
+    this.props.updateLocation();
   }
 
   render() {

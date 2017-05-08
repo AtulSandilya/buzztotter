@@ -19,6 +19,9 @@ import {
   StripeCreditCard,
   UpdateDefaultCreditCardForCustomerPackageForQueue,
   User,
+  UserRedeemedBevegram,
+  Vendor,
+  VendorRedeemedBevegram,
 } from "../db/tables";
 
 import theme from "../theme";
@@ -189,6 +192,7 @@ const UpdateDefaultCardQueue = new Queue(
 });
 
 //  End Update Default Card ---------------------------------------------}}}
+//  Purchase ------------------------------------------------------------{{{
 
 const PurchaseQueueUrl = DbSchema.GetPurchaseQueueUrl();
 Log.StartQueueMessage(PurchaseQueueUrl);
@@ -348,8 +352,83 @@ const PurchaseQueue = new Queue(db.getRef(PurchaseQueueUrl), (data, progress, re
   };
   process();
 });
-  resolve();
+
+//  End Purchase --------------------------------------------------------}}}
+//  Redeem -------------------------------------------------------------{{{
+
+
+const RedeemQueueUrl = DbSchema.GetRedeemQueueUrl();
+Log.StartQueueMessage(RedeemQueueUrl);
+const RedeemQueue = new Queue(db.getRef(RedeemQueueUrl), (data, progress, resolve, reject) => {
+  const log = new Log("REDEEM");
+  const process = async () => {
+    const input: RedeemPackageForQueue = data;
+    const {userFirebaseId, receivedId, location: loc, quantity, verificationToken}  = input;
+    const user: User = await db.readNode(DbSchema.GetUserDbUrl(userFirebaseId));
+
+    // 1. Verify the redeem location matches the vendor location
+    // 2. Verify the received id matches and has enough quantity to redeem the
+    // requested quantity
+    // 3. Do it!
+
+    try {
+      await verifyUser(verificationToken, userFirebaseId);
+      const vendor: Vendor = (await(db.readNode(DbSchema.GetVendorDbUrl(loc.vendorId)))).metadata;
+
+      Object.keys(loc).map((key) => {
+        if (key !== "vendorId" && (loc[key] !== vendor[key])) {
+          throw new QueueServerError(`Location '${loc}' does not match vendor: ${vendor}`);
+        }
+      });
+
+      const receivedBevegram: ReceivedBevegram = await db.readNode(DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId) + `/${receivedId}`);
+
+      if (quantity > (receivedBevegram.quantity - receivedBevegram.quantityRedeemed)) {
+        throw new QueueServerError(`You do not have enough bevegrams to redeem!`);
+      }
+
+      const updatedReceivedBevegram: ReceivedBevegram = Object.assign({}, receivedBevegram, {
+        quantityRedeemed: receivedBevegram.quantityRedeemed + quantity,
+      });
+
+      const userRedeemedBevegram: UserRedeemedBevegram = {
+        receivedId,
+        redeemedDate: GetTimeNow(),
+        vendorName: vendor.name,
+        vendorId: loc.vendorId,
+        vendorPin: "1234",
+        quantity,
+      };
+
+      const vendorRedeemedBevegram: VendorRedeemedBevegram = {
+        receivedId,
+        redeemedByName: user.fullName,
+        redeemedByUserId: userFirebaseId,
+        redeemedByPhotoUrl: user.firebase.photoURL,
+        redeemedDate: GetTimeNow(),
+        quantity,
+      };
+
+      // Write to db
+      await db.redeemUserBevegram(
+        userFirebaseId,
+        userRedeemedBevegram,
+        receivedId,
+        updatedReceivedBevegram,
+      );
+
+      await db.redeemVendorBevegram(loc.vendorId, vendorRedeemedBevegram);
+
+      log.successMessage();
+    } catch (e) {
+      log.failMessage(e);
+    }
+    resolve();
+  };
+  process();
 });
+
+//  End Redeem ---------------------------------------------------------}}}
 
 const verifyUser = async (verificationToken: string, userFirebaseId: string) => {
   const tokenInDb = await db.readNode(DbSchema.GetUserVerificationTokenDbUrl(userFirebaseId));
