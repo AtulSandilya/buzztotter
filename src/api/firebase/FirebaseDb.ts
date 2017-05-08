@@ -105,13 +105,15 @@ export class FirebaseDb {
     }
   }
 
-  public readNode = (url: string): any => {
-    return this.db.ref(url).once("value").then((snapshot) => {
-      return snapshot.val();
-    }).catch((error) => {
-      console.error(error);
-      return undefined;
-    });
+  public readNode = async (url: string): Promise<any> => {
+    try {
+      const ref = await this.getRef(url);
+      const response = await this.db.ref(url).once("value");
+      return response.val();
+    } catch (e) {
+      console.warn(e.message);
+      return;
+    }
   }
 
   public updateNode = (url: string, updateFunction: (Object) => any) => {
@@ -120,8 +122,14 @@ export class FirebaseDb {
     });
   }
 
-  public getRef = (url: string): any => {
-    return this.db.ref(url);
+  public getRef = async (url: string): Promise<any> => {
+    const ref = await this.db.ref(url);
+    if (!ref) {
+      throw new FirebaseUndefinedReferenceError(`Cannot read from '${url}' because it is undefined`);
+    } else {
+      return ref;
+    }
+  }
   }
 }
 
@@ -139,6 +147,14 @@ class FirebaseUndefinedInObjectError extends Error {
     super(message);
     this.message = message;
     this.name = "FirebaseUndefinedInObjectError";
+  }
+}
+
+class FirebaseUndefinedReferenceError extends Error {
+  constructor(message) {
+    super(message);
+    this.message = message;
+    this.name = "FirebaseUndefinedReferenceError";
   }
 }
 
