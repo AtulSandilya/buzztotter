@@ -203,7 +203,7 @@ export interface RedeemedBevegram {
 //  End RedeemedBevegram ------------------------------------------------}}}
 //  Notifications -------------------------------------------------------{{{
 
-export interface Notification {
+export interface NotificationPackage {
   receiverGCMId: string;
   title: string;
   body: string;

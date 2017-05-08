@@ -1,10 +1,16 @@
 import fetch from "node-fetch";
 
+import {config} from "dotenv";
+config();
+
 import theme from "../theme";
 
-import { Notification, NotificationActions} from "../db/tables";
+import {
+  NotificationActions,
+  NotificationPackage,
+} from "../db/tables";
 
-export const sendNotification = (notif: Notification) => {
+export const sendNotification = async (notif: NotificationPackage) => {
   const fullNotif = {
     body: notif.body,
     click_action: "fcm.ACTION.HELLO",
@@ -16,7 +22,7 @@ export const sendNotification = (notif: Notification) => {
     title: notif.title,
   };
 
-  return fetch("https://fcm.googleapis.com/fcm/send", {
+  const response = await fetch("https://fcm.googleapis.com/fcm/send", {
     // See https://firebase.google.com/docs/cloud-messaging/http-server-ref
     // for documentation for these parameters
     body: JSON.stringify({
@@ -27,11 +33,12 @@ export const sendNotification = (notif: Notification) => {
       to: notif.receiverGCMId,
     }),
     headers: {
+      "Accept": "application/json",
       "Authorization": `key=${process.env.TEST_FIREBASE_GCM_KEY}`,
       "Content-Type": "application/json",
     },
     method: "POST",
-  }).then((response) => {
-    return response.json();
   });
+
+  return await response.json();
 };
