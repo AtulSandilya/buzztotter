@@ -160,6 +160,12 @@ export function *updatePurchasePackages() {
   }});
 }
 
+export function *updateReceivedBevegrams() {
+  const userFirebaseId = yield select<{user: User}>((state) => state.user.firebase.uid);
+  const result = yield call(readReceivedBevegrams, userFirebaseId);
+  return result;
+}
+
 //  End User ------------------------------------------------------------}}}
 
 export function *updateAllLists() {
