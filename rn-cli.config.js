@@ -5,7 +5,6 @@ const blacklist = require('react-native/packager/blacklist');
 module.exports = {
   getBlacklistRE: () => blacklist([
     /firebaseServer\/.*/,
-    /firebaseServerSecrets.js/,
-    /api\/notifications.js/,
+    /admin\/.*/,
   ]),
 };
