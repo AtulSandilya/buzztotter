@@ -91,7 +91,6 @@ export interface PurchasePackage {
 }
 
 //  End PurchasePackage -------------------------------------------------}}}
-
 //  PurchaseActionData --------------------------------------------------{{{
 
 export interface PurchaseActionData {
@@ -101,7 +100,6 @@ export interface PurchaseActionData {
 }
 
 //  End PurchaseActionData ----------------------------------------------}}}
-
 //  SendActionData ------------------------------------------------------{{{
 
 export interface SendActionData {
@@ -124,9 +122,7 @@ export interface PurchasedBevegram {
   quantity: number;
   // In cents
   purchasePrice: number;
-  // Used on credit card statement.
-  description: string;
-  promoCode: string;
+  promoCode?: string;
   sentBevegramId?: string;
 }
 
@@ -176,8 +172,7 @@ export interface ReceivedBevegram {
   sentFromFacebookId: string;
   sentFromPhotoUrl: string;
   receivedDate: UnixTime;
-  receivedDate: string;
-  message: string;
+  message?: string;
   isRedeemed: boolean;
   quantity: number;
   quantityRedeemed: number;
@@ -265,7 +260,8 @@ export interface UpdateDefaultCreditCardForCustomerPackageForQueue {
 export interface PurchasePackageForQueue {
   userFirebaseId: string;
   receiverFacebookId: string;
-  purchaseQuantity: string;
+  purchaseQuantity: number;
+  purchasePrice: number;
   verificationToken: string;
   promoCode?: string;
   message?: string;
