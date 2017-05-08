@@ -35,7 +35,6 @@ import {
 
 import {
   dbWriteFcmToken,
-  sendReceivedNotification,
   storeFcmToken,
 } from "./notifications";
 
