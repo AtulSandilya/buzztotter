@@ -143,7 +143,7 @@ export const readReceivedBevegrams = (userFirebaseId: string) => {
 };
 
 export const readRedeemedBevegrams = (userFirebaseId: string) => {
-  return firebaseUserDb.readNode(DbSchema.GetRedeemedBevegramUserListDbUrl(userFirebaseId));
+  return firebaseUserDb.readNode(DbSchema.GetRedeemedBevegramListDbUrl(userFirebaseId));
 };
 //  PurchasePackages ----------------------------------------------------{{{
 
