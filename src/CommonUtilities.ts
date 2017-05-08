@@ -9,7 +9,25 @@ export const GetTimeNow = (): UnixTime => {
   return Date.now();
 };
 
-export const LocationsMatch = (a: DeviceLocation, b: DeviceLocation, name: string): boolean => {
+// FormatFloat(37.682000, 2) => 37.68
+// Don't use toFixed because there is no way always round down
+const FormatFloat = (input: number, places: number): string => {
+  const degreeAsString = input.toString();
+  const decimalPos = degreeAsString.indexOf(".");
+  if (places > 0) {
+    // +1 accounts for the decimal place
+    return degreeAsString.slice(0, decimalPos + places + 1);
+  } else {
+    return degreeAsString.slice(0, decimalPos);
+  }
+};
+
+export const FormatGpsCoordinates = (x: GpsCoordinates, places: number): {latitude: string, longitude: string} => {
+  return {
+    latitude: FormatFloat(x.latitude, places),
+    longitude: FormatFloat(x.longitude, places),
+  };
+};
 
 /* tslint:disable:no-magic-numbers */
 export const LocationsAreCloseToEachOther = (a: GpsCoordinates, b: GpsCoordinates): boolean => {

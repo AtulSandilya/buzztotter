@@ -1,5 +1,9 @@
+import {
+  FormatGpsCoordinates,
+} from "../CommonUtilities";
 
 import {
+  GpsCoordinates,
 } from "./tables";
 
 // This is what the firebase database looks like
@@ -80,9 +84,62 @@ const Schema = {
         },
       },
     },
+    allLocations: {
+      summary: {
+        totalLocations: "number",
+        },
+      list: {
+        vendorId: "Location",
+      },
+    },
+    // ~69 mile square area
+    locationsByDegree: {
+      summary: {
+        totalLocations: "number",
+      },
+      latitudeInDegrees: {
+        longitudeInDegrees: {
+          summary: {
+            totalLocations: "number",
+          },
+          list: {
+            vendorId: "Location",
           },
         },
       },
+    },
+    // ~6.9 mile square area
+    locationsByTenthOfDegree: {
+      summary: {
+        totalLocations: "number",
+      },
+      latitudeInTenthOfDegrees: {
+        longitudeInTenthOfDegrees: {
+          summary: {
+            totalLocations: "number",
+          },
+          list: {
+            id: "Location",
+          },
+        },
+      },
+    },
+    // ~0.69 mile square area
+    locationsByHundrethOfDegree: {
+      summary: {
+        totalLocations: "number",
+      },
+      latitudeInHundrethOfDegrees: {
+        longitudeInHundrethOfDegrees: {
+          summary: {
+            totalLocations: "number",
+          },
+          list: {
+            vendorId: "Location",
+          },
+        },
+      },
+    },
     vendors: {
       vendorId: {
         // These fields are for querying and sorting
@@ -253,4 +310,77 @@ export const GetVendorMetadataDbUrl = (vendorId: string) => {
 
 export const GetVendorRedeemListDbUrl = (vendorId: string) => {
   return GetSchemaDbUrl("vendors.vendorId.list", {vendorId});
+};
+
+/* tslint:disable:no-magic-numbers */
+export const GetLocationByDegreeUrl = (
+  lat: string,
+  long: string,
+  listOrSummary: "list" | "summary",
+  decimalPlaces: number,
+): string => {
+  switch (decimalPlaces) {
+    case 0:
+      return GetSchemaDbUrl(
+        "locationsByDegree.latitudeInDegrees.longitudeInDegrees." + listOrSummary,
+        {latitudeInDegrees: lat, longitudeInDegrees: long},
+      );
+    case 1:
+      return GetSchemaDbUrl(
+        "locationsByTenthOfDegree.latitudeInTenthOfDegrees.longitudeInTenthOfDegrees." + listOrSummary,
+        {latitudeInTenthOfDegrees: lat, longitudeInTenthOfDegrees: long},
+      );
+    case 2:
+      return GetSchemaDbUrl(
+        "locationsByHundrethOfDegree.latitudeInHundrethOfDegrees.longitudeInHundrethOfDegrees." + listOrSummary,
+        {latitudeInHundrethOfDegrees: lat, longitudeInHundrethOfDegrees: long},
+      );
+    default:
+      console.error("Invalid decimal place");
+  }
+};
+
+export const GetGpsCoordNodeFullSummaryUrl = (decimalPlaces: number) => {
+  switch (decimalPlaces) {
+    default:
+    case 0:
+      return GetSchemaDbUrl("locationsByDegree.summary");
+    case 1:
+      return GetSchemaDbUrl("locationsByTenthOfDegree.summary");
+    case 2:
+      return GetSchemaDbUrl("locationsByHundrethOfDegree.summary");
+  }
+};
+
+export const GetAllGpsCoordNodeUrls = (gpsCoords: GpsCoordinates): Array<{listUrl: string, summaryUrl: string}> => {
+  const gpsCoordNodeDataList = [
+    {decimalPlace: 0},
+    {decimalPlace: 1},
+    {decimalPlace: 2},
+  ];
+
+  const list = gpsCoordNodeDataList.map((gpsCoordNodeData) => {
+    const formattedCoords = FormatGpsCoordinates(gpsCoords, gpsCoordNodeData.decimalPlace);
+    return {
+      listUrl: GetLocationByDegreeUrl(
+        formattedCoords.latitude,
+        formattedCoords.longitude,
+        "list",
+        gpsCoordNodeData.decimalPlace,
+      ),
+      summaryUrl: GetLocationByDegreeUrl(
+        formattedCoords.latitude,
+        formattedCoords.longitude,
+        "summary",
+        gpsCoordNodeData.decimalPlace,
+      ),
+    };
+  });
+  list.unshift({
+    listUrl: GetSchemaDbUrl("allLocations.list"),
+    summaryUrl: GetSchemaDbUrl("allLocations.summary"),
+  });
+
+  // Order from least -> most specific
+  return list;
 };
