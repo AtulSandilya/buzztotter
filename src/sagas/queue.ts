@@ -78,8 +78,29 @@ export function *updateDefaultCard(action: any) {
   yield call(QueueUpdateDefaultCreditCard, updateDefaultCardPackage);
 }
 
-export function *purchase(input: any) {
-  yield call(QueuePurchasePackage, input);
+export function *purchase(action: any) {
+  const verificationToken = yield call(writeVerificationToken);
+  const purchaseData: PurchaseActionData = action.payload.purchaseData;
+  const sendBevegramData: SendActionData = action.payload.sendBevegramData;
+  const purchasePackageForQueue: PurchasePackageForQueue = {
+    purchasePrice: purchaseData.price,
+    purchaseQuantity: purchaseData.quantity,
+    receiverFacebookId: sendBevegramData.facebookId,
+    userFirebaseId: yield call(getUserFirebaseId),
+    verificationToken,
+  };
+
+  const promoCode = purchaseData.promoCode;
+  if (promoCode && promoCode.length > 0) {
+    purchasePackageForQueue.promoCode = promoCode;
+  }
+
+  const message = sendBevegramData.message;
+  if (message && message.length > 0) {
+    purchasePackageForQueue.message = message;
+  }
+
+  yield call(QueuePurchasePackage, purchasePackageForQueue);
 }
 
 export function *redeem(input: any) {
