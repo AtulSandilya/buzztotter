@@ -1,12 +1,5 @@
 
 import {
-  PurchasedBevegram,
-  PurchasedBevegramSummary,
-  ReceivedBevegram,
-  RedeemedBevegram,
-  SentBevegram,
-  User,
-  Vendor,
 } from "./tables";
 
 // This is what the firebase database looks like
