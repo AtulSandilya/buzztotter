@@ -130,6 +130,10 @@ export class FirebaseDb {
       return ref;
     }
   }
+
+  public queryInList = async (url: string, key: any, query: string | number | boolean): Promise<any> => {
+    const result = await this.db.ref(url).orderByChild(key).equalTo(query).once("value");
+    return result.val();
   }
 }
 
