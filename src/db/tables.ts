@@ -55,28 +55,30 @@ export interface StripeCreditCard {
 //  End Stripe--------------------------------------------------}}}
 //  Location ------------------------------------------------------------{{{
 
-export interface Location {
-  name: string;
-  address: string;
+export interface GpsCoordinates {
   latitude: number;
   longitude: number;
+}
+
+export interface BasicLocation extends GpsCoordinates {
+  name: string;
+  address: string;
+}
+
+export interface Location extends BasicLocation {
   typicalHours: string;
   squareFootage?: string;
+  vendorId?: string;
 }
 
 //  End Location --------------------------------------------------------}}}
 //  Vendor -------------------------------------------------------------{{{
 
-export interface Vendor {
-  vendorId: string;
-  businessName: string;
-  addressLine1: string;
-  addressLine2: string;
-  city: string;
-  state: string;
-  zipCode: number;
-  phoneNumber: string;
-  url: string;
+// None of this should touch the client
+export interface Vendor extends Location {
+  allowPurchasing: boolean;
+  dateCreated: UnixTime;
+  lastModified: number;
 }
 
 //  End Vendor ---------------------------------------------------------}}}

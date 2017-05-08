@@ -1,4 +1,4 @@
-import { DeviceLocation } from "./reducers/redeemView";
+import { GpsCoordinates, UnixTime } from "./db/tables";
 
 export const StringifyDate = (): string => {
   return (new Date().toJSON());
@@ -10,6 +10,9 @@ export const GetTimeNow = (): UnixTime => {
 };
 
 export const LocationsMatch = (a: DeviceLocation, b: DeviceLocation, name: string): boolean => {
+
+/* tslint:disable:no-magic-numbers */
+export const LocationsAreCloseToEachOther = (a: GpsCoordinates, b: GpsCoordinates): boolean => {
   // Meters
   const tolerance = 50;
   const metersBetweenPoints = HaversineFormula(a, b) * 1000;
@@ -19,7 +22,7 @@ export const LocationsMatch = (a: DeviceLocation, b: DeviceLocation, name: strin
 
 // Returns the distance between two points in kilometers.
 // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
-const HaversineFormula = (a: DeviceLocation, b: DeviceLocation) => {
+const HaversineFormula = (a: GpsCoordinates, b: GpsCoordinates): number => {
   const R = 6371; // Radius of the earth
   const deg2rad = (deg) => deg * (Math.PI / 180);
 
