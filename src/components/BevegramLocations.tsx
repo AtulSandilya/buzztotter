@@ -127,7 +127,7 @@ export default class BevegramLocations extends Component<BevegramLocationsProps,
                   margin: 10,
                   marginBottom: 0,
                 }}>
-                  <View style={{flex: 1}}>
+                  <View style={{flex: 1, flexDirection: "row", alignItems: "center"}}>
                     <Text style={globalStyles.titleText}>Buzz Otter Bars:</Text>
                     {this.props.isReloading ?
                       <ActivityIndicator />
