@@ -5,7 +5,9 @@ interface RedeemViewState {
   currentLocationBusinessName: string;
   lastModified: string;
   getLocationFailed: boolean;
-  isLoading: boolean;
+  isProcessing: boolean;
+  redeemConfirmed: boolean;
+  redeemFailed: boolean;
 }
 
 const initialState: RedeemViewState = {
@@ -16,7 +18,9 @@ const initialState: RedeemViewState = {
   lastModified: undefined,
   currentLocationBusinessName: undefined,
   getLocationFailed: false,
-  isLoading: false,
+  isProcessing: false,
+  redeemConfirmed: false,
+  redeemFailed: false,
 }
 
 export const redeemView = (state: RedeemViewState = initialState, action) => {
@@ -43,6 +47,17 @@ export const redeemView = (state: RedeemViewState = initialState, action) => {
         currentLocationBusinessName: action.payload.location.name,
         isLoading: false,
       });
+    case "ATTEMPTING_REDEEM":
+      return Object.assign({}, state, {
+        isProcessing: true,
+      });
+    case "SUCCESSFUL_REDEEM":
+      return Object.assign({}, state, {
+        isProcessing: false,
+        redeemConfirmed: true,
+      });
+    case "RESET_REDEEM":
+      return Object.assign({}, state, initialState);
     default:
       return state;
   }

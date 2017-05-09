@@ -155,8 +155,10 @@ export default function* rootSaga() {
 
   // Redeem Bevegram
   yield fork(takeEvery, "REDEEM_BEVEGRAM", function *(action){
+    yield put({type: "ATTEMPTING_REDEEM"});
     const redeemLocation: Location = yield call(getLocationsAtUserLocation);
     yield call(queue.redeem, action, redeemLocation);
+    yield put({type: "SUCCESSFUL_REDEEM"});
 
     // TODO: Listen for redeem transaction status on some node
   });

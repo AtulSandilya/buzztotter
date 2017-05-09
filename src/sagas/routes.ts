@@ -111,6 +111,7 @@ export function *onFocusRoute(action) {
       case "MainUi":
         yield put({type: "END_CREDIT_CARD_PURCHASE_IF_NOT_ATTEMPTING"});
         yield put({type: "CLEAR_ROUTES"});
+        yield put({type: "RESET_REDEEM"});
       default:
         return;
     }

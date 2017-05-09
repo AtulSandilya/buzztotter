@@ -28,7 +28,9 @@ export interface RedeemBeerProps {
   currentLocationBusinessName?: string;
   currentLocationLastModified?: string;
   getLocationFailed?: boolean;
+  isProcessing?: boolean;
   redeemConfirmed?: boolean;
+  redeemFailed?: boolean;
   isLoading?: boolean;
   locations?: [Location];
   onRedeemClicked?(quantity: number, receivedId: string): void;
@@ -158,27 +160,32 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
               />
             </View>
           </View>
-          <View style={{flexDirection: "row", paddingTop: 20}}>
-            <View style={{flex: -1, alignItems: "flex-start"}}>
-              <BevButton
-                onPress={this.props.closeRedeem}
-                text={"Close"}
-                shortText={""}
-                fontAwesomeLeftIcon="ban"
-                label="Close Redeem Button"
-                buttonFontSize={18}
-              />
+          {!this.props.redeemConfirmed ?
+            <View style={[globalStyles.bevLine, {paddingTop: 20}]}>
+              <View style={globalStyles.bevLineLeft}>
+                <BevButton
+                  onPress={this.props.closeRedeem}
+                  text={""}
+                  shortText={""}
+                  fontAwesomeLeftIcon="ban"
+                  label="Close Redeem Button"
+                  buttonFontSize={18}
+                  margin={0}
+                />
+              </View>
+              <View style={globalStyles.bevLineRight}>
+                <BevButton
+                  onPress={this.purchaseDrink.bind(this)}
+                  text={`Redeem ${this.props.quantity} Bevegram${this.props.quantity === 1 ? "" : "s"}`}
+                  shortText={"Redeem"}
+                  label={"Redeem Bevegram Button"}
+                  buttonFontSize={18}
+                  showSpinner={this.props.isProcessing}
+                  margin={0}
+                />
+              </View>
             </View>
-            <View style={{flex: -1, alignItems: "flex-end"}}>
-              <BevButton
-                onPress={this.purchaseDrink.bind(this)}
-                text={`Redeem ${this.props.quantity} Bevegram${this.props.quantity === 1 ? "" : "s"}`}
-                shortText={"Redeem"}
-                label={"Redeem Bevegram Button"}
-                buttonFontSize={18}
-              />
-            </View>
-          </View>
+          : <View/>}
           {this.renderPurchaseConfirmed()}
         </View>
       </RouteWithNavBarWrapper>
