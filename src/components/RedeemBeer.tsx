@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   TextInput,
@@ -32,10 +33,11 @@ export interface RedeemBeerProps {
   redeemConfirmed?: boolean;
   redeemFailed?: boolean;
   isLoading?: boolean;
+  isRefreshingLocation?: boolean;
   locations?: [Location];
   onRedeemClicked?(quantity: number, receivedId: string): void;
   closeRedeem?(): void;
-  updateLocation?(string): void;
+  updateLocation?(): void;
 }
 
 interface RedeemBeerState {
@@ -117,25 +119,31 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
                 onPress={() => this.updateLocation()}
                 underlayColor={"rgba(255, 255, 255, 0.1)"}
               >
-                <View>
-                  {this.props.currentLocationBusinessName ?
-                    <Text
-                      style={globalStyles.bevLineText}
-                      numberOfLines={3}
-                    >
-                      {this.props.currentLocationBusinessName}
-                    </Text>
-                  :
-                    <Text style={globalStyles.bevLineText} numberOfLines={2}>
-                    {this.props.getLocationFailed ?
-                      "Unable to determine your location"
+                {this.props.isRefreshingLocation ?
+                    <ActivityIndicator
+                      size="large"
+                    />
+                :
+                  <View>
+                    {this.props.currentLocationBusinessName ?
+                      <Text
+                        style={globalStyles.bevLineText}
+                        numberOfLines={3}
+                      >
+                        {this.props.currentLocationBusinessName}
+                      </Text>
                     :
-                      "Retrieving Location..."
+                      <Text style={globalStyles.bevLineText} numberOfLines={2}>
+                      {this.props.getLocationFailed ?
+                        "Unable to determine your location"
+                      :
+                        "Retrieving Location..."
+                      }
+                      </Text>
                     }
-                    </Text>
-                  }
-                  <Text style={[globalStyles.bevTipText, {paddingTop: 5}]}>TAP TO REFRESH</Text>
-                </View>
+                    <Text style={[globalStyles.bevTipText, {paddingTop: 5}]}>TAP TO REFRESH</Text>
+                  </View>
+                }
               </TouchableHighlight>
             </View>
           </View>

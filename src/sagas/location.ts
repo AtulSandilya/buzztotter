@@ -3,6 +3,8 @@ import {
   put,
 } from "redux-saga/effects";
 
+import {delay} from "redux-saga";
+
 import * as DbSchema from "../db/schema";
 
 import {
@@ -91,6 +93,9 @@ export function *getLocationsAtUserLocation() {
         return loc;
       }
     });
+
+    const locationFetchDelay = 1000;
+    yield delay(locationFetchDelay);
 
     if (closeLocations.length === 0) {
       yield put({type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION", payload: {

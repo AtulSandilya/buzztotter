@@ -16,6 +16,7 @@ interface StateProps {
   isProcessing?: boolean;
   redeemConfirmed?: boolean;
   redeemFailed?: boolean;
+  isRefreshingLocation?: boolean;
   locations?: [Location];
 }
 
@@ -24,10 +25,10 @@ const mapStateToProps = (state): StateProps => {
     id: state.routes.RedeemBeer.data.id,
     name: state.routes.RedeemBeer.data.from,
     quantity: state.routes.RedeemBeer.data.quantity,
-    // redeemConfirmed: state.routes.RedeemBeer.confirmed,
     redeemConfirmed: state.redeemView.redeemConfirmed,
     redeemFailed: state.redeemView.redeemFailed,
     isProcessing: state.redeemView.isProcessing,
+    isRefreshingLocation: state.redeemView.isRefreshingLocation,
     locations: state.locations,
     currentLocation: state.redeemView.currentLocation,
     currentLocationBusinessName: state.redeemView.currentLocationBusinessName,

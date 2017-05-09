@@ -4,6 +4,7 @@ interface RedeemViewState {
   currentLocation: GpsCoordinates,
   currentLocationBusinessName: string;
   lastModified: string;
+  isRefreshingLocation: boolean;
   getLocationFailed: boolean;
   isProcessing: boolean;
   redeemConfirmed: boolean;
@@ -19,6 +20,7 @@ const initialState: RedeemViewState = {
   currentLocationBusinessName: undefined,
   getLocationFailed: false,
   isProcessing: false,
+  isRefreshingLocation: false,
   redeemConfirmed: false,
   redeemFailed: false,
 }
@@ -35,17 +37,17 @@ export const redeemView = (state: RedeemViewState = initialState, action) => {
     }
     case "ATTEMPTING_GET_LOCATIONS_AT_USER_LOCATION":
       return Object.assign({}, state, {
-        isLoading: true,
+        isRefreshingLocation: true,
       });
     case "FAILED_GET_LOCATIONS_AT_USER_LOCATION":
       return Object.assign({}, state, {
-        isLoading: false,
+        isRefreshingLocation: false,
         getLocationFailed: true,
       });
     case "SUCCESSFUL_GET_LOCATIONS_AT_USER_LOCATION":
       return Object.assign({}, state, {
         currentLocationBusinessName: action.payload.location.name,
-        isLoading: false,
+        isRefreshingLocation: false,
       });
     case "ATTEMPTING_REDEEM":
       return Object.assign({}, state, {
