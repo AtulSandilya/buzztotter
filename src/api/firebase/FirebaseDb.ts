@@ -107,7 +107,7 @@ export class FirebaseDb {
 
   public readNode = async (url: string): Promise<any> => {
     try {
-      const ref = await this.getRef(url);
+      const ref = this.getRef(url);
       const response = await this.db.ref(url).once("value");
       return response.val();
     } catch (e) {
@@ -122,8 +122,8 @@ export class FirebaseDb {
     });
   }
 
-  public getRef = async (url: string): Promise<any> => {
-    const ref = await this.db.ref(url);
+  public getRef = (url: string): any => {
+    const ref = this.db.ref(url);
     if (!ref) {
       throw new FirebaseUndefinedReferenceError(`Cannot read from '${url}' because it is undefined`);
     } else {
