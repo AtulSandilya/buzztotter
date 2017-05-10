@@ -38,15 +38,21 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
     <ListView
       enableEmptySections={true}
       dataSource={ds.cloneWithRows(bevegramsList)}
-      renderRow={(rowKey) =>
-        <CBevegram
-          from={receivedBevegrams[rowKey].sentFromName}
-          date={receivedBevegrams[rowKey].receivedDate}
-          quantity={receivedBevegrams[rowKey].quantity}
-          imagePath={receivedBevegrams[rowKey].sentFromPhotoUrl}
-          id={rowKey}
-        />
-      }
+      renderRow={(rowKey) => {
+        if (receivedBevegrams[rowKey].quantity > 0) {
+          return (
+            <CBevegram
+              from={receivedBevegrams[rowKey].sentFromName}
+              date={receivedBevegrams[rowKey].receivedDate}
+              quantity={receivedBevegrams[rowKey].quantity}
+              imagePath={receivedBevegrams[rowKey].sentFromPhotoUrl}
+              id={rowKey}
+            />
+          );
+        } else {
+          return <View/>;
+        }
+      }}
       renderSeparator={(sectionId, rowId) => <View key={rowId} style={globalStyles.listRowSeparator} />}
       refreshControl={
         <RefreshControl
