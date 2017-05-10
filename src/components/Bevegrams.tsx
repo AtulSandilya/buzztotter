@@ -19,12 +19,19 @@ export interface BevegramsProps {
   redeemModalIsOpen?: boolean;
   isLoadingBevegrams?: boolean;
   tabLabel?: string;
-  closeModal?(string): void;
+  receivedBevegrams?: any;
+  closeModal?(input: string): void;
   reloadBevegrams?(): void;
-  receivedBevegrams?: {ReceivedBevegram};
 }
 
-const Bevegrams: React.StatelessComponent<BevegramsProps> = ({bevegramsList, redeemModalIsOpen, closeModal, isLoadingBevegrams, reloadBevegrams, receivedBevegrams}) => (
+const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
+  bevegramsList,
+  redeemModalIsOpen,
+  closeModal,
+  isLoadingBevegrams,
+  reloadBevegrams,
+  receivedBevegrams,
+}) => (
   <View style={{
     flex: 1,
   }}>
@@ -45,7 +52,7 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({bevegramsList, red
         <RefreshControl
           refreshing={isLoadingBevegrams}
           onRefresh={() => {
-            if (!isLoadingBevegrams){
+            if (!isLoadingBevegrams) {
               reloadBevegrams();
             }
           }}
