@@ -168,7 +168,9 @@ export function *updateReceivedBevegrams() {
 
 //  End User ------------------------------------------------------------}}}
 
-export function *updateAllLists() {
+//  Update History ------------------------------------------------------{{{
+
+export function *updateHistory() {
   const user: User = yield select<{user: User}>((state) => state.user);
   const userFirebaseId: string = user.firebase.uid;
 
@@ -184,6 +186,8 @@ export function *updateAllLists() {
   yield put({type: "SET_RECEIVED_BEVEGRAM_LIST", payload: {list: receivedList}});
   yield put({type: "SET_REDEEMED_BEVEGRAM_LIST", payload: {list: redeemedList}});
 }
+
+//  End Update History --------------------------------------------------}}}
 
 export function *updateUserStateOnNextChange(
   onSuccessPostActions?: string[],
