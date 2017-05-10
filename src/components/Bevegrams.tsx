@@ -1,16 +1,16 @@
 import * as React from "react";
-import { Component } from 'react';
-import { ListView, RefreshControl, View, Text } from 'react-native';
+import { Component } from "react";
+import { ListView, RefreshControl, Text, View } from "react-native";
 
-import {modalKeys} from '../reducers/modals';
+import {modalKeys} from "../reducers/modals";
 
-import {ReceivedBevegram} from '../db/tables';
+import {ReceivedBevegram} from "../db/tables";
 
-import CBevegram from '../containers/CBevegram';
-import CenteredModal from './CenteredModal';
-import CRedeemBeer from '../containers/CRedeemBeer';
+import CBevegram from "../containers/CBevegram";
+import CRedeemBeer from "../containers/CRedeemBeer";
+import CenteredModal from "./CenteredModal";
 
-import {globalColors, globalStyles} from './GlobalStyles';
+import {globalColors, globalStyles} from "./GlobalStyles";
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -45,7 +45,7 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({bevegramsList, red
         <RefreshControl
           refreshing={isLoadingBevegrams}
           onRefresh={() => {
-            if(!isLoadingBevegrams){
+            if (!isLoadingBevegrams){
               reloadBevegrams();
             }
           }}
@@ -56,17 +56,17 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({bevegramsList, red
         />
       }
       renderFooter={() => {
-        if(bevegramsList.length === 0) {
+        if (bevegramsList.length === 0) {
           return (
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', padding: 10}}>
+            <View style={{flex: 1, alignItems: "center", justifyContent: "center", padding: 10}}>
               <Text>You have no bevegrams! </Text>
             </View>
-          )
+          );
         }
       }
       }
     />
   </View>
-)
+);
 
 export default Bevegrams;
