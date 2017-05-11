@@ -1,4 +1,7 @@
-import {GpsCoordinates} from "../db/tables";
+import {
+  GpsCoordinates,
+  RedeemTransactionStatus,
+} from "../db/tables";
 
 interface RedeemViewState {
   currentLocation: GpsCoordinates,
@@ -9,6 +12,7 @@ interface RedeemViewState {
   isProcessing: boolean;
   redeemConfirmed: boolean;
   redeemFailed: boolean;
+  redeemTransactionStatus: RedeemTransactionStatus;
 }
 
 const initialState: RedeemViewState = {
@@ -23,6 +27,10 @@ const initialState: RedeemViewState = {
   isRefreshingLocation: false,
   redeemConfirmed: false,
   redeemFailed: false,
+  redeemTransactionStatus: {
+    connectionEstablished: "pending",
+    updatingDatabase: "pending",
+  },
 }
 
 export const redeemView = (state: RedeemViewState = initialState, action) => {
@@ -52,6 +60,14 @@ export const redeemView = (state: RedeemViewState = initialState, action) => {
     case "ATTEMPTING_REDEEM":
       return Object.assign({}, state, {
         isProcessing: true,
+      });
+    case "UPDATE_REDEEM_TRANSACTION_STATUS":
+      return  Object.assign({}, state, {
+        redeemTransactionStatus: action.payload.redeemTransactionStatus,
+      });
+    case "UPDATE_REDEEM_TRANSACTION_STATUS":
+      return  Object.assign({}, state, {
+        redeemTransactionStatus: action.payload.redeemTransactionStatus,
       });
     case "SUCCESSFUL_REDEEM":
       return Object.assign({}, state, {
