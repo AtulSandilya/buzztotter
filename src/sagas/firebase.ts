@@ -8,6 +8,7 @@ import {FirebaseUser, User} from "../db/tables";
 
 import {
   AddCreditCardToCustomerPackageForQueue,
+  EventStatus,
   PurchasePackageForQueue,
   RedeemPackageForQueue,
   RemoveCreditCardFromCustomerPackageForQueue,
@@ -24,6 +25,7 @@ import {
   initializeFirebaseUserFacebookId,
   isUserLoggedIn,
   OnNextPurchaseTransactionStatusChange,
+  OnNextUrlNodeChange,
   OnNextUserNodeChange,
   QueueAddCreditCardToCustomerPackage,
   readPurchasedBevegrams,
@@ -32,6 +34,8 @@ import {
   readSentBevegrams,
   updateFirebaseUser as apiUpdateFirebaseUser,
 } from "../api/firebase";
+
+import * as DbSchema from "../db/schema";
 
 //  Login / Logout ------------------------------------------------------{{{
 
@@ -189,6 +193,21 @@ export function *updateHistory() {
 
 //  End Update History --------------------------------------------------}}}
 
+interface ListenForChange {
+  timeout: any;
+  changedNode: any;
+}
+
+function *listenForChangeOnUrl(url: string): IterableIterator<ListenForChange> {
+  const serverTimeout = 15000;
+
+  // timeout will not be undefined on a server timeout
+  return yield race({
+    timeout: call(delay, serverTimeout),
+    changedNode: call(OnNextUrlNodeChange, url),
+  }) as any;
+}
+
 export function *updateUserStateOnNextChange(
   onSuccessPostActions?: string[],
   onFailurePostActions?: string[],
@@ -197,20 +216,19 @@ export function *updateUserStateOnNextChange(
 ) {
   const user: User = yield select<{user: User}>((state) => state.user);
   const userFirebaseId: string = user.firebase.uid;
-  const serverTimeout = 15000;
+
+  const url = DbSchema.GetUserDbUrl(userFirebaseId);
+  const serverResponse: ListenForChange = yield call(listenForChangeOnUrl, url);
+  const updatedUser = serverResponse.changedNode;
 
   let errorMessage;
-
-  const {updatedUser, timeout} = yield race({
-    timeout: call(delay, serverTimeout),
-    updatedUser: call(OnNextUserNodeChange, userFirebaseId),
-  });
 
   if (updatedUser) {
     yield put({type: "REWRITE_USER", payload: {
       updatedUser,
     }});
   } else {
+    // Timeout!
     errorMessage = "Unable to communicate with our servers!";
   }
 
@@ -252,24 +270,55 @@ export function *updateUserStateOnNextChange(
   }
 }
 
-export function *handleNextPurchaseTransactionStatusChange() {
+function *handleNextPurchaseTransactionStatusChange(): object {
   const user: User = yield select<{user: User}>((state) => state.user);
   const userFirebaseId: string = user.firebase.uid;
-  const serverTimeout = 25000;
+  const url = DbSchema.GetPurchaseTransactionStatusDbUrl(userFirebaseId);
+  const purchaseTransactionStatus: ListenForChange = yield call(listenForChangeOnUrl, url);
 
-  const {purchaseTransactionStatus, timeout} = yield race({
-    purchaseTransactionStatus: call(OnNextPurchaseTransactionStatusChange, userFirebaseId),
-    timeout: call(delay, serverTimeout),
-  });
-
-  if (timeout) {
+  if (purchaseTransactionStatus.timeout) {
     yield put({type: "FAILED_PURCHASE_TRANSACTION", payload: {
       error: "Server Timeout",
     }});
+    return;
   } else {
     yield put({type: "UPDATE_PURCHASE_TRANSACTION_STATUS", payload: {
-      purchaseTransactionStatus,
+      purchaseTransactionStatus: purchaseTransactionStatus.changedNode,
     }});
+    return purchaseTransactionStatus.changedNode;
   }
+}
 
+const transactionFailed = (transaction: {[name: string]: EventStatus}): boolean => {
+  for (const key of Object.keys(transaction)) {
+    if (transaction[key] === "failed") {
+      return true;
+    }
+  }
+  return false;
+};
+
+const transactionComplete = (transaction: {[name: string]: EventStatus}): boolean => {
+  for (const key of Object.keys(transaction)) {
+    if (key !== "lastModified" && transaction[key] !== "complete") {
+      return false;
+    }
+  }
+  return true;
+};
+
+function *listenUntilTransactionSuccessOrFailure(transactionFunction) {
+  while (true) {
+    const transactionResult: {[name: string]: EventStatus} = yield call(transactionFunction);
+    if (!transactionResult
+       || transactionComplete(transactionResult)
+       || transactionFailed(transactionResult)
+    ) {
+      break;
+    }
+  }
+}
+
+export function *listenUntilPurchaseSuccessOrFailure() {
+  yield call(listenUntilTransactionSuccessOrFailure, handleNextPurchaseTransactionStatusChange);
 }

@@ -25,7 +25,7 @@ import {
   firebaseFacebookLogin,
   firebaseLogOut,
   getUser,
-  handleNextPurchaseTransactionStatusChange,
+  listenUntilPurchaseSuccessOrFailure,
   updateFirebaseUser,
   updateHistory,
   updatePurchasePackages,
@@ -132,15 +132,7 @@ export default function* rootSaga() {
     yield call(goToRoute, action);
     yield call(queue.purchase, action);
 
-    // TODO: Find some way to standardize this across the server/client
-    // Stripe Transaction
-    yield call(handleNextPurchaseTransactionStatusChange);
-    // Db Update
-    yield call(handleNextPurchaseTransactionStatusChange);
-    // Notification Sent
-    yield call(handleNextPurchaseTransactionStatusChange);
-    // Final Update
-    yield call(handleNextPurchaseTransactionStatusChange);
+    yield call(listenUntilPurchaseSuccessOrFailure);
   });
 
   // Receive Bevegrams
@@ -173,7 +165,7 @@ export default function* rootSaga() {
   yield fork(takeEvery, "UPDATE_FCM_TOKEN", storeFcmToken);
 
   // History
-  yield fork(takeEvery, "REFRESH_HISTORY", updateAllLists);
+  yield fork(takeEvery, "REFRESH_HISTORY", updateHistory);
 
   // Locations Near User
   yield fork(takeEvery, "REQUEST_LOCATIONS_NEAR_USER", getLocationsNearUser);

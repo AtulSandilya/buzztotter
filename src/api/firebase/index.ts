@@ -52,8 +52,8 @@ export const readNode = (url: string) => {
 type FirebaseDbEvent =  "child_added" | "child_changed" | "child_removed";
 
 export const OnNextNodeEvent = (url: string, firebaseDbEvent: FirebaseDbEvent) => {
-  return new Promise(async (resolve) => {
-    const ref = await firebaseUserDb.getRef(url);
+  return new Promise((resolve) => {
+    const ref = firebaseUserDb.getRef(url);
     ref.once(firebaseDbEvent, (data) => {
       // Resolve the whole node instead of just the updated data (data.val())
       firebaseUserDb.readNode(url).then((newValue) => {
@@ -78,6 +78,10 @@ export const OnNextUserNodeChange = (userFirebaseId: string) => {
 
 export const OnNextPurchaseTransactionStatusChange = (userFirebaseId: string) => {
   return OnNextNodeEvent(DbSchema.GetPurchaseTransactionStatusDbUrl(userFirebaseId), "child_changed");
+};
+
+export const OnNextUrlNodeChange = (url: string) => {
+  return OnNextNodeEvent(url, "child_changed");
 };
 
 //  End Utilities ------------------------------------------------------}}}
