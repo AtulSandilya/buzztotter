@@ -26,6 +26,7 @@ import {
   firebaseLogOut,
   getUser,
   listenUntilPurchaseSuccessOrFailure,
+  listenUntilRedeemSuccessOrFailure,
   updateFirebaseUser,
   updateHistory,
   updatePurchasePackages,
@@ -73,6 +74,7 @@ export default function* rootSaga() {
     }
 
     yield call(updatePurchasePackages);
+    yield call(updateHistory);
   });
 
   // Logging Out
@@ -133,6 +135,7 @@ export default function* rootSaga() {
     yield call(queue.purchase, action);
 
     yield call(listenUntilPurchaseSuccessOrFailure);
+    yield call(updateHistory);
   });
 
   // Receive Bevegrams
