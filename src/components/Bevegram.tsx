@@ -49,7 +49,7 @@ interface DataForRoute {
 
 export interface BevegramProps {
   from: string;
-  date: string;
+  date: number;
   id: string;
   imagePath: string;
   quantity: number;
