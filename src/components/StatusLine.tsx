@@ -59,7 +59,7 @@ const StatusLine = (props: StatusLineProps) => {
   const failureIcon = "times-circle-o";
   const failureColor = theme.colors.failure;
   if ((somethingFailed && !thisFailed) || props.statusObject.error) {
-    component = StatusLineActivityIndicator(false);
+    component = StatusLineIcon(failureIcon, "#999");
   } else {
     switch (status) {
       case "pending":
