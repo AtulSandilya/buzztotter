@@ -19,11 +19,14 @@ interface MapStateProps {
 }
 
 const mergeKeys = (objects: any[]) => {
-  const keys = [];
+  const allKeys = [];
   objects.map((x) => {
-    keys.push.apply(keys, Object.keys(x));
+    const xKeys = Object.keys(x);
+    if (xKeys.length > 0) {
+      allKeys.push.apply(allKeys, xKeys);
+    }
   });
-  return keys;
+  return allKeys;
 };
 
 const mapStateToProps = (state) => {
@@ -34,12 +37,11 @@ const mapStateToProps = (state) => {
       state.receivedBevegrams,
       state.redeemedBevegrams,
     ]).sort().reverse(),
+    completedInitialLoad: state.historyView.completedInitialLoad,
     purchasedBevegrams: state.purchasedBevegrams.list,
-    sentBevegrams: state.sentBevegrams.list,
     receivedBevegrams: state.receivedBevegrams,
     redeemedBevegrams: state.redeemedBevegrams,
-    isRefreshing: state.historyView.isRefreshing,
-    completedInitialLoad: state.historyView.completedInitialLoad,
+    sentBevegrams: state.sentBevegrams.list,
   };
 };
 

@@ -176,20 +176,27 @@ export function *updateReceivedBevegrams() {
 //  Update History ------------------------------------------------------{{{
 
 export function *updateHistory() {
-  const user: User = yield select<{user: User}>((state) => state.user);
-  const userFirebaseId: string = user.firebase.uid;
+  yield put({type: "ATTEMPTING_HISTORY_UPDATE"});
+  try {
+    const user: User = yield select<{user: User}>((state) => state.user);
+    const userFirebaseId: string = user.firebase.uid;
 
-  const purchasedList = yield call(readPurchasedBevegrams, userFirebaseId);
-  const sentList = yield call(readSentBevegrams, userFirebaseId);
-  const receivedList = yield call(readReceivedBevegrams, userFirebaseId);
-  const redeemedList = yield call(readRedeemedBevegrams, userFirebaseId);
+    const purchasedList = yield call(readPurchasedBevegrams, userFirebaseId);
+    const sentList = yield call(readSentBevegrams, userFirebaseId);
+    const receivedList = yield call(readReceivedBevegrams, userFirebaseId);
+    const redeemedList = yield call(readRedeemedBevegrams, userFirebaseId);
 
-  // In theory doing a lot of puts at the same time should update the state
-  // only once.
-  yield put({type: "SET_PURCHASED_BEVEGRAM_LIST", payload: {list: purchasedList}});
-  yield put({type: "SET_SENT_BEVEGRAM_LIST", payload: {list: sentList}});
-  yield put({type: "SET_RECEIVED_BEVEGRAM_LIST", payload: {list: receivedList}});
-  yield put({type: "SET_REDEEMED_BEVEGRAM_LIST", payload: {list: redeemedList}});
+    // In theory doing a lot of puts at the same time should update the state
+    // only once.
+    yield put({type: "SET_PURCHASED_BEVEGRAM_LIST", payload: {list: purchasedList ? purchasedList : {}}});
+    yield put({type: "SET_SENT_BEVEGRAM_LIST", payload: {list: sentList ? sentList : {}}});
+    yield put({type: "SET_RECEIVED_BEVEGRAM_LIST", payload: {list: receivedList ? receivedList : {}}});
+    yield put({type: "SET_REDEEMED_BEVEGRAM_LIST", payload: {list: redeemedList ? redeemedList : {}}});
+  } catch (e) {
+    console.warn(e);
+  }
+
+  yield put({type: "SUCCESSFUL_HISTORY_UPDATE"});
 }
 
 //  End Update History --------------------------------------------------}}}
