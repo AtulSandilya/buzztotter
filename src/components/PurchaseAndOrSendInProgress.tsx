@@ -17,6 +17,8 @@ import {globalStyles} from "./GlobalStyles";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 import StatusLine from "./StatusLine";
 
+import {transactionFailed, transactionFinished} from "../sagas/firebase";
+
 export interface InProgressData {
   bevegramsUserIsSending: number;
   bevegramsUserIsPurchasing: number;
@@ -51,12 +53,7 @@ export interface PurchaseOrSendInProgressProps {
 export const IsPurchaseAndOrSendCompleted = (
   purchaseTransactionStatus: PurchaseTransactionStatus,
 ) => {
-  Object.keys(purchaseTransactionStatus).map((key) => {
-    if (key !== "completed") {
-      return false;
-    }
-  });
-  return true;
+  return transactionFinished<PurchaseTransactionStatus>(purchaseTransactionStatus);
 };
 
 const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgressProps> = ({
@@ -79,7 +76,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
       purchaseTransactionStatus,
     );
 
-    if (!showCompleted) {
+    if (!showCompleted || transactionFailed(purchaseTransactionStatus)) {
       return <View/>;
     }
 
