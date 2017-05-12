@@ -180,7 +180,7 @@ export const GetSchemaDbUrl = (table: string, keysToReplace?: string | any): str
       throw Error;
     }
   } catch (e) {
-    throw Error(`Db Error: Key "${JSON.stringify(keysToReplace)}" does not exist within the database schema!`);
+    throw Error(`Db Error: Table "${table}" does not exist within the database schema!`);
   }
 
   if (!keysToReplace) {
