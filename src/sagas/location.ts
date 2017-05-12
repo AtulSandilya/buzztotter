@@ -71,7 +71,14 @@ export function *getLocationsNearUser() {
 export function *getLocationsAtUserLocation() {
 
   yield put({type: "ATTEMPTING_GET_LOCATIONS_AT_USER_LOCATION"});
-  const deviceCoordinates: GpsCoordinates = yield call(promiseDeviceGpsCoordinates);
+  let deviceCoordinates: GpsCoordinates;
+  try {
+    deviceCoordinates = yield call(promiseDeviceGpsCoordinates);
+  } catch (e) {
+    yield put({type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION", payload: {
+      error: "Your gps is disabled!",
+    }});
+  }
   const gpsCoordUrls = DbSchema.GetAllGpsCoordNodeUrls(deviceCoordinates);
   // const locationsAtUserLoc = readNode(gpsCoordUrls[gpsCoordUrls.length - 1].listUrl);
   const locationsAtUserLoc = yield call(readNode, gpsCoordUrls[gpsCoordUrls.length - 1].listUrl);
