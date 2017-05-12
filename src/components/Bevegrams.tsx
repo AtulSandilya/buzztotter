@@ -39,13 +39,14 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
       enableEmptySections={true}
       dataSource={ds.cloneWithRows(bevegramsList)}
       renderRow={(rowKey) => {
-        if (receivedBevegrams[rowKey].quantity > 0) {
+        const thisBevegram: ReceivedBevegram = receivedBevegrams[rowKey];
+        if (thisBevegram.quantity > thisBevegram.quantityRedeemed) {
           return (
             <CBevegram
-              from={receivedBevegrams[rowKey].sentFromName}
-              date={receivedBevegrams[rowKey].receivedDate}
-              quantity={receivedBevegrams[rowKey].quantity}
-              imagePath={receivedBevegrams[rowKey].sentFromPhotoUrl}
+              from={thisBevegram.sentFromName}
+              date={thisBevegram.receivedDate}
+              quantity={thisBevegram.quantity}
+              imagePath={thisBevegram.sentFromPhotoUrl}
               id={rowKey}
             />
           );
