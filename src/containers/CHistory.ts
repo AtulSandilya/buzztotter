@@ -38,6 +38,7 @@ const mapStateToProps = (state) => {
       state.redeemedBevegrams,
     ]).sort().reverse(),
     completedInitialLoad: state.historyView.completedInitialLoad,
+    isRefreshing: state.historyView.isRefreshing,
     purchasedBevegrams: state.purchasedBevegrams.list,
     receivedBevegrams: state.receivedBevegrams,
     redeemedBevegrams: state.redeemedBevegrams,

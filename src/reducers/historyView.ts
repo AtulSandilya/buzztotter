@@ -10,6 +10,14 @@ const initialState: HistoryViewState = {
 
 export const historyView = (state: HistoryViewState = initialState, action) => {
   switch(action.type) {
+    case "ATTEMPTING_HISTORY_UPDATE":
+      return Object.assign({}, state, {
+        isRefreshing: true,
+      });
+    case "SUCCESSFUL_HISTORY_UPDATE":
+      return Object.assign({}, state, {
+        isRefreshing: false,
+      });
     default:
       return state;
   }
