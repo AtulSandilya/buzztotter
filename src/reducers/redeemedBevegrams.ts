@@ -10,6 +10,6 @@ export const redeemedBevegrams = (state = defaultState, action) => {
     case 'SET_REDEEMED_BEVEGRAM_LIST':
       return Object.assign({}, action.payload.list);
     default:
-      return defaultState;
+      return state;
   }
 }
