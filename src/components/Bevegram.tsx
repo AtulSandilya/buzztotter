@@ -1,13 +1,13 @@
 import * as React from "react";
-import { Component } from 'react';
-import { Image, StyleSheet, Text, TouchableHighlight, View, ViewStyle} from 'react-native';
+import { Component } from "react";
+import { Image, StyleSheet, Text, TouchableHighlight, View, ViewStyle} from "react-native";
 
-import TimeAgo from 'react-timeago';
+import TimeAgo from "react-timeago";
 
-import { connect } from 'react-redux';
-import { modalKeys } from '../reducers/modals.js';
+import { connect } from "react-redux";
+import { modalKeys } from "../reducers/modals.js";
 
-import BevButton from './BevButton';
+import BevButton from "./BevButton";
 
 interface Style {
   parentContainer: ViewStyle;
@@ -19,27 +19,27 @@ interface Style {
 const styles = StyleSheet.create<Style>({
   parentContainer: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   infoContainer: {
     flex: 2,
-    flexDirection: 'row',
-    alignSelf: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignSelf: "center",
+    alignItems: "center",
     paddingLeft: 10,
   },
   infoTextContainer: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   buttonContainer: {
     flex: -1,
-    flexDirection: 'row',
-    alignSelf: 'center',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
+    flexDirection: "row",
+    alignSelf: "center",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
   },
-})
+});
 
 interface DataForRoute {
   id: string;
@@ -63,7 +63,7 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, quan
         source={imagePath ?
           {uri: imagePath}
         :
-          require('../../img/icons/bev-contact.png')
+          require("../../img/icons/bev-contact.png")
         }
         style={{height: 50, width: 50}}
       />
@@ -86,6 +86,6 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, quan
       />
     </View>
   </View>
-)
+);
 
 export default Bevegram;
