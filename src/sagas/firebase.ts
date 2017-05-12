@@ -131,16 +131,21 @@ export function *updateFirebaseUser(action) {
     lastModified: StringifyDate(),
   }});
 
-  const user: User = yield select<{user: User}>((state) => state.user);
-  const userInDb: User = FirebaseDb.SanitizeDbInput(yield call(getFirebaseUser, user.firebase.uid));
-  const mergedUser = Object.assign({}, userInDb, user, {
-    stripe: userInDb.stripe,
-  });
+  let user: User = yield select<{user: User}>((state) => state.user);
+
+  const userInDb: User = yield call(getFirebaseUser, user.firebase.uid);
+  if (userInDb && userInDb.stripe) {
+    user = Object.assign({}, userInDb, user, {
+      stripe: userInDb.stripe,
+    });
+  } else if (userInDb) {
+    user = Object.assign({}, userInDb, user);
+  }
 
   try {
     yield put({type: "ATTEMPTING_FIREBASE_UPDATE_USER"});
 
-    yield call(apiUpdateFirebaseUser, mergedUser);
+    yield call(apiUpdateFirebaseUser, user);
 
     yield put({type: "SUCCESSFUL_FIREBASE_UPDATE_USER"});
   } catch (e) {
