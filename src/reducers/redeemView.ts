@@ -9,8 +9,8 @@ interface RedeemViewState {
   lastModified: string;
   isRefreshingLocation: boolean;
   getLocationFailed: boolean;
+  getLocationFailedErrorMessage?: string;
   isProcessing: boolean;
-  redeemConfirmed: boolean;
   redeemFailed: boolean;
   redeemTransactionStatus: RedeemTransactionStatus;
 }
@@ -25,7 +25,6 @@ const initialState: RedeemViewState = {
   getLocationFailed: false,
   isProcessing: false,
   isRefreshingLocation: false,
-  redeemConfirmed: false,
   redeemFailed: false,
   redeemTransactionStatus: {
     connectionEstablished: "pending",
@@ -51,6 +50,7 @@ export const redeemView = (state: RedeemViewState = initialState, action) => {
       return Object.assign({}, state, {
         isRefreshingLocation: false,
         getLocationFailed: true,
+        getLocationFailedErrorMessage: action.payload.error,
       });
     case "SUCCESSFUL_GET_LOCATIONS_AT_USER_LOCATION":
       return Object.assign({}, state, {
@@ -65,14 +65,16 @@ export const redeemView = (state: RedeemViewState = initialState, action) => {
       return  Object.assign({}, state, {
         redeemTransactionStatus: action.payload.redeemTransactionStatus,
       });
-    case "UPDATE_REDEEM_TRANSACTION_STATUS":
-      return  Object.assign({}, state, {
-        redeemTransactionStatus: action.payload.redeemTransactionStatus,
+    case "FAILED_REDEEM_TRANSACTION":
+      const newRedeemTransactionStatus = Object.assign({}, state.redeemTransactionStatus, {
+        error: action.payload.error,
       });
-    case "SUCCESSFUL_REDEEM":
+      return  Object.assign({}, state, {
+        redeemTransactionStatus: newRedeemTransactionStatus,
+      });
+    case "FINISHED_REDEEM":
       return Object.assign({}, state, {
         isProcessing: false,
-        redeemConfirmed: true,
       });
     case "RESET_REDEEM":
       return Object.assign({}, state, initialState);

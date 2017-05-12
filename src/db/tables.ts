@@ -137,16 +137,27 @@ export interface PurchasedBevegramSummary {
 
 export type EventStatus = "pending" | "inProgress" | "complete" | "failed";
 
-export interface PurchaseTransactionStatus {
-  connectionEstablished: EventStatus;
-  creditCardTransaction: EventStatus;
-  updatingDatabase: EventStatus;
-  sendingNotification: EventStatus;
+export interface TransactionStatus {
   lastModified?: UnixTime;
   error?: string;
 }
 
+export interface PurchaseTransactionStatus extends TransactionStatus {
+  connectionEstablished: EventStatus;
+  creditCardTransaction: EventStatus;
+  updatingDatabase: EventStatus;
+  sendingNotification: EventStatus;
+}
+
 //  End PurchaseTransactionStatus --------------------------------------------------}}}
+//  RedeemTransactionStatus --------------------------------------------{{{
+
+export interface RedeemTransactionStatus extends TransactionStatus {
+  connectionEstablished: EventStatus;
+  updatingDatabase: EventStatus;
+}
+
+//  End RedeemTransactionStatus ----------------------------------------}}}
 //  Sent Bevegram ------------------------------------------------------{{{
 
 export interface SentBevegram {

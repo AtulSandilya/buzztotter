@@ -60,6 +60,9 @@ const Schema = {
     purchaseTransactionStatus: {
       userFirebaseId: "PurchaseTransactionStatus",
     },
+    redeemTransactionStatus: {
+      userFirebaseId: "RedeemTransactionStatus",
+    },
     sentBevegrams: {
       firebaseId: {
         summary: "SentBevegramSummary",
@@ -294,6 +297,10 @@ export const GetPurchasePackagesDbUrl = () => {
 
 export const GetPurchaseTransactionStatusDbUrl = (userFirebaseId: string): string => {
   return GetSchemaDbUrl("purchaseTransactionStatus.userFirebaseId", {userFirebaseId});
+};
+
+export const GetRedeemTransactionStatusDbUrl = (userFirebaseId: string): string => {
+  return GetSchemaDbUrl("redeemTransactionStatus.userFirebaseId", {userFirebaseId});
 };
 
 export const GetVendorPushDbUrl = () => {

@@ -12,6 +12,7 @@ import {
   PurchasePackageForQueue,
   RedeemPackageForQueue,
   RemoveCreditCardFromCustomerPackageForQueue,
+  TransactionStatus,
 } from "../db/tables";
 
 import {StringifyDate} from "../CommonUtilities";
@@ -289,22 +290,49 @@ function *handleNextPurchaseTransactionStatusChange(): object {
   }
 }
 
-const transactionFailed = (transaction: {[name: string]: EventStatus}): boolean => {
+function *handleNextRedeemTransactionStatusChange(): object {
+  const user: User = yield select<{user: User}>((state) => state.user);
+  const userFirebaseId: string = user.firebase.uid;
+  const url = DbSchema.GetRedeemTransactionStatusDbUrl(userFirebaseId);
+  const redeemTransactionStatus: ListenForChange = yield call(listenForChangeOnUrl, url);
+
+  if (redeemTransactionStatus.timeout) {
+    yield put({type: "FAILED_REDEEM_TRANSACTION", payload: {
+      error: "Server Timeout",
+    }});
+    return;
+  } else {
+    yield put({type: "UPDATE_REDEEM_TRANSACTION_STATUS", payload: {
+      redeemTransactionStatus: redeemTransactionStatus.changedNode,
+    }});
+    return redeemTransactionStatus.changedNode;
+  }
+}
+
+export const transactionFailed = <T>(transaction: T): boolean => {
   for (const key of Object.keys(transaction)) {
     if (transaction[key] === "failed") {
+      return true;
+    } else if (key === "error" && (transaction[key] !== undefined)) {
       return true;
     }
   }
   return false;
 };
 
-const transactionComplete = (transaction: {[name: string]: EventStatus}): boolean => {
+const transactionComplete = <T>(transaction: T): boolean => {
   for (const key of Object.keys(transaction)) {
     if (key !== "lastModified" && transaction[key] !== "complete") {
       return false;
     }
   }
   return true;
+};
+
+export const transactionFinished = <T extends TransactionStatus>(transaction: T): boolean => {
+  return transactionFailed<T>(transaction)
+          || transactionComplete<T>(transaction)
+          || (transaction.error !== undefined);
 };
 
 function *listenUntilTransactionSuccessOrFailure(transactionFunction) {
@@ -321,4 +349,8 @@ function *listenUntilTransactionSuccessOrFailure(transactionFunction) {
 
 export function *listenUntilPurchaseSuccessOrFailure() {
   yield call(listenUntilTransactionSuccessOrFailure, handleNextPurchaseTransactionStatusChange);
+}
+
+export function *listenUntilRedeemSuccessOrFailure() {
+  yield call(listenUntilTransactionSuccessOrFailure, handleNextRedeemTransactionStatusChange);
 }

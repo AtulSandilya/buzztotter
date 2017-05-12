@@ -17,9 +17,13 @@ import TitleText from "./TitleText";
 
 import {globalColors, globalStyles} from "./GlobalStyles";
 
-import {GpsCoordinates} from "../db/tables";
+import {GpsCoordinates, RedeemTransactionStatus} from "../db/tables";
 
 import {PrettyFormatAddress} from "../CommonUtilities";
+
+import {transactionFailed, transactionFinished} from "../sagas/firebase";
+
+import theme from "../theme";
 
 export interface RedeemBeerProps {
   id?: string;
@@ -29,11 +33,12 @@ export interface RedeemBeerProps {
   currentLocationBusinessName?: string;
   currentLocationLastModified?: string;
   getLocationFailed?: boolean;
+  getLocationFailedErrorMessage?: string;
   isProcessing?: boolean;
-  redeemConfirmed?: boolean;
   redeemFailed?: boolean;
   isLoading?: boolean;
   isRefreshingLocation?: boolean;
+  redeemTransactionStatus?: RedeemTransactionStatus;
   locations?: [Location];
   onRedeemClicked?(quantity: number, receivedId: string): void;
   closeRedeem?(): void;
@@ -65,13 +70,37 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
     this.props.onRedeemClicked(this.state.numDrinks, this.props.id);
   }
 
+  renderErrorMessage() {
+    if(this.props.redeemTransactionStatus.error) {
+      return (
+        <View style={globalStyles.bevLine}>
+          <View style={globalStyles.bevLineLeft}>
+            <Text style={globalStyles.bevLineTextTitle}>Error:</Text>
+          </View>
+          <View style={globalStyles.bevLineRight}>
+            <Text style={[globalStyles.bevMultiLineText, {color: theme.colors.failure}]}>
+              {this.props.redeemTransactionStatus.error}
+              </Text>
+          </View>
+        </View>
+      )
+    }
+  }
+
+  isRedeemComplete() {
+    const status: RedeemTransactionStatus = this.props.redeemTransactionStatus;
+    return transactionFinished<RedeemTransactionStatus>(status);
+  }
+
   renderPurchaseConfirmed() {
-    if (this.props.redeemConfirmed) {
+    if (this.isRedeemComplete()) {
       return (
         <View>
-          <View style={{flex: 1, alignItems: "center", paddingTop: 20}}>
-            <Text style={{color: globalColors.bevPrimary, fontSize: 30}}>1 Beer Redeemed!</Text>
-          </View>
+          {!transactionFailed(this.props.redeemTransactionStatus) ?
+            <View style={{flex: 1, alignItems: "center", paddingTop: 20}}>
+              <Text style={{color: globalColors.bevPrimary, fontSize: 30}}>1 Beer Redeemed!</Text>
+            </View>
+          : <View/>}
           <View style={{alignItems: "flex-end", paddingTop: 10}}>
             <BevButton
               onPress={this.props.closeRedeem}
@@ -114,7 +143,9 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
             <View style={globalStyles.bevLineLeft}>
               <Text style={globalStyles.bevLineTextTitle}>Your Location:</Text>
             </View>
-            <View style={globalStyles.bevLineRight}>
+              <View style={[globalStyles.bevLineRight, {
+                paddingLeft: 15,
+              }]}>
               <TouchableHighlight
                 onPress={() => this.updateLocation()}
                 underlayColor={"rgba(255, 255, 255, 0.1)"}
@@ -135,9 +166,9 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
                     :
                       <Text style={globalStyles.bevLineText} numberOfLines={2}>
                       {this.props.getLocationFailed ?
-                        "Unable to determine your location"
+                        this.props.getLocationFailedErrorMessage
                       :
-                        "Retrieving Location..."
+                        "Unknown Error checking your location"
                       }
                       </Text>
                     }
@@ -168,7 +199,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
               />
             </View>
           </View>
-          {!this.props.redeemConfirmed ?
+          {!this.isRedeemComplete() ?
             <View style={[globalStyles.bevLine, {paddingTop: 20}]}>
               <View style={globalStyles.bevLineLeft}>
                 <BevButton
@@ -194,6 +225,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
               </View>
             </View>
           : <View/>}
+          {this.renderErrorMessage()}
           {this.renderPurchaseConfirmed()}
         </View>
       </RouteWithNavBarWrapper>

@@ -13,6 +13,7 @@ import {
   PurchaseTransactionStatus,
   ReceivedBevegram,
   RedeemPackageForQueue,
+  RedeemTransactionStatus,
   RemoveCreditCardFromCustomerPackageForQueue,
   SentBevegram,
   STRIPE_MAX_NUMBER_OF_CREDIT_CARDS,
@@ -366,6 +367,18 @@ const RedeemQueue = new Queue(db.getRef(RedeemQueueUrl), (data, progress, resolv
     const {userFirebaseId, receivedId, location: loc, quantity, verificationToken}  = input;
     const user: User = await db.readNode(DbSchema.GetUserDbUrl(userFirebaseId));
 
+    const status: RedeemTransactionStatus = {
+      connectionEstablished: "complete",
+      updatingDatabase: "pending",
+    };
+
+    const updateStatus = async (): Promise<void> => {
+      status.lastModified = GetTimeNow();
+      console.log("status: ", status);
+      await db.writeNode(DbSchema.GetRedeemTransactionStatusDbUrl(userFirebaseId), status);
+    };
+    updateStatus();
+
     // 1. Verify the redeem location matches the vendor location
     // 2. Verify the received id matches and has enough quantity to redeem the
     // requested quantity
@@ -419,9 +432,20 @@ const RedeemQueue = new Queue(db.getRef(RedeemQueueUrl), (data, progress, resolv
 
       await db.redeemVendorBevegram(loc.vendorId, vendorRedeemedBevegram);
 
-      log.successMessage();
+      setTimeout(() => {
+        // Allow time for the listener on the client to setup
+        status.updatingDatabase = "complete";
+        updateStatus();
+        log.successMessage();
+      }, 500);
     } catch (e) {
-      log.failMessage(e);
+      setTimeout(() => {
+        // Allow time for the listener on the client to setup
+        status.error = e.message;
+        status.updatingDatabase = "failed";
+        updateStatus();
+        log.failMessage(e);
+      }, 500);
     }
     resolve();
   };
