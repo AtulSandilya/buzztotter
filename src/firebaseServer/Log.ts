@@ -18,7 +18,7 @@ class Log {
 
   public failMessage = (error: Error) => {
     console.log(`Failed ${this.action} in ${this.getTimeElapsed()} ms`);
-    console.error(`Error executing ${this.action}: ${error}`);
+    console.error(`Error executing ${this.action}: ${error}\n Stacktrace: ${error.stack}`);
   }
 
   private getUnixTime = (): number => {
