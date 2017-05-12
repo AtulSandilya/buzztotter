@@ -246,15 +246,6 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
                   buttonFontSize={buttonFontSize}
                 />
               </View>
-              <View style={{flex: 1, alignItems: "flex-end", paddingTop: 10}}>
-                <BevButton
-                  onPress={resetPurchase}
-                  text={"Try Again"}
-                  shortText={"Try Again"}
-                  label={"Try Purchase Again Button"}
-                  buttonFontSize={buttonFontSize}
-                />
-              </View>
             </View>
           </View>
         </View>
