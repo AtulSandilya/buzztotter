@@ -80,7 +80,7 @@ const Schema = {
       },
     },
     redeemedBevegrams: {
-      userId: {
+      firebaseId: {
         summary: "RedeemedBevegramsSummary",
         list: {
           uniqueId: "RedeemedBevegram",
