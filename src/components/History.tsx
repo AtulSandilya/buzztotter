@@ -107,49 +107,48 @@ const History: React.StatelessComponent<HistoryProps> = ({
       dataSource={historyData.cloneWithRows(bevegramHistoryKeys)}
       enableEmptySections={true}
       renderRow={(historyKey) => {
-          const item = getEventForId(historyKey);
-          return (
-            <View style={{flex: 1, flexDirection: "row", justifyContent: "center", paddingVertical: 8}}>
-              <View style={{
-                height: 45,
-                width: 45,
-                borderRadius: 45,
-                backgroundColor: globalColors.bevPrimary,
-                alignItems: "center",
-                alignSelf: "center",
-                justifyContent: "center",
-                marginLeft: 10,
-                marginRight: 15,
-              }}>
-                <FontAwesome
-                  name={item.icon}
-                  color={"#ffffff"}
-                  size={20}
-                  style={{alignSelf: "center"}}
+        const item = getEventForId(historyKey);
+        return (
+          <View style={{flex: 1, flexDirection: "row", justifyContent: "center", paddingVertical: 8}}>
+            <View style={{
+              height: 45,
+              width: 45,
+              borderRadius: 45,
+              backgroundColor: globalColors.bevPrimary,
+              alignItems: "center",
+              alignSelf: "center",
+              justifyContent: "center",
+              marginLeft: 10,
+              marginRight: 15,
+            }}>
+              <FontAwesome
+                name={item.icon}
+                color={"#ffffff"}
+                size={20}
+                style={{alignSelf: "center"}}
+              />
+            </View>
+            <View style={{
+              flex: 1,
+              flexDirection: "column",
+            }}>
+              <View style={{flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingBottom: 5}}>
+                <Text style={globalStyles.importantText}>{item.label}</Text>
+                <TimeAgo
+                  date={item.date}
+                  component={Text}
+                  style={{
+                    alignSelf: "center",
+                    paddingRight: 8,
+                    color: globalColors.lightText,
+                  }}
                 />
               </View>
-              <View style={{
-                flex: 1,
-                flexDirection: "column",
-              }}>
-                <View style={{flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingBottom: 5}}>
-                  <Text style={globalStyles.importantText}>{item.label}</Text>
-                  <TimeAgo
-                    date={item.date}
-                    component={Text}
-                    style={{
-                      alignSelf: "center",
-                      paddingRight: 8,
-                      color: globalColors.lightText,
-                    }}
-                  />
-                </View>
-                <Text>{item.info}</Text>
-              </View>
+              <Text>{item.info}</Text>
             </View>
-          );
-        }
-      }
+          </View>
+        );
+      }}
       renderSeparator={(sectionId, rowId) => <View key={rowId} style={globalStyles.listRowSeparator} />}
       refreshControl={
         <RefreshControl
