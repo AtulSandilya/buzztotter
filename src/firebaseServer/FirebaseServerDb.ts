@@ -113,7 +113,7 @@ class FirebaseServerDb extends FirebaseDb {
     userFirebaseId: string,
     purchasedBevegram: PurchasedBevegram,
   ): Promise<void> => {
-    const url = DbSchema.GetSentBevegramListDbUrl(userFirebaseId);
+    const url = DbSchema.GetSentBevegramSummaryDbUrl(userFirebaseId);
     await this.updateNode(url, (summary: SentBevegramSummary): SentBevegramSummary => {
       return Object.assign({}, summary, {
         availableToSend: FirebaseDb.SafeAdd(summary.availableToSend, 0),
