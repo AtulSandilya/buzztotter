@@ -336,8 +336,10 @@ const PurchaseQueue = new Queue(db.getRef(PurchaseQueueUrl), (data, progress, re
         const jsonSpaces = 2;
         console.log("notifResult: ", notifResult);
 
-        status.sendingNotification = "complete";
-        await updateStatus();
+        setTimeout(() => {
+          status.sendingNotification = "complete";
+          updateStatus();
+        }, 500);
       }
 
       log.successMessage();
@@ -356,7 +358,6 @@ const PurchaseQueue = new Queue(db.getRef(PurchaseQueueUrl), (data, progress, re
 
 //  End Purchase --------------------------------------------------------}}}
 //  Redeem -------------------------------------------------------------{{{
-
 
 const RedeemQueueUrl = DbSchema.GetRedeemQueueUrl();
 Log.StartQueueMessage(RedeemQueueUrl);
