@@ -318,7 +318,7 @@ const PurchaseQueue = new Queue(db.getRef(PurchaseQueueUrl), (data, progress, re
 
       const receiverGCMId = await db.readNode(DbSchema.GetFcmTokenDbUrl(receiver.facebook.id));
 
-      if (!receiverGCMId && receiverGCMId.length === 0) {
+      if (!receiverGCMId || receiverGCMId.length === 0) {
         console.log("Could not find receiver fcm token");
         status.sendingNotification = "complete";
         await updateStatus();
