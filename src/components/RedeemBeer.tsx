@@ -49,6 +49,7 @@ interface RedeemBeerState {
   numDrinks?: number;
 }
 
+/* tslint:disable:member-ordering */
 export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerState> {
   constructor(props) {
     super(props);
@@ -57,21 +58,22 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
     };
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this.updateLocation();
   }
 
-  purchaseDrink() {
+  private purchaseDrink() {
     if (this.props.getLocationFailed || this.props.currentLocationBusinessName === undefined) {
-      alert("You are not at an establishment that accepts bevegrams. Please see the map for establishments that accept bevegrams.");
+      alert("You are not at an establishment that accepts bevegrams." +
+        " Please see the map for establishments that accept bevegrams.");
       return;
     }
 
     this.props.onRedeemClicked(this.state.numDrinks, this.props.id);
   }
 
-  renderErrorMessage() {
-    if(this.props.redeemTransactionStatus.error) {
+  private renderErrorMessage() {
+    if (this.props.redeemTransactionStatus.error) {
       return (
         <View style={globalStyles.bevLine}>
           <View style={globalStyles.bevLineLeft}>
@@ -83,16 +85,16 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
               </Text>
           </View>
         </View>
-      )
+      );
     }
   }
 
-  isRedeemComplete() {
+  private isRedeemComplete() {
     const status: RedeemTransactionStatus = this.props.redeemTransactionStatus;
     return transactionFinished<RedeemTransactionStatus>(status);
   }
 
-  renderPurchaseConfirmed() {
+  private renderPurchaseConfirmed() {
     if (this.isRedeemComplete()) {
       return (
         <View>
@@ -115,11 +117,11 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
     }
   }
 
-  updateLocation() {
+  private updateLocation() {
     this.props.updateLocation();
   }
 
-  render() {
+  public render() {
     return(
       <RouteWithNavBarWrapper>
         <View style={globalStyles.bevContainer}>
