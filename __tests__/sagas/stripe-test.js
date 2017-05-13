@@ -143,7 +143,10 @@ const getCall = (input) => {
   return input.value.CALL.fn;
 }
 
-// describe('stripe saga', () => {
+describe('stripe saga', () => {
+  it("exists", () => {
+    expect(true).toBe(true);
+  });
 //   const stripeApiUrl = "https://api.stripe.com/v1/"
 
 // // checkVerifyCreditCard ------------------------------------------------{{{
@@ -208,5 +211,5 @@ const getCall = (input) => {
 //   })
 
 // // End checkResponseForError --------------------------------------------}}}
-// })
+})
 
