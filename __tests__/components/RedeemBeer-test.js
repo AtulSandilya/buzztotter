@@ -14,6 +14,19 @@ describe('RedeemBeer component', () => {
         id="1234"
         name="Testy"
         locations={defaultLocationsState}
+        receivedBevegram={{
+          sentFromName: "Test McTester",
+          sentFromFacebookId: "1234",
+          sentFromPhotoUrl: "test.com",
+          receivedDate: Date.now(),
+          isRedeemed: false,
+          quantity: 1,
+          quantityRedeemed: 0,
+        }}
+        redeemTransactionStatus={{
+          connectionEstablished: "complete",
+          updatingDatabase: "inProgress",
+        }}
       />
     )
 
