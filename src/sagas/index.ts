@@ -74,6 +74,7 @@ export default function* rootSaga() {
     }
 
     yield call(updatePurchasePackages);
+    yield call(getLocationsNearUser);
     yield call(updateHistory);
   });
 
