@@ -45,7 +45,7 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
             <CBevegram
               from={thisBevegram.sentFromName}
               date={thisBevegram.receivedDate}
-              quantity={thisBevegram.quantity}
+              quantity={thisBevegram.quantity - thisBevegram.quantityRedeemed}
               imagePath={thisBevegram.sentFromPhotoUrl}
               id={rowKey}
             />

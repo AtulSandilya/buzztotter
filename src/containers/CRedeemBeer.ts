@@ -3,7 +3,12 @@ import { connect } from "react-redux";
 import RedeemBeer, {RedeemBeerProps} from "../components/RedeemBeer";
 
 import {StringifyDate} from "../CommonUtilities";
-import {GpsCoordinates, Location, RedeemTransactionStatus} from "../db/tables";
+import {
+  GpsCoordinates,
+  Location,
+  ReceivedBevegram,
+  RedeemTransactionStatus,
+} from "../db/tables";
 
 interface StateProps {
   id?: string;
@@ -18,10 +23,12 @@ interface StateProps {
   redeemFailed?: boolean;
   isRefreshingLocation?: boolean;
   redeemTransactionStatus?: RedeemTransactionStatus;
+  receivedBevegram?: ReceivedBevegram;
   locations?: [Location];
 }
 
 const mapStateToProps = (state): StateProps => {
+  const receivedBevegramId = state.routes.RedeemBeer.data.id;
   return {
     currentLocation: state.redeemView.currentLocation,
     currentLocationBusinessName: state.redeemView.currentLocationBusinessName,
@@ -34,6 +41,7 @@ const mapStateToProps = (state): StateProps => {
     locations: state.locations,
     name: state.routes.RedeemBeer.data.from,
     quantity: state.routes.RedeemBeer.data.quantity,
+    receivedBevegram: state.receivedBevegrams[receivedBevegramId],
     redeemFailed: state.redeemView.redeemFailed,
     redeemTransactionStatus: state.redeemView.redeemTransactionStatus,
   };

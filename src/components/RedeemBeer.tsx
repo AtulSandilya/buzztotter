@@ -9,6 +9,8 @@ import {
   View,
 } from "react-native";
 
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 import {Location} from "../db/tables";
 
 import BevButton from "./BevButton";
@@ -17,7 +19,7 @@ import TitleText from "./TitleText";
 
 import {globalColors, globalStyles} from "./GlobalStyles";
 
-import {GpsCoordinates, RedeemTransactionStatus} from "../db/tables";
+import {GpsCoordinates, ReceivedBevegram, RedeemTransactionStatus} from "../db/tables";
 
 import {PrettyFormatAddress} from "../CommonUtilities";
 
@@ -39,6 +41,7 @@ export interface RedeemBeerProps {
   isLoading?: boolean;
   isRefreshingLocation?: boolean;
   redeemTransactionStatus?: RedeemTransactionStatus;
+  receivedBevegram?: ReceivedBevegram;
   locations?: [Location];
   onRedeemClicked?(quantity: number, receivedId: string): void;
   closeRedeem?(): void;
@@ -50,11 +53,12 @@ interface RedeemBeerState {
 }
 
 /* tslint:disable:member-ordering */
+/* tslint:disable:no-magic-numbers */
 export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerState> {
   constructor(props) {
     super(props);
     this.state = {
-      numDrinks: 1,
+      numDrinks: this.props.receivedBevegram.quantity - this.props.receivedBevegram.quantityRedeemed,
     };
   }
 
@@ -89,6 +93,58 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
     }
   }
 
+  private renderQuantityLine() {
+    const bev = this.props.receivedBevegram;
+    const allowIncrement = bev && (bev.quantity > 1) && (bev.quantity > bev.quantityRedeemed);
+    return (
+      <View style={globalStyles.bevLine}>
+        <View style={[globalStyles.bevLineLeft, {flex: 1}]}>
+          <Text style={globalStyles.bevLineTextTitle}>Quantity:</Text>
+        </View>
+        <View style={[globalStyles.bevLineRight, {flex: 1, justifyContent: "flex-end"}]}>
+          <Text style={globalStyles.bevLineText}>{this.state.numDrinks}</Text>
+          {allowIncrement ?
+            <View style={{flexDirection: "row"}}>
+              <TouchableHighlight onPress={() => this.updateQuantity(-1)} underlayColor="#ffffff">
+                <FontAwesome
+                  name="minus-circle"
+                  style={{
+                    color: "#999",
+                    fontSize: 20,
+                    marginLeft: 30,
+                  }}
+                />
+              </TouchableHighlight>
+              <TouchableHighlight onPress={() => this.updateQuantity(1)} underlayColor="#ffffff">
+                <FontAwesome
+                  name="plus-circle"
+                  style={{
+                    color: "#999",
+                    fontSize: 20,
+                    marginLeft: 30,
+                  }}
+                />
+              </TouchableHighlight>
+            </View>
+          : <View/>}
+        </View>
+      </View>
+    );
+  }
+
+  private updateQuantity(amount: number) {
+    const newAmount = this.state.numDrinks + amount;
+    const min = 1;
+    const max = this.props.receivedBevegram.quantity - this.props.receivedBevegram.quantityRedeemed;
+    if (newAmount >= min && newAmount <= max) {
+      this.setState((state, props) => {
+        return Object.assign({}, state, {
+          numDrinks: this.state.numDrinks + amount,
+        });
+      });
+    }
+  }
+
   private isRedeemComplete() {
     const status: RedeemTransactionStatus = this.props.redeemTransactionStatus;
     return transactionFinished<RedeemTransactionStatus>(status);
@@ -100,7 +156,9 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
         <View>
           {!transactionFailed(this.props.redeemTransactionStatus) ?
             <View style={{flex: 1, alignItems: "center", paddingTop: 20}}>
-              <Text style={{color: globalColors.bevPrimary, fontSize: 30}}>1 Beer Redeemed!</Text>
+              <Text style={{color: globalColors.bevPrimary, fontSize: 30}}>
+                {this.state.numDrinks} Bevegrams Redeemed!
+            </Text>
             </View>
           : <View/>}
           <View style={{alignItems: "flex-end", paddingTop: 10}}>
@@ -133,14 +191,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
               <Text style={globalStyles.bevLineText}>{this.props.name}</Text>
             </View>
           </View>
-          <View style={globalStyles.bevLine}>
-            <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Quantity:</Text>
-            </View>
-            <View style={globalStyles.bevLineRight}>
-              <Text style={globalStyles.bevLineText}>{this.props.quantity}</Text>
-            </View>
-          </View>
+          {this.renderQuantityLine()}
           <View style={globalStyles.bevLine}>
             <View style={globalStyles.bevLineLeft}>
               <Text style={globalStyles.bevLineTextTitle}>Your Location:</Text>
@@ -217,7 +268,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
               <View style={globalStyles.bevLineRight}>
                 <BevButton
                   onPress={this.purchaseDrink.bind(this)}
-                  text={`Redeem ${this.props.quantity} Bevegram${this.props.quantity === 1 ? "" : "s"}`}
+                  text={`Redeem ${this.state.numDrinks} Bevegram${this.state.numDrinks === 1 ? "" : "s"}`}
                   shortText={"Redeem"}
                   label={"Redeem Bevegram Button"}
                   buttonFontSize={18}
