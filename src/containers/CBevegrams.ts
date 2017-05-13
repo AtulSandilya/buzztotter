@@ -13,7 +13,10 @@ interface StateProps {
 
 const mapStateToProps = (state): StateProps => {
   return {
-    bevegramsList: Object.keys(state.receivedBevegrams).sort().reverse(),
+    bevegramsList: Object.keys(state.receivedBevegrams).filter((key) => {
+      const thisBevegram = state.receivedBevegrams[key];
+      return thisBevegram.quantity > thisBevegram.quantityRedeemed;
+    }).sort().reverse(),
     isLoadingBevegrams: state.bevegramsTab.isLoadingBevegrams,
     receivedBevegrams: state.receivedBevegrams,
     redeemModalIsOpen: state.modals.redeemBevegramModal.isOpen,

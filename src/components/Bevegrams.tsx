@@ -40,19 +40,15 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
       dataSource={ds.cloneWithRows(bevegramsList)}
       renderRow={(rowKey) => {
         const thisBevegram: ReceivedBevegram = receivedBevegrams[rowKey];
-        if (thisBevegram.quantity > thisBevegram.quantityRedeemed) {
-          return (
-            <CBevegram
-              from={thisBevegram.sentFromName}
-              date={thisBevegram.receivedDate}
-              quantity={thisBevegram.quantity - thisBevegram.quantityRedeemed}
-              imagePath={thisBevegram.sentFromPhotoUrl}
-              id={rowKey}
-            />
-          );
-        } else {
-          return <View/>;
-        }
+        return (
+          <CBevegram
+            from={thisBevegram.sentFromName}
+            date={thisBevegram.receivedDate}
+            quantity={thisBevegram.quantity - thisBevegram.quantityRedeemed}
+            imagePath={thisBevegram.sentFromPhotoUrl}
+            id={rowKey}
+          />
+        );
       }}
       renderSeparator={(sectionId, rowId) => <View key={rowId} style={globalStyles.listRowSeparator} />}
       refreshControl={
