@@ -1,31 +1,31 @@
 import {
   PurchasedBevegram,
   PurchasedBevegramSummary,
-} from '../db/tables';
+} from "../db/tables";
 
 interface PurchasedBevegramState {
-  summary: PurchasedBevegramSummary,
-  list: Object,
+  summary: PurchasedBevegramSummary;
+  list: object;
 }
 
 const defaultState = {
+  list: {},
   summary: {
-    quantityPurchased: 0,
     availableToSend: 0,
+    quantityPurchased: 0,
     sent: 0,
   },
-  list: {},
-}
+};
 
 export const purchasedBevegrams = (state = defaultState, action) => {
-  switch(action.type){
-    case 'SET_PURCHASED_BEVEGRAM_LIST': {
+  switch (action.type) {
+    case "SET_PURCHASED_BEVEGRAM_LIST": {
       return Object.assign({}, state, {
         list: action.payload.list,
-      })
+      });
     }
 
     default:
       return state;
   }
-}
+};
