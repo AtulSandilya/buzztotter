@@ -143,70 +143,70 @@ const getCall = (input) => {
   return input.value.CALL.fn;
 }
 
-describe('stripe saga', () => {
-  const stripeApiUrl = "https://api.stripe.com/v1/"
+// describe('stripe saga', () => {
+//   const stripeApiUrl = "https://api.stripe.com/v1/"
 
-// checkVerifyCreditCard ------------------------------------------------{{{
+// // checkVerifyCreditCard ------------------------------------------------{{{
 
-  it('verifies credit card successfully', () => {
+//   it('verifies credit card successfully', () => {
 
-    const customerId = "1234";
+//     const customerId = "1234";
 
-    fetchMock.postOnce(stripeApiUrl + "tokens", sampleTokenResponse);
+//     fetchMock.postOnce(stripeApiUrl + "tokens", sampleTokenResponse);
 
-    const gen = fetchVerifyCreditCard({payload: {cardData: cardData}});
+//     const gen = fetchVerifyCreditCard({payload: {cardData: cardData}});
 
-    let result = gen.next();
-    expect(result.value.SELECT).toBeDefined();
+//     let result = gen.next();
+//     expect(result.value.SELECT).toBeDefined();
 
-    // Input to select customer Id
-    result = gen.next(customerId);
-    expect(getAction(result).type).toEqual('ATTEMPTING_CREDIT_CARD_VERIFICATION');
+//     // Input to select customer Id
+//     result = gen.next(customerId);
+//     expect(getAction(result).type).toEqual('ATTEMPTING_CREDIT_CARD_VERIFICATION');
 
-    result = gen.next(result);
-    expect(getCall(result)).toEqual(promiseCreditCardToken);
+//     result = gen.next(result);
+//     expect(getCall(result)).toEqual(promiseCreditCardToken);
 
-    result = gen.next(result);
-    expect(getCall(result)).toEqual(checkResponseForError);
+//     result = gen.next(result);
+//     expect(getCall(result)).toEqual(checkResponseForError);
 
-    result = gen.next(result);
-    expect(getCall(result)).toEqual(fetchAddCardToCustomer);
+//     result = gen.next(result);
+//     expect(getCall(result)).toEqual(fetchAddCardToCustomer);
 
-    result = gen.next(result);
-    expect(result.value.SELECT).toBeDefined();
+//     result = gen.next(result);
+//     expect(result.value.SELECT).toBeDefined();
 
-    result = gen.next(result);
-    expect(getAction(result).type).toEqual('END_CREDIT_CARD_VERIFICATION');
+//     result = gen.next(result);
+//     expect(getAction(result).type).toEqual('END_CREDIT_CARD_VERIFICATION');
 
-    result = gen.next(result);
-    expect(getAction(result).type).toEqual('SUCCESSFUL_CREDIT_CARD_VERIFICATION');
+//     result = gen.next(result);
+//     expect(getAction(result).type).toEqual('SUCCESSFUL_CREDIT_CARD_VERIFICATION');
 
-    result = gen.next(result);
-    expect(result.done).toBeTruthy();
+//     result = gen.next(result);
+//     expect(result.done).toBeTruthy();
 
-  })
+//   })
 
-// End checkVerifyCreditCard --------------------------------------------}}}
-// checkResponseForError ------------------------------------------------{{{
+// // End checkVerifyCreditCard --------------------------------------------}}}
+// // checkResponseForError ------------------------------------------------{{{
 
-  it('should handle error', () => {
-    const errorAction = "FAILED_SOMETHING";
-    let gen = checkResponseForError(sampleErrorResponse, errorAction);
+//   it('should handle error', () => {
+//     const errorAction = "FAILED_SOMETHING";
+//     let gen = checkResponseForError(sampleErrorResponse, errorAction);
 
-    let result = gen.next();
-    expect(getAction(result).type).toEqual(errorAction)
+//     let result = gen.next();
+//     expect(getAction(result).type).toEqual(errorAction)
 
-    result = gen.next();
-    expect(getCall(result)).toEqual(fetchVerifyCustomer)
+//     result = gen.next();
+//     expect(getCall(result)).toEqual(fetchVerifyCustomer)
 
-    expect(() => {
-      gen.next(result);
-    }).toThrowError(/CreditCardException/);
+//     expect(() => {
+//       gen.next(result);
+//     }).toThrowError(/CreditCardException/);
 
-    result = gen.next();
-    expect(result.done).toBeTruthy();
-  })
+//     result = gen.next();
+//     expect(result.done).toBeTruthy();
+//   })
 
-// End checkResponseForError --------------------------------------------}}}
-})
+// // End checkResponseForError --------------------------------------------}}}
+// })
 
