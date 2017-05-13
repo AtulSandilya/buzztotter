@@ -375,7 +375,6 @@ const RedeemQueue = new Queue(db.getRef(RedeemQueueUrl), (data, progress, resolv
 
     const updateStatus = async (): Promise<void> => {
       status.lastModified = GetTimeNow();
-      console.log("status: ", status);
       await db.writeNode(DbSchema.GetRedeemTransactionStatusDbUrl(userFirebaseId), status);
     };
     updateStatus();

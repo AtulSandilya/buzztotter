@@ -285,9 +285,8 @@ connectionEstablished:"complete",
 updatingDatabase:"pending"};
 
 updateStatus=function updateStatus(){return __awaiter(_this3,void 0,void 0,_regenerator2.default.mark(function _callee6(){return _regenerator2.default.wrap(function _callee6$(_context6){while(1){switch(_context6.prev=_context6.next){case 0:
-status.lastModified=(0,_CommonUtilities.GetTimeNow)();
-console.log("status: ",status);_context6.next=4;return(
-db.writeNode(DbSchema.GetRedeemTransactionStatusDbUrl(userFirebaseId),status));case 4:case"end":return _context6.stop();}}},_callee6,this);}));};
+status.lastModified=(0,_CommonUtilities.GetTimeNow)();_context6.next=3;return(
+db.writeNode(DbSchema.GetRedeemTransactionStatusDbUrl(userFirebaseId),status));case 3:case"end":return _context6.stop();}}},_callee6,this);}));};
 
 updateStatus();_context7.prev=8;_context7.next=11;return(
 
