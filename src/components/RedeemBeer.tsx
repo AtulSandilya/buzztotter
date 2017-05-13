@@ -21,7 +21,7 @@ import {globalColors, globalStyles} from "./GlobalStyles";
 
 import {GpsCoordinates, ReceivedBevegram, RedeemTransactionStatus} from "../db/tables";
 
-import {PrettyFormatAddress} from "../CommonUtilities";
+import {Pluralize} from "../CommonUtilities";
 
 import {transactionFailed, transactionFinished} from "../sagas/firebase";
 
@@ -152,12 +152,13 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
 
   private renderPurchaseConfirmed() {
     if (this.isRedeemComplete()) {
+      const redeemQuantityMessage = `${this.state.numDrinks} Bevegram${Pluralize(this.state.numDrinks)} Redeemed!`;
       return (
         <View>
           {!transactionFailed(this.props.redeemTransactionStatus) ?
             <View style={{flex: 1, alignItems: "center", paddingTop: 20}}>
               <Text style={{color: globalColors.bevPrimary, fontSize: 30}}>
-                {this.state.numDrinks} Bevegrams Redeemed!
+                {redeemQuantityMessage}
             </Text>
             </View>
           : <View/>}
