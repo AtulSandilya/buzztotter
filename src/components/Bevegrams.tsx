@@ -68,8 +68,15 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
       renderFooter={() => {
         if (bevegramsList.length === 0) {
           return (
-            <View style={{flex: 1, alignItems: "center", justifyContent: "center", padding: 10}}>
-              <Text>You have no bevegrams! </Text>
+            <View style={[globalStyles.bevLine, {
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: 0,
+              paddingBottom: 0,
+            }]}>
+              <Text style={{color: "#666", padding: 15}}>
+                You have 0 bevegrams!
+              </Text>
             </View>
           );
         }
