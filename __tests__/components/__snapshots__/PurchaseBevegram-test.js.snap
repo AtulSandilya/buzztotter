@@ -19,11 +19,13 @@ exports[`test renders correctly 1`] = `
         }
       }
       enableAutoAutomaticScroll={true}
+      enableResetScrollToCoords={true}
       extraHeight={75}
-      extraScrollHeight={0}
+      extraScrollHeight={30}
       keyboardDismissMode="interactive"
       onScroll={[Function]}
-      scrollEventThrottle={8}
+      refreshControl={null}
+      scrollEventThrottle={0}
       showsVerticalScrollIndicator={true}
       style={
         Object {
@@ -229,8 +231,7 @@ exports[`test renders correctly 1`] = `
                       "fontSize": 20,
                     }
                   }>
-                  $ 
-                  7.50
+                  $ 0.07
                 </Text>
               </View>
             </View>
@@ -277,7 +278,9 @@ exports[`test renders correctly 1`] = `
                 }
               }>
               <TextInput
-                maxLength={4}
+                autoCapitalize="none"
+                autoCorrect={false}
+                maxLength={8}
                 onChangeText={[Function]}
                 placeholder="ABCD"
                 placeholderTextColor="#cccccc"
