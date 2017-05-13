@@ -1,4 +1,4 @@
-Object.defineProperty(exports,"__esModule",{value:true});exports.GetPromoCodeSummaryDbUrl=exports.GetPromoCodeListDbUrl=exports.GetRedeemedBevegramUserListDbUrl=exports.GetRedeemedBevegramUserDbUrl=exports.GetRedeemedBevegramVendorCustomerDbUrl=exports.GetRedeemedBevegramVendorDbUrl=exports.GetReceivedBevegramSummaryDbUrl=exports.GetReceivedBevegramListDbUrl=exports.GetSentBevegramSummaryDbUrl=exports.GetSentBevegramListDbUrl=exports.GetPurchasedBevegramSummaryDbUrl=exports.GetPurchasedBevegramListDbUrl=exports.GetRedeemQueueUrl=exports.GetPurchaseQueueUrl=exports.GetRemoveCreditCardFromCustomerQueueUrl=exports.GetAddCreditCardToCustomerQueueUrl=exports.GetFcmTokenDbUrl=exports.GetFirebaseIdDbUrl=exports.GetVendorDbUrl=exports.GetUserDbUrl=exports.GetSchemaDbUrl=undefined;var _lodash=require("lodash");var _lodash2=_interopRequireDefault(_lodash);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}
+Object.defineProperty(exports,"__esModule",{value:true});exports.GetAllGpsCoordNodeUrls=exports.GetGpsCoordNodeFullSummaryUrl=exports.GetLocationByDegreeUrl=exports.GetVendorRedeemListDbUrl=exports.GetVendorMetadataDbUrl=exports.GetVendorDbUrl=exports.GetVendorPushDbUrl=exports.GetRedeemTransactionStatusDbUrl=exports.GetPurchaseTransactionStatusDbUrl=exports.GetPurchasePackagesDbUrl=exports.GetStripeCustomerIdDbUrl=exports.GetPromoCodeSummaryDbUrl=exports.GetPromoCodeListDbUrl=exports.GetRedeemedBevegramSummaryDbUrl=exports.GetRedeemedBevegramListDbUrl=exports.GetReceivedBevegramSummaryDbUrl=exports.GetReceivedBevegramListDbUrl=exports.GetSentBevegramSummaryDbUrl=exports.GetSentBevegramListDbUrl=exports.GetPurchasedBevegramSummaryDbUrl=exports.GetPurchasedBevegramListDbUrl=exports.GetUserVerificationTokenDbUrl=exports.GetRedeemQueueUrl=exports.GetPurchaseQueueUrl=exports.GetUpdateDefaultCreditCardForCustomerUrl=exports.GetRemoveCreditCardFromCustomerQueueUrl=exports.GetAddCreditCardToCustomerQueueUrl=exports.GetFcmTokenDbUrl=exports.GetFirebaseIdDbUrl=exports.GetUserDbUrl=exports.GetSchemaDbUrl=undefined;var _extends2=require("babel-runtime/helpers/extends");var _extends3=_interopRequireDefault(_extends2);var _CommonUtilities=require("../CommonUtilities");function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}
 
 
 var Schema={
@@ -12,14 +12,14 @@ facebookId:"FirebaseId"},
 fcmTokens:{
 facebookId:"fcmToken"},
 
-vendors:{
-vendorId:"Vendor"},
-
 addCreditCardToCustomerQueue:{
 uniqueId:"AddCreditCardToCustomerPackage"},
 
 removeCreditCardFromCustomerQueue:{
 uniqueId:"RemoveCreditCardFromCustomerPackage"},
+
+updateDefaultCreditCardQueue:{
+uniqueId:"UpdateDefaultCreditCardForCustomerPackageForQueue"},
 
 purchaseQueue:{
 uniqueId:"PurchasePackage"},
@@ -27,6 +27,13 @@ uniqueId:"PurchasePackage"},
 redeemQueue:{
 uniqueId:"RedeemPackage"},
 
+userVerificationTokens:{
+userFirebaseId:"token"},
+
+stripeCustomerIds:{
+userFirebaseId:"stripeCustomerId"},
+
+purchasePackages:"ArrayOfPurchasePackages",
 promoCodes:{
 promotionCode:{
 summary:"PromoCodesSummary",
@@ -42,6 +49,12 @@ list:{
 FirebaseUniqueTimeSortableId:"PurchasedBevegram"}}},
 
 
+
+purchaseTransactionStatus:{
+userFirebaseId:"PurchaseTransactionStatus"},
+
+redeemTransactionStatus:{
+userFirebaseId:"RedeemTransactionStatus"},
 
 sentBevegrams:{
 firebaseId:{
@@ -60,54 +73,133 @@ FirebaseUniqueTimeSortableId:"ReceivedBevegram"}}},
 
 
 redeemedBevegrams:{
+firebaseId:{
+summary:"RedeemedBevegramsSummary",
+list:{
+uniqueId:"RedeemedBevegram"}}},
+
+
+
+allLocations:{
+summary:{
+totalLocations:"number"},
+
+list:{
+vendorId:"Location"}},
+
+
+
+locationsByDegree:{
+summary:{
+totalLocations:"number"},
+
+latitudeInDegrees:{
+longitudeInDegrees:{
+summary:{
+totalLocations:"number"},
+
+list:{
+vendorId:"Location"}}}},
+
+
+
+
+
+locationsByTenthOfDegree:{
+summary:{
+totalLocations:"number"},
+
+latitudeInTenthOfDegrees:{
+longitudeInTenthOfDegrees:{
+summary:{
+totalLocations:"number"},
+
+list:{
+id:"Location"}}}},
+
+
+
+
+
+locationsByHundrethOfDegree:{
+summary:{
+totalLocations:"number"},
+
+latitudeInHundrethOfDegrees:{
+longitudeInHundrethOfDegrees:{
+summary:{
+totalLocations:"number"},
+
+list:{
+vendorId:"Location"}}}},
+
+
+
+
 vendors:{
 vendorId:{
 
-ledger:{
-bevegramList:{
-FirebaseUniqueTimeSortableId:"RedeemedBevegram"},
-
-customerList:{
-
-firebaseId:true}}}},
-
-
-
-
-users:{
-firebaseId:{
-FirebaseUniqueTimeSortableId:"RedeemedBevegram"}}}}};
+name:"string",
+address:"string",
+latitude:"string",
+longitude:"string",
+metadata:"Vendor",
+list:{
+pushId:"RedeemedBevegram"}}}}};
 
 
 
 
 
-var GetSchemaDbUrl=exports.GetSchemaDbUrl=function GetSchemaDbUrl(table,key){
+var has=function has(obj,key){
+var newObj=(0,_extends3.default)({},obj);
+key.split(".").map(function(k){
+if(newObj){
+newObj=newObj[k];
+}
+});
+return newObj;
+};
+var GetSchemaDbUrl=exports.GetSchemaDbUrl=function GetSchemaDbUrl(table,keysToReplace){
 var urlSeparator="/";
 var periodsRe=/\./g;
 
-if(_lodash2.default.has(Schema,["root",table].join("."))){
-if(!key){
+try{
+var tableIsValid=has(Schema,"root."+table);
+if(tableIsValid===undefined){
+throw Error;
+}
+}
+catch(e){
+throw Error("Db Error: Table \""+table+"\" does not exist within the database schema!");
+}
+if(!keysToReplace){
 return table.replace(periodsRe,urlSeparator);
-}
+}else
+if(typeof keysToReplace==="object"){
+var invalidKeyChars={
+"\\.":"_",
+"\\#":"!",
+"\\$":"?",
+"\\[":"{",
+"\\]":"}"};
 
-
-if(typeof key==="object"){var _ret=function(){
-var newTable=table;
-Object.keys(key).map(function(k){
-newTable=newTable.replace(k,key[k]);
+var newTable=table.replace(periodsRe,urlSeparator);
+Object.keys(keysToReplace).map(function(k){
+newTable=newTable.replace(k,keysToReplace[k]);
 });
-return{v:newTable.replace(periodsRe,urlSeparator)};}();if(typeof _ret==="object")return _ret.v;
+Object.keys(invalidKeyChars).map(function(key){
+var regex=new RegExp(key,"g");
+newTable=newTable.replace(regex,invalidKeyChars[key]);
+});
+return newTable;
+}else
+{
+return[table,keysToReplace.replace(periodsRe,urlSeparator)].join(urlSeparator);
 }
-return[table,key.replace(periodsRe,urlSeparator)].join(urlSeparator);
-}
-throw Error("Db Error: Key \""+JSON.stringify(key)+"\" does not exist within table "+table+"!");
 };
 var GetUserDbUrl=exports.GetUserDbUrl=function GetUserDbUrl(firebaseId){
 return GetSchemaDbUrl("users",firebaseId);
-};
-var GetVendorDbUrl=exports.GetVendorDbUrl=function GetVendorDbUrl(vendorId){
-return GetSchemaDbUrl("vendors",vendorId);
 };
 var GetFirebaseIdDbUrl=exports.GetFirebaseIdDbUrl=function GetFirebaseIdDbUrl(facebookId){
 return GetSchemaDbUrl("firebaseIds.facebookId",{facebookId:facebookId});
@@ -121,11 +213,17 @@ return GetSchemaDbUrl("addCreditCardToCustomerQueue");
 var GetRemoveCreditCardFromCustomerQueueUrl=exports.GetRemoveCreditCardFromCustomerQueueUrl=function GetRemoveCreditCardFromCustomerQueueUrl(){
 return GetSchemaDbUrl("removeCreditCardFromCustomerQueue");
 };
+var GetUpdateDefaultCreditCardForCustomerUrl=exports.GetUpdateDefaultCreditCardForCustomerUrl=function GetUpdateDefaultCreditCardForCustomerUrl(){
+return GetSchemaDbUrl("updateDefaultCreditCardQueue");
+};
 var GetPurchaseQueueUrl=exports.GetPurchaseQueueUrl=function GetPurchaseQueueUrl(){
 return GetSchemaDbUrl("purchaseQueue");
 };
 var GetRedeemQueueUrl=exports.GetRedeemQueueUrl=function GetRedeemQueueUrl(){
 return GetSchemaDbUrl("redeemQueue");
+};
+var GetUserVerificationTokenDbUrl=exports.GetUserVerificationTokenDbUrl=function GetUserVerificationTokenDbUrl(userFirebaseId){
+return GetSchemaDbUrl("userVerificationTokens.userFirebaseId",{userFirebaseId:userFirebaseId});
 };
 var GetPurchasedBevegramListDbUrl=exports.GetPurchasedBevegramListDbUrl=function GetPurchasedBevegramListDbUrl(firebaseId){
 return GetSchemaDbUrl("purchasedBevegrams.firebaseId.list",{firebaseId:firebaseId});
@@ -145,21 +243,83 @@ return GetSchemaDbUrl("receivedBevegrams.firebaseId.list",{firebaseId:firebaseId
 var GetReceivedBevegramSummaryDbUrl=exports.GetReceivedBevegramSummaryDbUrl=function GetReceivedBevegramSummaryDbUrl(firebaseId){
 return GetSchemaDbUrl("receivedBevegrams.firebaseId.summary",{firebaseId:firebaseId});
 };
-var GetRedeemedBevegramVendorDbUrl=exports.GetRedeemedBevegramVendorDbUrl=function GetRedeemedBevegramVendorDbUrl(vendorId){
-return GetSchemaDbUrl("redeemedBevegrams.vendorId.ledger.bevegramList",{vendorId:vendorId});
+var GetRedeemedBevegramListDbUrl=exports.GetRedeemedBevegramListDbUrl=function GetRedeemedBevegramListDbUrl(firebaseId){
+return GetSchemaDbUrl("redeemedBevegrams.firebaseId.list",{firebaseId:firebaseId});
 };
-var GetRedeemedBevegramVendorCustomerDbUrl=exports.GetRedeemedBevegramVendorCustomerDbUrl=function GetRedeemedBevegramVendorCustomerDbUrl(vendorId){
-return GetSchemaDbUrl("redeemedBevegrams.vendorId.ledger.customerList",{vendorId:vendorId});
-};
-var GetRedeemedBevegramUserDbUrl=exports.GetRedeemedBevegramUserDbUrl=function GetRedeemedBevegramUserDbUrl(firebaseId){
-return GetSchemaDbUrl("redeemedBevegrams.users.firebaseId",{firebaseId:firebaseId});
-};
-var GetRedeemedBevegramUserListDbUrl=exports.GetRedeemedBevegramUserListDbUrl=function GetRedeemedBevegramUserListDbUrl(firebaseId){
-return GetSchemaDbUrl("redeemedBevegrams.users.firebaseId",{firebaseId:firebaseId});
+var GetRedeemedBevegramSummaryDbUrl=exports.GetRedeemedBevegramSummaryDbUrl=function GetRedeemedBevegramSummaryDbUrl(firebaseId){
+return GetSchemaDbUrl("redeemedBevegrams.firebaseId.summary",{firebaseId:firebaseId});
 };
 var GetPromoCodeListDbUrl=exports.GetPromoCodeListDbUrl=function GetPromoCodeListDbUrl(promotionCode){
 return GetSchemaDbUrl("promoCodes.promotionCode.list",{promotionCode:promotionCode});
 };
 var GetPromoCodeSummaryDbUrl=exports.GetPromoCodeSummaryDbUrl=function GetPromoCodeSummaryDbUrl(promotionCode){
 return GetSchemaDbUrl("promoCodes.promotionCode.summary",{promotionCode:promotionCode});
+};
+var GetStripeCustomerIdDbUrl=exports.GetStripeCustomerIdDbUrl=function GetStripeCustomerIdDbUrl(userFirebaseId){
+return GetSchemaDbUrl("stripeCustomerIds.userFirebaseId",{userFirebaseId:userFirebaseId});
+};
+var GetPurchasePackagesDbUrl=exports.GetPurchasePackagesDbUrl=function GetPurchasePackagesDbUrl(){
+return GetSchemaDbUrl("purchasePackages");
+};
+var GetPurchaseTransactionStatusDbUrl=exports.GetPurchaseTransactionStatusDbUrl=function GetPurchaseTransactionStatusDbUrl(userFirebaseId){
+return GetSchemaDbUrl("purchaseTransactionStatus.userFirebaseId",{userFirebaseId:userFirebaseId});
+};
+var GetRedeemTransactionStatusDbUrl=exports.GetRedeemTransactionStatusDbUrl=function GetRedeemTransactionStatusDbUrl(userFirebaseId){
+return GetSchemaDbUrl("redeemTransactionStatus.userFirebaseId",{userFirebaseId:userFirebaseId});
+};
+var GetVendorPushDbUrl=exports.GetVendorPushDbUrl=function GetVendorPushDbUrl(){
+return GetSchemaDbUrl("vendors");
+};
+var GetVendorDbUrl=exports.GetVendorDbUrl=function GetVendorDbUrl(vendorId){
+return GetSchemaDbUrl("vendors.vendorId",{vendorId:vendorId});
+};
+var GetVendorMetadataDbUrl=exports.GetVendorMetadataDbUrl=function GetVendorMetadataDbUrl(vendorId){
+return GetSchemaDbUrl("vendors.vendorId.metadata",{vendorId:vendorId});
+};
+var GetVendorRedeemListDbUrl=exports.GetVendorRedeemListDbUrl=function GetVendorRedeemListDbUrl(vendorId){
+return GetSchemaDbUrl("vendors.vendorId.list",{vendorId:vendorId});
+};
+
+var GetLocationByDegreeUrl=exports.GetLocationByDegreeUrl=function GetLocationByDegreeUrl(lat,long,listOrSummary,decimalPlaces){
+switch(decimalPlaces){
+case 0:
+return GetSchemaDbUrl("locationsByDegree.latitudeInDegrees.longitudeInDegrees."+listOrSummary,{latitudeInDegrees:lat,longitudeInDegrees:long});
+case 1:
+return GetSchemaDbUrl("locationsByTenthOfDegree.latitudeInTenthOfDegrees.longitudeInTenthOfDegrees."+listOrSummary,{latitudeInTenthOfDegrees:lat,longitudeInTenthOfDegrees:long});
+case 2:
+return GetSchemaDbUrl("locationsByHundrethOfDegree.latitudeInHundrethOfDegrees.longitudeInHundrethOfDegrees."+listOrSummary,{latitudeInHundrethOfDegrees:lat,longitudeInHundrethOfDegrees:long});
+default:
+console.error("Invalid decimal place");}
+
+};
+var GetGpsCoordNodeFullSummaryUrl=exports.GetGpsCoordNodeFullSummaryUrl=function GetGpsCoordNodeFullSummaryUrl(decimalPlaces){
+switch(decimalPlaces){
+default:
+case 0:
+return GetSchemaDbUrl("locationsByDegree.summary");
+case 1:
+return GetSchemaDbUrl("locationsByTenthOfDegree.summary");
+case 2:
+return GetSchemaDbUrl("locationsByHundrethOfDegree.summary");}
+
+};
+var GetAllGpsCoordNodeUrls=exports.GetAllGpsCoordNodeUrls=function GetAllGpsCoordNodeUrls(gpsCoords){
+var gpsCoordNodeDataList=[
+{decimalPlace:0},
+{decimalPlace:1},
+{decimalPlace:2}];
+
+var list=gpsCoordNodeDataList.map(function(gpsCoordNodeData){
+var formattedCoords=(0,_CommonUtilities.FormatGpsCoordinates)(gpsCoords,gpsCoordNodeData.decimalPlace);
+return{
+listUrl:GetLocationByDegreeUrl(formattedCoords.latitude,formattedCoords.longitude,"list",gpsCoordNodeData.decimalPlace),
+summaryUrl:GetLocationByDegreeUrl(formattedCoords.latitude,formattedCoords.longitude,"summary",gpsCoordNodeData.decimalPlace)};
+
+});
+list.unshift({
+listUrl:GetSchemaDbUrl("allLocations.list"),
+summaryUrl:GetSchemaDbUrl("allLocations.summary")});
+
+
+return list;
 };

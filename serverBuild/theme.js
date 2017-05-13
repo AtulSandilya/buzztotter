@@ -6,7 +6,9 @@ bevPrimary:"#8ED0BA",
 
 bevSecondary:"#8B5E3C",
 
-bevActiveSecondary:"#AC9774"},
+bevActiveSecondary:"#AC9774",
+success:"#4BB543",
+failure:"#FF0033"},
 
 notificationIcons:{
 beverage:"ic_local_bar_white_48dp",
