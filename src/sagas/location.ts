@@ -71,6 +71,10 @@ export function *getLocationsNearUser() {
 export function *getLocationsAtUserLocation() {
 
   yield put({type: "ATTEMPTING_GET_LOCATIONS_AT_USER_LOCATION"});
+
+  const locationFetchDelay = 2000;
+  yield delay(locationFetchDelay);
+
   let deviceCoordinates: GpsCoordinates;
   try {
     deviceCoordinates = yield call(promiseDeviceGpsCoordinates);
@@ -100,9 +104,6 @@ export function *getLocationsAtUserLocation() {
         return loc;
       }
     });
-
-    const locationFetchDelay = 1000;
-    yield delay(locationFetchDelay);
 
     if (closeLocations.length === 0) {
       yield put({type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION", payload: {
