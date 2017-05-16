@@ -56,7 +56,6 @@ class FirebaseAdminDb extends FirebaseDb {
     const updatedVendor = Object.assign({}, currentVendor, updatedLoc);
     updatedVendor.lastModified = GetTimeNow();
 
-    const gpsCoordNodeUrls = this.getGpsCoordNodeUrls(vendorId, updatedVendor);
     this.addLocationToGpsCoordNodes(updatedLoc, vendorId, true);
 
     const vendorDbUrl = DbSchema.GetVendorDbUrl(vendorId);
@@ -106,7 +105,10 @@ class FirebaseAdminDb extends FirebaseDb {
     return result;
   }
 
-  private getGpsCoordNodeUrls = (vendorId: string, vendor: Vendor): Array<{listUrl: string, summaryUrl: string}> => {
+  private getGpsCoordNodeUrls = (
+    vendorId: string,
+    vendor: Vendor | Location,
+  ): Array<{listUrl: string, summaryUrl: string}> => {
     const gpsCoordNodeList = DbSchema.GetAllGpsCoordNodeUrls({
       latitude: vendor.latitude,
       longitude: vendor.longitude,
@@ -120,15 +122,8 @@ class FirebaseAdminDb extends FirebaseDb {
   }
 
   private addLocationToGpsCoordNodes = (loc: Location, vendorId: string, isUpdating: boolean = false) => {
-    const gpsCoordNodeUrls = DbSchema.GetAllGpsCoordNodeUrls({
-      latitude: loc.latitude,
-      longitude: loc.longitude,
-    });
-
-    gpsCoordNodeUrls.map((urlList) => {
-      const newListNode = {};
-      newListNode[vendorId] = loc;
-      this.writeNode(urlList.listUrl, newListNode);
+    this.getGpsCoordNodeUrls(vendorId, loc).map((urlList) => {
+      this.writeNode(urlList.listUrl, loc);
       this.updateNode(urlList.summaryUrl, (currentSummary) => {
         return Object.assign({}, currentSummary, {
           lastModified: GetTimeNow(),
