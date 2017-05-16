@@ -205,9 +205,7 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
                 underlayColor={"rgba(255, 255, 255, 0.1)"}
               >
                 {this.props.isRefreshingLocation ?
-                    <ActivityIndicator
-                      size="large"
-                    />
+                  <Text style={globalStyles.bevLineText}>Reloading...</Text>
                 :
                   <View>
                     {this.props.currentLocationBusinessName ?
