@@ -29,6 +29,7 @@ import {
   OnNextUrlNodeChange,
   OnNextUserNodeChange,
   QueueAddCreditCardToCustomerPackage,
+  readNode,
   readPurchasedBevegrams,
   readReceivedBevegrams,
   readRedeemedBevegrams,
@@ -212,13 +213,27 @@ interface ListenForChange {
 }
 
 function *listenForChangeOnUrl(url: string): IterableIterator<ListenForChange> {
-  const serverTimeout = 15000;
+  const serverTimeout = 5000;
 
   // timeout will not be undefined on a server timeout
-  return yield race({
+  const serverResponse =  yield race({
     timeout: call(delay, serverTimeout),
     changedNode: call(OnNextUrlNodeChange, url),
   }) as any;
+
+  if (serverResponse.timeout) {
+    // Make a list ditch effort to get the server status
+    // If the status indicates completion or failure return the completed
+    // status
+    const status = yield call(readNode, url) as any;
+    if (transactionFinished(status)) {
+      return {
+        changedNode: status,
+        timeout: undefined,
+      };
+    }
+  }
+  return serverResponse;
 }
 
 export function *updateUserStateOnNextChange(
