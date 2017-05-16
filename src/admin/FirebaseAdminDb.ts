@@ -77,7 +77,7 @@ class FirebaseAdminDb extends FirebaseDb {
       this.updateNode(urlList.summaryUrl, (currentSummary) => {
         return Object.assign({}, currentSummary, {
           lastModified: GetTimeNow(),
-          totalLocations: FirebaseDb.SafeSubtract(1, currentSummary.totalLocations),
+          totalLocations: FirebaseDb.SafeSubtract(currentSummary.totalLocations, 1),
         }) ;
       });
     });
