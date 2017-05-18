@@ -1,4 +1,4 @@
-import Admin from "firebase-admin";
+import * as admin from "firebase-admin";
 
 const SetupAdminDb = () => {
   require("dotenv").config();
@@ -15,12 +15,12 @@ const SetupAdminDb = () => {
     type: process.env.TEST_FIREBASE_ADMIN_KEY_type,
   };
 
-  Admin.initializeApp({
-    credential: Admin.credential.cert(serviceAccount),
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
     databaseURL: process.env.TEST_FIREBASE_KEY_firebaseDatabaseURL,
   });
 
-  return Admin.database();
+  return admin.database();
 };
 
 export default SetupAdminDb;
