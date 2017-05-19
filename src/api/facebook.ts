@@ -1,5 +1,7 @@
 import { GraphRequest, GraphRequestManager } from "react-native-fbsdk";
 
+import {isNarrow} from "../ReactNativeUtilities";
+
 const graphRequest = (token, urlString, parameterString, callback) => {
   // If parameterString is empty the the parameters object needs to be an
   // empty object else the graph api returns an error
@@ -54,4 +56,9 @@ const userInfoRequest = (token, callback) => {
 
 export const promiseUserInfoFromFacebook = (token) => {
   return promiseFunctionFromFacebook(token, userInfoRequest);
+};
+
+export const buildFacebookProfilePicUrlFromFacebookId = (facebookId: string): string => {
+  const imageSize = isNarrow ? "" : "?type=large";
+  return `https://graph.facebook.com/${facebookId}/picture${imageSize}`;
 };

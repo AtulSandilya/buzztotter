@@ -327,7 +327,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
           <CContact
             name={rowData.name}
             birthday={rowData.birthday}
-            imagePath={rowData.imagePath}
+            imagePath={buildFacebookProfilePicUrlFromFacebookId(rowData.facebookId)}
             facebookId={rowData.facebookId}
           />
         }
