@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Component} from 'react';
+import { Component} from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -13,20 +13,20 @@ import {
   ToastAndroid,
   TouchableHighlight,
   View,
-} from 'react-native';
+} from "react-native";
 
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import {globalStyles, globalColors} from './GlobalStyles.js';
-import {BrandingHeight} from './Branding';
-import { isAndroid, StatusBarHeight, WindowHeight, WindowWidth } from '../ReactNativeUtilities';
+import { isAndroid, StatusBarHeight, WindowHeight, WindowWidth } from "../ReactNativeUtilities";
+import {BrandingHeight} from "./Branding";
+import {globalColors, globalStyles} from "./GlobalStyles.js";
 
-import CContact from '../containers/CContact';
-import FacebookAppInviteButton from './FacebookAppInviteButton';
-import CBevegramStatusBar from '../containers/CBevegramStatusBar';
+import CBevegramStatusBar from "../containers/CBevegramStatusBar";
+import CContact from "../containers/CContact";
+import FacebookAppInviteButton from "./FacebookAppInviteButton";
 
-import {Contact} from '../reducers/contacts';
-import {ContactsSort, ContactsSortingMethod, ContactsSortOptionsViewLine} from '../reducers/contactsView';
+import {Contact} from "../reducers/contacts";
+import {ContactsSort, ContactsSortingMethod, ContactsSortOptionsViewLine} from "../reducers/contactsView";
 
 export interface ContactsProps {
   tabLabel?: string;
@@ -74,13 +74,13 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
 }) => {
   const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-  if(toastContactsReloaded){
-    if(isAndroid){
+  if (toastContactsReloaded) {
+    if (isAndroid) {
       ToastAndroid.show("Contacts Reloaded", ToastAndroid.SHORT);
     }
   }
 
-  const QueryBarColor = "#555555"
+  const QueryBarColor = "#555555";
   const QueryBarHeight = 44;
   const isSearching = searchInputIsFocused || "" !== searchQuery;
 
@@ -88,7 +88,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
     <View style={{flex: 1}}>
       <View style={{
         flex: -1,
-        flexDirection: 'row',
+        flexDirection: "row",
         paddingLeft: 8,
         height: QueryBarHeight,
         borderBottomWidth: StyleSheet.hairlineWidth,
@@ -96,13 +96,13 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
         zIndex: 1,
       }}>
         <TouchableHighlight
-          style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}
+          style={{flex: 1, flexDirection: "row", alignItems: "center"}}
           onPress={() => {
             exitedSearchInput();
           }}
           underlayColor={"rgba(255, 255, 255, 1)"}
         >
-          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{flex: 1, flexDirection: "row", alignItems: "center"}}>
             <FontAwesome
               name={"search"}
               size={14}
@@ -123,7 +123,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
               placeholderTextColor={QueryBarColor}
               value={searchQuery}
               onChangeText={(text) => {
-                updateSearchQuery(text)
+                updateSearchQuery(text);
               }}
               onSubmitEditing={() => {
                 Keyboard.dismiss();
@@ -168,12 +168,12 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
             underlayColor={"rgba(255, 255, 255, 1)"}
             style={{
               flex: 1,
-              alignItems: 'flex-end',
-              justifyContent: 'center'
+              alignItems: "flex-end",
+              justifyContent: "center",
             }}
             onPress={() => {
               LayoutAnimation.easeInEaseOut(undefined);
-              if(isSortOptionsVisible){
+              if (isSortOptionsVisible) {
                 hideSortOptions();
               } else {
                 showSortOptions();
@@ -181,9 +181,9 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
             }}
           >
             <View style={[{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
               flex: 1,
               paddingRight: 8,
               paddingLeft: 4,
@@ -195,13 +195,13 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
                 style={{
                   top: -4,
                   paddingRight: 10,
-                  transform: [{rotate: '270deg'}],
+                  transform: [{rotate: "270deg"}],
                 }}
               />
               <Text
                 style={{
                   color: QueryBarColor,
-                  fontSize: 10
+                  fontSize: 10,
                 }}
               >
                   SORT BY
@@ -242,7 +242,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
             style={{
               height: WindowHeight,
               width: WindowWidth,
-              backgroundColor: 'rgba(0, 0, 0, 0)',
+              backgroundColor: "rgba(0, 0, 0, 0)",
             }}
             underlayColor={"rgba(255, 255, 255, 0.0)"}
             onPress={() => {
@@ -251,15 +251,15 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
           >
             <View
               style={{
-                position: 'absolute',
-                backgroundColor: '#ffffff',
+                position: "absolute",
+                backgroundColor: "#ffffff",
                 flex: -1,
                 // Android Window Width includes the status bar and doesn't
                 top: BrandingHeight - (isAndroid ? StatusBarHeight : 0) + QueryBarHeight,
                 right: 0,
                 width: 150,
-                flexDirection: 'column',
-                shadowColor: '#333333',
+                flexDirection: "column",
+                shadowColor: "#333333",
                 shadowOpacity: 0.25,
                 shadowRadius: 0.95,
                 shadowOffset: {
@@ -274,9 +274,9 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
                   underlayColor={"rgba(255, 255, 255, 1)"}
                   style={{
                     height: QueryBarHeight,
-                    flexDirection: 'row',
+                    flexDirection: "row",
                     flex: -1,
-                    alignItems: 'center',
+                    alignItems: "center",
                     backgroundColor: sortingMethod.name === activeSortingMethod ? "#cccccc" : "#ffffff",
                     padding: 8,
                     zIndex: 6,
@@ -287,7 +287,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
                     changeSortMethod(sortingMethod.name);
                   }}
                 >
-                  <View style={{flex: 1, flexDirection: 'row'}}>
+                  <View style={{flex: 1, flexDirection: "row"}}>
                     <FontAwesome
                       name={sortingMethod.icon}
                       size={14}
@@ -299,7 +299,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
                     <Text
                       style={{
                         color: QueryBarColor,
-                        fontSize: 10
+                        fontSize: 10,
                       }}
                     >
                       {sortingMethod.name.toUpperCase()}
@@ -318,9 +318,9 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
         enableEmptySections={true}
         dataSource={ds.cloneWithRows(contacts)}
         onScroll={() => {
-          if(isSortOptionsVisible) {
+          if (isSortOptionsVisible) {
             LayoutAnimation.easeInEaseOut(undefined);
-            hideSortOptions()
+            hideSortOptions();
           }
         }}
         renderRow={(rowData) =>
@@ -336,7 +336,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
           <RefreshControl
             refreshing={reloading || loading}
             onRefresh={() => {
-              if(!reloading){
+              if (!reloading) {
                 reloadContacts();
               }
             }}
@@ -349,12 +349,11 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
         renderFooter={() => {
           return (
             <FacebookAppInviteButton />
-          )
+          );
         }}
       />
     </View>
-  )
-}
+  );
+};
 
 export default Contacts;
-
