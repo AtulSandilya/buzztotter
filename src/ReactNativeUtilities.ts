@@ -4,14 +4,14 @@ import {
   StatusBar,
 } from "react-native";
 
-
 export const isAndroid = Platform.OS === "android";
 export const isIOS  = Platform.OS === "ios";
 
 const {height, width} = Dimensions.get("window");
 export const WindowHeight = height;
 export const WindowWidth = width;
-export const isNarrow = WindowWidth <= 320;
+const narrowWidth = 320;
+export const isNarrow = WindowWidth <= narrowWidth;
 
-export const StatusBarHeight = isIOS ? 20 : (isAndroid ? StatusBar.currentHeight : 20);
-
+const iOSStatusBarHeight = 20;
+export const StatusBarHeight = isIOS ? iOSStatusBarHeight : (isAndroid ? StatusBar.currentHeight : iOSStatusBarHeight);
