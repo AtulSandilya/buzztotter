@@ -3,10 +3,12 @@ import { Component } from "react";
 import { ListView, RefreshControl, Text, View } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import TimeAgo from "react-timeago";
 
 import {Pluralize} from "../CommonUtilities";
 import {globalColors, globalStyles} from "./GlobalStyles";
+import theme from "../theme";
+
+import BevTimestamp from "./BevTimestamp";
 
 import {
   PurchasedBevegram,
@@ -133,14 +135,12 @@ const History: React.StatelessComponent<HistoryProps> = ({
               flexDirection: "column",
             }}>
               <View style={{flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingBottom: 5}}>
-                <Text style={globalStyles.importantText}>{item.label}</Text>
-                <TimeAgo
+                <Text style={[globalStyles.importantText, {fontSize: 14}]}>{item.label}</Text>
+                <BevTimestamp
                   date={item.date}
-                  component={Text}
                   style={{
-                    alignSelf: "center",
                     paddingRight: 8,
-                    color: globalColors.lightText,
+                    alignItems: "flex-end",
                   }}
                 />
               </View>

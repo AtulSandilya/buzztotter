@@ -2,12 +2,11 @@ import * as React from "react";
 import { Component } from "react";
 import { Image, StyleSheet, Text, TouchableHighlight, View, ViewStyle} from "react-native";
 
-import TimeAgo from "react-timeago";
-
 import { connect } from "react-redux";
 import { modalKeys } from "../reducers/modals.js";
 
 import BevButton from "./BevButton";
+import BevTimestamp from "./BevTimestamp";
 
 interface Style {
   parentContainer: ViewStyle;
@@ -31,6 +30,7 @@ const styles = StyleSheet.create<Style>({
   infoTextContainer: {
     flex: 1,
     flexDirection: "column",
+    paddingLeft: 15,
   },
   buttonContainer: {
     flex: -1,
@@ -68,11 +68,9 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, quan
         style={{height: 50, width: 50}}
       />
       <View style={styles.infoTextContainer}>
-        <Text style={{paddingLeft: 15, paddingBottom: 5}}>From: {from}</Text>
-        <TimeAgo
-          style={{paddingLeft: 15}}
+        <Text style={{paddingBottom: 5}}>{from}</Text>
+        <BevTimestamp
           date={date}
-          component={Text}
         />
       </View>
     </View>
