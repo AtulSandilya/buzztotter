@@ -8,7 +8,8 @@
     "buildServer": "BABEL_ENV=queue-server node node_modules/babel-cli/bin/babel.js build --out-dir serverBuild --only=firebaseServer,staticDbContent,db/schema.js,db/tables.js,theme.js,api/firebase/FirebaseDb.js,CommonUtilities.js",
     "jsonToEnv": "node utils/jsonToEnv.js",
     "envToHeroku": "node utils/envToHeroku.js",
-    "incrementVersion": "node utils/incrementVersion.js"
+    "incrementVersion": "node utils/incrementVersion.js",
+    "deployFirebaseDbRules": "ts-node -P tsconfig-admin.json src/admin/deployFirebaseDbRules.ts"
   },
   "dependencies": {
     "dotenv": "^4.0.0",

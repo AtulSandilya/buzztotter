@@ -50,6 +50,9 @@ src/publicApiKeys.ts
 buzzotter*.json
 android/app/google-services.json
 .env
+.firebaserc
+firebase.json
+firebaseDbRules.json
 
 # Typescript
 build/
