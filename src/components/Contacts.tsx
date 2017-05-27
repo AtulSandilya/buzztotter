@@ -80,7 +80,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
     }
   }
 
-  const QueryBarColor = "#555555";
+  const QueryBarColor = theme.colors.uiBoldTextColor;
   const QueryBarHeight = 44;
   const isSearching = searchInputIsFocused || "" !== searchQuery;
 
