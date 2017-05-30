@@ -18,7 +18,10 @@ import {isAndroid, isIOS} from "../ReactNativeUtilities";
 import {Location} from "../db/tables";
 
 import BevButton from "./BevButton";
+import BevUiText from "./BevUiText";
 import TitleText from "./TitleText";
+
+import theme from "../theme";
 
 import {globalColors, globalStyles} from "./GlobalStyles";
 
@@ -51,6 +54,16 @@ export interface BevegramLocationsProps {
 export default class BevegramLocations extends Component<BevegramLocationsProps, {}> {
   render() {
     const locationDS = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    // `react-native-maps` renders the markers in order meaning the last
+    // marker is above the first marker. Reversing the markers renders the
+    // first location on top
+    const reversedMarkers = this.props.markers.slice().reverse();
+
+    const overrideProps = {
+      refreshControl: null,
+    };
+
+    const todayAsNumber = new Date().getDay();
 
     return(
       <View style={{flex: 1}}>
@@ -63,21 +76,24 @@ export default class BevegramLocations extends Component<BevegramLocationsProps,
               longitudeDelta: 0.0421 * 1.75,
             }}
           >
-          {this.props.markers.map((markerData, id) => {
+          {reversedMarkers.map((markerData, index) => {
+            const numMarkers = this.props.markers.length;
             return (
               <MapView.Marker
-                key={id}
+                key={index}
                 style={{top: -15}}
                 coordinate={{
                   latitude: markerData.latitude,
                   longitude: markerData.longitude,
                 }}
               >
-              <View style={{flex: 1, alignItems: "center"}}>
-                <View style={{flex: -1, padding: 10, backgroundColor: globalColors.bevPrimary, borderRadius: 3, flexDirection: "row", borderWidth: 1, borderColor: "#000000"}}>
+              <View style={{flex: -1, alignItems: "center", maxWidth: 185}}>
+                <View style={{flex: -1, padding: 6, backgroundColor: globalColors.bevPrimary, borderRadius: 3, flexDirection: "row", borderWidth: 1, borderColor: "#000000"}}>
                   <View style={{paddingLeft: 10, flex: -1, alignItems: "center", justifyContent: "center", flexDirection: "column"}}>
-                    <Text style={{fontSize: 18, fontWeight: "bold"}}>{markerData.name}</Text>
-                    <Text>{markerData.typicalHours}</Text>
+                    <Text style={{fontSize: 18, fontWeight: "bold"}}>{numMarkers - index}. {markerData.name}</Text>
+                    <BevUiText icon="calendar" color="#000000">
+                      {markerData.typicalHours[todayAsNumber].split(": ").slice(-1)[0]}
+                    </BevUiText>
                   </View>
                 </View>
                 <View style={{
@@ -133,22 +149,38 @@ export default class BevegramLocations extends Component<BevegramLocationsProps,
                   borderBottomColor: globalColors.subtleSeparator,
                   borderBottomWidth: 1,
                   flex: 1,
-                  margin: 10,
+                  margin: 6,
                   marginBottom: 0,
                 }}>
-                  <View style={{flex: 1, flexDirection: "row", alignItems: "center"}}>
-                    <Text style={globalStyles.titleText}>Buzz Otter Bars:</Text>
-                    {this.props.isReloading ?
-                      <ActivityIndicator />
-                    : <View/>}
+                  <View style={{flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+                    <View style={{flex: -1}}>
+                      <Text style={[globalStyles.titleText, {flex: -1, alignSelf: "flex-start"}]}>Buzz Otter Bars</Text>
+                    </View>
+                    <View style={{flex: 1, alignItems: "flex-end", justifyContent: "center", paddingRight: 8}}>
+                      {this.props.isReloading ?
+                        <View style={{flexDirection: "row"}}>
+                          <ActivityIndicator style={{paddingRight: 8}}/>
+                          <BevUiText>
+                            Refreshing
+                          </BevUiText>
+                        </View>
+                      : <BevUiText icon="refresh" iconSize="large">
+                          Refresh
+                        </BevUiText>}
+                    </View>
                   </View>
               </TouchableHighlight>
             )}
-            renderRow={(rowData) =>
+            renderRow={(rowData, sectionId, rowId) =>
               <View style={{flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center", padding: 10}}>
                 <View style={{flex: 1, flexDirection: "column"}}>
-                  <Text style={{fontSize: 20, fontWeight: "bold"}}>{rowData.name}</Text>
-                  <Text style={{fontSize: 20}}>{rowData.typicalHours}</Text>
+                  <Text style={{fontSize: 20, fontWeight: "bold"}}>{parseInt(rowId as any, 10) + 1}. {rowData.name}</Text>
+                    <BevUiText
+                      icon="calendar"
+                      style={{paddingTop: 5}}
+                    >
+                      {rowData.typicalHours[todayAsNumber]}
+                    </BevUiText>
                 </View>
                 <View style={{flex: 1}}>
                   <BevButton
@@ -156,6 +188,7 @@ export default class BevegramLocations extends Component<BevegramLocationsProps,
                     shortText="Map"
                     label="Open Map Button"
                     buttonFontSize={16}
+                    margin={5}
                     rightIcon={true}
                     onPress={() => openMapsToAddress(rowData.latitude, rowData.longitude, rowData.name)}
                   />
@@ -182,6 +215,7 @@ export default class BevegramLocations extends Component<BevegramLocationsProps,
               colors={[globalColors.bevPrimary]}
             />
           }
+          {...overrideProps}
           />
         </View>
       </View>
