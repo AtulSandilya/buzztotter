@@ -136,8 +136,7 @@ class FirebaseAdminDb extends FirebaseDb {
   private vendorMatchesBasicLocation = (vendor: Vendor, basicLocation: BasicLocation): boolean => {
     return (vendor.address === basicLocation.address) &&
            (vendor.latitude === basicLocation.latitude) &&
-           (vendor.longitude === basicLocation.longitude) &&
-           (vendor.name === basicLocation.name);
+           (vendor.longitude === basicLocation.longitude);
   }
 
   public getVendorFromBasicLocation = async (
