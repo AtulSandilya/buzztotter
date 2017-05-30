@@ -76,6 +76,7 @@ export interface BasicLocation extends GpsCoordinates {
   viewport: LocationViewport;
   googlePlaceId: string;
   typicalHours: string[];
+  squareFootage?: number;
 }
 
 export interface Location extends BasicLocation {

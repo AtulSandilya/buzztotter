@@ -60,3 +60,9 @@ export const getStringUntilCorrect = async (message: string, isCorrectMessage?: 
     return await getString(message);
   }, isCorrectMessage);
 };
+
+export const getIntegerUntilCorrect = async (message: string) => {
+  return await untilCorrect(async () => {
+    return await getInteger(message);
+  });
+};

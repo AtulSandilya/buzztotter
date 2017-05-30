@@ -349,6 +349,28 @@ const updateLocation = async () => {
 };
 
 //  End Update Location ------------------------------------------------}}}
+//  Update Square Footage -----------------------------------------------{{{
+
+const updateSquareFootage = async (basicLocation: BasicLocation) => {
+  const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLocation);
+
+  const newSquareFootage: number = await prompt.getIntegerUntilCorrect(
+    `Enter the new square footage of ${basicLocation.name}`,
+  );
+
+  const updatedLocation = Object.assign({}, basicLocation, {
+    squareFootage: newSquareFootage,
+  });
+
+  const shouldUpdate = await prompt.confirm(`Does ${stringFormatObject(updatedLocation)} look correct`);
+  if (shouldUpdate) {
+    await db.updateLocation(updatedLocation, vendor, vendorId, updatedLocation);
+    console.log("Location update complete!");
+  }
+
+};
+
+//  End Update Square Footage -------------------------------------------}}}
 //  Disable Purchasing -------------------------------------------------{{{
 
 const disablePurchasingAtLocation = async (basicLocation: BasicLocation) => {
@@ -392,6 +414,7 @@ const main = async () => {
   const locationActions = {
     addLocation: "Add Location",
     updateLocation: "Update Location",
+    updateSquareFootage: "Update Square Footage of location",
     disablePurchasing: "Disable purchasing @ location",
     enablePurchasing: "Enable purchasing @ location",
   };
@@ -406,6 +429,9 @@ const main = async () => {
       return;
     case locationActions.updateLocation:
       await updateLocation();
+      return;
+    case locationActions.updateSquareFootage:
+      await updateSquareFootage(await getBasicLocation());
       return;
     case locationActions.disablePurchasing:
       await disablePurchasingAtLocation(await getBasicLocation());
