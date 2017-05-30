@@ -211,12 +211,12 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
                     {this.props.currentLocationBusinessName ?
                       <Text
                         style={globalStyles.bevLineText}
-                        numberOfLines={3}
+                        numberOfLines={Infinity}
                       >
                         {this.props.currentLocationBusinessName}
                       </Text>
                     :
-                      <Text style={globalStyles.bevLineText} numberOfLines={2}>
+                      <Text style={globalStyles.bevLineText} numberOfLines={Infinity}>
                       {this.props.getLocationFailed ?
                         this.props.getLocationFailedErrorMessage
                       :
