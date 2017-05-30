@@ -25,6 +25,15 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		2D02E4C21E0B4AEC006451C7 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		2D02E4C31E0B4AEC006451C7 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		2D02E4C41E0B4AEC006451C7 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		2D02E4C51E0B4AEC006451C7 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		2D02E4C61E0B4AEC006451C7 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		2D02E4C71E0B4AEC006451C7 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		2D02E4C81E0B4AEC006451C7 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		2DCD954D1E0B4F2C00145EB5 /* BevegramTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* BevegramTests.m */; };
+		630859271EDE3F3D00962C10 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6308590B1EDE3EE400962C10 /* libAirMaps.a */; };
 		63961A851E85DD0D0010F3E5 /* logo-just-otter.png in Resources */ = {isa = PBXBuildFile; fileRef = 63961A841E85DD0D0010F3E5 /* logo-just-otter.png */; };
 		63C4E3271E2714FE007101B2 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4E30F1E2714E4007101B2 /* libRCTFBSDK.a */; };
 		63C4E3331E271804007101B2 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4E32F1E2716EF007101B2 /* libRCTAnimation.a */; };
@@ -38,7 +47,6 @@
 		8F97BF7F41A347E6A515196B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2FB586CBF547CC97FB0AB7 /* FontAwesome.ttf */; };
 		968CB4DA00D141309C879D9C /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05FEB03CFB724FCCA0ED56D9 /* Zocial.ttf */; };
 		B0BB69FF0A274CE89E3A0BF4 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78FB34E866334426B3150125 /* libRNVectorIcons.a */; };
-		B4F238EE873E4AD5B8079DFA /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C8F52CA38104D5EA0C65F39 /* libAirMaps.a */; };
 		E34441F225024DD4822E11F7 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5C77E00F5674E8983CC2F3A /* Ionicons.ttf */; };
 		EB689A1BE17345FBB491740F /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7E3FCE67CD34C43844C87BF /* SimpleLineIcons.ttf */; };
 		F0D52511B4E04BE0B8E278B0 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D29D6533E5DE4C7B8C53365E /* MaterialIcons.ttf */; };
@@ -108,6 +116,13 @@
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
 		};
+		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
+			remoteInfo = "Bevegram-tvOS";
+		};
 		3DAD3EA41DF850E9000B6D8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -150,9 +165,9 @@
 			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
 			remoteInfo = "jschelpers-tvOS";
 		};
-		634850511D8339BB0010178C /* PBXContainerItemProxy */ = {
+		6308590A1EDE3EE400962C10 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 3335E199EB634431AB018289 /* AirMaps.xcodeproj */;
+			containerPortal = 630859061EDE3EE400962C10 /* AirMaps.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 11FA5C511C4A1296003AC2EE;
 			remoteInfo = AirMaps;
@@ -272,8 +287,10 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Bevegram/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1F2FB586CBF547CC97FB0AB7 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
-		3335E199EB634431AB018289 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
+		2D02E47B1E0B4A5D006451C7 /* Bevegram-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bevegram-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* Bevegram-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Bevegram-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		539BF34DC84E402DABA83CDE /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		630859061EDE3EE400962C10 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		6359857F1D9D8B5A00B01B34 /* Bevegram.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Bevegram.entitlements; path = Bevegram/Bevegram.entitlements; sourceTree = "<group>"; };
 		63961A841E85DD0D0010F3E5 /* logo-just-otter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-just-otter.png"; path = "../img/logos/logo-just-otter.png"; sourceTree = "<group>"; };
 		63C4E3291E2716EF007101B2 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -283,7 +300,6 @@
 		63F2135E1D9A064A001C8296 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		78FB34E866334426B3150125 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
-		7C8F52CA38104D5EA0C65F39 /* libAirMaps.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAirMaps.a; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8C662295FD7240908A109321 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		8E006D6AB9294E1EA5BDE712 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -311,6 +327,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				630859271EDE3F3D00962C10 /* libAirMaps.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				63F2135F1D9A064A001C8296 /* FBSDKShareKit.framework in Frameworks */,
@@ -324,9 +341,29 @@
 				63F2135B1D9A063A001C8296 /* FBSDKCoreKit.framework in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				B4F238EE873E4AD5B8079DFA /* libAirMaps.a in Frameworks */,
 				B0BB69FF0A274CE89E3A0BF4 /* libRNVectorIcons.a in Frameworks */,
 				0880A3C153D348C7AA559B7A /* libRCTFBSDK.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2D02E4781E0B4A5D006451C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D02E4C21E0B4AEC006451C7 /* (null) in Frameworks */,
+				2D02E4C31E0B4AEC006451C7 /* (null) in Frameworks */,
+				2D02E4C41E0B4AEC006451C7 /* (null) in Frameworks */,
+				2D02E4C51E0B4AEC006451C7 /* (null) in Frameworks */,
+				2D02E4C61E0B4AEC006451C7 /* (null) in Frameworks */,
+				2D02E4C71E0B4AEC006451C7 /* (null) in Frameworks */,
+				2D02E4C81E0B4AEC006451C7 /* (null) in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2D02E48D1E0B4A5D006451C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,10 +479,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6348504E1D8339BB0010178C /* Products */ = {
+		630859071EDE3EE400962C10 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				634850521D8339BB0010178C /* libAirMaps.a */,
+				6308590B1EDE3EE400962C10 /* libAirMaps.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -470,7 +507,7 @@
 			isa = PBXGroup;
 			children = (
 				63C4E32F1E2716EF007101B2 /* libRCTAnimation.a */,
-				63C4E3311E2716EF007101B2 /* libRCTAnimation-tvOS.a */,
+				63C4E3311E2716EF007101B2 /* libRCTAnimation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -497,6 +534,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				630859061EDE3EE400962C10 /* AirMaps.xcodeproj */,
 				63C4E3291E2716EF007101B2 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -508,7 +546,6 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-				3335E199EB634431AB018289 /* AirMaps.xcodeproj */,
 				CBE672C425404D52950F0AE9 /* RNVectorIcons.xcodeproj */,
 				9A8820D26282435D95A107D3 /* RCTFBSDK.xcodeproj */,
 			);
@@ -543,6 +580,8 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* BuzzOtter.app */,
 				00E356EE1AD99517003FC87E /* BevegramTests.xctest */,
+				2D02E47B1E0B4A5D006451C7 /* Bevegram-tvOS.app */,
+				2D02E4901E0B4A5D006451C7 /* Bevegram-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -602,6 +641,42 @@
 			productReference = 13B07F961A680F5B00A75B9A /* BuzzOtter.app */;
 			productType = "com.apple.product-type.application";
 		};
+		2D02E47A1E0B4A5D006451C7 /* Bevegram-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Bevegram-tvOS" */;
+			buildPhases = (
+				2D02E4771E0B4A5D006451C7 /* Sources */,
+				2D02E4781E0B4A5D006451C7 /* Frameworks */,
+				2D02E4791E0B4A5D006451C7 /* Resources */,
+				2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Bevegram-tvOS";
+			productName = "Bevegram-tvOS";
+			productReference = 2D02E47B1E0B4A5D006451C7 /* Bevegram-tvOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2D02E48F1E0B4A5D006451C7 /* Bevegram-tvOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Bevegram-tvOSTests" */;
+			buildPhases = (
+				2D02E48C1E0B4A5D006451C7 /* Sources */,
+				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
+				2D02E48E1E0B4A5D006451C7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
+			);
+			name = "Bevegram-tvOSTests";
+			productName = "Bevegram-tvOSTests";
+			productReference = 2D02E4901E0B4A5D006451C7 /* Bevegram-tvOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -639,8 +714,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 6348504E1D8339BB0010178C /* Products */;
-					ProjectRef = 3335E199EB634431AB018289 /* AirMaps.xcodeproj */;
+					ProductGroup = 630859071EDE3EE400962C10 /* Products */;
+					ProjectRef = 630859061EDE3EE400962C10 /* AirMaps.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -699,6 +774,8 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* Bevegram */,
 				00E356ED1AD99517003FC87E /* BevegramTests */,
+				2D02E47A1E0B4A5D006451C7 /* Bevegram-tvOS */,
+				2D02E48F1E0B4A5D006451C7 /* Bevegram-tvOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -802,11 +879,11 @@
 			remoteRef = 3DAD3EAE1DF850E9000B6D8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		634850521D8339BB0010178C /* libAirMaps.a */ = {
+		6308590B1EDE3EE400962C10 /* libAirMaps.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libAirMaps.a;
-			remoteRef = 634850511D8339BB0010178C /* PBXContainerItemProxy */;
+			remoteRef = 6308590A1EDE3EE400962C10 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		6348B03A1DD19844002144E2 /* libRNVectorIcons.a */ = {
@@ -879,10 +956,10 @@
 			remoteRef = 63C4E32E1E2716EF007101B2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		63C4E3311E2716EF007101B2 /* libRCTAnimation-tvOS.a */ = {
+		63C4E3311E2716EF007101B2 /* libRCTAnimation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libRCTAnimation-tvOS.a";
+			path = libRCTAnimation.a;
 			remoteRef = 63C4E3301E2716EF007101B2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -930,6 +1007,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2D02E4791E0B4A5D006451C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2D02E48E1E0B4A5D006451C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -941,6 +1032,20 @@
 			inputPaths = (
 			);
 			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
+		};
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native Code And Images";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -967,6 +1072,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2D02E4771E0B4A5D006451C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2D02E48C1E0B4A5D006451C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DCD954D1E0B4F2C00145EB5 /* BevegramTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -974,6 +1094,11 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* Bevegram */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+		};
+		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2D02E47A1E0B4A5D006451C7 /* Bevegram-tvOS */;
+			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1006,8 +1131,12 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bevegram.app/Bevegram";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BuzzOtter.app/BuzzOtter";
 			};
 			name = Debug;
 		};
@@ -1024,8 +1153,12 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bevegram.app/Bevegram";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BuzzOtter.app/BuzzOtter";
 			};
 			name = Release;
 		};
@@ -1086,6 +1219,100 @@
 				PRODUCT_NAME = BuzzOtter;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		2D02E4971E0B4A5E006451C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Bevegram-tvOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Bevegram-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+			};
+			name = Debug;
+		};
+		2D02E4981E0B4A5E006451C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Bevegram-tvOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Bevegram-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+			};
+			name = Release;
+		};
+		2D02E4991E0B4A5E006451C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Bevegram-tvOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Bevegram-tvOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bevegram-tvOS.app/Bevegram-tvOS";
+				TVOS_DEPLOYMENT_TARGET = 10.1;
+			};
+			name = Debug;
+		};
+		2D02E49A1E0B4A5E006451C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Bevegram-tvOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Bevegram-tvOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bevegram-tvOS.app/Bevegram-tvOS";
+				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
 		};
@@ -1203,6 +1430,24 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Bevegram-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D02E4971E0B4A5E006451C7 /* Debug */,
+				2D02E4981E0B4A5E006451C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Bevegram-tvOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D02E4991E0B4A5E006451C7 /* Debug */,
+				2D02E49A1E0B4A5E006451C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
