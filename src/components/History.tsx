@@ -85,8 +85,42 @@ const History: React.StatelessComponent<HistoryProps> = ({
     };
   };
 
-  const getEventForId = (key: string): HistoryItem => {
-    if (purchasedBevegrams.hasOwnProperty(key)) {
+  const formatPurchaseSendPair = (index: number): HistoryItem => {
+    const purchasedBevegram = purchasedBevegrams[bevegramHistoryKeys[index + 1]];
+    const quantity = purchasedBevegram.quantity;
+    const sentBevegram = sentBevegrams[bevegramHistoryKeys[index]];
+    return {
+      label: "Purchased & Sent",
+      icon: "paper-plane",
+      date: purchasedBevegram.purchaseDate,
+      info: `${quantity} Bevegram${quantity !== 1 ? "s" : ""} to ${sentBevegram.receiverName} for $${(purchasedBevegram.purchasePrice / 100).toFixed(2)}`,
+    };
+  };
+
+  let skipNextRender = false;
+
+  const isPurchaseSendPair = (index: number): true => {
+    if(index === (bevegramHistoryKeys.length - 1)) return;
+    const thisKeyValue = bevegramHistoryKeys[index];
+    const nextKeyValue = bevegramHistoryKeys[index + 1];
+
+
+    if(sentBevegrams.hasOwnProperty(thisKeyValue)) {
+      if(purchasedBevegrams.hasOwnProperty(nextKeyValue)) {
+        const sentBevegramPurchaseId = sentBevegrams[thisKeyValue].purchasedBevegramId;
+        const purchasedBevegramSendId = purchasedBevegrams[nextKeyValue].sentBevegramId;
+        if(sentBevegramPurchaseId === nextKeyValue && purchasedBevegramSendId === thisKeyValue) {
+          skipNextRender = true;
+          return true;
+        }
+      }
+    }
+  }
+
+  const getEventForId = (key: string, index: number): HistoryItem => {
+    if (isPurchaseSendPair(index)) {
+      return formatPurchaseSendPair(index);
+    } else if (purchasedBevegrams.hasOwnProperty(key)) {
       return formatPurchasedBevegram(purchasedBevegrams[key]);
     } else if (sentBevegrams.hasOwnProperty(key)) {
       return formatSentBevegram(sentBevegrams[key]);
@@ -108,8 +142,12 @@ const History: React.StatelessComponent<HistoryProps> = ({
     <ListView
       dataSource={historyData.cloneWithRows(bevegramHistoryKeys)}
       enableEmptySections={true}
-      renderRow={(historyKey) => {
-        const item = getEventForId(historyKey);
+      renderRow={(historyKey, sectionId, index) => {
+        if(skipNextRender) {
+          skipNextRender = false;
+          return <View/>
+        }
+        const item = getEventForId(historyKey, parseInt(index as any, 10));
         return (
           <View style={{flex: 1, flexDirection: "row", justifyContent: "center", paddingVertical: 8}}>
             <View style={{
