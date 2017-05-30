@@ -1,11 +1,13 @@
 import {User} from "../db/tables";
 
+import {FacebookUserResponse} from "../api/facebook";
+
 const defaultState: User = {
   isLoggedIn: false,
 };
 
-const mapFacebookDataToState = (state, action): User => {
-  const data = action.payload.userData;
+const mapFacebookUserToUser = (state, action): User => {
+  const data: FacebookUserResponse = action.payload.userData;
   return Object.assign({}, state,
     {
       birthday: data.birthday,
@@ -16,8 +18,10 @@ const mapFacebookDataToState = (state, action): User => {
       },
       firstName: data.first_name,
       fullName: data.name,
+      gender: data.gender,
       isLoggedIn: true,
       lastName: data.last_name,
+      min_age: data.age_range.min,
     },
   );
 };
@@ -25,7 +29,7 @@ const mapFacebookDataToState = (state, action): User => {
 export const user = (state = defaultState, action): User => {
   switch (action.type) {
     case("POPULATE_USER_DATA_FROM_FACEBOOK"):
-      return mapFacebookDataToState(state, action);
+      return mapFacebookUserToUser(state, action);
     case "LOGIN_FACEBOOK":
       return Object.assign({}, state, {
         isLoggedIn: true,

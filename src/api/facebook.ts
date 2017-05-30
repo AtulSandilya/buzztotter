@@ -38,23 +38,49 @@ const promiseFunctionFromFacebook = (token, inputFunction) => {
   return promise;
 };
 
+export interface FacebookFriendResponse {
+  birthday: string;
+  first_name: string;
+  id: string;
+  last_name: string;
+  email: string;
+  name: string;
+  picture: {
+    data: {
+      is_silhouette: boolean;
+      url: string;
+    },
+  };
+}
+
 const getFriendsRequest = (token, callback) => {
   const urlString = "/me/friends?fields=picture.type(square),first_name,last_name,name,birthday,email&limit=5000";
   const parameterString = "";
   return graphRequest(token, urlString, parameterString, callback);
 };
 
-export const promiseContactsFromFacebook = (token) => {
+export const promiseContactsFromFacebook = (token): Promise<FacebookFriendResponse[]> => {
   return promiseFunctionFromFacebook(token, getFriendsRequest);
 };
 
+/* tslint:disable:no-magic-numbers */
+export interface FacebookUserResponse extends FacebookFriendResponse {
+  age_range: {
+    // An enum of ages for the user, useful if the user does not disclose a
+    // birthday
+    min?: 13 | 18 | 21,
+    max?: 17 | 20 | undefined,
+  };
+  gender: string;
+}
+
 const userInfoRequest = (token, callback) => {
   const urlString = "/me";
-  const parameterString = "id, name, first_name, last_name, email, birthday";
+  const parameterString = "id, name, first_name, last_name, email, birthday, gender, age_range";
   return graphRequest(token, urlString, parameterString, callback);
 };
 
-export const promiseUserInfoFromFacebook = (token) => {
+export const promiseUserInfoFromFacebook = (token): Promise<FacebookUserResponse> => {
   return promiseFunctionFromFacebook(token, userInfoRequest);
 };
 

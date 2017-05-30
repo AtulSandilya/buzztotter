@@ -22,6 +22,8 @@ export interface User {
   fullName?: string;
   birthday?: string;
   email?: string;
+  gender?: string;
+  min_age?: number;
   lastModified?: UnixTime;
   fcmToken?: string;
   stripe?: StripeCustomer;
