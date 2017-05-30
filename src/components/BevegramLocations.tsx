@@ -1,6 +1,15 @@
 import * as React from "react";
 import { Component } from "react";
-import { ActivityIndicator, Image, Linking, ListView, RefreshControl, Text, TouchableHighlight, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Linking,
+  ListView,
+  RefreshControl,
+  Text,
+  TouchableHighlight,
+  View,
+} from "react-native";
 
 import MapView from "react-native-maps";
 
@@ -16,14 +25,14 @@ import {globalColors, globalStyles} from "./GlobalStyles";
 const openMapsToAddress = (latitude, longitude, name) => {
   let url;
   // encodeURIComponent properly converts characters into url format.
-  if (isAndroid){
+  if (isAndroid) {
     url = `geo:${latitude},${longitude}?q=${latitude},${longitude}(${encodeURIComponent(name)})`;
-  } else if (isIOS){
+  } else if (isIOS) {
     url = `http://maps.apple.com/?ll=${latitude},${longitude}&q=${encodeURIComponent(name)}`;
   }
 
   Linking.canOpenURL(url).then((supported) => {
-    if (supported){
+    if (supported) {
       Linking.openURL(url);
     } else {
       alert("External maps not supported!");
