@@ -61,7 +61,12 @@ const Contact: React.StatelessComponent<ContactProps> = ({name, birthday, imageP
         />
         <View style={styles.infoTextContainer}>
           <Text style={{paddingLeft: 15, paddingBottom: 5}}>{fullName}</Text>
-          <Text style={{paddingLeft: 15}}>{birthday}</Text>
+          <BevUiText
+            icon="birthday-cake"
+            style={{paddingLeft: 15}}
+          >
+            {birthday}
+          </BevUiText>
         </View>
       </View>
       <View style={styles.buttonContainer}>
