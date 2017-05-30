@@ -47,17 +47,56 @@ exports[`Contact component renders correctly 1`] = `
         }>
         Andrew Simms
       </Text>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
+      <View
         style={
-          Object {
-            "paddingLeft": 15,
-          }
+          Array [
+            Object {
+              "alignItems": "center",
+              "flex": -1,
+              "flexDirection": "row",
+            },
+            Object {
+              "paddingLeft": 15,
+            },
+          ]
         }>
-        12/12
-      </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={false}
+          ellipsizeMode="tail"
+          style={
+            Array [
+              Object {
+                "color": undefined,
+                "fontSize": 12,
+              },
+              Object {
+                "color": "#999999",
+                "fontSize": 11.25,
+                "paddingRight": 4,
+              },
+              Object {
+                "fontFamily": "FontAwesome",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+            ]
+          }>
+          
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "color": "#999999",
+              "fontSize": 9,
+            }
+          }>
+          12/12
+        </Text>
+      </View>
     </View>
   </View>
   <View

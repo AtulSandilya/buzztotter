@@ -33,6 +33,7 @@ exports[`test renders correctly 1`] = `
         Object {
           "flex": 1,
           "flexDirection": "column",
+          "paddingLeft": 15,
         }
       }>
       <Text
@@ -42,24 +43,68 @@ exports[`test renders correctly 1`] = `
         style={
           Object {
             "paddingBottom": 5,
-            "paddingLeft": 15,
           }
         }>
-        From: 
         Person
       </Text>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
+      <View
         style={
-          Object {
-            "paddingLeft": 15,
-          }
-        }
-        title="2016-01-16T20:39:47.966Z">
-        1 year ago
-      </Text>
+          Array [
+            Object {
+              "flex": -1,
+            },
+            undefined,
+          ]
+        }>
+        <View
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "flex": -1,
+                "flexDirection": "row",
+              },
+              undefined,
+            ]
+          }>
+          <Text
+            accessible={true}
+            allowFontScaling={false}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "color": undefined,
+                  "fontSize": 12,
+                },
+                Object {
+                  "color": "#999999",
+                  "fontSize": 11.25,
+                  "paddingRight": 4,
+                },
+                Object {
+                  "fontFamily": "FontAwesome",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+              ]
+            }>
+            
+          </Text>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "color": "#999999",
+                "fontSize": 9,
+              }
+            }>
+            1 YEAR AGO
+          </Text>
+        </View>
+      </View>
     </View>
   </View>
   <View
