@@ -95,7 +95,8 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
 
   private renderQuantityLine() {
     const bev = this.props.receivedBevegram;
-    const allowIncrement = bev && (bev.quantity > 1) && (bev.quantity > bev.quantityRedeemed);
+    const allowIncrement = false;
+    // const allowIncrement = bev && (bev.quantity > 1) && (bev.quantity > bev.quantityRedeemed);
     return (
       <View style={globalStyles.bevLine}>
         <View style={[globalStyles.bevLineLeft, {flex: 1}]}>
