@@ -16,7 +16,10 @@ import {
   Location,
 } from "../db/tables";
 
-import {CoordsAreWithinViewport} from "../CommonUtilities";
+import {
+  CoordsAreInRadius,
+  CoordsAreWithinViewport,
+} from "../CommonUtilities";
 
 const promiseDeviceGpsCoordinates = (): Promise<GpsCoordinates> => {
   return new Promise((resolve, reject) => {
@@ -92,30 +95,33 @@ export function *getLocationsAtUserLocation() {
     }});
     return;
   } else {
-    const locationsWithinViewport = Object.keys(locationsAtUserLoc).filter((key) => {
+    const locationKeysAtUserLocation = Object.keys(locationsAtUserLoc).filter((key) => {
       const loc: Location = locationsAtUserLoc[key];
+      const defaultSquareFootage = 2000; // ~ 25m radius
+      const squareFootage = loc.squareFootage ? loc.squareFootage : defaultSquareFootage;
 
       return CoordsAreWithinViewport(
         deviceCoordinates,
         loc.viewport,
-      );
+        ) && CoordsAreInRadius(deviceCoordinates, {latitude: loc.latitude, longitude: loc.longitude}, squareFootage);
     });
 
-    if (locationsWithinViewport.length === 0) {
+    if (locationKeysAtUserLocation.length === 0) {
       yield put({type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION", payload: {
         error: "You are not at a location that accepts bevegrams",
       }});
       return;
-    } else if (locationsWithinViewport.length > 1) {
+    } else if (locationKeysAtUserLocation.length > 1) {
       yield put({type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION", payload: {
         error: "Multiple bars were found at your location",
       }});
       return;
     } else {
+      const loc = locationsAtUserLoc[locationKeysAtUserLocation[0]];
       yield put({type: "SUCCESSFUL_GET_LOCATIONS_AT_USER_LOCATION", payload: {
-        location: locationsWithinViewport[0],
+        location: loc,
       }});
-      return locationsWithinViewport[0];
+      return loc;
     }
 
   }

@@ -34,27 +34,29 @@ const MetersToFeet = (meters: number): number => {
   return meters * feetPerMeter;
 };
 
-/* tslint:disable:no-magic-numbers */
 export const CoordsAreWithinViewport = (
   coords: GpsCoordinates,
   viewport: LocationViewport,
 ): boolean => {
-  // ~ 50ft
-  const toleranceDegrees = 0.0001;
-
-  // To add a margin of error the tolerance adjusts the viewport. The
-  // northeast point is moved up (positive) and to the right (positive) and
-  // the southwest is pushed down (negative) and to the left(negative).
-  const withinNortheast = (coords.latitude < viewport.northeast.latitude + toleranceDegrees)
-                       && (coords.longitude < viewport.northeast.longitude + toleranceDegrees);
-  const withinSouthwest = (coords.latitude > viewport.southwest.latitude - toleranceDegrees)
-                       && (coords.longitude > viewport.southwest.longitude - toleranceDegrees);
+  const withinNortheast = (coords.latitude < viewport.northeast.latitude)
+                       && (coords.longitude < viewport.northeast.longitude);
+  const withinSouthwest = (coords.latitude > viewport.southwest.latitude)
+                       && (coords.longitude > viewport.southwest.longitude);
 
   return withinNortheast && withinSouthwest;
 };
 
+const SquareFootageToRadius = (squareFootage: number): number => {
+  return Math.sqrt(squareFootage) / Math.PI;
+};
+
+export const CoordsAreInRadius = (a: GpsCoordinates, b: GpsCoordinates, squareFootage: number) => {
+  return MetersBetweenCoordinates(a, b) < SquareFootageToRadius(squareFootage);
+};
+
 // Returns the distance between two points in kilometers.
 // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
+/* tslint:disable:no-magic-numbers */
 const MetersBetweenCoordinates = (a: GpsCoordinates, b: GpsCoordinates): number => {
   const RadiusOfTheEarthInMeters = 6371 * 1000;
   const deg2rad = (deg) => deg * (Math.PI / 180);
