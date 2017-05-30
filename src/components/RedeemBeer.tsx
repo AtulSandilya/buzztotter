@@ -178,6 +178,34 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
     }
   }
 
+  private renderVendorPinLine() {
+    return (
+      <View>
+        <View style={{paddingBottom: 10}}>
+          <View>
+            <Text style={{color: "red"}}>* Show this to your bartender or server:</Text>
+            <Text>1. They enter the vendor id and press "Redeem Bevegram".</Text>
+            <Text>2. They get you a nice cold beverage.</Text>
+            <Text>3. You enjoy a nice cold beverage.</Text>
+          </View>
+        </View>
+        <View style={globalStyles.bevLine}>
+          <View style={globalStyles.bevLineLeft}>
+            <Text style={globalStyles.bevLineTextTitle}>Vendor PIN:</Text>
+          </View>
+          <View style={[globalStyles.bevLineRight, {flex: 1, maxWidth: 125}]}>
+            <TextInput
+              placeholder={"1234"}
+              placeholderTextColor={"#bbbbbb"}
+              style={{flex: 1, textAlign: "right", paddingRight: 10}}
+              keyboardType={"numeric"}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  }
+
   private updateLocation() {
     this.props.updateLocation();
   }
@@ -230,27 +258,6 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
                   </View>
                 }
               </TouchableHighlight>
-            </View>
-          </View>
-          <View style={{paddingBottom: 10}}>
-            <View>
-              <Text style={{color: "red"}}>* Show this to your bartender or server:</Text>
-              <Text>1. They enter the vendor id and press "Redeem Bevegram".</Text>
-              <Text>2. They get you a nice cold beverage.</Text>
-              <Text>3. You enjoy a nice cold beverage.</Text>
-            </View>
-          </View>
-          <View style={globalStyles.bevLine}>
-            <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Vendor PIN:</Text>
-            </View>
-            <View style={[globalStyles.bevLineRight, {flex: 1, maxWidth: 125}]}>
-              <TextInput
-                placeholder={"1234"}
-                placeholderTextColor={"#bbbbbb"}
-                style={{flex: 1, textAlign: "right", paddingRight: 10}}
-                keyboardType={"numeric"}
-              />
             </View>
           </View>
           {!this.isRedeemComplete() ?
