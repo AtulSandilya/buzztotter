@@ -16,7 +16,7 @@ import {
   Location,
 } from "../db/tables";
 
-import {LocationsAreCloseToEachOther} from "../CommonUtilities";
+import {CoordsAreWithinViewport} from "../CommonUtilities";
 
 const promiseDeviceGpsCoordinates = (): Promise<GpsCoordinates> => {
   return new Promise((resolve, reject) => {
@@ -84,7 +84,6 @@ export function *getLocationsAtUserLocation() {
     }});
   }
   const gpsCoordUrls = DbSchema.GetAllGpsCoordNodeUrls(deviceCoordinates);
-  // const locationsAtUserLoc = readNode(gpsCoordUrls[gpsCoordUrls.length - 1].listUrl);
   const locationsAtUserLoc = yield call(readNode, gpsCoordUrls[gpsCoordUrls.length - 1].listUrl);
 
   if (!locationsAtUserLoc) {
@@ -93,33 +92,30 @@ export function *getLocationsAtUserLocation() {
     }});
     return;
   } else {
-    const closeLocations = Object.keys(locationsAtUserLoc).map((key) => {
+    const locationsWithinViewport = Object.keys(locationsAtUserLoc).filter((key) => {
       const loc: Location = locationsAtUserLoc[key];
-      const locCoords: GpsCoordinates = {
-        latitude: loc.latitude,
-        longitude: loc.longitude,
-      };
 
-      if (LocationsAreCloseToEachOther(deviceCoordinates, locCoords)) {
-        return loc;
-      }
+      return CoordsAreWithinViewport(
+        deviceCoordinates,
+        loc.viewport,
+      );
     });
 
-    if (closeLocations.length === 0) {
+    if (locationsWithinViewport.length === 0) {
       yield put({type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION", payload: {
         error: "You are not at a location that accepts bevegrams",
       }});
       return;
-    } else if (closeLocations.length > 1) {
+    } else if (locationsWithinViewport.length > 1) {
       yield put({type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION", payload: {
         error: "Multiple bars were found at your location",
       }});
       return;
     } else {
       yield put({type: "SUCCESSFUL_GET_LOCATIONS_AT_USER_LOCATION", payload: {
-        location: closeLocations[0],
+        location: locationsWithinViewport[0],
       }});
-      return closeLocations[0];
+      return locationsWithinViewport[0];
     }
 
   }

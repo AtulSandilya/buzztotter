@@ -1,4 +1,4 @@
-import { GpsCoordinates, UnixTime } from "./db/tables";
+import { GpsCoordinates, LocationViewport, UnixTime } from "./db/tables";
 
 export const StringifyDate = (): string => {
   return (new Date().toJSON());
@@ -29,19 +29,34 @@ export const FormatGpsCoordinates = (x: GpsCoordinates, places: number): {latitu
   };
 };
 
-/* tslint:disable:no-magic-numbers */
-export const LocationsAreCloseToEachOther = (a: GpsCoordinates, b: GpsCoordinates): boolean => {
-  // Meters
-  const tolerance = 50;
-  const metersBetweenPoints = HaversineFormula(a, b) * 1000;
+const MetersToFeet = (meters: number): number => {
+  const feetPerMeter = 3.28084;
+  return meters * feetPerMeter;
+};
 
-  return tolerance > metersBetweenPoints;
+/* tslint:disable:no-magic-numbers */
+export const CoordsAreWithinViewport = (
+  coords: GpsCoordinates,
+  viewport: LocationViewport,
+): boolean => {
+  // ~ 50ft
+  const toleranceDegrees = 0.0001;
+
+  // To add a margin of error the tolerance adjusts the viewport. The
+  // northeast point is moved up (positive) and to the right (positive) and
+  // the southwest is pushed down (negative) and to the left(negative).
+  const withinNortheast = (coords.latitude < viewport.northeast.latitude + toleranceDegrees)
+                       && (coords.longitude < viewport.northeast.longitude + toleranceDegrees);
+  const withinSouthwest = (coords.latitude > viewport.southwest.latitude - toleranceDegrees)
+                       && (coords.longitude > viewport.southwest.longitude - toleranceDegrees);
+
+  return withinNortheast && withinSouthwest;
 };
 
 // Returns the distance between two points in kilometers.
 // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
-const HaversineFormula = (a: GpsCoordinates, b: GpsCoordinates): number => {
-  const R = 6371; // Radius of the earth
+const MetersBetweenCoordinates = (a: GpsCoordinates, b: GpsCoordinates): number => {
+  const RadiusOfTheEarthInMeters = 6371 * 1000;
   const deg2rad = (deg) => deg * (Math.PI / 180);
 
   const dLat = deg2rad(b.latitude - a.latitude);
@@ -51,7 +66,7 @@ const HaversineFormula = (a: GpsCoordinates, b: GpsCoordinates): number => {
             Math.cos(deg2rad(a.latitude)) * Math.cos(deg2rad(b.latitude)) *
             Math.sin(dLong / 2) * Math.sin(dLong / 2);
   const z = 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
-  return R * z;
+  return RadiusOfTheEarthInMeters * z;
 };
 
 export const Pluralize = (input: number, suffix: string = "s"): string => {
