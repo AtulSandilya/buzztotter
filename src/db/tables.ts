@@ -62,14 +62,23 @@ export interface GpsCoordinates {
   longitude: number;
 }
 
+export interface LocationViewport {
+  northeast: GpsCoordinates;
+  southwest: GpsCoordinates;
+}
+
+// Pulled from the google maps place details api
 export interface BasicLocation extends GpsCoordinates {
   name: string;
   address: string;
+  phoneNumber: string;
+  url: string;
+  viewport: LocationViewport;
+  googlePlaceId: string;
+  typicalHours: string[];
 }
 
 export interface Location extends BasicLocation {
-  typicalHours: string;
-  squareFootage?: string;
   vendorId?: string;
 }
 
