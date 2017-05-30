@@ -58,7 +58,8 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
   constructor(props) {
     super(props);
     this.state = {
-      numDrinks: this.props.receivedBevegram.quantity - this.props.receivedBevegram.quantityRedeemed,
+      numDrinks: 1,
+      // numDrinks: this.props.receivedBevegram.quantity - this.props.receivedBevegram.quantityRedeemed,
     };
   }
 
