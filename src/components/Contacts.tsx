@@ -21,9 +21,12 @@ import { isAndroid, StatusBarHeight, WindowHeight, WindowWidth } from "../ReactN
 import {BrandingHeight} from "./Branding";
 import {globalColors, globalStyles} from "./GlobalStyles.js";
 
+import {buildFacebookProfilePicUrlFromFacebookId} from "../api/facebook";
+
 import CBevegramStatusBar from "../containers/CBevegramStatusBar";
 import CContact from "../containers/CContact";
 import FacebookAppInviteButton from "./FacebookAppInviteButton";
+import theme from "../theme";
 
 import {Contact} from "../reducers/contacts";
 import {ContactsSort, ContactsSortingMethod, ContactsSortOptionsViewLine} from "../reducers/contactsView";
