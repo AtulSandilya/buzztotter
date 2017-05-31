@@ -1,4 +1,4 @@
-Object.defineProperty(exports,"__esModule",{value:true});var _firebaseAdmin=require("firebase-admin");var _firebaseAdmin2=_interopRequireDefault(_firebaseAdmin);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}
+Object.defineProperty(exports,"__esModule",{value:true});var _firebaseAdmin=require("firebase-admin");var admin=_interopRequireWildcard(_firebaseAdmin);function _interopRequireWildcard(obj){if(obj&&obj.__esModule){return obj;}else{var newObj={};if(obj!=null){for(var key in obj){if(Object.prototype.hasOwnProperty.call(obj,key))newObj[key]=obj[key];}}newObj.default=obj;return newObj;}}
 var SetupAdminDb=function SetupAdminDb(){
 require("dotenv").config();
 var serviceAccount={
@@ -13,10 +13,10 @@ project_id:process.env.TEST_FIREBASE_ADMIN_KEY_project_id,
 token_uri:process.env.TEST_FIREBASE_ADMIN_KEY_token_uri,
 type:process.env.TEST_FIREBASE_ADMIN_KEY_type};
 
-_firebaseAdmin2.default.initializeApp({
-credential:_firebaseAdmin2.default.credential.cert(serviceAccount),
+admin.initializeApp({
+credential:admin.credential.cert(serviceAccount),
 databaseURL:process.env.TEST_FIREBASE_KEY_firebaseDatabaseURL});
 
-return _firebaseAdmin2.default.database();
+return admin.database();
 };exports.default=
 SetupAdminDb;
