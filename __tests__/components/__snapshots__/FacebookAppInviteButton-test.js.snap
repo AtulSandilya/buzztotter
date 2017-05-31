@@ -13,7 +13,9 @@ exports[`Facebook App Invite Button renders correctly 1`] = `
     accessibilityLabel={undefined}
     accessibilityTraits={undefined}
     accessible={true}
+    hasTVPreferredFocus={undefined}
     hitSlop={undefined}
+    isTVSelectable={true}
     onLayout={undefined}
     onResponderGrant={[Function]}
     onResponderMove={[Function]}
@@ -37,7 +39,8 @@ exports[`Facebook App Invite Button renders correctly 1`] = `
         ],
       ]
     }
-    testID={undefined}>
+    testID={undefined}
+    tvParallaxProperties={undefined}>
     <View
       style={
         Array [
