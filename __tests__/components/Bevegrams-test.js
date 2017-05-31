@@ -19,7 +19,7 @@ describe('Bevegrams component', () => {
     // enzyme it is not possible to test the contents of a ListView?
     const listViewSize = wrapper.find(ListView).prop("pageSize");
 
-    expect(listViewSize).toEqual(1);
+    expect(listViewSize).toEqual(undefined);
   })
 
   it('renders with bevegrams', () => {
