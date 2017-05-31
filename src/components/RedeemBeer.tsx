@@ -16,6 +16,7 @@ import {Location} from "../db/tables";
 import BevButton from "./BevButton";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 import TitleText from "./TitleText";
+import BevUiText from "./BevUiText";
 
 import {globalColors, globalStyles} from "./GlobalStyles";
 
@@ -230,34 +231,39 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
               <View style={[globalStyles.bevLineRight, {
                 paddingLeft: 15,
               }]}>
-              <TouchableHighlight
-                onPress={() => this.updateLocation()}
-                underlayColor={"rgba(255, 255, 255, 0.1)"}
-              >
-                {this.props.isRefreshingLocation ?
-                  <Text style={globalStyles.bevLineText}>Fetching...</Text>
-                :
-                  <View>
-                    {this.props.currentLocationBusinessName ?
-                      <Text
-                        style={globalStyles.bevLineText}
-                        numberOfLines={10}
-                      >
-                        {this.props.currentLocationBusinessName}
-                      </Text>
-                    :
-                      <Text style={globalStyles.bevLineText} numberOfLines={10}>
-                      {this.props.getLocationFailed ?
-                        this.props.getLocationFailedErrorMessage
+              {this.props.isRefreshingLocation ?
+                <ActivityIndicator />
+              :
+                <TouchableHighlight
+                  onPress={() => this.updateLocation()}
+                  underlayColor={"rgba(255, 255, 255, 0.1)"}
+                >
+                    <View>
+                      {this.props.currentLocationBusinessName ?
+                        <Text
+                          style={globalStyles.bevLineText}
+                          numberOfLines={10}
+                        >
+                          {this.props.currentLocationBusinessName}
+                        </Text>
                       :
-                        "Unknown Error checking your location"
+                        <Text style={globalStyles.bevLineText} numberOfLines={10}>
+                        {this.props.getLocationFailed ?
+                          this.props.getLocationFailedErrorMessage
+                        :
+                          "Unknown Error checking your location"
+                        }
+                        </Text>
                       }
-                      </Text>
-                    }
-                    <Text style={[globalStyles.bevTipText, {paddingTop: 5}]}>TAP TO REFRESH</Text>
-                  </View>
-                }
-              </TouchableHighlight>
+                      <BevUiText
+                        icon="refresh"
+                        style={{paddingTop: 5}} 
+                      >
+                        Tap to Refresh
+                      </BevUiText>
+                    </View>
+                </TouchableHighlight>
+              }
             </View>
           </View>
           {!this.isRedeemComplete() ?
