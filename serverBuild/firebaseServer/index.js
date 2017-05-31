@@ -348,6 +348,7 @@ resolve();case 34:case"end":return _context7.stop();}}},_callee7,this,[[8,30]]);
 process();
 });
 
+
 var verifyUser=function verifyUser(verificationToken,userFirebaseId){return __awaiter(_this,void 0,void 0,_regenerator2.default.mark(function _callee8(){var tokenInDb;return _regenerator2.default.wrap(function _callee8$(_context8){while(1){switch(_context8.prev=_context8.next){case 0:_context8.next=2;return(
 db.readNode(DbSchema.GetUserVerificationTokenDbUrl(userFirebaseId)));case 2:tokenInDb=_context8.sent;if(!(
 tokenInDb!==verificationToken)){_context8.next=6;break;}
@@ -369,3 +370,24 @@ message));
 _this4.message=message;
 _this4.name="QueueServerError";return _this4;
 }return QueueServerError;}(Error);
+
+
+
+process.on("SIGINT",function(){
+var shutdownStart=Date.now();
+console.log("Gracefully shutting down queue...");
+var addCardToCustomerShutdown=AddCardToCustomerQueue.shutdown();
+var removeCardFromCustomerShutdown=RemoveCardFromCustomerQueue.shutdown();
+var updateDefaultCardShutdown=UpdateDefaultCardQueue.shutdown();
+var purchaseShutdown=PurchaseQueue.shutdown();
+var redeemShutdown=RedeemQueue.shutdown();
+Promise.all([
+addCardToCustomerShutdown,
+removeCardFromCustomerShutdown,
+updateDefaultCardShutdown,
+purchaseShutdown,
+redeemShutdown]).
+then(function(vals){
+console.log("Queue shutdown completed in "+(Date.now()-shutdownStart)+"ms!");
+});
+});

@@ -453,6 +453,7 @@ const RedeemQueue = new Queue(db.getRef(RedeemQueueUrl), (data, progress, resolv
 });
 
 //  End Redeem ---------------------------------------------------------}}}
+//  Utils --------------------------------------------------------------{{{
 
 const verifyUser = async (verificationToken: string, userFirebaseId: string) => {
   const tokenInDb = await db.readNode(DbSchema.GetUserVerificationTokenDbUrl(userFirebaseId));
@@ -479,3 +480,28 @@ class QueueServerError extends Error {
     this.name = "QueueServerError";
   }
 }
+
+//  End Utils ----------------------------------------------------------}}}
+//  Shutdown ------------------------------------------------------------{{{
+
+process.on("SIGINT", () => {
+  const shutdownStart = Date.now();
+  console.log("Gracefully shutting down queue...");
+  const addCardToCustomerShutdown = AddCardToCustomerQueue.shutdown();
+  const removeCardFromCustomerShutdown = RemoveCardFromCustomerQueue.shutdown();
+  const updateDefaultCardShutdown = UpdateDefaultCardQueue.shutdown();
+  const purchaseShutdown = PurchaseQueue.shutdown();
+  const redeemShutdown = RedeemQueue.shutdown();
+
+  Promise.all([
+    addCardToCustomerShutdown,
+    removeCardFromCustomerShutdown,
+    updateDefaultCardShutdown,
+    purchaseShutdown,
+    redeemShutdown,
+  ]).then((vals) => {
+    console.log(`Queue shutdown completed in ${Date.now() - shutdownStart}ms!`);
+  });
+});
+
+//  End Shutdown --------------------------------------------------------}}}
