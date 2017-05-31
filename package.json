@@ -25,7 +25,7 @@
     "react-native-fbsdk": "github:facebook/react-native-fbsdk",
     "react-native-fcm": "^5.0.0",
     "react-native-keyboard-aware-scroll-view": "^0.2.6",
-    "react-native-maps": "^0.13.0",
+    "react-native-maps": "^0.15.2",
     "react-native-router-flux": "^3.37.0",
     "react-native-scrollable-tab-view": "^0.6.0",
     "react-native-uuid": "^1.4.9",
