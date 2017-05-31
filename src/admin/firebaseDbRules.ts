@@ -87,7 +87,6 @@ const stripeQueueRule = {
   ".read": false,
   ".write": "auth !== null",
   ".validate": stripeQueueValidateRule,
-  ".indexOn": "_state",
 };
 
 // uid is the users firebase id
@@ -120,7 +119,8 @@ export const rules: DatabaseRules<DatabaseSchema> = {
 
     addCreditCardToCustomerQueue: {
       tasks: {
-        $pushId: {
+        ".indexOn": "_state",
+        "$pushId": {
           ".read": false,
           ".write": "auth !== null",
           ".validate": "newData.hasChildren(['stripeCreditCardToken', 'userFirebaseId', 'verificationToken'])" +
@@ -129,16 +129,25 @@ export const rules: DatabaseRules<DatabaseSchema> = {
           " && newData.child('stripeCreditCardToken').isString()" +
           " && newData.child('stripeCreditCardToken').val().beginsWith('tok_')" +
           " && newData.child('stripeCreditCardToken').val().length === 28",
-          ".indexOn": "_state",
         },
       },
     },
-    removeCreditCardFromCustomerQueue: {tasks: {$pushId: stripeQueueRule}},
-    updateDefaultCreditCardQueue: {tasks: {$pushId: stripeQueueRule}},
+    removeCreditCardFromCustomerQueue: {
+      tasks: {
+        ".indexOn": "_state",
+        "$pushId": stripeQueueRule,
+      },
+    },
+    updateDefaultCreditCardQueue: {
+      tasks: {
+        ".indexOn": "_state",
+        "$pushId": stripeQueueRule,
+      },
+    },
     purchaseQueue: {
       tasks: {
-        $pushId: {
-          ".indexOn": "_state",
+        ".indexOn": "_state",
+        "$pushId": {
           ".read": false,
           ".write": "auth !== null",
           ".validate": "newData.hasChildren([" +
@@ -153,8 +162,8 @@ export const rules: DatabaseRules<DatabaseSchema> = {
     },
     redeemQueue: {
       tasks: {
-        $pushId: {
-          ".indexOn": "_state",
+        ".indexOn": "_state",
+        "$pushId": {
           ".read": false,
           ".write": "auth !== null",
           ".validate": "newData.hasChildren([" +
