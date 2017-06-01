@@ -9,12 +9,14 @@ import {
   TextInput,
   TextStyle,
   TouchableHighlight,
+  TouchableWithoutFeedback,
   View,
   ViewStyle,
 } from "react-native";
 
 import {connect} from "react-redux";
 
+import * as Animatable from "react-native-animatable";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import {isAndroid, isIOS, StatusBarHeight} from "../ReactNativeUtilities";
@@ -111,21 +113,13 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
   goBackRoute,
 }) => {
   const centerText = navBarText;
+  const logoAnimationDuration = 800;
   return (
     <View style={styles.wrapper}>
       <View style={styles.content}>
         <View style={[styles.section, styles.leftContainer]}>
           {showLogo ?
-            <Image
-              source={require("../../img/logos/logo-on-brown.png")}
-              style={{
-                flex: -1,
-                height: 55,
-                width: 95,
-              }}
-              resizeMode="contain"
-              resizeMethod="scale"
-            />
+            <Logo/>
           :
             null
           }
@@ -211,5 +205,30 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
     </View>
   );
 };
+
+class Logo extends Component<{}, {}> {
+  public static logoAnimationDuration = 500;
+  public render() {
+    return (
+      <TouchableWithoutFeedback onPress={() => {
+        const refs = this.refs as any;
+        refs.logo.rotate(Logo.logoAnimationDuration);
+      }}>
+        <Animatable.Image
+          ref="logo"
+          easing="ease-in"
+          source={require("../../img/logos/logo-on-brown.png")}
+          style={{
+            flex: -1,
+            height: 55,
+            width: 95,
+          }}
+          resizeMode="contain"
+          resizeMethod="scale"
+        />
+      </TouchableWithoutFeedback>
+    );
+  }
+}
 
 export default Branding;
