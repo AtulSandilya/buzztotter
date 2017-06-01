@@ -388,11 +388,14 @@ const RedeemQueue = new Queue(db.getRef(RedeemQueueUrl), (data, progress, resolv
       await verifyUser(verificationToken, userFirebaseId);
       const vendor: Vendor = (await(db.readNode(DbSchema.GetVendorDbUrl(loc.vendorId)))).metadata;
 
-      Object.keys(loc).map((key) => {
-        if (key !== "vendorId" && (loc[key] !== vendor[key])) {
-          throw new QueueServerError(`Location '${loc}' does not match vendor: ${vendor}`);
-        }
-      });
+      // Verify location and vendor match
+      const validLatitude = loc.latitude === vendor.latitude;
+      const validLongitude = loc.longitude === vendor.longitude;
+      const validAddress = loc.address === vendor.address;
+
+      if (!(validLatitude && validLongitude && validAddress)) {
+        throw new QueueServerError(`Unable to verify ${loc.name}`);
+      }
 
       const receivedBevegram: ReceivedBevegram = await db.readNode(DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId) + `/${receivedId}`);
 

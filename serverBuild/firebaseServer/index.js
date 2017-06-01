@@ -276,7 +276,7 @@ var RedeemQueueUrl=DbSchema.GetRedeemQueueUrl();
 _Log2.default.StartQueueMessage(RedeemQueueUrl);
 var RedeemQueue=new _firebaseQueue2.default(db.getRef(RedeemQueueUrl),function(data,progress,resolve,reject){
 var log=new _Log2.default("REDEEM");
-var process=function process(){return __awaiter(_this,void 0,void 0,_regenerator2.default.mark(function _callee7(){var _this3=this;var input,userFirebaseId,receivedId,loc,quantity,verificationToken,user,status,updateStatus,vendor,receivedBevegram,updatedReceivedBevegram,userRedeemedBevegram,vendorRedeemedBevegram;return _regenerator2.default.wrap(function _callee7$(_context7){while(1){switch(_context7.prev=_context7.next){case 0:
+var process=function process(){return __awaiter(_this,void 0,void 0,_regenerator2.default.mark(function _callee7(){var _this3=this;var input,userFirebaseId,receivedId,loc,quantity,verificationToken,user,status,updateStatus,vendor,validLatitude,validLongitude,validAddress,receivedBevegram,updatedReceivedBevegram,userRedeemedBevegram,vendorRedeemedBevegram;return _regenerator2.default.wrap(function _callee7$(_context7){while(1){switch(_context7.prev=_context7.next){case 0:
 input=data;
 userFirebaseId=input.userFirebaseId,receivedId=input.receivedId,loc=input.location,quantity=input.quantity,verificationToken=input.verificationToken;_context7.next=4;return(
 db.readNode(DbSchema.GetUserDbUrl(userFirebaseId)));case 4:user=_context7.sent;
@@ -296,14 +296,16 @@ updateStatus();_context7.prev=8;_context7.next=11;return(
 
 verifyUser(verificationToken,userFirebaseId));case 11:_context7.next=13;return(
 db.readNode(DbSchema.GetVendorDbUrl(loc.vendorId)));case 13:vendor=_context7.sent.metadata;
-Object.keys(loc).map(function(key){
-if(key!=="vendorId"&&loc[key]!==vendor[key]){
-throw new QueueServerError("Location '"+loc+"' does not match vendor: "+vendor);
-}
-});_context7.next=17;return(
-db.readNode(DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId)+("/"+receivedId)));case 17:receivedBevegram=_context7.sent;if(!(
-quantity>receivedBevegram.quantity-receivedBevegram.quantityRedeemed)){_context7.next=20;break;}throw(
-new QueueServerError("You do not have enough bevegrams to redeem!"));case 20:
+
+validLatitude=loc.latitude===vendor.latitude;
+validLongitude=loc.longitude===vendor.longitude;
+validAddress=loc.address===vendor.address;if(
+validLatitude&&validLongitude&&validAddress){_context7.next=19;break;}throw(
+new QueueServerError("Unable to verify "+loc.name));case 19:_context7.next=21;return(
+
+db.readNode(DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId)+("/"+receivedId)));case 21:receivedBevegram=_context7.sent;if(!(
+quantity>receivedBevegram.quantity-receivedBevegram.quantityRedeemed)){_context7.next=24;break;}throw(
+new QueueServerError("You do not have enough bevegrams to redeem!"));case 24:
 
 updatedReceivedBevegram=(0,_extends3.default)({},receivedBevegram,{
 quantityRedeemed:receivedBevegram.quantityRedeemed+quantity});
@@ -322,17 +324,17 @@ redeemedByName:user.fullName,
 redeemedByUserId:userFirebaseId,
 redeemedByPhotoUrl:user.firebase.photoURL,
 redeemedDate:(0,_CommonUtilities.GetTimeNow)(),
-quantity:quantity};_context7.next=25;return(
+quantity:quantity};_context7.next=29;return(
 
 
-db.redeemUserBevegram(userFirebaseId,userRedeemedBevegram,receivedId,updatedReceivedBevegram));case 25:_context7.next=27;return(
-db.redeemVendorBevegram(loc.vendorId,vendorRedeemedBevegram));case 27:
+db.redeemUserBevegram(userFirebaseId,userRedeemedBevegram,receivedId,updatedReceivedBevegram));case 29:_context7.next=31;return(
+db.redeemVendorBevegram(loc.vendorId,vendorRedeemedBevegram));case 31:
 setTimeout(function(){
 
 status.updatingDatabase="complete";
 updateStatus();
 log.successMessage();
-},500);_context7.next=33;break;case 30:_context7.prev=30;_context7.t0=_context7["catch"](8);
+},500);_context7.next=37;break;case 34:_context7.prev=34;_context7.t0=_context7["catch"](8);
 
 
 setTimeout(function(){
@@ -341,9 +343,9 @@ status.error=_context7.t0.message;
 status.updatingDatabase="failed";
 updateStatus();
 log.failMessage(_context7.t0);
-},500);case 33:
+},500);case 37:
 
-resolve();case 34:case"end":return _context7.stop();}}},_callee7,this,[[8,30]]);}));};
+resolve();case 38:case"end":return _context7.stop();}}},_callee7,this,[[8,34]]);}));};
 
 process();
 });
