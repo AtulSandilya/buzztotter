@@ -121,7 +121,10 @@ export function *getLocationsAtUserLocation() {
       yield put({type: "SUCCESSFUL_GET_LOCATIONS_AT_USER_LOCATION", payload: {
         location: loc,
       }});
-      return loc;
+
+      return Object.assign({}, loc, {
+        vendorId: locationKeysAtUserLocation[0],
+      });
     }
 
   }
