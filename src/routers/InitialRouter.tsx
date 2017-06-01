@@ -19,6 +19,7 @@ import {isAndroid, isIOS, isNarrow} from "../ReactNativeUtilities";
 
 import Icon from "react-native-vector-icons/Ionicons";
 
+import Loading from "../components/Loading";
 import MainUi from "../components/MainUi";
 import CAddCreditCard from "../containers/CAddCreditCard";
 import CBranding from "../containers/CBranding";
@@ -141,13 +142,7 @@ export default class InitialRouter extends Component<InitialRouterProps, {}> {
   public render() {
     if (this.props.isLoading) {
       return (
-        <View style={{
-          alignItems: "center",
-          flex: 1,
-          justifyContent: "center",
-        }}>
-          <Text>Loading!</Text>
-        </View>
+        <Loading/>
       );
     }
 

@@ -22,6 +22,7 @@
     "node-fetch": "^1.6.3",
     "react": "^16.0.0-alpha.6",
     "react-native": "^0.44.1",
+    "react-native-animatable": "^1.2.0",
     "react-native-fbsdk": "github:facebook/react-native-fbsdk",
     "react-native-fcm": "^5.0.0",
     "react-native-keyboard-aware-scroll-view": "^0.2.6",
