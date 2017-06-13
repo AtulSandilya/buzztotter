@@ -6,6 +6,7 @@
     "no-magic-numbers": true,
     "no-switch-case-fall-through": true,
     "switch-default": false,
-    "jsx-no-multiline-js": false
+    "jsx-no-multiline-js": false,
+    "arrow-parens": false
   }
 }
