@@ -77,7 +77,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
     );
 
     if (!showCompleted || transactionFailed(purchaseTransactionStatus)) {
-      return <View/>;
+      return null;
     }
 
     const bevStr = (numBevs: number) => {
@@ -104,7 +104,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<PurchaseOrSendInProgress
     }
 
     return (
-      <View>
+      <View style={{ flex: 1, paddingBottom: 100 }}>
         <View style={globalStyles.bevLine}>
           <View style={[globalStyles.bevLineLeft, {justifyContent: "flex-start"}]}>
             <Text style={[globalStyles.bevLineTextTitle, {paddingRight: 10}]}>
