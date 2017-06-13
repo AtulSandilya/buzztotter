@@ -43,13 +43,13 @@ buck-out/
 android/app/libs
 android/keystores/debug.keystore
 
-# Android Builds
-android/ReleaseBuilds
+# Builds
+ReleaseBuilds/
 
 # Api keys
-src/publicApiKeys.ts
+src/publicApiKeys*.ts
 buzzotter*.json
-android/app/google-services.json
+android/app/google-services*.json
 .env
 .firebaserc
 firebase.json
