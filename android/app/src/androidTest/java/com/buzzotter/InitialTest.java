@@ -1,4 +1,4 @@
-package com.bevegram;
+package com.buzzotter;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;

@@ -1,9 +1,8 @@
-package com.bevegram;
+package com.buzzotter;
 
 import android.content.Intent;
 
 import com.facebook.react.ReactActivity;
-import com.oblador.vectoricons.VectorIconsPackage;
 
 public class MainActivity extends ReactActivity {
 
@@ -13,7 +12,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "Bevegram";
+        return "BuzzOtter";
     }
 
     @Override
