@@ -82,6 +82,8 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 
+def buildKeyType = project.hasProperty("build_key_type") ? build_key_type : "dev"
+
 android {
     compileSdkVersion 23
     buildToolsVersion '25.0.0'
@@ -105,7 +107,17 @@ android {
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         // Store any api keys for the manifest in gradle.properties
-        manifestPlaceholders = [mapsApiKey: BEVEGRAM_MAPS_API_KEY]
+        if(buildKeyType == "production") {
+            manifestPlaceholders = [
+                mapsApiKey: BEVEGRAM_MAPS_API_KEY,
+                facebookApiKey: BUZZOTTER_PRODUCTION_FACEBOOK_KEY
+            ]
+        } else {
+            manifestPlaceholders = [
+                mapsApiKey: BEVEGRAM_MAPS_API_KEY,
+                facebookApiKey: BUZZOTTER_DEV_FACEBOOK_KEY
+            ]
+        }
     }
     signingConfigs {
         release {

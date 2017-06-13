@@ -39,9 +39,12 @@
         android:name="com.google.android.geo.API_KEY"
         android:value="${mapsApiKey}"
       />
+      <!-- Android will automatically parse a number as an int. Facebook wants
+           this int parsed as a string. Adding a null character `\0` at the end is
+           a hack so android parses the facebookApiKey as a string -->
       <meta-data
         android:name="com.facebook.sdk.ApplicationId"
-        android:value="@string/facebook_app_id"
+        android:value="${facebookApiKey}\0"
       />
       <service android:name="com.evollu.react.fcm.MessagingService">
           <intent-filter>
