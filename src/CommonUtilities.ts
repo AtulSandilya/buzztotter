@@ -1,7 +1,7 @@
 import { GpsCoordinates, LocationViewport, UnixTime } from "./db/tables";
 
 export const StringifyDate = (): string => {
-  return (new Date().toJSON());
+  return new Date().toJSON();
 };
 
 export const GetTimeNow = (): UnixTime => {
@@ -22,7 +22,10 @@ const FormatFloat = (input: number, places: number): string => {
   }
 };
 
-export const FormatGpsCoordinates = (x: GpsCoordinates, places: number): {latitude: string, longitude: string} => {
+export const FormatGpsCoordinates = (
+  x: GpsCoordinates,
+  places: number,
+): { latitude: string; longitude: string } => {
   return {
     latitude: FormatFloat(x.latitude, places),
     longitude: FormatFloat(x.longitude, places),
@@ -38,10 +41,12 @@ export const CoordsAreWithinViewport = (
   coords: GpsCoordinates,
   viewport: LocationViewport,
 ): boolean => {
-  const withinNortheast = (coords.latitude < viewport.northeast.latitude)
-                       && (coords.longitude < viewport.northeast.longitude);
-  const withinSouthwest = (coords.latitude > viewport.southwest.latitude)
-                       && (coords.longitude > viewport.southwest.longitude);
+  const withinNortheast =
+    coords.latitude < viewport.northeast.latitude &&
+    coords.longitude < viewport.northeast.longitude;
+  const withinSouthwest =
+    coords.latitude > viewport.southwest.latitude &&
+    coords.longitude > viewport.southwest.longitude;
 
   return withinNortheast && withinSouthwest;
 };
@@ -50,23 +55,33 @@ const SquareFootageToRadius = (squareFootage: number): number => {
   return Math.sqrt(squareFootage) / Math.PI;
 };
 
-export const CoordsAreInRadius = (a: GpsCoordinates, b: GpsCoordinates, squareFootage: number) => {
+export const CoordsAreInRadius = (
+  a: GpsCoordinates,
+  b: GpsCoordinates,
+  squareFootage: number,
+) => {
   return MetersBetweenCoordinates(a, b) < SquareFootageToRadius(squareFootage);
 };
 
 // Returns the distance between two points in kilometers.
 // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
 /* tslint:disable:no-magic-numbers */
-const MetersBetweenCoordinates = (a: GpsCoordinates, b: GpsCoordinates): number => {
+const MetersBetweenCoordinates = (
+  a: GpsCoordinates,
+  b: GpsCoordinates,
+): number => {
   const RadiusOfTheEarthInMeters = 6371 * 1000;
-  const deg2rad = (deg) => deg * (Math.PI / 180);
+  const deg2rad = deg => deg * (Math.PI / 180);
 
   const dLat = deg2rad(b.latitude - a.latitude);
   const dLong = deg2rad(b.longitude - a.longitude);
 
-  const x = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(deg2rad(a.latitude)) * Math.cos(deg2rad(b.latitude)) *
-            Math.sin(dLong / 2) * Math.sin(dLong / 2);
+  const x =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(a.latitude)) *
+      Math.cos(deg2rad(b.latitude)) *
+      Math.sin(dLong / 2) *
+      Math.sin(dLong / 2);
   const z = 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
   return RadiusOfTheEarthInMeters * z;
 };
