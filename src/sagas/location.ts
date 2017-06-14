@@ -6,7 +6,11 @@ import { CoordsAreInRadius, CoordsAreWithinViewport } from "../CommonUtilities";
 import * as DbSchema from "../db/schema";
 import { GpsCoordinates, Location } from "../db/tables";
 
-const promiseDeviceGpsCoordinates = (): Promise<GpsCoordinates> => {
+/* tslint:disable:object-literal-sort-keys */
+const getDeviceGpsCoordinates = (
+  enableHighAccuracy: boolean = false,
+): Promise<GpsCoordinates> => {
+  const timeout = 5000;
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
       position => {
@@ -15,8 +19,10 @@ const promiseDeviceGpsCoordinates = (): Promise<GpsCoordinates> => {
           longitude: position.coords.longitude,
         });
       },
-      null,
-      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1 },
+      () => {
+        resolve();
+      },
+      { enableHighAccuracy, timeout, maximumAge: 1 },
     );
   });
 };
@@ -45,13 +51,16 @@ function* getLocationsNearCoordinates(coords: GpsCoordinates) {
   return locationsWithId;
 }
 
-/* tslint:disable:object-literal-sort-keys */
 export function* getLocationsNearUser() {
   yield put({ type: "ATTEMPTING_LOCATION_NEAR_USER_UPDATE" });
 
-  const deviceCoordinates: GpsCoordinates = yield call(
-    promiseDeviceGpsCoordinates,
-  );
+  const deviceCoordinates: GpsCoordinates = yield call(getDeviceGpsCoordinates);
+
+  if (!deviceCoordinates) {
+    yield put({ type: "FAILED_LOCATION_NEAR_USER_UPDATE" });
+    return;
+  }
+
   const locationsNearUser = yield call(
     getLocationsNearCoordinates,
     deviceCoordinates,
@@ -84,9 +93,10 @@ export function* getLocationsAtUserLocation() {
     yield put({
       type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION",
       payload: {
-        error: "Your gps is disabled!",
+        error: "Unable to fetch location!",
       },
     });
+    return;
   }
   const gpsCoordUrls = DbSchema.GetAllGpsCoordNodeUrls(deviceCoordinates);
   const locationsAtUserLoc = yield call(
