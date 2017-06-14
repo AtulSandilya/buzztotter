@@ -88,7 +88,16 @@ export function* getLocationsAtUserLocation() {
 
   let deviceCoordinates: GpsCoordinates;
   try {
-    deviceCoordinates = yield call(promiseDeviceGpsCoordinates);
+    // First try to get the device location with high accuracy, with a
+    // fallback to low accuracy
+    deviceCoordinates = yield call(getDeviceGpsCoordinates, true);
+    if (!deviceCoordinates) {
+      deviceCoordinates = yield call(getDeviceGpsCoordinates, false);
+    }
+
+    if (!deviceCoordinates) {
+      throw new Error();
+    }
   } catch (e) {
     yield put({
       type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION",
