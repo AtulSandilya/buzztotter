@@ -1,14 +1,10 @@
+import { delay } from "redux-saga";
 import { call, put } from "redux-saga/effects";
 
-import { delay } from "redux-saga";
-
-import * as DbSchema from "../db/schema";
-
 import { readNode } from "../api/firebase/index";
-
-import { GpsCoordinates, Location } from "../db/tables";
-
 import { CoordsAreInRadius, CoordsAreWithinViewport } from "../CommonUtilities";
+import * as DbSchema from "../db/schema";
+import { GpsCoordinates, Location } from "../db/tables";
 
 const promiseDeviceGpsCoordinates = (): Promise<GpsCoordinates> => {
   return new Promise((resolve, reject) => {
