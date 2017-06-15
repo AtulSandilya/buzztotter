@@ -50,8 +50,10 @@ var deg2rad=function deg2rad(deg){return deg*(Math.PI/180);};
 var dLat=deg2rad(b.latitude-a.latitude);
 var dLong=deg2rad(b.longitude-a.longitude);
 var x=Math.sin(dLat/2)*Math.sin(dLat/2)+
-Math.cos(deg2rad(a.latitude))*Math.cos(deg2rad(b.latitude))*
-Math.sin(dLong/2)*Math.sin(dLong/2);
+Math.cos(deg2rad(a.latitude))*
+Math.cos(deg2rad(b.latitude))*
+Math.sin(dLong/2)*
+Math.sin(dLong/2);
 var z=2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));
 return RadiusOfTheEarthInMeters*z;
 };
