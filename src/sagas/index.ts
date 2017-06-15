@@ -48,7 +48,7 @@ import {
 import * as ReactNativeUtil from "../ReactNativeUtilities";
 import * as queue from "./queue";
 
-import {User} from "../db/tables";
+import {Location, User} from "../db/tables";
 
 // Like combine reducers
 /* tslint:disable:object-literal-sort-keys */
