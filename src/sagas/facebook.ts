@@ -55,7 +55,7 @@ export function *successfulLogin(action) {
   yield put({type: "LOGIN_FACEBOOK"});
 }
 
-export function *logOutFacebook(action) {
+export function *logOutFacebook() {
   // Actual facebook logout is handled by `LoginManager`
   yield put({type: "LOGOUT_FACEBOOK"});
 }
