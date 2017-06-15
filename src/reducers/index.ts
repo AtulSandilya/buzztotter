@@ -23,7 +23,7 @@ import { settings           } from "./settings";
 import { user               } from "./user";
 import { view               } from "./view";
 
-export default combineReducers({
+const appReducer = combineReducers({
   addCreditCard,
   app,
   badges,
@@ -39,11 +39,21 @@ export default combineReducers({
   purchase,
   purchasedBevegrams,
   receivedBevegrams,
-  redeemedBevegrams,
   redeemView,
+  redeemedBevegrams,
   routes,
   sentBevegrams,
   settings,
   user,
   view,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === "RESET_STATE") {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
+
+export default rootReducer;
