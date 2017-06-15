@@ -15,7 +15,7 @@ import MapView from "react-native-maps";
 
 import { isAndroid, isIOS } from "../ReactNativeUtilities";
 
-import { Location } from "../db/tables";
+import { GpsCoordinates, Location } from "../db/tables";
 
 import BevButton from "./BevButton";
 import BevUiText from "./BevUiText";
@@ -74,16 +74,23 @@ export default class BevegramLocations extends Component<
 
     const todayAsNumber = new Date().getDay();
 
+    // Central Denver
+    const defaultCoords: GpsCoordinates = {
+      latitude: 39.7392358,
+      longitude: -104.990251,
+    };
+
+    // How zoomed in/out the map is
+    const coordDelta = {
+      latitudeDelta: 0.0922 * 1.75,
+      longitudeDelta: 0.0421 * 1.75,
+    };
+
     return (
       <View style={{ flex: 1 }}>
         <MapView
           style={{ flex: 6 }}
-          initialRegion={{
-            latitude: 39.7392358,
-            longitude: -104.990251,
-            latitudeDelta: 0.0922 * 1.75,
-            longitudeDelta: 0.0421 * 1.75,
-          }}
+          initialRegion={{ ...defaultCoords, ...coordDelta }}
         >
           {reversedMarkers.map((markerData, index) => {
             const numMarkers = this.props.markers.length;
