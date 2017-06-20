@@ -3,7 +3,7 @@ import { call, put, select } from "redux-saga/effects";
 import { Settings, settingsKeys } from "../reducers/settings";
 import * as notifications from "./notifications";
 
-export function* toggleNotificationSetting() {
+export function* toggleNotification() {
   const currentNotificationSetting = yield select<{ settings: Settings }>(
     state => state.settings.notifications,
   );

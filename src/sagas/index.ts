@@ -44,7 +44,7 @@ import {
   getLocationsNearUser,
 } from "./location";
 
-import {toggleNotificationSetting} from "./settings";
+import * as settings from "./settings";
 
 import * as ReactNativeUtil from "../ReactNativeUtilities";
 import * as queue from "./queue";
@@ -187,6 +187,6 @@ export default function* rootSaga() {
     takeEvery("REQUEST_BAR_AT_USER_LOCATION", getLocationsAtUserLocation),
 
     // Settings
-    takeEvery("TOGGLE_NOTIFICATION_SETTING", toggleNotificationSetting),
+    takeEvery("TOGGLE_NOTIFICATION_SETTING", settings.toggleNotification),
   ]);
 }
