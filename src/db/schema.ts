@@ -34,6 +34,9 @@ const Schema = {
     redeemQueue: {
       uniqueId: "RedeemPackage",
     },
+    toggleNotificationSettingQueue: {
+      uniqueId: "ToggleNotificationSettingPackage",
+    },
     userVerificationTokens: {
       userFirebaseId: "token",
     },
@@ -241,6 +244,10 @@ export const GetPurchaseQueueUrl = () => {
 
 export const GetRedeemQueueUrl = () => {
   return GetSchemaDbUrl("redeemQueue");
+};
+
+export const GetToggleNotificationSettingQueueUrl = () => {
+  return GetSchemaDbUrl("toggleNotificationSettingQueue");
 };
 
 export const GetUserVerificationTokenDbUrl = (userFirebaseId: string): string => {
