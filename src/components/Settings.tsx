@@ -35,6 +35,7 @@ interface SettingsProps {
   version: string;
   fullName: string;
   onSettingToggle(setting): void;
+  toggleNotificationSetting(): void;
   logoutActions(): void;
 }
 
@@ -44,6 +45,7 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({
   version,
   fullName,
   onSettingToggle,
+  toggleNotificationSetting,
   logoutActions,
 }) => {
   const supportEmail = "support@buzzotter.com";
@@ -81,7 +83,7 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({
           </SettingLeft>
           <SettingRight>
             <Switch
-              onValueChange={() => onSettingToggle(settingsKeys.notifications)}
+              onValueChange={() => toggleNotificationSetting()}
               value={notifications}
             />
           </SettingRight>

@@ -18,6 +18,9 @@ const mapDispatchToProps = (dispatch) => {
         route: "Login",
       }});
     },
+    toggleNotificationSetting: () => {
+      dispatch({type: "TOGGLE_NOTIFICATION_SETTING"});
+    },
     onSettingToggle: (inputKey) => {
       dispatch({type: "TOGGLE_SETTING", settingKey: inputKey});
     },
