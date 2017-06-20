@@ -88,9 +88,10 @@ const checkAndroidBundleForEnvKeys = async (buzzPath: BuzzPath) => {
       await runCommandAsync(`unzip ${androidReleaseFName} -d ${unzipFolder}`, buzzPath.dir.androidRelease);
 
       const bundlePath = path.join(buzzPath.dir.androidRelease, unzipFolder, "assets", "index.android.bundle");
-      const fbKey = "FIREBASE_ADMIN_KEY_";
+      const firebaseEnvKeyPrefix = "FIREBASE_ADMIN_KEY_";
       const keysToSkip = [
-        `${fbKey}project_id`,
+        `${firebaseEnvKeyPrefix}project_id`,
+        `${firebaseEnvKeyPrefix}firebaseDatabaseURL`,
       ];
 
       fs.readFile(bundlePath, (err, data) => {
