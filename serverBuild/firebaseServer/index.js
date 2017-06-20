@@ -421,6 +421,7 @@ redeemShutdown,
 toggleNotificationShutdown]).
 then(function(vals){
 console.log("Queue shutdown completed in "+(Date.now()-shutdownStart)+"ms!");
+process.exit(0);
 });
 };
 

@@ -541,8 +541,9 @@ const shutdownQueue = () => {
     toggleNotificationShutdown,
   ]).then((vals) => {
     console.log(`Queue shutdown completed in ${Date.now() - shutdownStart}ms!`);
+    process.exit(0);
   });
-}
+};
 
 // When pressing <C-c> on the command line
 process.on("SIGINT", () => {
