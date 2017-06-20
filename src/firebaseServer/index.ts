@@ -464,8 +464,8 @@ Log.StartQueueMessage(ToggleNotificationSettingUrl);
 const ToggleNotificationSettingQueue = new Queue(
   db.getRef(ToggleNotificationSettingUrl),
   (data, progress, resolve, reject) => {
-    const log = new Log("TOGGLE_NOTIFICATION_SETTING");
     const process = async () => {
+      const log = new Log("TOGGLE_NOTIFICATION_SETTING");
       const input: ToggleNotificationSettingPackageForQueue = data;
       const {fcmToken, userFirebaseId, verificationToken} = input;
 
