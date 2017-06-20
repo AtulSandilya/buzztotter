@@ -64,6 +64,7 @@ export interface DatabaseSchema {
   updateDefaultCreditCardQueue: object;
   purchaseQueue: object;
   redeemQueue: object;
+  toggleNotificationSettingQueue: object;
   purchaseTransactionStatus: object;
   redeemTransactionStatus: object;
   firebaseIds: object;
@@ -171,6 +172,19 @@ export const rules: DatabaseRules<DatabaseSchema> = {
           + " && newData.child('userFirebaseId').isString()"
           + " && newData.child('receivedId').isString()"
           + " && newData.child('quantity').isNumber()"
+          + " && newData.child('verificationToken').isString()",
+        },
+      },
+    },
+    toggleNotificationSettingQueue: {
+      tasks: {
+        ".indexOn": "_state",
+        "$pushId": {
+          ".read": false,
+          ".write": "auth !== null",
+          ".validate": "newData.hasChildren([" +
+          "'userFirebaseId', 'verificationToken'])"
+          + " && newData.child('userFirebaseId').isString()"
           + " && newData.child('verificationToken').isString()",
         },
       },
