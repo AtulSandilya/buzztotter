@@ -2,7 +2,7 @@ import { call, put, select } from "redux-saga/effects";
 
 import { isAndroid } from "../ReactNativeUtilities";
 
-import { NotificationActions, User } from "../db/tables";
+import { NotificationActions } from "../db/tables";
 import { Settings } from "../reducers/settings";
 import { sceneKeys, sceneOrder } from "../reducers/view";
 
