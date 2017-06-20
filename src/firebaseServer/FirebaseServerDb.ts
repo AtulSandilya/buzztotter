@@ -22,6 +22,10 @@ class FirebaseServerDb extends FirebaseDb {
     super(db);
   }
 
+  public deleteNode = async (url: string) => {
+    return await this.db.ref(url).remove();
+  }
+
 //  Purchase List -------------------------------------------------------{{{
 
   public addPurchasedBevegramToUser = async (
