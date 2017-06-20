@@ -1,10 +1,10 @@
-import {Alert} from "react-native";
+import { Alert } from "react-native";
 
 import { delay } from "redux-saga";
 import { call, put, race, select } from "redux-saga/effects";
 
 import FirebaseDb from "../api/firebase/FirebaseDb";
-import {FirebaseUser, User} from "../db/tables";
+import { FirebaseUser, User } from "../db/tables";
 
 import {
   AddCreditCardToCustomerPackageForQueue,
@@ -15,7 +15,7 @@ import {
   TransactionStatus,
 } from "../db/tables";
 
-import {StringifyDate} from "../CommonUtilities";
+import { StringifyDate } from "../CommonUtilities";
 
 import {
   firebaseLoginViaFacebookToken,
@@ -42,41 +42,46 @@ import * as DbSchema from "../db/schema";
 //  Login / Logout ------------------------------------------------------{{{
 
 /* tslint:disable:object-literal-sort-keys */
-export function *firebaseFacebookLogin(action) {
+export function* firebaseFacebookLogin(action) {
   try {
-    yield put({type: "ATTEMPING_FIREBASE_LOGIN"});
-    const firebaseCredential = yield call(firebaseLoginViaFacebookToken, action.payload.token);
+    yield put({ type: "ATTEMPING_FIREBASE_LOGIN" });
+    const firebaseCredential = yield call(
+      firebaseLoginViaFacebookToken,
+      action.payload.token,
+    );
 
-    const firebaseUser: FirebaseUser = Object.assign({}, {
+    const firebaseUser: FirebaseUser = {
       displayName: firebaseCredential.displayName,
       email: firebaseCredential.email,
       emailVerified: firebaseCredential.emailVerified,
       photoURL: firebaseCredential.photoURL,
       refreshToken: firebaseCredential.refreshToken,
       uid: firebaseCredential.uid,
-    });
+    };
 
-    const facebookId = yield select<any>((state) => state.user.facebook.id);
+    const facebookId = yield select<any>(state => state.user.facebook.id);
     yield call(initializeFirebaseUserFacebookId, firebaseUser.uid, facebookId);
 
-    yield put({type: "SUCCESSFUL_FIREBASE_LOGIN", payload: {
-      firebaseUser: firebaseUser,
-    }});
+    yield put({
+      type: "SUCCESSFUL_FIREBASE_LOGIN",
+      payload: {
+        firebaseUser: firebaseUser,
+      },
+    });
 
     yield call(updateFirebaseUser);
-
   } catch (e) {
-    yield put({type: "FAILED_FIREBASE_LOGIN"});
+    yield put({ type: "FAILED_FIREBASE_LOGIN" });
   }
 }
 
-export function *firebaseLogOut(action) {
+export function* firebaseLogOut(action) {
   try {
-    yield put({type: "ATTEMPTING_FIREBASE_LOGOUT"});
+    yield put({ type: "ATTEMPTING_FIREBASE_LOGOUT" });
     yield call(apiFirebaseLogOut);
-    yield put({type: "SUCCESSFUL_FIREBASE_LOGOUT"});
+    yield put({ type: "SUCCESSFUL_FIREBASE_LOGOUT" });
   } catch (e) {
-    yield put({type: "FAILED_FIREBASE_LOGOUT"});
+    yield put({ type: "FAILED_FIREBASE_LOGOUT" });
   }
 }
 
@@ -111,70 +116,95 @@ export function *firebaseLogOut(action) {
 //  End Login / Logout --------------------------------------------------}}}
 //  Utilities -----------------------------------------------------------{{{
 
-export function *verifyReceiverExists(action) {
+export function* verifyReceiverExists(action) {
   const receiverFacebookId = action.payload.sendBevegramData.facebookId;
   let receiverFirebaseId: string;
   try {
     receiverFirebaseId = yield call(getFirebaseId, receiverFacebookId);
-    if (!receiverFirebaseId) { throw Error; }
+    if (!receiverFirebaseId) {
+      throw Error;
+    }
     return receiverFirebaseId;
   } catch (e) {
-    alert(`Unable to send Bevegram! ${action.payload.sendBevegramData.recipentName} does not exist in our records.`);
-    throw Error(`getFirebaseId for receiver "${receiverFacebookId}" does not exist!`);
+    alert(
+      `Unable to send Bevegram! ${action.payload.sendBevegramData
+        .recipentName} does not exist in our records.`,
+    );
+    throw Error(
+      `getFirebaseId for receiver "${receiverFacebookId}" does not exist!`,
+    );
   }
 }
 
 //  End Utilities -------------------------------------------------------}}}
 //  User ----------------------------------------------------------------{{{
 
-export function *updateFirebaseUser(action) {
-  yield put({type: "UPDATE_LAST_MODIFIED", payload: {
-    lastModified: StringifyDate(),
-  }});
+export function* updateFirebaseUser(action) {
+  yield put({
+    type: "UPDATE_LAST_MODIFIED",
+    payload: {
+      lastModified: StringifyDate(),
+    },
+  });
 
-  let user: User = yield select<{user: User}>((state) => state.user);
+  let user: User = yield select<{ user: User }>(state => state.user);
 
-  const userInDb: User = (user && user.firebase) ? yield call(getFirebaseUser, user.firebase.uid) : undefined;
+  const userInDb: User = user && user.firebase
+    ? yield call(getFirebaseUser, user.firebase.uid)
+    : undefined;
   if (userInDb && userInDb.stripe) {
-    user = Object.assign({}, userInDb, user, {
+    user = {
+      ...userInDb,
+      ...user,
       stripe: userInDb.stripe,
-    });
+    };
   } else if (userInDb) {
-    user = Object.assign({}, userInDb, user);
+    user = { ...userInDb, ...user };
   }
 
   try {
-    yield put({type: "ATTEMPTING_FIREBASE_UPDATE_USER"});
+    yield put({ type: "ATTEMPTING_FIREBASE_UPDATE_USER" });
 
     yield call(apiUpdateFirebaseUser, user);
 
-    yield put({type: "SUCCESSFUL_FIREBASE_UPDATE_USER"});
+    yield put({ type: "SUCCESSFUL_FIREBASE_UPDATE_USER" });
   } catch (e) {
-    yield put({type: "FAILED_FIREBASE_UPDATE_USER", payload: {
-      error: e,
-    }});
+    yield put({
+      type: "FAILED_FIREBASE_UPDATE_USER",
+      payload: {
+        error: e,
+      },
+    });
   }
 }
 
-export function * getUser() {
-  const user: User = yield select<{user: User}>((state) => state.user);
+export function* getUser() {
+  const user: User = yield select<{ user: User }>(state => state.user);
   if (user && user.firebase) {
     const updatedUser: User = yield call(getFirebaseUser, user.firebase.uid);
-    yield put({type: "REWRITE_USER", payload: {
-      updatedUser,
-    }});
+    yield put({
+      type: "REWRITE_USER",
+      payload: {
+        updatedUser,
+      },
+    });
   }
 }
 
-export function *updatePurchasePackages() {
+export function* updatePurchasePackages() {
   const purchasePackages = yield call(getPurchasePackages);
-  yield put ({type: "UPDATE_PURCHASE_PACKAGES", payload: {
-    purchasePackages,
-  }});
+  yield put({
+    type: "UPDATE_PURCHASE_PACKAGES",
+    payload: {
+      purchasePackages,
+    },
+  });
 }
 
-export function *updateReceivedBevegrams() {
-  const userFirebaseId = yield select<{user: User}>((state) => state.user.firebase.uid);
+export function* updateReceivedBevegrams() {
+  const userFirebaseId = yield select<{ user: User }>(
+    state => state.user.firebase.uid,
+  );
   const result = yield call(readReceivedBevegrams, userFirebaseId);
   return result;
 }
@@ -183,10 +213,10 @@ export function *updateReceivedBevegrams() {
 
 //  Update History ------------------------------------------------------{{{
 
-export function *updateHistory() {
-  yield put({type: "ATTEMPTING_HISTORY_UPDATE"});
+export function* updateHistory() {
+  yield put({ type: "ATTEMPTING_HISTORY_UPDATE" });
   try {
-    const user: User = yield select<{user: User}>((state) => state.user);
+    const user: User = yield select<{ user: User }>(state => state.user);
     const userFirebaseId: string = user.firebase.uid;
 
     const purchasedList = yield call(readPurchasedBevegrams, userFirebaseId);
@@ -196,15 +226,27 @@ export function *updateHistory() {
 
     // In theory doing a lot of puts at the same time should update the state
     // only once.
-    yield put({type: "SET_PURCHASED_BEVEGRAM_LIST", payload: {list: purchasedList ? purchasedList : {}}});
-    yield put({type: "SET_SENT_BEVEGRAM_LIST", payload: {list: sentList ? sentList : {}}});
-    yield put({type: "SET_RECEIVED_BEVEGRAM_LIST", payload: {list: receivedList ? receivedList : {}}});
-    yield put({type: "SET_REDEEMED_BEVEGRAM_LIST", payload: {list: redeemedList ? redeemedList : {}}});
+    yield put({
+      type: "SET_PURCHASED_BEVEGRAM_LIST",
+      payload: { list: purchasedList ? purchasedList : {} },
+    });
+    yield put({
+      type: "SET_SENT_BEVEGRAM_LIST",
+      payload: { list: sentList ? sentList : {} },
+    });
+    yield put({
+      type: "SET_RECEIVED_BEVEGRAM_LIST",
+      payload: { list: receivedList ? receivedList : {} },
+    });
+    yield put({
+      type: "SET_REDEEMED_BEVEGRAM_LIST",
+      payload: { list: redeemedList ? redeemedList : {} },
+    });
   } catch (e) {
     console.warn(e);
   }
 
-  yield put({type: "SUCCESSFUL_HISTORY_UPDATE"});
+  yield put({ type: "SUCCESSFUL_HISTORY_UPDATE" });
 }
 
 //  End Update History --------------------------------------------------}}}
@@ -214,11 +256,11 @@ interface ListenForChange {
   changedNode: any;
 }
 
-function *listenForChangeOnUrl(url: string): IterableIterator<ListenForChange> {
+function* listenForChangeOnUrl(url: string): IterableIterator<ListenForChange> {
   const serverTimeout = 5000;
 
   // timeout will not be undefined on a server timeout
-  const serverResponse =  yield race({
+  const serverResponse = yield race({
     timeout: call(delay, serverTimeout),
     changedNode: call(OnNextUrlNodeChange, url),
   }) as any;
@@ -238,13 +280,13 @@ function *listenForChangeOnUrl(url: string): IterableIterator<ListenForChange> {
   return serverResponse;
 }
 
-export function *updateUserStateOnNextChange(
+export function* updateUserStateOnNextChange(
   onSuccessPostActions?: string[],
   onFailurePostActions?: string[],
   errorKey?: string,
   showAlert?: boolean,
 ) {
-  const user: User = yield select<{user: User}>((state) => state.user);
+  const user: User = yield select<{ user: User }>(state => state.user);
   const userFirebaseId: string = user.firebase.uid;
 
   const url = DbSchema.GetUserDbUrl(userFirebaseId);
@@ -254,16 +296,19 @@ export function *updateUserStateOnNextChange(
   let errorMessage;
 
   if (updatedUser) {
-    yield put({type: "REWRITE_USER", payload: {
-      updatedUser,
-    }});
+    yield put({
+      type: "REWRITE_USER",
+      payload: {
+        updatedUser,
+      },
+    });
   } else {
     // Timeout!
     errorMessage = "Unable to communicate with our servers!";
   }
 
   if (errorKey && !errorMessage) {
-    errorMessage = Object.assign({}, updatedUser);
+    errorMessage = { ...updatedUser };
     try {
       errorMessage = errorMessage[errorKey];
     } catch (e) {
@@ -277,7 +322,7 @@ export function *updateUserStateOnNextChange(
       alert(errorMessage);
     }
 
-    postActions = onFailurePostActions.map((val) => {
+    postActions = onFailurePostActions.map(val => {
       return {
         type: val,
         payload: {
@@ -285,8 +330,8 @@ export function *updateUserStateOnNextChange(
         },
       };
     });
-  }  else {
-    postActions = onSuccessPostActions.map((val) => {
+  } else {
+    postActions = onSuccessPostActions.map(val => {
       return {
         type: val,
       };
@@ -300,40 +345,58 @@ export function *updateUserStateOnNextChange(
   }
 }
 
-function *handleNextPurchaseTransactionStatusChange(): object {
-  const user: User = yield select<{user: User}>((state) => state.user);
+function* handleNextPurchaseTransactionStatusChange(): object {
+  const user: User = yield select<{ user: User }>(state => state.user);
   const userFirebaseId: string = user.firebase.uid;
   const url = DbSchema.GetPurchaseTransactionStatusDbUrl(userFirebaseId);
-  const purchaseTransactionStatus: ListenForChange = yield call(listenForChangeOnUrl, url);
+  const purchaseTransactionStatus: ListenForChange = yield call(
+    listenForChangeOnUrl,
+    url,
+  );
 
   if (purchaseTransactionStatus.timeout) {
-    yield put({type: "FAILED_PURCHASE_TRANSACTION", payload: {
-      error: "Server Timeout",
-    }});
+    yield put({
+      type: "FAILED_PURCHASE_TRANSACTION",
+      payload: {
+        error: "Server Timeout",
+      },
+    });
     return;
   } else {
-    yield put({type: "UPDATE_PURCHASE_TRANSACTION_STATUS", payload: {
-      purchaseTransactionStatus: purchaseTransactionStatus.changedNode,
-    }});
+    yield put({
+      type: "UPDATE_PURCHASE_TRANSACTION_STATUS",
+      payload: {
+        purchaseTransactionStatus: purchaseTransactionStatus.changedNode,
+      },
+    });
     return purchaseTransactionStatus.changedNode;
   }
 }
 
-function *handleNextRedeemTransactionStatusChange(): object {
-  const user: User = yield select<{user: User}>((state) => state.user);
+function* handleNextRedeemTransactionStatusChange(): object {
+  const user: User = yield select<{ user: User }>(state => state.user);
   const userFirebaseId: string = user.firebase.uid;
   const url = DbSchema.GetRedeemTransactionStatusDbUrl(userFirebaseId);
-  const redeemTransactionStatus: ListenForChange = yield call(listenForChangeOnUrl, url);
+  const redeemTransactionStatus: ListenForChange = yield call(
+    listenForChangeOnUrl,
+    url,
+  );
 
   if (redeemTransactionStatus.timeout) {
-    yield put({type: "FAILED_REDEEM_TRANSACTION", payload: {
-      error: "Server Timeout",
-    }});
+    yield put({
+      type: "FAILED_REDEEM_TRANSACTION",
+      payload: {
+        error: "Server Timeout",
+      },
+    });
     return;
   } else {
-    yield put({type: "UPDATE_REDEEM_TRANSACTION_STATUS", payload: {
-      redeemTransactionStatus: redeemTransactionStatus.changedNode,
-    }});
+    yield put({
+      type: "UPDATE_REDEEM_TRANSACTION_STATUS",
+      payload: {
+        redeemTransactionStatus: redeemTransactionStatus.changedNode,
+      },
+    });
     return redeemTransactionStatus.changedNode;
   }
 }
@@ -342,7 +405,7 @@ export const transactionFailed = <T>(transaction: T): boolean => {
   for (const key of Object.keys(transaction)) {
     if (transaction[key] === "failed") {
       return true;
-    } else if (key === "error" && (transaction[key] !== undefined)) {
+    } else if (key === "error" && transaction[key] !== undefined) {
       return true;
     }
   }
@@ -358,28 +421,41 @@ const transactionComplete = <T>(transaction: T): boolean => {
   return true;
 };
 
-export const transactionFinished = <T extends TransactionStatus>(transaction: T): boolean => {
-  return transactionFailed<T>(transaction)
-          || transactionComplete<T>(transaction)
-          || (transaction.error !== undefined);
+export const transactionFinished = <T extends TransactionStatus>(
+  transaction: T,
+): boolean => {
+  return (
+    transactionFailed<T>(transaction) ||
+    transactionComplete<T>(transaction) ||
+    transaction.error !== undefined
+  );
 };
 
-function *listenUntilTransactionSuccessOrFailure(transactionFunction) {
+function* listenUntilTransactionSuccessOrFailure(transactionFunction) {
   while (true) {
-    const transactionResult: {[name: string]: EventStatus} = yield call(transactionFunction);
-    if (!transactionResult
-       || transactionComplete(transactionResult)
-       || transactionFailed(transactionResult)
+    const transactionResult: { [name: string]: EventStatus } = yield call(
+      transactionFunction,
+    );
+    if (
+      !transactionResult ||
+      transactionComplete(transactionResult) ||
+      transactionFailed(transactionResult)
     ) {
       break;
     }
   }
 }
 
-export function *listenUntilPurchaseSuccessOrFailure() {
-  yield call(listenUntilTransactionSuccessOrFailure, handleNextPurchaseTransactionStatusChange);
+export function* listenUntilPurchaseSuccessOrFailure() {
+  yield call(
+    listenUntilTransactionSuccessOrFailure,
+    handleNextPurchaseTransactionStatusChange,
+  );
 }
 
-export function *listenUntilRedeemSuccessOrFailure() {
-  yield call(listenUntilTransactionSuccessOrFailure, handleNextRedeemTransactionStatusChange);
+export function* listenUntilRedeemSuccessOrFailure() {
+  yield call(
+    listenUntilTransactionSuccessOrFailure,
+    handleNextRedeemTransactionStatusChange,
+  );
 }
