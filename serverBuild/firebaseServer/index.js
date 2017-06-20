@@ -354,25 +354,25 @@ process();
 var ToggleNotificationSettingUrl=DbSchema.GetToggleNotificationSettingQueueUrl();
 _Log2.default.StartQueueMessage(ToggleNotificationSettingUrl);
 var ToggleNotificationSettingQueue=new _firebaseQueue2.default(db.getRef(ToggleNotificationSettingUrl),function(data,progress,resolve,reject){
-var log=new _Log2.default("TOGGLE_NOTIFICATION_SETTING");
-var process=function process(){return __awaiter(_this,void 0,void 0,_regenerator2.default.mark(function _callee8(){var input,fcmToken,userFirebaseId,verificationToken,user;return _regenerator2.default.wrap(function _callee8$(_context8){while(1){switch(_context8.prev=_context8.next){case 0:
+var process=function process(){return __awaiter(_this,void 0,void 0,_regenerator2.default.mark(function _callee8(){var log,input,fcmToken,userFirebaseId,verificationToken,user;return _regenerator2.default.wrap(function _callee8$(_context8){while(1){switch(_context8.prev=_context8.next){case 0:
+log=new _Log2.default("TOGGLE_NOTIFICATION_SETTING");
 input=data;
-fcmToken=input.fcmToken,userFirebaseId=input.userFirebaseId,verificationToken=input.verificationToken;_context8.next=4;return(
-db.readNode(DbSchema.GetUserDbUrl(userFirebaseId)));case 4:user=_context8.sent;_context8.prev=5;_context8.next=8;return(
+fcmToken=input.fcmToken,userFirebaseId=input.userFirebaseId,verificationToken=input.verificationToken;_context8.next=5;return(
+db.readNode(DbSchema.GetUserDbUrl(userFirebaseId)));case 5:user=_context8.sent;_context8.prev=6;_context8.next=9;return(
 
-verifyUser(verificationToken,userFirebaseId));case 8:if(!
-fcmToken){_context8.next=13;break;}_context8.next=11;return(
-db.writeNode(DbSchema.GetFcmTokenDbUrl(user.facebook.id),fcmToken));case 11:_context8.next=15;break;case 13:_context8.next=15;return(
+verifyUser(verificationToken,userFirebaseId));case 9:if(!
+fcmToken){_context8.next=14;break;}_context8.next=12;return(
+db.writeNode(DbSchema.GetFcmTokenDbUrl(user.facebook.id),fcmToken));case 12:_context8.next=16;break;case 14:_context8.next=16;return(
 
 
-db.deleteNode(DbSchema.GetFcmTokenDbUrl(user.facebook.id)));case 15:
+db.deleteNode(DbSchema.GetFcmTokenDbUrl(user.facebook.id)));case 16:
 
 log.successMessage();
-resolve();_context8.next=23;break;case 19:_context8.prev=19;_context8.t0=_context8["catch"](5);
+resolve();_context8.next=24;break;case 20:_context8.prev=20;_context8.t0=_context8["catch"](6);
 
 
 log.failMessage(_context8.t0);
-resolve();case 23:case"end":return _context8.stop();}}},_callee8,this,[[5,19]]);}));};
+resolve();case 24:case"end":return _context8.stop();}}},_callee8,this,[[6,20]]);}));};
 
 
 process();
@@ -411,12 +411,14 @@ var removeCardFromCustomerShutdown=RemoveCardFromCustomerQueue.shutdown();
 var updateDefaultCardShutdown=UpdateDefaultCardQueue.shutdown();
 var purchaseShutdown=PurchaseQueue.shutdown();
 var redeemShutdown=RedeemQueue.shutdown();
+var toggleNotificationShutdown=ToggleNotificationSettingQueue.shutdown();
 Promise.all([
 addCardToCustomerShutdown,
 removeCardFromCustomerShutdown,
 updateDefaultCardShutdown,
 purchaseShutdown,
-redeemShutdown]).
+redeemShutdown,
+toggleNotificationShutdown]).
 then(function(vals){
 console.log("Queue shutdown completed in "+(Date.now()-shutdownStart)+"ms!");
 });

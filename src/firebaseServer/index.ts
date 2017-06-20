@@ -530,6 +530,7 @@ const shutdownQueue = () => {
   const updateDefaultCardShutdown = UpdateDefaultCardQueue.shutdown();
   const purchaseShutdown = PurchaseQueue.shutdown();
   const redeemShutdown = RedeemQueue.shutdown();
+  const toggleNotificationShutdown = ToggleNotificationSettingQueue.shutdown();
 
   Promise.all([
     addCardToCustomerShutdown,
@@ -537,6 +538,7 @@ const shutdownQueue = () => {
     updateDefaultCardShutdown,
     purchaseShutdown,
     redeemShutdown,
+    toggleNotificationShutdown,
   ]).then((vals) => {
     console.log(`Queue shutdown completed in ${Date.now() - shutdownStart}ms!`);
   });
