@@ -2,7 +2,6 @@ import * as child_process from "child_process";
 import * as fs from "fs-extra";
 import * as path from "path";
 
-import * as dotenv from "dotenv";
 import * as moment from "moment";
 
 import * as prompt from "./prompt";
@@ -11,6 +10,7 @@ import BuzzBuilder from "./BuzzBuilder";
 import BuzzPath from "./BuzzPath";
 
 import {failure, message, success} from "./log";
+import parseEnv from "./parseEnv";
 import runCommandAsync from "./runCommandAsync";
 
 // Things this script needs to do
@@ -52,29 +52,6 @@ interface Env {
   dev: object;
   production: object;
 }
-
-const parseEnv = (): Env => {
-  // Keys starting with "PRODUCTION_" should be excluded from the heroku
-  // dev/test deploy, and vice versa
-  const productionPrefix = "PRODUCTION_";
-  const env = dotenv.config().parsed;
-
-  const dev = {};
-  const production = {};
-
-  Object.keys(env).map((envKey) => {
-    const sanitizedVal = env[envKey].replace(/\n/g, "\\n");
-    if (envKey.indexOf(productionPrefix) !== -1) {
-      production[envKey.replace(productionPrefix, "")] = sanitizedVal;
-    } else {
-      dev[envKey] = sanitizedVal;
-    }
-  });
-  return {
-    dev,
-    production,
-  };
-};
 
 const checkAndroidBundleForEnvKeys = async (buzzPath: BuzzPath) => {
   const env = parseEnv();
