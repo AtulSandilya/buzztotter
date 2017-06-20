@@ -15,6 +15,7 @@ import {
   QueuePurchasePackage,
   QueueRedeemPackage,
   QueueRemoveCreditCardFromCustomerPackage,
+  QueueToggleNotificationSettingPackage,
   QueueUpdateDefaultCreditCard,
 } from "../api/firebase";
 
@@ -26,6 +27,7 @@ import {
   RedeemPackageForQueue,
   RemoveCreditCardFromCustomerPackageForQueue,
   SendActionData,
+  ToggleNotificationSettingPackageForQueue,
   UpdateDefaultCreditCardForCustomerPackageForQueue,
 } from "../db/tables";
 
@@ -118,4 +120,28 @@ export function *redeem(action, location: Location) {
   };
 
   yield call(QueueRedeemPackage, redeemPackageForQueue);
+}
+
+export function *turnOnNotifications(fcmToken: string) {
+  yield call(toggleNotificationSetting, fcmToken);
+}
+
+export function *turnOffNotifications() {
+  yield call(toggleNotificationSetting);
+}
+
+function *toggleNotificationSetting(fcmToken?: string) {
+  const verificationToken = yield call(writeVerificationToken);
+  const toggleNotificationSettingPackageForQueue: ToggleNotificationSettingPackageForQueue = {
+    userFirebaseId: yield call(getUserFirebaseId),
+    verificationToken,
+  };
+
+  if (fcmToken) {
+    /* tslint:disable:no-string-literal */
+    toggleNotificationSettingPackageForQueue["fcmToken"] = fcmToken;
+  }
+
+  yield call(QueueToggleNotificationSettingPackage, toggleNotificationSettingPackageForQueue);
+
 }

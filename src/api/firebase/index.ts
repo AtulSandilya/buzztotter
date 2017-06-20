@@ -10,6 +10,7 @@ import {
   PurchasePackageForQueue,
   RedeemPackageForQueue,
   RemoveCreditCardFromCustomerPackageForQueue,
+  ToggleNotificationSettingPackageForQueue,
   UpdateDefaultCreditCardForCustomerPackageForQueue,
   User,
 } from "../../db/tables";
@@ -122,17 +123,6 @@ export const getFirebaseId = (facebookId: string): any => {
 };
 
 //  End Firebase / Facebook Id Conversion -------------------------------}}}
-//  Fcm Tokens ----------------------------------------------------------{{{
-
-export const setFcmToken = (facebookId: string, fcmToken: string): any => {
-  return firebaseUserDb.writeNode(DbSchema.GetFcmTokenDbUrl(facebookId), fcmToken);
-};
-
-export const getFcmToken = (facebookId: string): any => {
-  return firebaseUserDb.readNode(DbSchema.GetFcmTokenDbUrl(facebookId));
-};
-
-//  End Fcm Tokens ------------------------------------------------------}}}
 
 export const readPurchasedBevegrams = (userFirebaseId: string) => {
   return firebaseUserDb.readNode(DbSchema.GetPurchasedBevegramListDbUrl(userFirebaseId));
@@ -182,6 +172,10 @@ export const QueueUpdateDefaultCreditCard = (input: UpdateDefaultCreditCardForCu
 
 export const QueuePurchasePackage = (inputPackage: PurchasePackageForQueue) => {
   firebaseUserDb.pushNode(TaskifyUrl(DbSchema.GetPurchaseQueueUrl()), inputPackage);
+};
+
+export const QueueToggleNotificationSettingPackage = (inputPackage: ToggleNotificationSettingPackageForQueue) => {
+  firebaseUserDb.pushNode(TaskifyUrl(DbSchema.GetToggleNotificationSettingQueueUrl()), inputPackage);
 };
 
 export const QueueRedeemPackage = (inputPackage: RedeemPackageForQueue) => {

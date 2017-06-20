@@ -298,4 +298,10 @@ export interface RedeemPackageForQueue {
   verificationToken: string;
 }
 
+export interface ToggleNotificationSettingPackageForQueue {
+  userFirebaseId: string;
+  verificationToken: string;
+  fcmToken?: string;
+}
+
 //  End Queue -----------------------------------------------------------}}}
