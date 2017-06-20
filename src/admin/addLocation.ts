@@ -7,6 +7,7 @@ config();
 
 import SetupAdminDb from "../firebaseServer/SetupAdminDb";
 import FirebaseAdminDb from "./FirebaseAdminDb";
+import parseEnv from "./parseEnv";
 
 import {
   BasicLocation,
@@ -17,7 +18,7 @@ import {
 import * as child_process from "child_process";
 const exec = child_process.execSync;
 
-const db = new FirebaseAdminDb(SetupAdminDb());
+const dbs = [];
 
 /* tslint:disable:no-console */
 //  Google Maps ---------------------------------------------------------{{{
@@ -241,19 +242,16 @@ const addLocation = async (basicLocation: BasicLocation) => {
     process.exit();
   }
 
-  const typicalHours = await promptTypicalHours(basicLocation.name);
+  for (const db of dbs) {
+    const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLocation);
+    const loc = basicLocation;
 
-  const loc: Location = Object.assign({}, basicLocation, {
-    typicalHours,
-  });
-
-  const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLocation);
-
-  if (vendor) {
-    console.log(`Cannot add location! ${loc.name} already exists in the database!`);
-  } else {
-    await db.addLocation(loc);
-    console.log(`'${loc.name}' successfully added to the database!`);
+    if (vendor) {
+      console.log(`Cannot add location! ${loc.name} already exists in the database!`);
+    } else {
+      await db.addLocation(loc);
+      console.log(`'${loc.name}' successfully added to the database!`);
+    }
   }
 };
 
@@ -261,19 +259,21 @@ const addLocation = async (basicLocation: BasicLocation) => {
 //  Update Location ----------------------------------------------------{{{
 
 const updateLocation = async () => {
-  console.log("Enter the current (possibly old) business information");
-  const basicLoc: BasicLocation = await getBasicLocation();
+  for (const db of dbs) {
+    console.log("Enter the current (possibly old) business information");
+    const basicLoc: BasicLocation = await getBasicLocation();
 
-  const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLoc);
+    const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLoc);
 
-  if (!vendor) {
-    console.log(`Cannot update location! ${basicLoc.name} does not exists in the database!`);
-  }
+    if (!vendor) {
+      console.log(`Cannot update location! ${basicLoc.name} does not exists in the database!`);
+    }
 
-  const shouldUpdate = await prompt.confirm(`Does ${stringFormatObject(basicLoc)} look correct`);
-  if (shouldUpdate) {
-    await db.updateLocation(basicLoc, vendor, vendorId, basicLoc);
-    console.log("Location update complete!");
+    const shouldUpdate = await prompt.confirm(`Does ${stringFormatObject(basicLoc)} look correct`);
+    if (shouldUpdate) {
+      await db.updateLocation(basicLoc, vendor, vendorId, basicLoc);
+      console.log("Location update complete!");
+    }
   }
 
   // The code below is for manually updating the vendor location. It may need
@@ -352,37 +352,40 @@ const updateLocation = async () => {
 //  Update Square Footage -----------------------------------------------{{{
 
 const updateSquareFootage = async (basicLocation: BasicLocation) => {
-  const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLocation);
+  for (const db of dbs) {
+    const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLocation);
 
-  const newSquareFootage: number = await prompt.getIntegerUntilCorrect(
-    `Enter the new square footage of ${basicLocation.name}`,
-  );
+    const newSquareFootage: number = await prompt.getIntegerUntilCorrect(
+      `Enter the new square footage of ${basicLocation.name}`,
+    );
 
-  const updatedLocation = Object.assign({}, basicLocation, {
-    squareFootage: newSquareFootage,
-  });
+    const updatedLocation = Object.assign({}, basicLocation, {
+      squareFootage: newSquareFootage,
+    });
 
-  const shouldUpdate = await prompt.confirm(`Does ${stringFormatObject(updatedLocation)} look correct`);
-  if (shouldUpdate) {
-    await db.updateLocation(updatedLocation, vendor, vendorId, updatedLocation);
-    console.log("Location update complete!");
+    const shouldUpdate = await prompt.confirm(`Does ${stringFormatObject(updatedLocation)} look correct`);
+    if (shouldUpdate) {
+      await db.updateLocation(updatedLocation, vendor, vendorId, updatedLocation);
+      console.log("Location update complete!");
+    }
   }
-
 };
 
 //  End Update Square Footage -------------------------------------------}}}
 //  Disable Purchasing -------------------------------------------------{{{
 
 const disablePurchasingAtLocation = async (basicLocation: BasicLocation) => {
-  const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLocation);
-  if (vendor && vendor.allowPurchasing) {
-    await db.disablePurchasingAtLocation(vendor, vendorId);
-    console.log(`Purchasing disabled @ ${vendor.name}`);
-  } else {
-    if (vendor && (vendor.allowPurchasing === false)) {
-      console.log(`Purchasing is already disabled at ${basicLocation.name}`);
+  for (const db of dbs) {
+    const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLocation);
+    if (vendor && vendor.allowPurchasing) {
+      await db.disablePurchasingAtLocation(vendor, vendorId);
+      console.log(`Purchasing disabled @ ${vendor.name}`);
     } else {
-      console.log(`Location "${basicLocation.name}" does not exist in the database!`);
+      if (vendor && (vendor.allowPurchasing === false)) {
+        console.log(`Purchasing is already disabled at ${basicLocation.name}`);
+      } else {
+        console.log(`Location "${basicLocation.name}" does not exist in the database!`);
+      }
     }
   }
 };
@@ -391,18 +394,20 @@ const disablePurchasingAtLocation = async (basicLocation: BasicLocation) => {
 //  Enable Purchasing --------------------------------------------------{{{
 
 const enablePurchasingAtLocation = async (basicLocation: BasicLocation) => {
-  const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLocation);
+  for (const db of dbs) {
+    const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLocation);
 
-  if (vendor.allowPurchasing) {
-    console.log(`Location ${basicLocation.name} is already allowing purchasing`);
-    return;
-  }
+    if (vendor.allowPurchasing) {
+      console.log(`Location ${basicLocation.name} is already allowing purchasing`);
+      return;
+    }
 
-  if (vendor && vendorId) {
-    await db.enablePurchasingAtLocation(vendor, vendorId);
-    console.log(`Purchasing enabled @ ${vendor.name}`);
-  } else {
-    console.log(`Location at "${basicLocation.address}" does not exist in the database!`);
+    if (vendor && vendorId) {
+      await db.enablePurchasingAtLocation(vendor, vendorId);
+      console.log(`Purchasing enabled @ ${vendor.name}`);
+    } else {
+      console.log(`Location at "${basicLocation.address}" does not exist in the database!`);
+    }
   }
 };
 
@@ -411,6 +416,24 @@ const enablePurchasingAtLocation = async (basicLocation: BasicLocation) => {
 
 const main = async () => {
   /* tslint:disable:object-literal-sort-keys */
+  const dbChoice = await prompt.getChoice("What database are we changing", ["dev", "production", "both"]);
+
+  const env = parseEnv();
+  switch (dbChoice) {
+    case "dev":
+      dbs.push(new FirebaseAdminDb(SetupAdminDb(env.dev)));
+      break;
+    case "production":
+      dbs.push(new FirebaseAdminDb(SetupAdminDb(env.production)));
+      break;
+    case "both":
+      dbs.push(new FirebaseAdminDb(SetupAdminDb(env.dev)));
+      // The second argument gives a name to the db after the default db has
+      // been created. This is a requirement imposed by firebase.
+      dbs.push(new FirebaseAdminDb(SetupAdminDb(env.production, "production")));
+      break;
+  }
+
   const locationActions = {
     addLocation: "Add Location",
     updateLocation: "Update Location",
