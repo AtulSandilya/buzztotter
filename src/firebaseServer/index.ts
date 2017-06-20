@@ -487,7 +487,7 @@ class QueueServerError extends Error {
 //  End Utils ----------------------------------------------------------}}}
 //  Shutdown ------------------------------------------------------------{{{
 
-process.on("SIGINT", () => {
+const shutdownQueue = () => {
   const shutdownStart = Date.now();
   console.log("Gracefully shutting down queue...");
   const addCardToCustomerShutdown = AddCardToCustomerQueue.shutdown();
@@ -505,6 +505,16 @@ process.on("SIGINT", () => {
   ]).then((vals) => {
     console.log(`Queue shutdown completed in ${Date.now() - shutdownStart}ms!`);
   });
+}
+
+// When pressing <C-c> on the command line
+process.on("SIGINT", () => {
+  shutdownQueue();
+});
+
+// Signal heroku sends to terminate the node process
+process.on("SIGTERM", () => {
+  shutdownQueue();
 });
 
 //  End Shutdown --------------------------------------------------------}}}
