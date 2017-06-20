@@ -85,6 +85,9 @@ export default function* rootSaga() {
       yield call(facebook.logOutFacebook);
       yield call(goToRoute, action);
       yield call(firebaseLogOut, action);
+      yield put({type: "RESET_STATE"});
+      yield delay(10);
+      yield put({type: "LOADING_COMPLETE"});
     }),
 
     // Handling credit cards
