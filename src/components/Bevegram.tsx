@@ -53,10 +53,11 @@ export interface BevegramProps {
   id: string;
   imagePath: string;
   quantity: number;
+  displayAsUnseen: boolean;
   goToRedeem?(routeData: DataForRoute): void;
 }
 
-const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, quantity, goToRedeem, imagePath}) => (
+const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, quantity, goToRedeem, imagePath, displayAsUnseen}) => (
   <View style={styles.parentContainer}>
     <View style={styles.infoContainer}>
       <Image
@@ -68,7 +69,7 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, quan
         style={{height: 50, width: 50}}
       />
       <View style={styles.infoTextContainer}>
-        <Text style={{paddingBottom: 5}}>{from}</Text>
+        <Text style={[{paddingBottom: 5}, displayAsUnseen ? {fontWeight: "bold"} : {}]}>{from}</Text>
         <BevTimestamp
           date={date}
         />

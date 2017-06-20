@@ -21,6 +21,7 @@ export interface BevegramsProps {
   isLoadingBevegrams?: boolean;
   tabLabel?: string;
   receivedBevegrams?: any;
+  unseenBevegrams?: number;
   closeModal?(input: string): void;
   reloadBevegrams?(): void;
 }
@@ -32,6 +33,7 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
   isLoadingBevegrams,
   reloadBevegrams,
   receivedBevegrams,
+  unseenBevegrams,
 }) => (
   <View style={{
     flex: 1,
@@ -39,7 +41,7 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
     <ListView
       enableEmptySections={true}
       dataSource={ds.cloneWithRows(bevegramsList)}
-      renderRow={(rowKey) => {
+      renderRow={(rowKey, sectionId, rowId) => {
         const thisBevegram: ReceivedBevegram = receivedBevegrams[rowKey];
         return (
           <CBevegram
@@ -48,6 +50,7 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
             quantity={thisBevegram.quantity - thisBevegram.quantityRedeemed}
             imagePath={buildFacebookProfilePicUrlFromFacebookId(thisBevegram.sentFromFacebookId)}
             id={rowKey}
+            displayAsUnseen={unseenBevegrams >= parseInt(rowId as any, 10) + 1}
           />
         );
       }}

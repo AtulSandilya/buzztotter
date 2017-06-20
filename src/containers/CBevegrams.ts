@@ -9,6 +9,7 @@ interface StateProps {
   receivedBevegrams?: any;
   redeemModalIsOpen?: boolean;
   isLoadingBevegrams?: boolean;
+  unseenBevegrams?: number;
 }
 
 const mapStateToProps = (state): StateProps => {
@@ -20,6 +21,7 @@ const mapStateToProps = (state): StateProps => {
     isLoadingBevegrams: state.bevegramsTab.isLoadingBevegrams,
     receivedBevegrams: state.receivedBevegrams,
     redeemModalIsOpen: state.modals.redeemBevegramModal.isOpen,
+    unseenBevegrams: state.badges.unseenReceivedBevegrams,
   };
 };
 
