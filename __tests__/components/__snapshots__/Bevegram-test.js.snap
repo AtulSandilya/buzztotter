@@ -41,9 +41,12 @@ exports[`test renders correctly 1`] = `
         allowFontScaling={true}
         ellipsizeMode="tail"
         style={
-          Object {
-            "paddingBottom": 5,
-          }
+          Array [
+            Object {
+              "paddingBottom": 5,
+            },
+            Object {},
+          ]
         }>
         Person
       </Text>
