@@ -45,6 +45,7 @@ const updateFirebaseRules = async () => {
     await runCommandAsync(`firebase use ${firebaseApp}`);
     await runCommandAsync(`firebase deploy`);
   }
+  await runCommandAsync(`firebase use ${firebaseAppNames[0]}`);
 };
 
 interface Env {
