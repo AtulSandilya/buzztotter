@@ -1,3 +1,4 @@
+import {delay} from "redux-saga";
 import {
   all,
   call,
@@ -36,15 +37,14 @@ import {
   verifyReceiverExists,
 } from "./firebase";
 
-import {
-  dbWriteFcmToken,
-  storeFcmToken,
-} from "./notifications";
+import * as notifications from "./notifications";
 
 import {
   getLocationsAtUserLocation,
   getLocationsNearUser,
 } from "./location";
+
+import {toggleNotificationSetting} from "./settings";
 
 import * as ReactNativeUtil from "../ReactNativeUtilities";
 import * as queue from "./queue";
@@ -71,19 +71,18 @@ export default function* rootSaga() {
 
       yield call(firebaseFacebookLogin, action);
       yield call(getUser);
-      if (ReactNativeUtil.isAndroid) {
-        yield call(dbWriteFcmToken);
-      }
 
       yield call(updatePurchasePackages);
-      yield call(getLocationsNearUser);
       yield call(updateHistory);
+      yield call(notifications.startListener);
+      yield call(getLocationsNearUser);
     }),
 
     // Logging Out
     takeEvery("REQUEST_LOGOUT", function *(action) {
       yield call(facebook.logOutFacebook);
       yield call(goToRoute, action);
+      yield call(notifications.stopListener);
       yield call(firebaseLogOut, action);
       yield put({type: "RESET_STATE"});
       yield delay(10);
@@ -171,7 +170,14 @@ export default function* rootSaga() {
     takeEvery(ActionConst.FOCUS, onFocusRoute),
 
     // Notifications
-    takeEvery("UPDATE_FCM_TOKEN", storeFcmToken),
+    takeEvery("START_NOTIFICATION_LISTENER", notifications.startListener),
+    takeEvery("STOP_NOTIFICATION_LISTENER", notifications.stopListener),
+    takeEvery("NOTIFICATION_CLICKED_WHILE_APP_IS_CLOSED", function *(action) {
+      yield call(notifications.onNotificationClickedWhileAppIsClosed, action);
+    }),
+    takeEvery("SAVE_FCM_TOKEN", function *(action) {
+      yield call(notifications.saveFcmToken, action);
+    }),
 
     // History
     takeEvery("REFRESH_HISTORY", updateHistory),
@@ -179,5 +185,8 @@ export default function* rootSaga() {
     // Locations Near User
     takeEvery("REQUEST_LOCATIONS_NEAR_USER", getLocationsNearUser),
     takeEvery("REQUEST_BAR_AT_USER_LOCATION", getLocationsAtUserLocation),
+
+    // Settings
+    takeEvery("TOGGLE_NOTIFICATION_SETTING", toggleNotificationSetting),
   ]);
 }

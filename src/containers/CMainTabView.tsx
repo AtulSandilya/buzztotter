@@ -34,6 +34,8 @@ const mapStateToProps = (state): StateProps => {
 interface DispatchProps {
   onPageChange?(number): void;
   goBackPage?(): void;
+  startNotificationListener?(): void;
+  stopNotificationListener?(): void;
 }
 
 const mapDispatchToProps = (dispatch): DispatchProps => {
@@ -46,7 +48,13 @@ const mapDispatchToProps = (dispatch): DispatchProps => {
     },
     goBackPage: () => {
       dispatch({type: 'GOBACK_VIEW'});
-    }
+    },
+    startNotificationListener: () => {
+      dispatch({type: "START_NOTIFICATION_LISTENER"});
+    },
+    stopNotificationListener: () => {
+      dispatch({type: "STOP_NOTIFICATION_LISTENER"});
+    },
   }
 }
 

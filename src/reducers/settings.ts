@@ -3,7 +3,12 @@ export const settingsKeys = {
   notifications: "notifications",
 };
 
-const defaultSettings = {
+export interface Settings {
+  location: boolean;
+  notifications: boolean;
+}
+
+const defaultSettings: Settings = {
   location: true,
   notifications: true,
 };
