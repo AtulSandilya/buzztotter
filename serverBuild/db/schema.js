@@ -1,4 +1,4 @@
-Object.defineProperty(exports,"__esModule",{value:true});exports.GetAllGpsCoordNodeUrls=exports.GetGpsCoordNodeFullSummaryUrl=exports.GetLocationByDegreeUrl=exports.GetVendorRedeemListDbUrl=exports.GetVendorMetadataDbUrl=exports.GetVendorDbUrl=exports.GetVendorPushDbUrl=exports.GetRedeemTransactionStatusDbUrl=exports.GetPurchaseTransactionStatusDbUrl=exports.GetPurchasePackagesDbUrl=exports.GetStripeCustomerIdDbUrl=exports.GetPromoCodeSummaryDbUrl=exports.GetPromoCodeListDbUrl=exports.GetRedeemedBevegramSummaryDbUrl=exports.GetRedeemedBevegramListDbUrl=exports.GetReceivedBevegramSummaryDbUrl=exports.GetReceivedBevegramListDbUrl=exports.GetSentBevegramSummaryDbUrl=exports.GetSentBevegramListDbUrl=exports.GetPurchasedBevegramSummaryDbUrl=exports.GetPurchasedBevegramListDbUrl=exports.GetUserVerificationTokenDbUrl=exports.GetRedeemQueueUrl=exports.GetPurchaseQueueUrl=exports.GetUpdateDefaultCreditCardForCustomerUrl=exports.GetRemoveCreditCardFromCustomerQueueUrl=exports.GetAddCreditCardToCustomerQueueUrl=exports.GetFcmTokenDbUrl=exports.GetFirebaseIdDbUrl=exports.GetUserDbUrl=exports.GetSchemaDbUrl=undefined;var _extends2=require("babel-runtime/helpers/extends");var _extends3=_interopRequireDefault(_extends2);var _CommonUtilities=require("../CommonUtilities");function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}
+Object.defineProperty(exports,"__esModule",{value:true});exports.GetAllGpsCoordNodeUrls=exports.GetGpsCoordNodeFullSummaryUrl=exports.GetLocationByDegreeUrl=exports.GetVendorRedeemListDbUrl=exports.GetVendorMetadataDbUrl=exports.GetVendorDbUrl=exports.GetVendorPushDbUrl=exports.GetRedeemTransactionStatusDbUrl=exports.GetPurchaseTransactionStatusDbUrl=exports.GetPurchasePackagesDbUrl=exports.GetStripeCustomerIdDbUrl=exports.GetPromoCodeSummaryDbUrl=exports.GetPromoCodeListDbUrl=exports.GetRedeemedBevegramSummaryDbUrl=exports.GetRedeemedBevegramListDbUrl=exports.GetReceivedBevegramSummaryDbUrl=exports.GetReceivedBevegramListDbUrl=exports.GetSentBevegramSummaryDbUrl=exports.GetSentBevegramListDbUrl=exports.GetPurchasedBevegramSummaryDbUrl=exports.GetPurchasedBevegramListDbUrl=exports.GetUserVerificationTokenDbUrl=exports.GetToggleNotificationSettingQueueUrl=exports.GetRedeemQueueUrl=exports.GetPurchaseQueueUrl=exports.GetUpdateDefaultCreditCardForCustomerUrl=exports.GetRemoveCreditCardFromCustomerQueueUrl=exports.GetAddCreditCardToCustomerQueueUrl=exports.GetFcmTokenDbUrl=exports.GetFirebaseIdDbUrl=exports.GetUserDbUrl=exports.GetSchemaDbUrl=undefined;var _extends2=require("babel-runtime/helpers/extends");var _extends3=_interopRequireDefault(_extends2);var _CommonUtilities=require("../CommonUtilities");function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}
 
 
 var Schema={
@@ -26,6 +26,9 @@ uniqueId:"PurchasePackage"},
 
 redeemQueue:{
 uniqueId:"RedeemPackage"},
+
+toggleNotificationSettingQueue:{
+uniqueId:"ToggleNotificationSettingPackage"},
 
 userVerificationTokens:{
 userFirebaseId:"token"},
@@ -221,6 +224,9 @@ return GetSchemaDbUrl("purchaseQueue");
 };
 var GetRedeemQueueUrl=exports.GetRedeemQueueUrl=function GetRedeemQueueUrl(){
 return GetSchemaDbUrl("redeemQueue");
+};
+var GetToggleNotificationSettingQueueUrl=exports.GetToggleNotificationSettingQueueUrl=function GetToggleNotificationSettingQueueUrl(){
+return GetSchemaDbUrl("toggleNotificationSettingQueue");
 };
 var GetUserVerificationTokenDbUrl=exports.GetUserVerificationTokenDbUrl=function GetUserVerificationTokenDbUrl(userFirebaseId){
 return GetSchemaDbUrl("userVerificationTokens.userFirebaseId",{userFirebaseId:userFirebaseId});

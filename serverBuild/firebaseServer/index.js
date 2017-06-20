@@ -351,20 +351,48 @@ process();
 });
 
 
-var verifyUser=function verifyUser(verificationToken,userFirebaseId){return __awaiter(_this,void 0,void 0,_regenerator2.default.mark(function _callee8(){var tokenInDb;return _regenerator2.default.wrap(function _callee8$(_context8){while(1){switch(_context8.prev=_context8.next){case 0:_context8.next=2;return(
-db.readNode(DbSchema.GetUserVerificationTokenDbUrl(userFirebaseId)));case 2:tokenInDb=_context8.sent;if(!(
-tokenInDb!==verificationToken)){_context8.next=6;break;}
+var ToggleNotificationSettingUrl=DbSchema.GetToggleNotificationSettingQueueUrl();
+_Log2.default.StartQueueMessage(ToggleNotificationSettingUrl);
+var ToggleNotificationSettingQueue=new _firebaseQueue2.default(db.getRef(ToggleNotificationSettingUrl),function(data,progress,resolve,reject){
+var log=new _Log2.default("TOGGLE_NOTIFICATION_SETTING");
+var process=function process(){return __awaiter(_this,void 0,void 0,_regenerator2.default.mark(function _callee8(){var input,fcmToken,userFirebaseId,verificationToken,user;return _regenerator2.default.wrap(function _callee8$(_context8){while(1){switch(_context8.prev=_context8.next){case 0:
+input=data;
+fcmToken=input.fcmToken,userFirebaseId=input.userFirebaseId,verificationToken=input.verificationToken;_context8.next=4;return(
+db.readNode(DbSchema.GetUserDbUrl(userFirebaseId)));case 4:user=_context8.sent;_context8.prev=5;_context8.next=8;return(
+
+verifyUser(verificationToken,userFirebaseId));case 8:if(!
+fcmToken){_context8.next=13;break;}_context8.next=11;return(
+db.writeNode(DbSchema.GetFcmTokenDbUrl(user.facebook.id),fcmToken));case 11:_context8.next=15;break;case 13:_context8.next=15;return(
+
+
+db.deleteNode(DbSchema.GetFcmTokenDbUrl(user.facebook.id)));case 15:
+
+log.successMessage();
+resolve();_context8.next=23;break;case 19:_context8.prev=19;_context8.t0=_context8["catch"](5);
+
+
+log.failMessage(_context8.t0);
+resolve();case 23:case"end":return _context8.stop();}}},_callee8,this,[[5,19]]);}));};
+
+
+process();
+});
+
+
+var verifyUser=function verifyUser(verificationToken,userFirebaseId){return __awaiter(_this,void 0,void 0,_regenerator2.default.mark(function _callee9(){var tokenInDb;return _regenerator2.default.wrap(function _callee9$(_context9){while(1){switch(_context9.prev=_context9.next){case 0:_context9.next=2;return(
+db.readNode(DbSchema.GetUserVerificationTokenDbUrl(userFirebaseId)));case 2:tokenInDb=_context9.sent;if(!(
+tokenInDb!==verificationToken)){_context9.next=6;break;}
 console.log(tokenInDb+" != "+verificationToken);throw(
-new QueueServerError("Verification tokens do not match!"));case 6:case"end":return _context8.stop();}}},_callee8,this);}));};
+new QueueServerError("Verification tokens do not match!"));case 6:case"end":return _context9.stop();}}},_callee9,this);}));};
 
 
-var updateUser=function updateUser(userFirebaseId,user){return __awaiter(_this,void 0,void 0,_regenerator2.default.mark(function _callee9(){var updatedUser;return _regenerator2.default.wrap(function _callee9$(_context9){while(1){switch(_context9.prev=_context9.next){case 0:
+var updateUser=function updateUser(userFirebaseId,user){return __awaiter(_this,void 0,void 0,_regenerator2.default.mark(function _callee10(){var updatedUser;return _regenerator2.default.wrap(function _callee10$(_context10){while(1){switch(_context10.prev=_context10.next){case 0:
 
 
 updatedUser=(0,_extends3.default)({},user,{
-lastModified:(0,_CommonUtilities.GetTimeNow)()});_context9.next=3;return(
+lastModified:(0,_CommonUtilities.GetTimeNow)()});_context10.next=3;return(
 
-db.writeNode(DbSchema.GetUserDbUrl(userFirebaseId),updatedUser));case 3:case"end":return _context9.stop();}}},_callee9,this);}));};var
+db.writeNode(DbSchema.GetUserDbUrl(userFirebaseId),updatedUser));case 3:case"end":return _context10.stop();}}},_callee10,this);}));};var
 
 QueueServerError=function(_Error){(0,_inherits3.default)(QueueServerError,_Error);
 function QueueServerError(message){(0,_classCallCheck3.default)(this,QueueServerError);var _this4=(0,_possibleConstructorReturn3.default)(this,(QueueServerError.__proto__||Object.getPrototypeOf(QueueServerError)).call(this,
@@ -375,7 +403,7 @@ _this4.name="QueueServerError";return _this4;
 
 
 
-process.on("SIGINT",function(){
+var shutdownQueue=function shutdownQueue(){
 var shutdownStart=Date.now();
 console.log("Gracefully shutting down queue...");
 var addCardToCustomerShutdown=AddCardToCustomerQueue.shutdown();
@@ -392,4 +420,12 @@ redeemShutdown]).
 then(function(vals){
 console.log("Queue shutdown completed in "+(Date.now()-shutdownStart)+"ms!");
 });
+};
+
+process.on("SIGINT",function(){
+shutdownQueue();
+});
+
+process.on("SIGTERM",function(){
+shutdownQueue();
 });
