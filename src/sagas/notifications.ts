@@ -1,8 +1,9 @@
+import {delay} from "redux-saga";
 import { call, put, select } from "redux-saga/effects";
 
 import { isAndroid } from "../ReactNativeUtilities";
 
-import { NotificationActions } from "../db/tables";
+import { NotificationActions, User } from "../db/tables";
 import { Settings } from "../reducers/settings";
 import { sceneKeys, sceneOrder } from "../reducers/view";
 
@@ -17,7 +18,11 @@ export function* startListener() {
   const currentNotificationSetting = yield select<{ settings: Settings }>(
     state => state.settings.notifications,
   );
-  if (isAndroid && currentNotificationSetting) {
+  const user = yield select<{user: User}>(state => state.user);
+
+  const shouldTurnOnListener = currentNotificationSetting && (user && user.firebase);
+
+  if (isAndroid && shouldTurnOnListener) {
     const FCM = require("react-native-fcm");
     FCM.requestPermissions();
 
@@ -78,7 +83,22 @@ export function* startListener() {
 }
 
 export function* saveFcmToken(action) {
-  yield call(queue.turnOnNotifications, action.payload);
+  // It is possible for this to be called before the firebase handshake
+  // process has completed, so we try to write to the queue multiple times if
+  // this fails, waiting in between for firebase to setup.
+  const maxAttempts = 5;
+  let attempts = 0;
+  while (true) {
+    if (attempts > maxAttempts) { break; }
+    attempts++;
+    try {
+      yield call(queue.turnOnNotifications, action.payload);
+      break;
+    } catch (e) {
+      const timeoutInterval = 500;
+      yield delay(timeoutInterval);
+    }
+  }
 }
 
 export function* onNotificationClickedWhileAppIsClosed(payload) {
@@ -91,7 +111,7 @@ export function* onNotificationClickedWhileAppIsClosed(payload) {
       break;
     case NotificationActions.ShowUpcomingBirthdays:
       yield put({
-        type: "SEND_BEVEGRAM_TO_CONTACT_VIA_NOTIFICATION",
+       type: "SEND_BEVEGRAM_TO_CONTACT_VIA_NOTIFICATION",
         payload: {
           facebookId: payload.facebookId,
         },
