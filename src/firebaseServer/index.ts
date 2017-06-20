@@ -18,6 +18,7 @@ import {
   SentBevegram,
   STRIPE_MAX_NUMBER_OF_CREDIT_CARDS,
   StripeCreditCard,
+  ToggleNotificationSettingPackageForQueue,
   UpdateDefaultCreditCardForCustomerPackageForQueue,
   User,
   UserRedeemedBevegram,
@@ -456,6 +457,40 @@ const RedeemQueue = new Queue(db.getRef(RedeemQueueUrl), (data, progress, resolv
 });
 
 //  End Redeem ---------------------------------------------------------}}}
+//  Toggle Notification Setting -----------------------------------------{{{
+
+const ToggleNotificationSettingUrl = DbSchema.GetToggleNotificationSettingQueueUrl();
+Log.StartQueueMessage(ToggleNotificationSettingUrl);
+const ToggleNotificationSettingQueue = new Queue(
+  db.getRef(ToggleNotificationSettingUrl),
+  (data, progress, resolve, reject) => {
+    const log = new Log("TOGGLE_NOTIFICATION_SETTING");
+    const process = async () => {
+      const input: ToggleNotificationSettingPackageForQueue = data;
+      const {fcmToken, userFirebaseId, verificationToken} = input;
+
+      const user: User = await db.readNode(DbSchema.GetUserDbUrl(userFirebaseId));
+      try {
+        await verifyUser(verificationToken, userFirebaseId);
+
+        if (fcmToken) {
+          await db.writeNode(DbSchema.GetFcmTokenDbUrl(user.facebook.id), fcmToken);
+        } else {
+          await db.deleteNode(DbSchema.GetFcmTokenDbUrl(user.facebook.id));
+        }
+
+        log.successMessage();
+        resolve();
+      } catch (e) {
+        log.failMessage(e);
+        resolve();
+      }
+    };
+    process();
+  },
+);
+
+//  End Toggle Notification Setting -------------------------------------}}}
 //  Utils --------------------------------------------------------------{{{
 
 const verifyUser = async (verificationToken: string, userFirebaseId: string) => {
