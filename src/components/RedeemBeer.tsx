@@ -14,9 +14,9 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {Location} from "../db/tables";
 
 import BevButton from "./BevButton";
+import BevUiText from "./BevUiText";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 import TitleText from "./TitleText";
-import BevUiText from "./BevUiText";
 
 import {globalColors, globalStyles} from "./GlobalStyles";
 
