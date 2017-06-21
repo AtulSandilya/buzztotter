@@ -82,8 +82,26 @@ export default class RedeemBeer extends Component<RedeemBeerProps, RedeemBeerSta
 
   private purchaseDrink() {
     if (this.props.getLocationFailed || this.props.currentLocationBusinessName === undefined) {
-      alert("You are not at an establishment that accepts bevegrams." +
-        " Please see the map for establishments that accept bevegrams.");
+
+      if (this.props.showGoToMapAlert) {
+        RedeemAlert(
+          "You are not at a location that accepts bevegrams." +
+          "\nPlease see the map for locations that accept bevegrams.",
+          [
+            {text: "Cancel", onPress: () => this.props.closeRedeem()},
+            {text: "Refresh Location", onPress: () => this.props.updateLocation()},
+            {text: "Show Map", onPress: () => this.props.goToMap()},
+          ],
+        );
+      } else {
+        RedeemAlert(
+          this.props.getLocationFailedErrorMessage,
+          [
+            {text: "Cancel", onPress: () => this.props.closeRedeem()},
+            {text: "Refresh Location", onPress: () => this.props.updateLocation()},
+          ],
+        );
+      }
       return;
     }
 
