@@ -123,6 +123,7 @@ export function* getLocationsAtUserLocation() {
       type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION",
       payload: {
         error: "You are not at a location that accepts bevegrams",
+        showGoToMapAlert: true,
       },
     });
     return;

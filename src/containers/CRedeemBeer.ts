@@ -23,6 +23,7 @@ interface StateProps {
   isProcessing?: boolean;
   redeemFailed?: boolean;
   isRefreshingLocation?: boolean;
+  showGoToMapAlert?: boolean;
   redeemTransactionStatus?: RedeemTransactionStatus;
   receivedBevegram?: ReceivedBevegram;
   locations?: [Location];
@@ -45,6 +46,7 @@ const mapStateToProps = (state): StateProps => {
     receivedBevegram: state.receivedBevegrams[receivedBevegramId],
     redeemFailed: state.redeemView.redeemFailed,
     redeemTransactionStatus: state.redeemView.redeemTransactionStatus,
+    showGoToMapAlert: state.redeemView.showGoToMapAlert,
   };
 };
 

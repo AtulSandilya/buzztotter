@@ -10,6 +10,7 @@ interface RedeemViewState {
   isProcessing: boolean;
   redeemFailed: boolean;
   redeemTransactionStatus: RedeemTransactionStatus;
+  showGoToMapAlert: boolean;
 }
 
 const initialState: RedeemViewState = {
@@ -27,6 +28,7 @@ const initialState: RedeemViewState = {
     connectionEstablished: "pending",
     updatingDatabase: "pending",
   },
+  showGoToMapAlert: false,
 };
 
 export const redeemView = (state: RedeemViewState = initialState, action) => {
@@ -51,6 +53,7 @@ export const redeemView = (state: RedeemViewState = initialState, action) => {
         getLocationFailed: true,
         getLocationFailedErrorMessage: action.payload.error,
         isRefreshingLocation: false,
+        showGoToMapAlert: action.payload.showGoToMapAlert ? true : false,
       };
     case "SUCCESSFUL_GET_LOCATIONS_AT_USER_LOCATION":
       return {

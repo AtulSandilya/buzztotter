@@ -44,6 +44,7 @@ export interface RedeemBeerProps {
   isRefreshingLocation?: boolean;
   redeemTransactionStatus?: RedeemTransactionStatus;
   receivedBevegram?: ReceivedBevegram;
+  showGoToMapAlert?: boolean;
   locations?: [Location];
   onRedeemClicked?(quantity: number, receivedId: string): void;
   closeRedeem?(): void;
