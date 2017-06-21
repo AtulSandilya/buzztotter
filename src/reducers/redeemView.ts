@@ -1,10 +1,7 @@
-import {
-  GpsCoordinates,
-  RedeemTransactionStatus,
-} from "../db/tables";
+import { GpsCoordinates, RedeemTransactionStatus } from "../db/tables";
 
 interface RedeemViewState {
-  currentLocation: GpsCoordinates,
+  currentLocation: GpsCoordinates;
   currentLocationBusinessName: string;
   lastModified: string;
   isRefreshingLocation: boolean;
@@ -17,68 +14,77 @@ interface RedeemViewState {
 
 const initialState: RedeemViewState = {
   currentLocation: {
-    longitude: undefined,
     latitude: undefined,
+    longitude: undefined,
   },
-  lastModified: undefined,
   currentLocationBusinessName: undefined,
   getLocationFailed: false,
   isProcessing: false,
   isRefreshingLocation: false,
+  lastModified: undefined,
   redeemFailed: false,
   redeemTransactionStatus: {
     connectionEstablished: "pending",
     updatingDatabase: "pending",
   },
-}
+};
 
 export const redeemView = (state: RedeemViewState = initialState, action) => {
-  switch(action.type){
-    case 'UPDATE_LOCATION': {
-      return Object.assign({}, state, {
+  switch (action.type) {
+    case "UPDATE_LOCATION": {
+      return {
+        ...state,
         currentLocation: action.payload.location,
         currentLocationBusinessName: action.payload.currentLocationBusinessName,
-        lastModified: action.payload.lastModified,
         getLocationFailed: action.payload.getLocationFailed,
-      })
+        lastModified: action.payload.lastModified,
+      };
     }
     case "ATTEMPTING_GET_LOCATIONS_AT_USER_LOCATION":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isRefreshingLocation: true,
-      });
+      };
     case "FAILED_GET_LOCATIONS_AT_USER_LOCATION":
-      return Object.assign({}, state, {
-        isRefreshingLocation: false,
+      return {
+        ...state,
         getLocationFailed: true,
         getLocationFailedErrorMessage: action.payload.error,
-      });
+        isRefreshingLocation: false,
+      };
     case "SUCCESSFUL_GET_LOCATIONS_AT_USER_LOCATION":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         currentLocationBusinessName: action.payload.location.name,
         isRefreshingLocation: false,
-      });
+      };
     case "ATTEMPTING_REDEEM":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isProcessing: true,
-      });
+      };
     case "UPDATE_REDEEM_TRANSACTION_STATUS":
-      return  Object.assign({}, state, {
+      return {
+        ...state,
         redeemTransactionStatus: action.payload.redeemTransactionStatus,
-      });
+      };
     case "FAILED_REDEEM_TRANSACTION":
-      const newRedeemTransactionStatus = Object.assign({}, state.redeemTransactionStatus, {
+      const newRedeemTransactionStatus = {
+        ...state.redeemTransactionStatus,
         error: action.payload.error,
-      });
-      return  Object.assign({}, state, {
+      };
+      return {
+        ...state,
         redeemTransactionStatus: newRedeemTransactionStatus,
-      });
+      };
     case "FINISHED_REDEEM":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isProcessing: false,
-      });
+      };
     case "RESET_REDEEM":
-      return Object.assign({}, state, initialState);
+      return { ...state, ...initialState };
     default:
       return state;
   }
-}
+};
