@@ -47,6 +47,7 @@ export interface RedeemBeerProps {
   locations?: [Location];
   onRedeemClicked?(quantity: number, receivedId: string): void;
   closeRedeem?(): void;
+  goToMap?(): void;
   updateLocation?(): void;
 }
 

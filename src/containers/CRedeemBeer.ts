@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 
 import RedeemBeer, {RedeemBeerProps} from "../components/RedeemBeer";
+import { sceneKeys, sceneOrder } from "../reducers/view";
 
 import {StringifyDate} from "../CommonUtilities";
 import {
@@ -50,6 +51,7 @@ const mapStateToProps = (state): StateProps => {
 interface DispatchProps {
   onRedeemClicked?(quantity: number, receivedId: string): void;
   closeRedeem?(): void;
+  goToMap?(): void;
   updateLocation?(GpsCoordinates): void;
 }
 
@@ -63,6 +65,10 @@ const mapDispatchToProps = (dispatch): DispatchProps => {
     },
     closeRedeem: () => {
       dispatch({type: "GO_BACK_ROUTE"});
+    },
+    goToMap: () => {
+      dispatch({type: "GO_BACK_ROUTE"});
+      dispatch({type: "GOTO_VIEW", newScene: sceneOrder[sceneKeys.bevegramLocations]});
     },
     updateLocation: () => {
       dispatch({type: "REQUEST_BAR_AT_USER_LOCATION"});
