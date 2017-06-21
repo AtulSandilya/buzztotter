@@ -83,8 +83,8 @@ export function* getLocationsNearUser() {
 export function* getLocationsAtUserLocation() {
   yield put({ type: "ATTEMPTING_GET_LOCATIONS_AT_USER_LOCATION" });
 
-  const locationFetchDelay = 2000;
-  yield delay(locationFetchDelay);
+  const locationFetchMinMs = 3000;
+  const locationFetchStart = Date.now();
 
   let deviceCoordinates: GpsCoordinates;
   try {
@@ -97,6 +97,11 @@ export function* getLocationsAtUserLocation() {
 
     if (!deviceCoordinates) {
       throw new Error();
+    }
+
+    const timeElapsed = Date.now() - locationFetchStart;
+    if (timeElapsed < locationFetchMinMs) {
+      yield delay(locationFetchMinMs - timeElapsed);
     }
   } catch (e) {
     yield put({
