@@ -2,6 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 import {
   ActivityIndicator,
+  Alert,
   Image,
   Linking,
   ListView,
@@ -52,7 +53,9 @@ export interface BevegramLocationsProps {
   numRenders?: number;
   tabLabel?: string;
   isReloading?: boolean;
+  locationFetchingAllowed?: boolean;
   getNearestLocations?(): void;
+  toggleLocationSetting?(): void;
 }
 
 export default class BevegramLocations extends Component<
@@ -185,7 +188,24 @@ export default class BevegramLocations extends Component<
               <TouchableHighlight
                 underlayColor={"#ffffff"}
                 onPress={() => {
-                  this.props.getNearestLocations();
+                  if (this.props.locationFetchingAllowed) {
+                    this.props.getNearestLocations();
+                  } else {
+                    Alert.alert(
+                      "Location Refresh Error",
+                      "Location fetching is disabled!\nEnable location services?",
+                      [
+                        {text: "No"},
+                        {text: "One Time", onPress: () => {
+                          this.props.getNearestLocations();
+                        }},
+                        {text: "Yes", onPress: () => {
+                          this.props.getNearestLocations();
+                          this.props.toggleLocationSetting();
+                        }},
+                      ],
+                    );
+                  };
                 }}
                 style={{
                   borderBottomColor: globalColors.subtleSeparator,
