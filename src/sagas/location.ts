@@ -1,10 +1,14 @@
 import { delay } from "redux-saga";
-import { call, put } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
+
+import store from "../configureStore";
 
 import { readNode } from "../api/firebase/index";
 import { CoordsAreInRadius, CoordsAreWithinViewport } from "../CommonUtilities";
+import { RedeemAlert } from "../components/RedeemBeer";
 import * as DbSchema from "../db/schema";
 import { GpsCoordinates, Location } from "../db/tables";
+import { Settings } from "../reducers/Settings";
 
 /* tslint:disable:object-literal-sort-keys */
 const getDeviceGpsCoordinates = (
@@ -80,7 +84,32 @@ export function* getLocationsNearUser() {
   yield put({ type: "SUCCESSFUL_LOCATION_NEAR_USER_UPDATE" });
 }
 
+let oneTimeLocationUsage = false;
 export function* getLocationsAtUserLocation() {
+
+  const currentLocationSetting = yield select<{settings: Settings}>(state => state.settings.location);
+  if (!currentLocationSetting && !oneTimeLocationUsage) {
+    yield put({
+      type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION",
+      payload: {
+        error: "Unknown - Location setting is off!",
+      },
+    });
+
+    RedeemAlert(
+      "Redeeming requires your current location! Allow one time location usage?",
+      [
+        {text: "No", onPress: () => store.dispatch({type: "GO_BACK_ROUTE"})},
+        {text: "Yes", onPress: () => {
+          oneTimeLocationUsage = true;
+          store.dispatch({type: "REQUEST_BAR_AT_USER_LOCATION"});
+        }},
+      ],
+    );
+    return;
+  }
+  oneTimeLocationUsage = false;
+
   yield put({ type: "ATTEMPTING_GET_LOCATIONS_AT_USER_LOCATION" });
 
   const locationFetchMinMs = 3000;
