@@ -2,6 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 import {
   ActivityIndicator,
+  Alert,
   StyleSheet,
   Text,
   TextInput,
@@ -52,6 +53,15 @@ export interface RedeemBeerProps {
 interface RedeemBeerState {
   numDrinks?: number;
 }
+
+export const RedeemAlert = (message: string, buttons: any[]) => {
+  Alert.alert(
+    "Redeem Error",
+    message,
+    buttons,
+    {cancelable: false},
+  );
+};
 
 /* tslint:disable:member-ordering */
 /* tslint:disable:no-magic-numbers */
