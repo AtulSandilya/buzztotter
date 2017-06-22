@@ -4,21 +4,52 @@ import BevegramLocations, { BevegramLocationsProps } from "../components/Bevegra
 import { settingsKeys } from "../reducers/settings";
 import { sceneKeys } from "../reducers/view";
 
+import { MetersBetweenCoordinates } from "../CommonUtilities";
 import { GpsCoordinates, Location } from "../db/tables";
 
 interface StateProps {
-  markers?: [Location];
+  markers?: Location[];
   numRenders?: number;
   isReloading?: boolean;
   locationFetchingAllowed?: boolean;
   userCoords?: GpsCoordinates;
 }
 
+const sortLocations = (
+  locations: Location[],
+  userCoords: GpsCoordinates,
+  method: "nearToFar",
+) => {
+  switch (method) {
+    case "nearToFar":
+      if (!userCoords) { return locations; }
+
+      const locationsWithDistanceFromUser = locations.map(loc => {
+        return {
+          ...loc,
+          distanceFromUser: MetersBetweenCoordinates(userCoords, {
+            latitude: loc.latitude,
+            longitude: loc.longitude,
+          }),
+        };
+      });
+
+      return locationsWithDistanceFromUser.sort((a, b) => {
+        if (a.distanceFromUser > b.distanceFromUser) {
+          return 1;
+        } else if (a.distanceFromUser === b.distanceFromUser) {
+          return 0;
+        }
+        return -1;
+      });
+  }
+};
+
 const mapStateToProps = (state): StateProps => {
   return {
     isReloading: state.locationsView.isReloading,
     locationFetchingAllowed: state.settings.location,
-    markers: state.locations,
+    markers: sortLocations(state.locations, state.user.lastUserCoords, "nearToFar"),
     // Somehow this prevents multiple renders of the MapView, this prop is
     // never used but its existence does something.
     numRenders: state.view.filter(item => item === sceneKeys.bevegramLocations)

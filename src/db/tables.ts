@@ -81,6 +81,7 @@ export interface BasicLocation extends GpsCoordinates {
 }
 
 export interface Location extends BasicLocation {
+  distanceFromUser?;
   vendorId?: string;
 }
 

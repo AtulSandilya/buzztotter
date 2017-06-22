@@ -66,7 +66,7 @@ export const CoordsAreInRadius = (
 // Returns the distance between two points in kilometers.
 // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
 /* tslint:disable:no-magic-numbers */
-const MetersBetweenCoordinates = (
+export const MetersBetweenCoordinates = (
   a: GpsCoordinates,
   b: GpsCoordinates,
 ): number => {
