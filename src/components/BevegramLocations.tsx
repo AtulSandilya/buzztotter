@@ -20,34 +20,13 @@ import { isAndroid, isIOS } from "../ReactNativeUtilities";
 import { GpsCoordinates, Location } from "../db/tables";
 
 import BevButton from "./BevButton";
+import BevPressableLine from "./BevPressableLine";
 import BevUiText from "./BevUiText";
 import TitleText from "./TitleText";
 
 import theme from "../theme";
 
 import { globalColors, globalStyles } from "./GlobalStyles";
-
-const openMapsToAddress = (latitude, longitude, name) => {
-  let url;
-  // encodeURIComponent properly converts characters into url format.
-  if (isAndroid) {
-    url = `geo:${latitude},${longitude}?q=${latitude},${longitude}(${encodeURIComponent(
-      name,
-    )})`;
-  } else if (isIOS) {
-    url = `http://maps.apple.com/?ll=${latitude},${longitude}&q=${encodeURIComponent(
-      name,
-    )}`;
-  }
-
-  Linking.canOpenURL(url).then(supported => {
-    if (supported) {
-      Linking.openURL(url);
-    } else {
-      alert("External maps not supported!");
-    }
-  });
-};
 
 export interface BevegramLocationsProps {
   markers?: Location[];
@@ -185,7 +164,7 @@ export default class BevegramLocations extends Component<
                       <Text style={{ fontSize: 18, fontWeight: "bold" }}>
                         {numMarkers - index}. {markerData.name}
                       </Text>
-                      <BevUiText icon="calendar" color="#000000">
+                      <BevUiText icon="clock-o" color="#000000">
                         {
                           markerData.typicalHours[todayAsNumber]
                             .split(": ")
@@ -318,47 +297,25 @@ export default class BevegramLocations extends Component<
                 </View>
               </TouchableHighlight>}
             renderRow={(rowData, sectionId, rowId) =>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: 10,
-                }}
-              >
-                <View style={{ flex: 1, flexDirection: "column" }}>
+              <BevPressableLine onPress={() => return; }>
+                <View style={{ flex: 3, flexDirection: "column" }}>
                   <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                     {parseInt(rowId as any, 10) + 1}. {rowData.name}
                   </Text>
-                  <BevUiText icon="calendar" style={{ paddingTop: 5 }}>
-                    {rowData.typicalHours[todayAsNumber]}
-                  </BevUiText>
                 </View>
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
-                  <BevUiText icon="map-marker">
-                    {rowData.distanceFromUser
-                      ? PrettyFormatDistance(rowData.distanceFromUser, "imperial", rowData.squareFootage)
-                      : ""}
-                  </BevUiText>
+                <View style={{ flex: 2, justifyContent: "center", alignItems: "flex-start", paddingLeft: 15}}>
+                  <View>
+                    <BevUiText icon="map-marker">
+                      {rowData.distanceFromUser
+                        ? PrettyFormatDistance(rowData.distanceFromUser, "imperial", rowData.squareFootage)
+                        : ""}
+                    </BevUiText>
+                    <BevUiText icon="clock-o" style={{ paddingTop: 5 }}>
+                      {rowData.typicalHours[todayAsNumber].split(" ").slice(1).join(" ")}
+                    </BevUiText>
+                  </View>
                 </View>
-                <View style={{ flex: 1 }}>
-                  <BevButton
-                    text={"Open in Maps"}
-                    shortText="Map"
-                    label="Open Map Button"
-                    buttonFontSize={16}
-                    margin={5}
-                    rightIcon={true}
-                    onPress={() =>
-                      openMapsToAddress(
-                        rowData.latitude,
-                        rowData.longitude,
-                        rowData.name,
-                      )}
-                  />
-                </View>
-              </View>}
+              </BevPressableLine>}
             renderSeparator={(sectionId, rowId) =>
               <View key={rowId} style={globalStyles.listRowSeparator} />}
             refreshControl={
