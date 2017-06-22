@@ -11,6 +11,7 @@ const theme = {
     failure: "#FF0033",
     uiTextColor: "#999999",
     uiBoldTextColor: "#555555",
+    uiLight: "#cccccc",
   },
   notificationIcons: {
     beverage: "ic_local_bar_white_48dp",
