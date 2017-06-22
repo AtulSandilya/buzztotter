@@ -44,14 +44,16 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = (props) => {
   return (
     <View style={[{flex: -1, flexDirection: "row", alignItems: "center"}, props.style]}>
       {props.icon ?
-        <FontAwesome
-          name={props.icon}
-          style={{
-            color,
-            fontSize: iconSize,
-            paddingRight: 4,
-          }}
-        />
+        <View style={{alignItems: "center", width: iconSize * iconNormalMultiplier}}>
+          <FontAwesome
+            name={props.icon}
+            style={{
+              color,
+              fontSize: iconSize,
+              paddingRight: 4,
+            }}
+          />
+        </View>
       : <View/>}
       <Text style={{
         color: props.color ? props.color : theme.colors.uiTextColor,
