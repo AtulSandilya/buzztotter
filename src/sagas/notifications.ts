@@ -20,7 +20,7 @@ export function* startListener() {
   );
   const user = yield select<{user: User}>(state => state.user);
 
-  const shouldTurnOnListener = currentNotificationSetting && (user && user.firebase);
+  const shouldTurnOnListener = currentNotificationSetting && (user && user.firebase) && (notificationListener === undefined);
 
   if (isAndroid && shouldTurnOnListener) {
     const FCM = require("react-native-fcm");
