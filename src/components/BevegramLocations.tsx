@@ -54,6 +54,7 @@ export interface BevegramLocationsProps {
   tabLabel?: string;
   isReloading?: boolean;
   locationFetchingAllowed?: boolean;
+  userCoords?: GpsCoordinates;
   getNearestLocations?(): void;
   toggleLocationSetting?(): void;
 }
@@ -84,6 +85,10 @@ export default class BevegramLocations extends Component<
       longitude: -104.990251,
     };
 
+    const mapCenterCoords: GpsCoordinates = this.props.userCoords
+      ? this.props.userCoords
+      : defaultCoords;
+
     // How zoomed in/out the map is
     const coordDelta = {
       latitudeDelta: 0.0922 * 1.75,
@@ -94,7 +99,7 @@ export default class BevegramLocations extends Component<
       <View style={{ flex: 1 }}>
         <MapView
           style={{ flex: 6 }}
-          initialRegion={{ ...defaultCoords, ...coordDelta }}
+          region={{ ...mapCenterCoords, ...coordDelta }}
         >
           {reversedMarkers.map((markerData, index) => {
             const numMarkers = this.props.markers.length;

@@ -4,13 +4,14 @@ import BevegramLocations, { BevegramLocationsProps } from "../components/Bevegra
 import { settingsKeys } from "../reducers/settings";
 import { sceneKeys } from "../reducers/view";
 
-import { Location } from "../db/tables";
+import { GpsCoordinates, Location } from "../db/tables";
 
 interface StateProps {
   markers?: [Location];
   numRenders?: number;
   isReloading?: boolean;
   locationFetchingAllowed?: boolean;
+  userCoords?: GpsCoordinates;
 }
 
 const mapStateToProps = (state): StateProps => {
@@ -22,6 +23,7 @@ const mapStateToProps = (state): StateProps => {
     // never used but its existence does something.
     numRenders: state.view.filter(item => item === sceneKeys.bevegramLocations)
       .length,
+    userCoords: state.user.lastUserCoords,
   };
 };
 
