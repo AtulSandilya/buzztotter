@@ -62,7 +62,8 @@ export default class BevegramLocations extends Component<
   BevegramLocationsProps,
   {}
 > {
-  render() {
+  /* tslint:disable:object-literal-sort-keys */
+  public render() {
     const locationDS = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
@@ -195,17 +196,23 @@ export default class BevegramLocations extends Component<
                       "Location Refresh Error",
                       "Location fetching is disabled!\nEnable location services?",
                       [
-                        {text: "No"},
-                        {text: "One Time", onPress: () => {
-                          this.props.getNearestLocations();
-                        }},
-                        {text: "Yes", onPress: () => {
-                          this.props.getNearestLocations();
-                          this.props.toggleLocationSetting();
-                        }},
+                        { text: "No" },
+                        {
+                          text: "One Time",
+                          onPress: () => {
+                            this.props.getNearestLocations();
+                          },
+                        },
+                        {
+                          text: "Yes",
+                          onPress: () => {
+                            this.props.getNearestLocations();
+                            this.props.toggleLocationSetting();
+                          },
+                        },
                       ],
                     );
-                  };
+                  }
                 }}
                 style={{
                   borderBottomColor: globalColors.subtleSeparator,
