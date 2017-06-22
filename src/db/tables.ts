@@ -26,6 +26,7 @@ export interface User {
   min_age?: number;
   lastModified?: UnixTime;
   fcmToken?: string;
+  lastUserCoords?: GpsCoordinates;
   stripe?: StripeCustomer;
   firebase?: FirebaseUser;
 }

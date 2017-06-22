@@ -57,6 +57,11 @@ export const user = (state = defaultState, action): User => {
       };
     case "REWRITE_USER":
       return { ...action.payload.updatedUser };
+    case "STORE_LAST_USER_LOCATION":
+      return {
+        ...state,
+        lastUserCoords: action.payload.lastUserCoords,
+      };
     default:
       return state;
   }

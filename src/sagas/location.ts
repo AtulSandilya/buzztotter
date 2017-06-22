@@ -64,6 +64,9 @@ export function* getLocationsNearUser() {
     yield put({ type: "FAILED_LOCATION_NEAR_USER_UPDATE" });
     return;
   }
+  yield put({type: "STORE_LAST_USER_LOCATION", payload: {
+    lastUserCoords: deviceCoordinates,
+  }});
 
   const locationsNearUser = yield call(
     getLocationsNearCoordinates,
@@ -127,6 +130,10 @@ export function* getLocationsAtUserLocation() {
     if (!deviceCoordinates) {
       throw new Error();
     }
+
+    yield put({type: "STORE_LAST_USER_LOCATION", payload: {
+      lastUserCoords: deviceCoordinates,
+    }});
 
     const timeElapsed = Date.now() - locationFetchStart;
     if (timeElapsed < locationFetchMinMs) {
