@@ -28,6 +28,28 @@ var MetersToFeet=function MetersToFeet(meters){
 var feetPerMeter=3.28084;
 return meters*feetPerMeter;
 };
+var PrettyFormatDistance=exports.PrettyFormatDistance=function PrettyFormatDistance(distanceInMeters,units){
+switch(units){
+case"metric":
+var metersPerKilometer=1000;
+if(distanceInMeters>metersPerKilometer){
+return(distanceInMeters/metersPerKilometer).toFixed(0)+" km";
+}else
+{
+return distanceInMeters.toFixed(0)+" m";
+}
+case"imperial":
+var feet=MetersToFeet(distanceInMeters);
+var feetPerMile=5280;
+if(feet<feetPerMile){
+
+return"0."+(feet/feetPerMile).toFixed(1)+" miles";
+}else
+{
+return(feet/feetPerMile).toFixed(1)+" miles";
+}}
+
+};
 var CoordsAreWithinViewport=exports.CoordsAreWithinViewport=function CoordsAreWithinViewport(coords,viewport){
 var withinNortheast=coords.latitude<viewport.northeast.latitude&&
 coords.longitude<viewport.northeast.longitude;
@@ -44,7 +66,7 @@ return MetersBetweenCoordinates(a,b)<SquareFootageToRadius(squareFootage);
 
 
 
-var MetersBetweenCoordinates=function MetersBetweenCoordinates(a,b){
+var MetersBetweenCoordinates=exports.MetersBetweenCoordinates=function MetersBetweenCoordinates(a,b){
 var RadiusOfTheEarthInMeters=6371*1000;
 var deg2rad=function deg2rad(deg){return deg*(Math.PI/180);};
 var dLat=deg2rad(b.latitude-a.latitude);

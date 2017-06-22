@@ -14,6 +14,7 @@ import {
 
 import MapView from "react-native-maps";
 
+import { PrettyFormatDistance } from "../CommonUtilities";
 import { isAndroid, isIOS } from "../ReactNativeUtilities";
 
 import { GpsCoordinates, Location } from "../db/tables";
@@ -49,7 +50,7 @@ const openMapsToAddress = (latitude, longitude, name) => {
 };
 
 export interface BevegramLocationsProps {
-  markers?: [Location];
+  markers?: Location[];
   numRenders?: number;
   tabLabel?: string;
   isReloading?: boolean;
@@ -332,6 +333,13 @@ export default class BevegramLocations extends Component<
                   </Text>
                   <BevUiText icon="calendar" style={{ paddingTop: 5 }}>
                     {rowData.typicalHours[todayAsNumber]}
+                  </BevUiText>
+                </View>
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
+                  <BevUiText icon="arrows-h">
+                    {rowData.distanceFromUser
+                      ? PrettyFormatDistance(rowData.distanceFromUser, "imperial")
+                      : ""}
                   </BevUiText>
                 </View>
                 <View style={{ flex: 1 }}>

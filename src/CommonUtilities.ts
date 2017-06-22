@@ -37,6 +37,27 @@ const MetersToFeet = (meters: number): number => {
   return meters * feetPerMeter;
 };
 
+export const PrettyFormatDistance = (distanceInMeters: number, units: "metric" | "imperial") => {
+  switch (units) {
+    case "metric":
+      const metersPerKilometer = 1000;
+      if (distanceInMeters > metersPerKilometer) {
+        return `${(distanceInMeters / metersPerKilometer).toFixed(0)} km`;
+      } else {
+        return `${distanceInMeters.toFixed(0)} m`;
+      }
+    case "imperial":
+      const feet = MetersToFeet(distanceInMeters);
+      const feetPerMile = 5280;
+      if (feet < feetPerMile) {
+        // Prefix the distance with 0.
+        return `0.${(feet / feetPerMile).toFixed(1)} miles`;
+      } else {
+        return `${(feet / feetPerMile).toFixed(1)} miles`;
+      }
+  }
+};
+
 export const CoordsAreWithinViewport = (
   coords: GpsCoordinates,
   viewport: LocationViewport,
