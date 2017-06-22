@@ -68,6 +68,8 @@ export interface LocationViewport {
   southwest: GpsCoordinates;
 }
 
+export const DEFAULT_SQUARE_FOOTAGE = 2000; // ~ 25 meters
+
 // Pulled from the google maps place details api
 export interface BasicLocation extends GpsCoordinates {
   name: string;

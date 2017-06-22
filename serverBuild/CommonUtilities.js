@@ -1,4 +1,5 @@
-Object.defineProperty(exports,"__esModule",{value:true});var StringifyDate=exports.StringifyDate=function StringifyDate(){
+Object.defineProperty(exports,"__esModule",{value:true});exports.PrettyFormatAddress=exports.Pluralize=exports.MetersBetweenCoordinates=exports.CoordsAreInRadius=exports.CoordsAreWithinViewport=exports.PrettyFormatDistance=exports.FormatGpsCoordinates=exports.GetTimeNow=exports.StringifyDate=undefined;var _tables=require("./db/tables");
+var StringifyDate=exports.StringifyDate=function StringifyDate(){
 return new Date().toJSON();
 };
 var GetTimeNow=exports.GetTimeNow=function GetTimeNow(){
@@ -28,27 +29,50 @@ var MetersToFeet=function MetersToFeet(meters){
 var feetPerMeter=3.28084;
 return meters*feetPerMeter;
 };
-var PrettyFormatDistance=exports.PrettyFormatDistance=function PrettyFormatDistance(distanceInMeters,units){
+var PrettyFormatDistance=exports.PrettyFormatDistance=function PrettyFormatDistance(distanceInMeters,units){var squareFootage=arguments.length>2&&arguments[2]!==undefined?arguments[2]:_tables.DEFAULT_SQUARE_FOOTAGE;
+var prettyDistance=void 0;
+var prettyUnit=void 0;
+var squareFootageRadius=SquareFootageToRadius(squareFootage);
+if(distanceInMeters<squareFootageRadius){
+return"You are here";
+}
 switch(units){
 case"metric":
 var metersPerKilometer=1000;
 if(distanceInMeters>metersPerKilometer){
-return(distanceInMeters/metersPerKilometer).toFixed(0)+" km";
+prettyUnit="km";
+prettyDistance=(distanceInMeters/metersPerKilometer).toFixed(0);
 }else
 {
-return distanceInMeters.toFixed(0)+" m";
+prettyUnit="m";
+prettyDistance=distanceInMeters.toFixed(0);
 }
+break;
 case"imperial":
 var feet=MetersToFeet(distanceInMeters);
 var feetPerMile=5280;
-if(feet<feetPerMile){
-
-return"0."+(feet/feetPerMile).toFixed(1)+" miles";
+var feetDetailThreshold=10;
+var showAsFeet=feetPerMile/feetDetailThreshold;
+var showWithOneDecimal=feetPerMile*feetDetailThreshold;
+if(feet<showAsFeet){
+prettyDistance=feet.toFixed(0);
+prettyUnit=prettyDistance==="1"?"foot":"feet";
+break;
+}else
+if(feet<showWithOneDecimal){
+prettyDistance=(feet/feetPerMile).toFixed(1);
+prettyDistance=prettyDistance==="1.0"?"1":prettyDistance;
+prettyUnit=prettyDistance==="1"?"mile":"miles";
+break;
 }else
 {
-return(feet/feetPerMile).toFixed(1)+" miles";
-}}
+prettyUnit="miles";
+prettyDistance=(feet/feetPerMile).toFixed(0);
+}
+break;}
 
+var postfix="away";
+return prettyDistance+" "+prettyUnit+" "+postfix;
 };
 var CoordsAreWithinViewport=exports.CoordsAreWithinViewport=function CoordsAreWithinViewport(coords,viewport){
 var withinNortheast=coords.latitude<viewport.northeast.latitude&&

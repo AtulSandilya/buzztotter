@@ -1,4 +1,9 @@
-import { GpsCoordinates, LocationViewport, UnixTime } from "./db/tables";
+import {
+  DEFAULT_SQUARE_FOOTAGE,
+  GpsCoordinates,
+  LocationViewport,
+  UnixTime,
+} from "./db/tables";
 
 export const StringifyDate = (): string => {
   return new Date().toJSON();
@@ -37,25 +42,54 @@ const MetersToFeet = (meters: number): number => {
   return meters * feetPerMeter;
 };
 
-export const PrettyFormatDistance = (distanceInMeters: number, units: "metric" | "imperial") => {
+export const PrettyFormatDistance = (
+  distanceInMeters: number,
+  units: "metric" | "imperial",
+  squareFootage: number = DEFAULT_SQUARE_FOOTAGE,
+) => {
+  let prettyDistance: string;
+  let prettyUnit: string;
+
+  const squareFootageRadius = SquareFootageToRadius(squareFootage);
+  if (distanceInMeters < squareFootageRadius) {
+    return `You are here`;
+  }
+
   switch (units) {
     case "metric":
       const metersPerKilometer = 1000;
       if (distanceInMeters > metersPerKilometer) {
-        return `${(distanceInMeters / metersPerKilometer).toFixed(0)} km`;
+        prettyUnit = "km";
+        prettyDistance = (distanceInMeters / metersPerKilometer).toFixed(0);
       } else {
-        return `${distanceInMeters.toFixed(0)} m`;
+        prettyUnit = "m";
+        prettyDistance = distanceInMeters.toFixed(0);
       }
+      break;
     case "imperial":
       const feet = MetersToFeet(distanceInMeters);
       const feetPerMile = 5280;
-      if (feet < feetPerMile) {
-        // Prefix the distance with 0.
-        return `0.${(feet / feetPerMile).toFixed(1)} miles`;
+      const feetDetailThreshold = 10;
+      const showAsFeet = feetPerMile / feetDetailThreshold;
+      const showWithOneDecimal = feetPerMile * feetDetailThreshold;
+      if (feet < showAsFeet) {
+        prettyDistance = feet.toFixed(0);
+        prettyUnit = prettyDistance === "1" ? "foot" : "feet";
+        break;
+      } else if (feet < showWithOneDecimal) {
+        prettyDistance = (feet / feetPerMile).toFixed(1);
+        prettyDistance = prettyDistance === "1.0" ? "1" : prettyDistance;
+        prettyUnit = prettyDistance === "1" ? "mile" : "miles";
+        break;
       } else {
-        return `${(feet / feetPerMile).toFixed(1)} miles`;
+        prettyUnit = "miles";
+        prettyDistance = (feet / feetPerMile).toFixed(0);
       }
+      break;
   }
+
+  const postfix = "away";
+  return `${prettyDistance} ${prettyUnit} ${postfix}`;
 };
 
 export const CoordsAreWithinViewport = (

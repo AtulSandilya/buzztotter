@@ -7,7 +7,7 @@ import { readNode } from "../api/firebase/index";
 import { CoordsAreInRadius, CoordsAreWithinViewport } from "../CommonUtilities";
 import { RedeemAlert } from "../components/RedeemBeer";
 import * as DbSchema from "../db/schema";
-import { GpsCoordinates, Location } from "../db/tables";
+import { DEFAULT_SQUARE_FOOTAGE, GpsCoordinates, Location } from "../db/tables";
 import { Settings } from "../reducers/Settings";
 
 /* tslint:disable:object-literal-sort-keys */
@@ -168,10 +168,9 @@ export function* getLocationsAtUserLocation() {
       locationsAtUserLoc,
     ).filter(key => {
       const loc: Location = locationsAtUserLoc[key];
-      const defaultSquareFootage = 2000; // ~ 25m radius
       const squareFootage = loc.squareFootage
         ? loc.squareFootage
-        : defaultSquareFootage;
+        : DEFAULT_SQUARE_FOOTAGE;
 
       return (
         CoordsAreWithinViewport(deviceCoordinates, loc.viewport) &&

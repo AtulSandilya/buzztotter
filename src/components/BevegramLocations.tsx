@@ -336,9 +336,9 @@ export default class BevegramLocations extends Component<
                   </BevUiText>
                 </View>
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
-                  <BevUiText icon="arrows-h">
+                  <BevUiText icon="map-marker">
                     {rowData.distanceFromUser
-                      ? PrettyFormatDistance(rowData.distanceFromUser, "imperial")
+                      ? PrettyFormatDistance(rowData.distanceFromUser, "imperial", rowData.squareFootage)
                       : ""}
                   </BevUiText>
                 </View>
