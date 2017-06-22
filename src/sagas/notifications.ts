@@ -1,4 +1,4 @@
-import {delay} from "redux-saga";
+import { delay } from "redux-saga";
 import { call, put, select } from "redux-saga/effects";
 
 import { isAndroid } from "../ReactNativeUtilities";
@@ -18,9 +18,12 @@ export function* startListener() {
   const currentNotificationSetting = yield select<{ settings: Settings }>(
     state => state.settings.notifications,
   );
-  const user = yield select<{user: User}>(state => state.user);
+  const user = yield select<{ user: User }>(state => state.user);
 
-  const shouldTurnOnListener = currentNotificationSetting && (user && user.firebase) && (notificationListener === undefined);
+  const shouldTurnOnListener =
+    currentNotificationSetting &&
+    (user && user.firebase) &&
+    notificationListener === undefined;
 
   if (isAndroid && shouldTurnOnListener) {
     const FCM = require("react-native-fcm");
@@ -44,6 +47,7 @@ export function* startListener() {
 
       if (notifPayload.open_from_tray === 1) {
         store.dispatch({
+          /* tslint:disable:object-literal-sort-keys */
           type: "NOTIFICATION_CLICKED_WHILE_APP_IS_CLOSED",
           payload: notifPayload,
         });
@@ -89,7 +93,9 @@ export function* saveFcmToken(action) {
   const maxAttempts = 5;
   let attempts = 0;
   while (true) {
-    if (attempts > maxAttempts) { break; }
+    if (attempts > maxAttempts) {
+      break;
+    }
     attempts++;
     try {
       yield call(queue.turnOnNotifications, action.payload);
@@ -111,7 +117,7 @@ export function* onNotificationClickedWhileAppIsClosed(payload) {
       break;
     case NotificationActions.ShowUpcomingBirthdays:
       yield put({
-       type: "SEND_BEVEGRAM_TO_CONTACT_VIA_NOTIFICATION",
+        type: "SEND_BEVEGRAM_TO_CONTACT_VIA_NOTIFICATION",
         payload: {
           facebookId: payload.facebookId,
         },
