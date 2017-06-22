@@ -59,10 +59,51 @@ export interface BevegramLocationsProps {
   toggleLocationSetting?(): void;
 }
 
+interface MapRegion {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
+}
+
+interface BevegramLocationState {
+  region: MapRegion;
+  delta: {
+    latitudeDelta: number;
+    longitudeDelta: number;
+  };
+}
+
 export default class BevegramLocations extends Component<
   BevegramLocationsProps,
-  {}
+  BevegramLocationState
 > {
+  constructor(props) {
+    super(props);
+    this.state = {
+      delta: undefined,
+      region: undefined,
+    };
+  }
+
+  /* tslint:disable:member-ordering */
+  private onRegionChange(region) {
+    this.setState((prevState, currentProps) => {
+      return {
+        ...prevState,
+        // If region is undefined we want to change the center of the map but
+        // keep the zoom level thus we clear the region but not the delta
+        delta: region
+          ? {
+              latitudeDelta: region.latitudeDelta,
+              longitudeDelta: region.longitudeDelta,
+            }
+          : prevState.delta,
+        region,
+      };
+    });
+  }
+
   /* tslint:disable:object-literal-sort-keys */
   public render() {
     const locationDS = new ListView.DataSource({
@@ -90,16 +131,23 @@ export default class BevegramLocations extends Component<
       : defaultCoords;
 
     // How zoomed in/out the map is
-    const coordDelta = {
+    const defaultDelta = {
       latitudeDelta: 0.0922 * 1.75,
       longitudeDelta: 0.0421 * 1.75,
     };
+
+    const mapDelta = this.state.delta ? this.state.delta : defaultDelta;
 
     return (
       <View style={{ flex: 1 }}>
         <MapView
           style={{ flex: 6 }}
-          region={{ ...mapCenterCoords, ...coordDelta }}
+          region={
+            this.state.region
+              ? this.state.region
+              : { ...mapCenterCoords, ...mapDelta }
+          }
+          onRegionChange={region => this.onRegionChange(region)}
         >
           {reversedMarkers.map((markerData, index) => {
             const numMarkers = this.props.markers.length;
@@ -195,6 +243,7 @@ export default class BevegramLocations extends Component<
                 underlayColor={"#ffffff"}
                 onPress={() => {
                   if (this.props.locationFetchingAllowed) {
+                    this.onRegionChange(undefined);
                     this.props.getNearestLocations();
                   } else {
                     Alert.alert(
@@ -211,6 +260,7 @@ export default class BevegramLocations extends Component<
                         {
                           text: "Yes",
                           onPress: () => {
+                            this.onRegionChange(undefined);
                             this.props.getNearestLocations();
                             this.props.toggleLocationSetting();
                           },
