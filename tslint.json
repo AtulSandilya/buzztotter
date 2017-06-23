@@ -7,6 +7,7 @@
     "no-switch-case-fall-through": true,
     "switch-default": false,
     "jsx-no-multiline-js": false,
-    "arrow-parens": false
+    "arrow-parens": false,
+    "jsx-no-lambda": false
   }
 }
