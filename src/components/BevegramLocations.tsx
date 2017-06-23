@@ -15,9 +15,9 @@ import {
 import MapView from "react-native-maps";
 
 import { PrettyFormatDistance } from "../CommonUtilities";
-import { isAndroid, isIOS } from "../ReactNativeUtilities";
-
 import { GpsCoordinates, Location } from "../db/tables";
+import { isAndroid, isIOS } from "../ReactNativeUtilities";
+import { FormatDayHours } from "./LocationDetail";
 
 import BevButton from "./BevButton";
 import BevPressableLine from "./BevPressableLine";
@@ -37,6 +37,7 @@ export interface BevegramLocationsProps {
   userCoords?: GpsCoordinates;
   getNearestLocations?(): void;
   toggleLocationSetting?(): void;
+  goToLocationDetail?(loc: Location): void;
 }
 
 interface MapRegion {
@@ -297,24 +298,24 @@ export default class BevegramLocations extends Component<
                 </View>
               </TouchableHighlight>}
             renderRow={(rowData, sectionId, rowId) =>
-              <BevPressableLine onPress={() => return; }>
-                <View style={{ flex: 3, flexDirection: "column" }}>
-                  <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                    {parseInt(rowId as any, 10) + 1}. {rowData.name}
-                  </Text>
-                </View>
-                <View style={{ flex: 2, justifyContent: "center", alignItems: "flex-start", paddingLeft: 15}}>
-                  <View>
-                    <BevUiText icon="map-marker">
-                      {rowData.distanceFromUser
-                        ? PrettyFormatDistance(rowData.distanceFromUser, "imperial", rowData.squareFootage)
-                        : ""}
-                    </BevUiText>
-                    <BevUiText icon="clock-o" style={{ paddingTop: 5 }}>
-                      {rowData.typicalHours[todayAsNumber].split(" ").slice(1).join(" ")}
-                    </BevUiText>
-                  </View>
-                </View>
+              <BevPressableLine
+                onPress={() => this.props.goToLocationDetail(rowData)}
+              >
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  {parseInt(rowId as any, 10) + 1}. {rowData.name}
+                </Text>
+                <BevUiText icon="map-marker" style={{ marginTop: 3 }}>
+                  {rowData.distanceFromUser
+                    ? PrettyFormatDistance(
+                        rowData.distanceFromUser,
+                        "imperial",
+                        rowData.squareFootage,
+                      )
+                    : ""}
+                </BevUiText>
+                <BevUiText icon="clock-o" style={{ paddingTop: 5 }}>
+                  {FormatDayHours(rowData.typicalHours[todayAsNumber])}
+                </BevUiText>
               </BevPressableLine>}
             renderSeparator={(sectionId, rowId) =>
               <View key={rowId} style={globalStyles.listRowSeparator} />}

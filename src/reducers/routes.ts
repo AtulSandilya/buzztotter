@@ -20,6 +20,7 @@ export interface RouteState {
   AddCreditCard: RouteData;
   MainUi: RouteData;
   Login: RouteData;
+  LocationDetail: RouteData;
 }
 
 interface RouteData {
@@ -71,6 +72,10 @@ const defaultRouteState: RouteState = {
   Login: {
     isActive: false,
     data: {},
+  },
+  LocationDetail: {
+    isActive: false,
+    data: {},
   }
 }
 
@@ -108,8 +113,10 @@ const goToRoute = (state, key, routeData) => {
 const closeRoute = (state, key) => {
   let newState = Object.assign({}, state);
   newState[key].isActive = false;
-  newState[key].data = {};
   newState[key].confirmed = false;
+  if (key !== "LocationDetail") {
+    newState[key].data = {};
+  }
   return newState;
 }
 

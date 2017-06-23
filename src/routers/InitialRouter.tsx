@@ -23,6 +23,7 @@ import Loading from "../components/Loading";
 import MainUi from "../components/MainUi";
 import CAddCreditCard from "../containers/CAddCreditCard";
 import CBranding from "../containers/CBranding";
+import CLocationDetail from "../containers/CLocationDetail";
 import CLogin from "../containers/CLogin";
 import CPurchaseAndOrSendInProgress from "../containers/CPurchaseAndOrSendInProgress";
 import CPurchaseBevegram from "../containers/CPurchaseBevegram";
@@ -122,6 +123,16 @@ const scenes = (showLogin) => {
             <CBranding
               showBack={true}
               navBarText="Add Credit Card"
+            />
+          )}
+        />
+        <Scene
+          key="LocationDetail"
+          component={CLocationDetail}
+          navBar={() => (
+            <CBranding
+              showBack={true}
+              navBarText="Location Detail"
             />
           )}
         />

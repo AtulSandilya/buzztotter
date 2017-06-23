@@ -22,7 +22,9 @@ const sortLocations = (
 ) => {
   switch (method) {
     case "nearToFar":
-      if (!userCoords) { return locations; }
+      if (!userCoords) {
+        return locations;
+      }
 
       const locationsWithDistanceFromUser = locations.map(loc => {
         return {
@@ -49,7 +51,11 @@ const mapStateToProps = (state): StateProps => {
   return {
     isReloading: state.locationsView.isReloading,
     locationFetchingAllowed: state.settings.location,
-    markers: sortLocations(state.locations, state.user.lastUserCoords, "nearToFar"),
+    markers: sortLocations(
+      state.locations,
+      state.user.lastUserCoords,
+      "nearToFar",
+    ),
     // Somehow this prevents multiple renders of the MapView, this prop is
     // never used but its existence does something.
     numRenders: state.view.filter(item => item === sceneKeys.bevegramLocations)
@@ -61,12 +67,22 @@ const mapStateToProps = (state): StateProps => {
 interface MapDispatchProps {
   getNearestLocations?(): void;
   toggleLocationSetting?(): void;
+  goToLocationDetail?(loc: Location): void;
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     getNearestLocations: () => {
       dispatch({ type: "REQUEST_LOCATIONS_NEAR_USER" });
+    },
+    goToLocationDetail: (loc: Location) => {
+      dispatch({
+        type: "GO_TO_ROUTE",
+        payload: {
+          route: "LocationDetail",
+          routeData: loc,
+        },
+      });
     },
     toggleLocationSetting: () => {
       dispatch({ type: "TOGGLE_SETTING", settingKey: settingsKeys.location });

@@ -23,6 +23,8 @@ interface Styles {
   listRowSeparator: ViewStyle;
   titleText: TextStyle;
   importantText: TextStyle;
+  heroText: TextStyle;
+  sectionStartText: TextStyle;
   titleTextContainer: ViewStyle;
   bevColorPrimary: ViewStyle;
   bevColorSecondary: ViewStyle;
@@ -52,6 +54,16 @@ export const globalStyles = StyleSheet.create<Styles>({
     color: globalColors.bevPrimary,
     fontSize: 30,
     paddingBottom: 10,
+    fontWeight: '300',
+  },
+  heroText: {
+    color: globalColors.lightText,
+    fontSize: 40,
+    fontWeight: '300',
+  },
+  sectionStartText: {
+    color: globalColors.lightText,
+    fontSize: 16,
     fontWeight: '300',
   },
   importantText: {
