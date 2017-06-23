@@ -1,3 +1,4 @@
+/* tslint:disable:object-literal-sort-keys */
 const routeKeys = {
   Login: "Login",
   MainUi: "MainUi",
@@ -6,7 +7,7 @@ const routeKeys = {
   RedeemBeer: "RedeemBeer",
   Settings: "Settings",
   AddCreditCard: "AddCreditCard",
-}
+};
 
 export interface RouteState {
   currentRoute: string;
@@ -25,7 +26,7 @@ export interface RouteState {
 
 interface RouteData {
   isActive: boolean;
-  data: Object;
+  data: object;
   confirmed?: boolean;
 }
 
@@ -45,12 +46,12 @@ const defaultRouteState: RouteState = {
   PurchaseInProgress: {
     isActive: false,
     confirmed: false,
-    data: {}
+    data: {},
   },
   SendInProgress: {
     isActive: false,
     confirmed: false,
-    data: {}
+    data: {},
   },
   RedeemBeer: {
     isActive: false,
@@ -76,52 +77,54 @@ const defaultRouteState: RouteState = {
   LocationDetail: {
     isActive: false,
     data: {},
-  }
-}
+  },
+};
 
 export const routes = (state = defaultRouteState, action): RouteState => {
-  switch(action.type){
+  switch (action.type) {
     // This type is different because the saga is called `GO_TO_ROUTE`
-    case 'ADD_ROUTE':
+    case "ADD_ROUTE":
       return goToRoute(state, action.payload.route, action.payload.data);
-    case 'CLOSE_ROUTE':
+    case "CLOSE_ROUTE":
       return closeRoute(state, action.payload.route);
-    case 'CONFIRM_ROUTE':
+    case "CONFIRM_ROUTE":
       return confirmRoute(state, action.route);
-    case 'UPDATE_CURRENT_ROUTE':
-      return Object.assign({}, state, {
+    case "UPDATE_CURRENT_ROUTE":
+      return {
+        ...state,
         currentRoute: action.payload.currentRoute,
         previousRoute: state.currentRoute,
-      });
-    case 'CLEAR_ROUTES':
-      return Object.assign({}, defaultRouteState, {
+      };
+    case "CLEAR_ROUTES":
+      return {
+        ...defaultRouteState,
         currentRoute: state.currentRoute,
         previousRoute: state.previousRoute,
-    });
+      };
     default:
       return state;
   }
-}
+};
 
 const goToRoute = (state, key, routeData) => {
-  let newState = Object.assign({}, state);
+  const newState = { ...state };
   newState[key].isActive = true;
   newState[key].data = routeData;
   return newState;
-}
+};
 
 const closeRoute = (state, key) => {
-  let newState = Object.assign({}, state);
+  const newState = { ...state };
   newState[key].isActive = false;
   newState[key].confirmed = false;
   if (key !== "LocationDetail") {
     newState[key].data = {};
   }
   return newState;
-}
+};
 
 const confirmRoute = (state, key) => {
-  let newState = Object.assign({}, state);
+  const newState = { ...state };
   newState[key].confirmed = true;
   return newState;
-}
+};
