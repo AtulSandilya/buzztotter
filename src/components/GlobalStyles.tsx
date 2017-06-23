@@ -1,23 +1,29 @@
-import { LayoutAnimation, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import {
+  LayoutAnimation,
+  StyleSheet,
+  TextStyle,
+  ViewStyle,
+} from "react-native";
 
-import {isAndroid} from '../ReactNativeUtilities';
+import { isAndroid } from "../ReactNativeUtilities";
 
+/* tslint:disable:object-literal-sort-keys */
 export const globalColors = {
   // Tealish Green
-  bevPrimary: '#8ED0BA',
+  bevPrimary: "#8ED0BA",
   // Brown
-  bevSecondary: '#8B5E3C',
+  bevSecondary: "#8B5E3C",
   // Light Brown
-  bevActiveSecondary: '#AC9774',
+  bevActiveSecondary: "#AC9774",
   // Light Grey
-  lightSeparator: '#8E8E8E',
+  lightSeparator: "#8E8E8E",
   // Dark Grey
-  darkSeparator: '#717171',
+  darkSeparator: "#717171",
   // Almost White
-  subtleSeparator: '#dddddd',
+  subtleSeparator: "#dddddd",
   // Non emphasized text
-  lightText: '#555555',
-}
+  lightText: "#555555",
+};
 
 interface Styles {
   listRowSeparator: ViewStyle;
@@ -54,26 +60,26 @@ export const globalStyles = StyleSheet.create<Styles>({
     color: globalColors.bevPrimary,
     fontSize: 30,
     paddingBottom: 10,
-    fontWeight: '300',
+    fontWeight: "300",
   },
   heroText: {
     color: globalColors.lightText,
     fontSize: 40,
-    fontWeight: '300',
+    fontWeight: "300",
   },
   sectionStartText: {
     color: globalColors.lightText,
     fontSize: 16,
-    fontWeight: '300',
+    fontWeight: "300",
   },
   importantText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   titleTextContainer: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    alignItems: "flex-start",
     marginBottom: 20,
     borderBottomWidth: 1,
     borderColor: globalColors.subtleSeparator,
@@ -101,7 +107,7 @@ export const globalStyles = StyleSheet.create<Styles>({
   },
   bevLine: {
     flex: -1,
-    flexDirection: 'row',
+    flexDirection: "row",
     borderBottomWidth: 1,
     borderColor: globalColors.subtleSeparator,
     paddingBottom: 10,
@@ -109,22 +115,22 @@ export const globalStyles = StyleSheet.create<Styles>({
   },
   bevLineNoSep: {
     flex: -1,
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingBottom: 10,
   },
   bevLineNoSepWithMargin: {
     flex: -1,
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingBottom: 10,
     marginBottom: 15,
   },
   bevLastLine: {
     flex: -1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   bevLineTextTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   bevLineText: {
     fontSize: 20,
@@ -135,18 +141,18 @@ export const globalStyles = StyleSheet.create<Styles>({
   },
   bevLineLeft: {
     flex: -1,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    alignItems: "flex-start",
+    justifyContent: "center",
   },
   bevLineRight: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "flex-end",
+    alignItems: "center",
+    flexDirection: "row",
   },
   bevLineWideRight: {
     flex: 2,
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
     paddingRight: 10,
   },
   bevIcon: {
@@ -157,7 +163,7 @@ export const globalStyles = StyleSheet.create<Styles>({
   bevTipText: {
     color: "#888888",
     fontSize: 10,
-  }
+  },
 });
 
 const animationDuration = 80;
@@ -165,14 +171,12 @@ const animationDuration = 80;
 const defaultAnimation = {
   type: LayoutAnimation.Types.easeInEaseOut,
   property: LayoutAnimation.Properties.opacity,
-}
+};
 
 export const BevLayoutAnimation = () => {
-  LayoutAnimation.configureNext(
-    {
-      duration: animationDuration,
-      create: defaultAnimation,
-      update: defaultAnimation,
-    }
-  )
-}
+  LayoutAnimation.configureNext({
+    duration: animationDuration,
+    create: defaultAnimation,
+    update: defaultAnimation,
+  });
+};
