@@ -69,7 +69,7 @@ export function* firebaseFacebookLogin(action) {
       },
     });
 
-    yield call(updateFirebaseUser);
+    yield call(updateFirebaseUser, {});
   } catch (e) {
     yield put({ type: "FAILED_FIREBASE_LOGIN" });
   }
