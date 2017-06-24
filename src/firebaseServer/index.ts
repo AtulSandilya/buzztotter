@@ -252,7 +252,7 @@ const PurchaseQueue = new Queue(db.getRef(PurchaseQueueUrl), (data, progress, re
       }
 
       /* tslint:disable:max-line-length */
-      const purchaseDescription = `Sent ${purchaseQuantity} bevegram${purchaseQuantity !== 1 ? "s" : ""} to ${receiver.fullName}`;
+      const purchaseDescription = `BuzzOtter: Sent ${purchaseQuantity} bevegram${purchaseQuantity !== 1 ? "s" : ""} to ${receiver.fullName}`;
       const chargeResponse = await stripe.promiseCreditCardPurchase(userStripeId, purchasePrice, purchaseDescription);
 
       status.creditCardTransaction = "complete";

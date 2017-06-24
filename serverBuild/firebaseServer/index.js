@@ -182,7 +182,7 @@ matchingPurchasePackage.length!==1)){_context5.next=29;break;}throw(
 new QueueServerError("Invalid Purchase Details"));case 29:
 
 
-purchaseDescription="Sent "+purchaseQuantity+" bevegram"+(purchaseQuantity!==1?"s":"")+" to "+receiver.fullName;_context5.next=32;return(
+purchaseDescription="BuzzOtter: Sent "+purchaseQuantity+" bevegram"+(purchaseQuantity!==1?"s":"")+" to "+receiver.fullName;_context5.next=32;return(
 stripe.promiseCreditCardPurchase(userStripeId,purchasePrice,purchaseDescription));case 32:chargeResponse=_context5.sent;
 status.creditCardTransaction="complete";
 status.updatingDatabase="inProgress";_context5.next=37;return(
