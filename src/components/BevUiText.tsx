@@ -1,10 +1,12 @@
 import * as React from "react";
 import { Component } from "react";
-import { Text, View, ViewStyle } from "react-native";
+import { StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import theme from "../theme";
+
+import {globalColors} from "./GlobalStyles";
 
 interface BevUiTextProps {
   children?: React.ReactChild;
@@ -12,6 +14,7 @@ interface BevUiTextProps {
   icon?: string;
   iconSize?: "large" | "normal";
   iconBold?: boolean;
+  isButton?: boolean;
   morePaddingAfterIcon?: boolean;
   style?: ViewStyle;
   color?: string;
@@ -47,6 +50,14 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
       style={[
         { flex: -1, flexDirection: "row", alignItems: "center" },
         props.style,
+        props.isButton
+          ? {
+              borderColor: color,
+              borderRadius: 3,
+              borderWidth: StyleSheet.hairlineWidth,
+              padding: 7,
+            }
+          : {},
       ]}
     >
       {props.icon
