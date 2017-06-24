@@ -143,6 +143,7 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
 
                 if (shouldDismissKeyboard) {
                   Keyboard.dismiss();
+                  goBackRoute();
                 } else {
                   goBackRoute();
                 }
