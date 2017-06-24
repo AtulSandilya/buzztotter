@@ -78,6 +78,7 @@ interface PurchaseBevegramProps {
   attemptingSend: boolean;
   completedSend: boolean;
   isRefreshing: boolean;
+  message: string;
   resetPurchase();
   closePurchaseRoute();
   goToAddCreditCardRoute();
@@ -88,6 +89,7 @@ interface PurchaseBevegramProps {
   sendBevegram(SendActionData, InProgressData): void;
   purchaseAndSend(PurchaseActionData, SendActionData, InProgressData): void;
   getUser();
+  goToMessageRoute(name: string): void;
 }
 
 interface PurchaseBevegramState {
@@ -347,24 +349,34 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
 
   private renderMessageLine() {
     return (
-      <View style={{flex: 1}}>
-        <View style={globalStyles.bevLineNoSep}>
-          <Text style={globalStyles.bevLineTextTitle}>Message:</Text>
-          <Text style={globalStyles.bevLineText}> (Optional)</Text>
-        </View>
-        <View style={globalStyles.bevLine}>
-          <TextInput
-            placeholder={"Happy Birthday! Have a cold one on me!"}
-            placeholderTextColor={"#cccccc"}
-            style={{
-              flex: 1,
-              height: 45,
-            }}
-            onChangeText={(text) => {
-              this.updateState("message", text);
-            }}
-          />
-        </View>
+      <View style={[globalStyles.bevLine]}>
+        <TouchableHighlight
+          underlayColor={"transparent"}
+          style={{
+            flex: 1,
+            flexDirection: "row",
+          }}
+          onPress={() => {
+            this.props.goToMessageRoute(this.props.fullName);
+          }}
+        >
+          <View style={{flex: 1, flexDirection: "row"}}>
+            <View style={[globalStyles.bevLineLeft, {flex: 2}]}>
+              <Text
+                style={[globalStyles.bevLineTextTitle, {
+                  fontWeight: "normal",
+              }]}>
+                {!this.props.message
+                  ? "Add Message"
+                  : "Edit Message..."
+                }
+              </Text>
+            </View>
+            <View style={globalStyles.bevLineRight}>
+              <Ionicon name="ios-arrow-forward" size={35} />
+            </View>
+          </View>
+        </TouchableHighlight>
       </View>
     );
   }

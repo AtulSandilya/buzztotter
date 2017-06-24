@@ -11,6 +11,7 @@ import { historyView        } from "./historyView";
 import { locations          } from "./locations";
 import { locationsView      } from "./locationsView";
 import { login              } from "./login";
+import { message            } from "./message";
 import { modals             } from "./modals";
 import { purchase           } from "./purchase";
 import { purchasedBevegrams } from "./purchasedBevegrams";
@@ -35,6 +36,7 @@ const appReducer = combineReducers({
   locations,
   locationsView,
   login,
+  message,
   modals,
   purchase,
   purchasedBevegrams,

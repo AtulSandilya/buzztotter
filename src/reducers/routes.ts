@@ -22,6 +22,7 @@ export interface RouteState {
   MainUi: RouteData;
   Login: RouteData;
   LocationDetail: RouteData;
+  Message: RouteData;
 }
 
 interface RouteData {
@@ -75,6 +76,10 @@ const defaultRouteState: RouteState = {
     data: {},
   },
   LocationDetail: {
+    isActive: false,
+    data: {},
+  },
+  Message: {
     isActive: false,
     data: {},
   },

@@ -25,6 +25,7 @@ import CAddCreditCard from "../containers/CAddCreditCard";
 import CBranding from "../containers/CBranding";
 import CLocationDetail from "../containers/CLocationDetail";
 import CLogin from "../containers/CLogin";
+import CMessage from "../containers/CMessage";
 import CPurchaseAndOrSendInProgress from "../containers/CPurchaseAndOrSendInProgress";
 import CPurchaseBevegram from "../containers/CPurchaseBevegram";
 import CRedeemBeer from "../containers/CRedeemBeer";
@@ -133,6 +134,16 @@ const scenes = (showLogin) => {
             <CBranding
               showBack={true}
               navBarText="Location Detail"
+            />
+          )}
+        />
+        <Scene
+          key="Message"
+          component={CMessage}
+          navBar={() => (
+            <CBranding
+              showBack={true}
+              navBarText="Message"
             />
           )}
         />

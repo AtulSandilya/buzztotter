@@ -176,6 +176,8 @@ export interface RedeemTransactionStatus extends TransactionStatus {
 //  End RedeemTransactionStatus ----------------------------------------}}}
 //  Sent Bevegram ------------------------------------------------------{{{
 
+export const MESSAGE_MAX_CHARS = 1000;
+
 export interface SentBevegram {
   purchasedBevegramId: string;
   quantity: number;

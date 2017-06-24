@@ -30,6 +30,7 @@ const mapStateToProps = state => {
     selectedPurchasePackageIndex: state.purchase.selectedPurchasePackageIndex,
     attemptingSend: state.purchase.attemptingSend,
     completedSend: state.purchase.completedSend,
+    message: state.message.message,
   };
 };
 
@@ -102,6 +103,14 @@ const mapDispatchToProps = dispatch => {
     },
     getUser: () => {
       dispatch({ type: "PURCHASE_REQUEST_UPDATE_USER" });
+    },
+    goToMessageRoute: (name) => {
+      dispatch({type: "GO_TO_ROUTE", payload: {
+        route: "Message",
+        routeData: {
+          name,
+        },
+      }});
     },
   };
 };
