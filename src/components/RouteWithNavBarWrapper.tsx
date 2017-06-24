@@ -14,6 +14,7 @@ interface RouteWithNavBarWrapperProps {
   children?: React.ReactChild;
   isRefreshing?: boolean;
   refreshText?: string;
+  dismissKeyboardOnTouchOutsideKeyboard?: boolean;
   refreshAction?: () => void;
 }
 
@@ -51,6 +52,7 @@ const RouteWithNavBarWrapper: React.StatelessComponent<RouteWithNavBarWrapperPro
       style={containerStyle}
       extraScrollHeight={extraScrollHeight}
       refreshControl={thisRefreshControl}
+      keyboardShouldPersistTaps={props.dismissKeyboardOnTouchOutsideKeyboard ? "never" : "always"}
     >
       {props.children}
     </KeyboardAwareScrollView>

@@ -533,6 +533,7 @@ export default class PurchaseBevegram extends Component<PurchaseBevegramProps, P
             refreshAction={this.props.getUser}
             isRefreshing={this.props.isRefreshing}
             refreshText={"Updating..."}
+            dismissKeyboardOnTouchOutsideKeyboard={true}
           >
             <View style={[globalStyles.bevContainer]}>
               {this.renderSendOptions()}
