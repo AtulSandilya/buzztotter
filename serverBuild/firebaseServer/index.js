@@ -403,32 +403,30 @@ _this4.name="QueueServerError";return _this4;
 
 
 
-var shutdownQueue=function shutdownQueue(){
-var shutdownStart=Date.now();
+var shutdownQueue=function shutdownQueue(){return __awaiter(_this,void 0,void 0,_regenerator2.default.mark(function _callee11(){var shutdownStart,addCardToCustomerShutdown,removeCardFromCustomerShutdown,updateDefaultCardShutdown,purchaseShutdown,redeemShutdown,toggleNotificationShutdown;return _regenerator2.default.wrap(function _callee11$(_context11){while(1){switch(_context11.prev=_context11.next){case 0:
+shutdownStart=Date.now();
 console.log("Gracefully shutting down queue...");
-var addCardToCustomerShutdown=AddCardToCustomerQueue.shutdown();
-var removeCardFromCustomerShutdown=RemoveCardFromCustomerQueue.shutdown();
-var updateDefaultCardShutdown=UpdateDefaultCardQueue.shutdown();
-var purchaseShutdown=PurchaseQueue.shutdown();
-var redeemShutdown=RedeemQueue.shutdown();
-var toggleNotificationShutdown=ToggleNotificationSettingQueue.shutdown();
+addCardToCustomerShutdown=AddCardToCustomerQueue.shutdown();
+removeCardFromCustomerShutdown=RemoveCardFromCustomerQueue.shutdown();
+updateDefaultCardShutdown=UpdateDefaultCardQueue.shutdown();
+purchaseShutdown=PurchaseQueue.shutdown();
+redeemShutdown=RedeemQueue.shutdown();
+toggleNotificationShutdown=ToggleNotificationSettingQueue.shutdown();_context11.next=10;return(
 Promise.all([
 addCardToCustomerShutdown,
 removeCardFromCustomerShutdown,
 updateDefaultCardShutdown,
 purchaseShutdown,
 redeemShutdown,
-toggleNotificationShutdown]).
-then(function(vals){
+toggleNotificationShutdown]));case 10:
+
 console.log("Queue shutdown completed in "+(Date.now()-shutdownStart)+"ms!");
-process.exit(0);
-});
-};
+process.exit(0);case 12:case"end":return _context11.stop();}}},_callee11,this);}));};
 
-process.on("SIGINT",function(){
-shutdownQueue();
-});
 
-process.on("SIGTERM",function(){
-shutdownQueue();
-});
+process.on("SIGINT",function(){return __awaiter(_this,void 0,void 0,_regenerator2.default.mark(function _callee12(){return _regenerator2.default.wrap(function _callee12$(_context12){while(1){switch(_context12.prev=_context12.next){case 0:_context12.next=2;return(
+shutdownQueue());case 2:case"end":return _context12.stop();}}},_callee12,this);}));});
+
+
+process.on("SIGTERM",function(){return __awaiter(_this,void 0,void 0,_regenerator2.default.mark(function _callee13(){return _regenerator2.default.wrap(function _callee13$(_context13){while(1){switch(_context13.prev=_context13.next){case 0:_context13.next=2;return(
+shutdownQueue());case 2:case"end":return _context13.stop();}}},_callee13,this);}));});

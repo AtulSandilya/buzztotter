@@ -522,7 +522,7 @@ class QueueServerError extends Error {
 //  End Utils ----------------------------------------------------------}}}
 //  Shutdown ------------------------------------------------------------{{{
 
-const shutdownQueue = () => {
+const shutdownQueue = async () => {
   const shutdownStart = Date.now();
   console.log("Gracefully shutting down queue...");
   const addCardToCustomerShutdown = AddCardToCustomerQueue.shutdown();
@@ -532,27 +532,27 @@ const shutdownQueue = () => {
   const redeemShutdown = RedeemQueue.shutdown();
   const toggleNotificationShutdown = ToggleNotificationSettingQueue.shutdown();
 
-  Promise.all([
+  await Promise.all([
     addCardToCustomerShutdown,
     removeCardFromCustomerShutdown,
     updateDefaultCardShutdown,
     purchaseShutdown,
     redeemShutdown,
     toggleNotificationShutdown,
-  ]).then((vals) => {
-    console.log(`Queue shutdown completed in ${Date.now() - shutdownStart}ms!`);
-    process.exit(0);
-  });
+  ]);
+
+  console.log(`Queue shutdown completed in ${Date.now() - shutdownStart}ms!`);
+  process.exit(0);
 };
 
 // When pressing <C-c> on the command line
-process.on("SIGINT", () => {
-  shutdownQueue();
+process.on("SIGINT", async () => {
+  await shutdownQueue();
 });
 
 // Signal heroku sends to terminate the node process
-process.on("SIGTERM", () => {
-  shutdownQueue();
+process.on("SIGTERM", async () => {
+  await shutdownQueue();
 });
 
 //  End Shutdown --------------------------------------------------------}}}
