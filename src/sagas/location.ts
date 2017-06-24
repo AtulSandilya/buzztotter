@@ -88,7 +88,17 @@ export function* getLocationsNearUser() {
 }
 
 let oneTimeLocationUsage = false;
+let lastSuccessfulFetch: number;
+let lastSuccessfulLocation;
 export function* getLocationsAtUserLocation() {
+
+  const msElapsedBeforeLocationCheckRequired = 45000;
+  const hasLastSuccessfulLocation = lastSuccessfulFetch && lastSuccessfulLocation;
+  const locationFetchNotRequired = (hasLastSuccessfulLocation && ((Date.now() - lastSuccessfulFetch) < msElapsedBeforeLocationCheckRequired));
+
+  if (locationFetchNotRequired) {
+    return lastSuccessfulLocation;
+  }
 
   const currentLocationSetting = yield select<{settings: Settings}>(state => state.settings.location);
   if (!currentLocationSetting && !oneTimeLocationUsage) {
@@ -207,10 +217,15 @@ export function* getLocationsAtUserLocation() {
         },
       });
 
-      return {
+      const result = {
         ...loc,
         vendorId: locationKeysAtUserLocation[0],
       };
+
+      lastSuccessfulFetch = Date.now();
+      lastSuccessfulLocation = result;
+
+      return result;
     }
   }
 }
