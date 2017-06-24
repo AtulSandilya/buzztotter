@@ -108,7 +108,7 @@ export const globalStyles = StyleSheet.create<Styles>({
   bevLine: {
     flex: -1,
     flexDirection: "row",
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: globalColors.subtleSeparator,
     paddingBottom: 10,
     marginBottom: 15,
