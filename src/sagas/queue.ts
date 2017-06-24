@@ -98,7 +98,7 @@ export function *purchase(action: any) {
     purchasePackageForQueue.promoCode = promoCode;
   }
 
-  const message = sendBevegramData.message;
+  const message = yield select<{message: any}>(state => state.message.message);
   if (message && message.length > 0) {
     purchasePackageForQueue.message = message;
   }
