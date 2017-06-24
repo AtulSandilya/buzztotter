@@ -58,6 +58,7 @@ exports[`Contact component renders correctly 1`] = `
             Object {
               "paddingLeft": 15,
             },
+            Object {},
           ]
         }>
         <View

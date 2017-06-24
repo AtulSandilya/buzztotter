@@ -68,6 +68,7 @@ exports[`test renders correctly 1`] = `
                 "flexDirection": "row",
               },
               undefined,
+              Object {},
             ]
           }>
           <View
