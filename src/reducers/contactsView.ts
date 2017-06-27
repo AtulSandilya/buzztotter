@@ -1,4 +1,10 @@
-export type ContactsSortingMethod = "Upcoming Birthday" | "First Name" | "Last Name" | "Search"
+/* tslint:disable:object-literal-sort-keys */
+
+export type ContactsSortingMethod =
+  | "Upcoming Birthday"
+  | "First Name"
+  | "Last Name"
+  | "Search";
 
 interface ContactsSortObject {
   UpcomingBirthday: ContactsSortingMethod;
@@ -8,11 +14,11 @@ interface ContactsSortObject {
 }
 
 export const ContactsSort: ContactsSortObject = {
-  UpcomingBirthday:  "Upcoming Birthday",
+  UpcomingBirthday: "Upcoming Birthday",
   FirstName: "First Name",
   LastName: "Last Name",
   Search: "Search",
-}
+};
 
 export interface ContactsSortOptionsViewLine {
   name: ContactsSortingMethod;
@@ -22,17 +28,17 @@ export interface ContactsSortOptionsViewLine {
 export const ContactsSortOptionsViewList: ContactsSortOptionsViewLine[] = [
   {
     name: ContactsSort.UpcomingBirthday,
-    icon: "birthday-cake"
+    icon: "birthday-cake",
   },
   {
     name: ContactsSort.FirstName,
-    icon: "sort-alpha-asc"
+    icon: "sort-alpha-asc",
   },
   {
     name: ContactsSort.LastName,
-    icon: "sort-alpha-asc"
+    icon: "sort-alpha-asc",
   },
-]
+];
 
 interface ContactsViewState {
   sortingMethod: ContactsSortingMethod;
@@ -49,33 +55,39 @@ const initialState: ContactsViewState = {
 };
 
 export const contactsView = (state = initialState, action) => {
-  switch(action.type){
-    case 'CHANGE_CONTACTS_SORT_METHOD':
-      return Object.assign({}, state, {
+  switch (action.type) {
+    case "CHANGE_CONTACTS_SORT_METHOD":
+      return {
+        ...state,
         sortingMethod: action.payload.newSortingMethod,
-      })
-    case 'UPDATE_CONTACTS_VIEW_SEARCH_QUERY':
-      return Object.assign({}, state, {
+      };
+    case "UPDATE_CONTACTS_VIEW_SEARCH_QUERY":
+      return {
+        ...state,
         searchQuery: action.payload.newQuery,
         sortingMethod: ContactsSort.Search,
-      })
+      };
     case "ENTERED_SEARCH_INPUT":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         searchInputIsFocused: true,
-      })
+      };
     case "EXITED_SEARCH_INPUT":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         searchInputIsFocused: false,
-      })
-    case 'SHOW_SORT_OPTIONS':
-      return Object.assign({}, state, {
+      };
+    case "SHOW_SORT_OPTIONS":
+      return {
+        ...state,
         isSortOptionsVisible: true,
-      })
-    case 'HIDE_SORT_OPTIONS':
-      return Object.assign({}, state, {
+      };
+    case "HIDE_SORT_OPTIONS":
+      return {
+        ...state,
         isSortOptionsVisible: false,
-      })
+      };
     default:
       return state;
   }
-}
+};
