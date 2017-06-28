@@ -118,6 +118,10 @@ const deployHeroku = async () => {
   }
 };
 
+const writePurchasePackages = async () => {
+  await runCommandAsync("npm run-script writePurchasePackages -- --both");
+};
+
 const formatDuration = (startInUnixMs: number): string => {
   const timeUnits = ["hours", "minutes", "seconds"];
   const dur = moment.duration(Date.now() - startInUnixMs);
@@ -160,6 +164,7 @@ const formatDuration = (startInUnixMs: number): string => {
 
     await checkAndroidBundleForEnvKeys(buzzPath);
 
+    await writePurchasePackages();
     await updateFirebaseRules();
     await deployHeroku();
 
