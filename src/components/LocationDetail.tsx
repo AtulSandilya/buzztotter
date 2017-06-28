@@ -108,7 +108,7 @@ const LocationDetail: React.StatelessComponent<LocationDetailProps> = props => {
             paddingVertical: 10,
           }}
         >
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: -1, paddingRight: 15 }}>
             <Text style={[globalStyles.sectionStartText, { paddingBottom: 8 }]}>
               Typical Hours:
             </Text>
