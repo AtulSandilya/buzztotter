@@ -5,9 +5,7 @@ import * as prompt from "./prompt";
 import {config} from "dotenv";
 config();
 
-import SetupAdminDb from "../firebaseServer/SetupAdminDb";
-import FirebaseAdminDb from "./FirebaseAdminDb";
-import parseEnv from "./parseEnv";
+import SetupMultipleAdminDatabases from "./SetupMultipleAdminDatabases";
 
 import {
   BasicLocation,
@@ -18,7 +16,7 @@ import {
 import * as child_process from "child_process";
 const exec = child_process.execSync;
 
-const dbs = [];
+let dbs = [];
 
 /* tslint:disable:no-console */
 //  Google Maps ---------------------------------------------------------{{{
@@ -416,23 +414,7 @@ const enablePurchasingAtLocation = async (basicLocation: BasicLocation) => {
 
 const main = async () => {
   /* tslint:disable:object-literal-sort-keys */
-  const dbChoice = await prompt.getChoice("What database are we changing", ["dev", "production", "both"]);
-
-  const env = parseEnv();
-  switch (dbChoice) {
-    case "dev":
-      dbs.push(new FirebaseAdminDb(SetupAdminDb(env.dev)));
-      break;
-    case "production":
-      dbs.push(new FirebaseAdminDb(SetupAdminDb(env.production)));
-      break;
-    case "both":
-      dbs.push(new FirebaseAdminDb(SetupAdminDb(env.dev)));
-      // The second argument gives a name to the db after the default db has
-      // been created. This is a requirement imposed by firebase.
-      dbs.push(new FirebaseAdminDb(SetupAdminDb(env.production, "production")));
-      break;
-  }
+  dbs = await SetupMultipleAdminDatabases();
 
   const locationActions = {
     addLocation: "Add Location",
