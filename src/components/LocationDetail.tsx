@@ -113,13 +113,14 @@ const LocationDetail: React.StatelessComponent<LocationDetailProps> = props => {
               Typical Hours:
             </Text>
             {loc.typicalHours.map((dayHours, index) => {
+              const isToday = index === new Date().getDay();
               return (
                 <BevUiText
-                  icon="clock-o"
+                  icon={isToday ? "chevron-right" : "clock-o"}
                   key={dayHours}
                   fontSize="large"
                   style={{ paddingBottom: 8 }}
-                  iconBold={index === new Date().getDay()}
+                  iconBold={isToday}
                 >
                   {FormatDayHours(dayHours)}
                 </BevUiText>
