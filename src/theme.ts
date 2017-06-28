@@ -8,7 +8,9 @@ const theme = {
     // Light Brown
     bevActiveSecondary: "#AC9774",
     success: "#4BB543",
+    successBg: "#188210",
     failure: "#FF0033",
+    failureBg: "#770000",
     uiTextColor: "#999999",
     uiBoldTextColor: "#555555",
     uiLight: "#cccccc",
