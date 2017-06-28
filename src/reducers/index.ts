@@ -1,5 +1,7 @@
 import { combineReducers } from "redux";
 
+import { reducer as network } from "react-native-offline";
+
 import { addCreditCard      } from "./addCreditCard";
 import { app                } from "./app";
 import { badges             } from "./badges";
@@ -38,6 +40,7 @@ const appReducer = combineReducers({
   login,
   message,
   modals,
+  network,
   purchase,
   purchasedBevegrams,
   receivedBevegrams,
