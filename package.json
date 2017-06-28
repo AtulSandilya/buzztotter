@@ -11,7 +11,8 @@
     "incrementVersion": "node utils/incrementVersion.js",
     "deployFirebaseDbRules": "ts-node --no-cache -P tsconfig-admin.json src/admin/deployFirebaseDbRules.ts",
     "buildProductionRelease": "ts-node --no-cache -P tsconfig-admin.json src/admin/buildProductionRelease.ts",
-    "editLocations": "ts-node --no-cache -P tsconfig-admin.json src/admin/editLocations.ts"
+    "editLocations": "ts-node --no-cache -P tsconfig-admin.json src/admin/editLocations.ts",
+    "writePurchasePackages": "ts-node --no-cache -P tsconfig-admin.json src/admin/writePurchasePackages.ts"
   },
   "dependencies": {
     "dotenv": "^4.0.0",

@@ -9,6 +9,7 @@ import {
 import {
   BasicLocation,
   Location,
+  PurchasePackage,
   Vendor,
 } from "../db/tables";
 
@@ -167,6 +168,13 @@ class FirebaseAdminDb extends FirebaseDb {
   }
 
 //  End Location List ---------------------------------------------------}}}
+//  Purchase Packages ---------------------------------------------------{{{
+
+  public writePurchasePackage = async (purchasePackage: PurchasePackage[]) => {
+    await this.writeNode(DbSchema.GetPurchasePackagesDbUrl(), purchasePackage);
+  }
+
+//  End Purchase Packages -----------------------------------------------}}}
 }
 
 export default FirebaseAdminDb;
