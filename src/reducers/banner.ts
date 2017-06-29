@@ -1,15 +1,15 @@
-export type BannerTypes = "alert" | "success" | "message";
+export type BannerStyle = "alert" | "success" | "message";
 
 export interface BannerProps {
   show: boolean;
   message: string;
-  type: BannerTypes;
+  style: BannerStyle;
 }
 
 const defaultState: BannerProps = {
   message: "",
   show: false,
-  type: "message",
+  style: "message",
 };
 
 export const banner = (state = defaultState, action): BannerProps => {
@@ -19,7 +19,7 @@ export const banner = (state = defaultState, action): BannerProps => {
         ...state,
         message: "No Internet Connection",
         show: true,
-        type: "alert",
+        style: "alert",
       };
     case "HIDE_BANNER":
       return {
