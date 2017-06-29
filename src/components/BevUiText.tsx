@@ -6,13 +6,15 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import theme from "../theme";
 
-import {globalColors} from "./GlobalStyles";
+import { globalColors } from "./GlobalStyles";
+
+type BevUiSizeType = "huge" | "large" | "normal" | "small";
 
 interface BevUiTextProps {
   children?: React.ReactChild;
-  fontSize?: "large" | "normal";
+  fontSize?: BevUiSizeType;
   icon?: string;
-  iconSize?: "large" | "normal";
+  iconSize?: BevUiSizeType;
   iconBold?: boolean;
   isButton?: boolean;
   morePaddingAfterIcon?: boolean;
@@ -21,18 +23,39 @@ interface BevUiTextProps {
   preserveCase?: boolean;
 }
 
-const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
-  const normalFontSize = 9;
-  const fontLargeMultiplier = 1.25;
-  const fontSize = props.fontSize === "large"
-    ? normalFontSize * fontLargeMultiplier
-    : normalFontSize;
+const baseSize = 9;
+const multiplier = 1.25;
+const iconMultiplier = 1.5;
 
-  const iconNormalMultiplier = 1.25;
-  const iconLargeMultiplier = 2;
-  const iconSize = props.iconSize === "large"
-    ? fontSize * iconLargeMultiplier
-    : fontSize * iconNormalMultiplier;
+const calcSize = (size: BevUiSizeType, context: "font" | "icon"): number => {
+  let result: number;
+
+  /* tslint:disable:no-magic-numbers */
+  switch (size) {
+    case "huge":
+      result = baseSize * Math.pow(multiplier, 2);
+      break;
+    case "large":
+      result = baseSize * Math.pow(multiplier, 1);
+      break;
+    case "small":
+      result = baseSize / Math.pow(multiplier, 2);
+      break;
+    default:
+    case "normal":
+      result = baseSize;
+      break;
+  }
+
+  return Math.round(result * (context === "icon" ? iconMultiplier : 1));
+};
+
+const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
+  const fontSize = calcSize(props.fontSize, "font");
+  const iconSize = calcSize(
+    props.iconSize ? props.iconSize : props.fontSize,
+    "icon",
+  );
 
   const iconStyle = props.icon ? { paddingLeft: 8 } : undefined;
   const text = typeof props.children !== "string"
@@ -69,14 +92,13 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
             style={{
               alignItems: "center",
               marginRight: props.morePaddingAfterIcon ? 10 : 4,
-              width: iconSize * iconNormalMultiplier,
+              width: iconSize,
             }}
           >
             <FontAwesome
               name={props.icon}
               style={{
                 color,
-                fontSize: iconSize,
               }}
             />
           </View>
