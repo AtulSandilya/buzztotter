@@ -5,6 +5,7 @@ import { reducer as network } from "react-native-offline";
 import { addCreditCard      } from "./addCreditCard";
 import { app                } from "./app";
 import { badges             } from "./badges";
+import { banners            } from "./banners";
 import { bevegrams          } from "./bevegrams";
 import { bevegramsTab       } from "./bevegramsTab";
 import { contacts           } from "./contacts";
@@ -30,6 +31,7 @@ const appReducer = combineReducers({
   addCreditCard,
   app,
   badges,
+  banners,
   bevegrams,
   bevegramsTab,
   contacts,
