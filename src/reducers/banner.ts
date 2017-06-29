@@ -1,14 +1,14 @@
 export type BannerTypes = "alert" | "success" | "message";
 
 export interface BannerProps {
-  isVisible: boolean;
+  show: boolean;
   message: string;
   type: BannerTypes;
 }
 
 const defaultState: BannerProps = {
-  isVisible: false,
   message: "",
+  show: false,
   type: "message",
 };
 
@@ -17,14 +17,14 @@ export const banner = (state = defaultState, action): BannerProps => {
     case "SHOW_NO_INTERNET_CONNECTION_BANNER":
       return {
         ...state,
-        isVisible: true,
         message: "No Internet Connection",
+        show: true,
         type: "alert",
       };
     case "HIDE_BANNER":
       return {
         ...state,
-        isVisible: false,
+        show: false,
       };
     default:
       return state;
