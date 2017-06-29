@@ -18,6 +18,7 @@ interface BevUiTextProps {
   morePaddingAfterIcon?: boolean;
   style?: ViewStyle;
   color?: string;
+  preserveCase?: boolean;
 }
 
 const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
@@ -34,6 +35,9 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
     : fontSize * iconNormalMultiplier;
 
   const iconStyle = props.icon ? { paddingLeft: 8 } : undefined;
+  const text = typeof props.children !== "string"
+    ? ""
+    : props.preserveCase ? props.children : props.children.toUpperCase();
 
   let color: string;
 
@@ -83,7 +87,7 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
           fontSize,
         }}
       >
-        {typeof props.children === "string" ? props.children.toUpperCase() : ""}
+        {text}
       </Text>
     </View>
   );
