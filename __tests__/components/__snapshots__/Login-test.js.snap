@@ -1,0 +1,192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#8ED0BA",
+        "flex": 2,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Image
+      resizeMode="contain"
+      source={1}
+      style={
+        Object {
+          "height": 400.2,
+          "width": 600,
+        }
+      }
+    />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      disabled={false}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#333",
+          "fontSize": 25,
+          "marginTop": 35,
+        }
+      }
+    >
+      Sending Drinks Made Easy!
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flex": -1,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": -1,
+            "justifyContent": "center",
+            "marginTop": 0,
+          }
+        }
+      >
+        <View
+          accessibilityComponentType={undefined}
+          accessibilityLabel={undefined}
+          accessibilityTraits={undefined}
+          accessible={true}
+          hasTVPreferredFocus={undefined}
+          hitSlop={undefined}
+          isTVSelectable={true}
+          nativeID={undefined}
+          onLayout={undefined}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "backgroundColor": "transparent",
+              },
+              Array [
+                Object {
+                  "overflow": "hidden",
+                },
+                Object {
+                  "backgroundColor": "#3b5998",
+                  "borderRadius": 5,
+                },
+              ],
+            ]
+          }
+          testID={undefined}
+          tvParallaxProperties={undefined}
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "flex-start",
+                  "padding": 8,
+                },
+                Object {
+                  "backgroundColor": "#3b5998",
+                  "borderRadius": 5,
+                },
+                undefined,
+              ]
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={false}
+              disabled={false}
+              ellipsizeMode="tail"
+              onPress={undefined}
+              style={
+                Array [
+                  Object {
+                    "color": "white",
+                    "fontSize": 24,
+                  },
+                  Object {
+                    "marginRight": 10,
+                  },
+                  Object {
+                    "fontFamily": "Ionicons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                ]
+              }
+            >
+              
+            </Text>
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              disabled={false}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "backgroundColor": "transparent",
+                  "color": "#ffffff",
+                  "fontSize": 16,
+                  "fontWeight": "600",
+                }
+              }
+            >
+              Login with Facebook
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flex": -1,
+          "marginHorizontal": 30,
+          "marginTop": 30,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        disabled={false}
+        ellipsizeMode="tail"
+      >
+        * We only use your Contacts to send and receive Bevegrams. Your privacy is important to us. We promise to never share your information with anyone for any reason.
+      </Text>
+    </View>
+  </View>
+</View>
+`;
