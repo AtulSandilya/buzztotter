@@ -1,7 +1,9 @@
-import { Alert } from "react-native";
+import { Alert, ToastAndroid } from "react-native";
 
 import { delay } from "redux-saga";
 import { call, fork, put, select, take } from "redux-saga/effects";
+
+import { isAndroid } from "../ReactNativeUtilities";
 
 type internetErrorMessageTypes = "banner" | "alert" | "none";
 
@@ -16,7 +18,17 @@ export function* isConnected(
   if (!isConnected) {
     switch (errorType) {
       case "banner":
-        yield put({ type: "SHOW_NO_INTERNET_CONNECTION_BANNER" });
+        // Currently react-native (0.45.1) on Android doesn't support clipped
+        // views, a necessary requirement of `Banner`. The workaround is to
+        // use ToastAndroid and wait until Android supports `overflow: visible`
+        if (isAndroid) {
+          ToastAndroid.show(
+            "No Internet Connection!",
+            ToastAndroid.LONG,
+          );
+        } else {
+          yield put({ type: "SHOW_NO_INTERNET_CONNECTION_BANNER" });
+        }
         break;
       case "alert":
         if (PrettyAction) {
