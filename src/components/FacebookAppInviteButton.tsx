@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Component} from 'react';
-import {Text, View, } from 'react-native';
+import { Component } from "react";
+import { Text, View } from "react-native";
 
-import { AppInviteDialog } from 'react-native-fbsdk';
+import { AppInviteDialog } from "react-native-fbsdk";
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from "react-native-vector-icons/Ionicons";
 
 const FacebookAppInviteButton: React.StatelessComponent<{}> = () => {
   // TODO: Link this to the actual website
@@ -13,9 +13,9 @@ const FacebookAppInviteButton: React.StatelessComponent<{}> = () => {
   return (
     <View
       style={{
+        alignItems: "center",
         flex: -1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: "center",
         marginTop: 15,
       }}
     >
@@ -25,16 +25,15 @@ const FacebookAppInviteButton: React.StatelessComponent<{}> = () => {
         onPress={() => {
           AppInviteDialog.show({
             applinkUrl: appLinkUrl,
-          })
-          .then((result) => {
+          }).then(result => {
             return true;
-          })
+          });
         }}
       >
         Invite Friends
       </Icon.Button>
     </View>
-  )
-}
+  );
+};
 
 export default FacebookAppInviteButton;
