@@ -4,6 +4,7 @@ export interface BannerProps {
   show: boolean;
   message: string;
   style: BannerStyle;
+  fontAwesomeIcon?: string;
 }
 
 const defaultState: BannerProps = {
