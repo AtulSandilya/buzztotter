@@ -36,7 +36,10 @@ import * as notifications from "./notifications";
 import { getLocationsAtUserLocation, getLocationsNearUser } from "./location";
 
 import * as internet from "./internet";
-import { takeEveryIfInternetConnected } from "./internet";
+import {
+  InternetNotConnectedError,
+  takeEveryIfInternetConnected,
+} from "./internet";
 import * as settings from "./settings";
 
 import * as ReactNativeUtil from "../ReactNativeUtilities";
@@ -71,7 +74,7 @@ export default function* rootSaga() {
         try {
           const facebookAccessToken = yield call(facebook.login);
           if (!facebookAccessToken) {
-            throw new Error(loginFailedMessage);
+            throw new InternetNotConnectedError(loginFailedMessage);
           }
           yield call(goToRoute, { payload: { route: "MainUi" } });
           // Facebook user info is required to properly initialize a firebase user
@@ -91,7 +94,9 @@ export default function* rootSaga() {
             yield call(getLocationsNearUser),
           ]);
         } catch (e) {
-          if ((!e.message as any) === loginFailedMessage) {
+          if (e instanceof InternetNotConnectedError) {
+            // pass
+          } else {
             throw e;
           }
         } finally {
@@ -112,15 +117,17 @@ export default function* rootSaga() {
       // internet connectivity.
       try {
         if (!(yield call(internet.isConnected, "none") as any)) {
-          throw new Error(internetNotConnectedErrorMessage);
+          throw new InternetNotConnectedError(internetNotConnectedErrorMessage);
         }
         yield call(facebook.logout);
         yield call(notifications.stopListener);
         yield call(firebaseLogOut, action);
       } catch (e) {
-        if (!(e.message === internetNotConnectedErrorMessage)) {
-          throw e;
-        }
+          if (e instanceof InternetNotConnectedError) {
+            // pass
+          } else {
+            throw e;
+          }
       } finally {
         const delayBeforeLoadComplete = 10;
         yield put({ type: "RESET_STATE" });
