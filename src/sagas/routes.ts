@@ -12,10 +12,24 @@ import { isAndroid, isIOS } from "../ReactNativeUtilities";
 import { IsPurchaseAndOrSendCompleted } from "../components/PurchaseAndOrSendInProgress";
 
 import { updatePurchasePackages } from "./firebase";
+import * as internet from "./internet";
 
 /* tslint:disable:object-literal-sort-keys */
 export function* goToRoute(action) {
   const nextRoute = action.payload.route;
+  const routeState = yield select<{ routes: RouteState }>(state => state.routes);
+
+  const nextRouteState = routeState[nextRoute];
+
+  if (!nextRouteState) {
+    throw new Error(`Route '${nextRoute}' does not have a reducer!`);
+  }
+
+  if (nextRouteState.requiresInternetConnection) {
+    if (!(yield call(internet.isConnected, "alert", nextRouteState.prettyAction) as any)) {
+      return false;
+    }
+  }
 
   let nextRouteData = {};
   if (action.payload.routeData) {
@@ -35,6 +49,7 @@ export function* goToRoute(action) {
   if (nextRoute === "SendBevegram" || nextRoute === "PurchaseBevegram") {
     yield call(updatePurchasePackages);
   }
+  return true;
 }
 
 interface GoBackRoutePayloadProps {

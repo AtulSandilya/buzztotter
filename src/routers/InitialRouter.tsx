@@ -31,19 +31,21 @@ import CPurchaseBevegram from "../containers/CPurchaseBevegram";
 import CRedeemBeer from "../containers/CRedeemBeer";
 import CSettings from "../containers/CSettings";
 
+import {routeKeys as RouteNames} from "../reducers/routes";
+
 const scenes = (showLogin) => {
   return (
     Actions.create(
       <Scene key="root" hideNavBar={true}>
         <Scene
-          key="Login"
+          key={RouteNames.Login}
           hideNavBar={true}
           component={CLogin}
           panHandlers={null}
           initial={showLogin}
         />
         <Scene
-          key="MainUi"
+          key={RouteNames.MainUi}
           component={MainUi}
           panHandlers={null}
           initial={!showLogin}
@@ -56,7 +58,7 @@ const scenes = (showLogin) => {
           )}
         />
         <Scene
-          key="PurchaseBevegram"
+          key={RouteNames.PurchaseBevegram}
           component={CPurchaseBevegram}
           navBar={() => (
             <CBranding
@@ -66,7 +68,7 @@ const scenes = (showLogin) => {
           )}
         />
         <Scene
-          key="SendBevegram"
+          key={RouteNames.SendBevegram}
           component={CPurchaseBevegram}
           navBar={() => (
             <CBranding
@@ -76,7 +78,7 @@ const scenes = (showLogin) => {
           )}
         />
         <Scene
-          key="PurchaseInProgress"
+          key={RouteNames.PurchaseInProgress}
           component={CPurchaseAndOrSendInProgress}
           // Don"t let the user out of this view until it is complete
           panHandlers={null}
@@ -87,7 +89,7 @@ const scenes = (showLogin) => {
           )}
         />
         <Scene
-          key="SendInProgress"
+          key={RouteNames.SendInProgress}
           component={CPurchaseAndOrSendInProgress}
           // Don"t let the user out of this view until it is complete
           panHandlers={null}
@@ -98,7 +100,7 @@ const scenes = (showLogin) => {
           )}
         />
         <Scene
-          key="Settings"
+          key={RouteNames.Settings}
           component={CSettings}
           navBar={() => (
             <CBranding
@@ -108,7 +110,7 @@ const scenes = (showLogin) => {
           )}
         />
         <Scene
-          key="RedeemBeer"
+          key={RouteNames.RedeemBeer}
           component={CRedeemBeer}
           navBar={() => (
             <CBranding
@@ -118,7 +120,7 @@ const scenes = (showLogin) => {
           )}
         />
         <Scene
-          key="AddCreditCard"
+          key={RouteNames.AddCreditCard}
           component={CAddCreditCard}
           navBar={() => (
             <CBranding
@@ -128,7 +130,7 @@ const scenes = (showLogin) => {
           )}
         />
         <Scene
-          key="LocationDetail"
+          key={RouteNames.LocationDetail}
           component={CLocationDetail}
           navBar={() => (
             <CBranding
@@ -138,7 +140,7 @@ const scenes = (showLogin) => {
           )}
         />
         <Scene
-          key="Message"
+          key={RouteNames.Message}
           component={CMessage}
           navBar={() => (
             <CBranding

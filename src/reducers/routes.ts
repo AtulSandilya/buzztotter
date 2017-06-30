@@ -1,12 +1,16 @@
 /* tslint:disable:object-literal-sort-keys */
-const routeKeys = {
+export const routeKeys = {
+  AddCreditCard: "AddCreditCard",
+  LocationDetail: "LocationDetail",
   Login: "Login",
   MainUi: "MainUi",
-
+  Message: "Message",
   PurchaseBevegram: "PurchaseBevegram",
+  PurchaseInProgress: "PurchaseInProgress",
   RedeemBeer: "RedeemBeer",
+  SendBevegram: "SendBevegram",
+  SendInProgress: "SendInProgress",
   Settings: "Settings",
-  AddCreditCard: "AddCreditCard",
 };
 
 export interface RouteState {
@@ -29,6 +33,8 @@ interface RouteData {
   isActive: boolean;
   data: object;
   confirmed?: boolean;
+  requiresInternetConnection: boolean;
+  prettyAction?: string;
 }
 
 const defaultRouteState: RouteState = {
@@ -38,50 +44,67 @@ const defaultRouteState: RouteState = {
     isActive: false,
     data: {},
     confirmed: false,
+    requiresInternetConnection: true,
+    prettyAction: "Purchasing",
   },
   SendBevegram: {
     isActive: false,
     data: {},
     confirmed: false,
+    requiresInternetConnection: true,
+    prettyAction: "Sending",
   },
   PurchaseInProgress: {
     isActive: false,
     confirmed: false,
     data: {},
+    requiresInternetConnection: true,
+    prettyAction: "Purchasing",
   },
   SendInProgress: {
     isActive: false,
     confirmed: false,
     data: {},
+    requiresInternetConnection: true,
+    prettyAction: "Sending",
   },
   RedeemBeer: {
     isActive: false,
     data: {},
     confirmed: false,
+    requiresInternetConnection: true,
+    prettyAction: "Redeeming",
   },
   Settings: {
     isActive: false,
     data: {},
+    requiresInternetConnection: false,
   },
   AddCreditCard: {
     isActive: false,
     data: {},
+    requiresInternetConnection: true,
+    prettyAction: "Adding a Credit Card",
   },
   MainUi: {
     isActive: false,
     data: {},
+    requiresInternetConnection: false,
   },
   Login: {
     isActive: false,
     data: {},
+    requiresInternetConnection: false,
   },
   LocationDetail: {
     isActive: false,
     data: {},
+    requiresInternetConnection: false,
   },
   Message: {
     isActive: false,
     data: {},
+    requiresInternetConnection: false,
   },
 };
 
