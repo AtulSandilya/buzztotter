@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`Facebook Login Button renders correctly 1`] = `
 <View
   accessibilityComponentType={undefined}
@@ -7,6 +9,7 @@ exports[`Facebook Login Button renders correctly 1`] = `
   hasTVPreferredFocus={undefined}
   hitSlop={undefined}
   isTVSelectable={true}
+  nativeID={undefined}
   onLayout={undefined}
   onResponderGrant={[Function]}
   onResponderMove={[Function]}
@@ -31,7 +34,8 @@ exports[`Facebook Login Button renders correctly 1`] = `
     ]
   }
   testID={undefined}
-  tvParallaxProperties={undefined}>
+  tvParallaxProperties={undefined}
+>
   <View
     style={
       Array [
@@ -50,10 +54,12 @@ exports[`Facebook Login Button renders correctly 1`] = `
           "paddingVertical": 5,
         },
       ]
-    }>
+    }
+  >
     <Text
       accessible={true}
       allowFontScaling={false}
+      disabled={false}
       ellipsizeMode="tail"
       onPress={[Function]}
       style={
@@ -71,12 +77,14 @@ exports[`Facebook Login Button renders correctly 1`] = `
             "fontWeight": "normal",
           },
         ]
-      }>
+      }
+    >
       
     </Text>
     <Text
       accessible={true}
       allowFontScaling={true}
+      disabled={false}
       ellipsizeMode="tail"
       style={
         Object {
@@ -85,7 +93,8 @@ exports[`Facebook Login Button renders correctly 1`] = `
           "fontSize": 16,
           "fontWeight": "600",
         }
-      }>
+      }
+    >
       Login with Facebook
     </Text>
   </View>

@@ -1,4 +1,6 @@
-exports[`test renders correctly 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
 <View
   style={
     Object {
@@ -9,10 +11,12 @@ exports[`test renders correctly 1`] = `
       "flexDirection": "row",
       "marginBottom": 20,
     }
-  }>
+  }
+>
   <Text
     accessible={true}
     allowFontScaling={true}
+    disabled={false}
     ellipsizeMode="tail"
     style={
       Object {
@@ -21,7 +25,8 @@ exports[`test renders correctly 1`] = `
         "fontWeight": "300",
         "paddingBottom": 10,
       }
-    }>
+    }
+  >
     Title:
   </Text>
 </View>

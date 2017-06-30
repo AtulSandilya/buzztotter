@@ -1,17 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`CenteredModal component renders correctly 1`] = `
 <Modal
   animationType="fade"
   hardwareAccelerated={false}
   onRequestClose={[Function]}
   transparent={true}
-  visible={true}>
+  visible={true}
+>
   <View
     style={
       Object {
         "height": 1334,
         "width": 750,
       }
-    }>
+    }
+  >
     <View
       style={
         Object {
@@ -20,7 +24,8 @@ exports[`CenteredModal component renders correctly 1`] = `
           "width": 750,
           "zIndex": 1,
         }
-      }>
+      }
+    >
       <View
         accessibilityComponentType={undefined}
         accessibilityLabel={undefined}
@@ -29,6 +34,7 @@ exports[`CenteredModal component renders correctly 1`] = `
         hasTVPreferredFocus={undefined}
         hitSlop={undefined}
         isTVSelectable={true}
+        nativeID={undefined}
         onLayout={undefined}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
@@ -48,11 +54,14 @@ exports[`CenteredModal component renders correctly 1`] = `
           ]
         }
         testID={undefined}
-        tvParallaxProperties={undefined}>
+        tvParallaxProperties={undefined}
+      >
         <Text
           accessible={true}
           allowFontScaling={true}
-          ellipsizeMode="tail">
+          disabled={false}
+          ellipsizeMode="tail"
+        >
            
         </Text>
       </View>
@@ -68,14 +77,16 @@ exports[`CenteredModal component renders correctly 1`] = `
           "width": 675,
           "zIndex": 100,
         }
-      }>
+      }
+    >
       <RCTScrollView
         style={
           Object {
             "height": 1067.2,
             "zIndex": 100,
           }
-        }>
+        }
+      >
         <View />
       </RCTScrollView>
     </View>

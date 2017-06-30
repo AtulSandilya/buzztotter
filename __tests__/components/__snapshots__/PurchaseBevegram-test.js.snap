@@ -1,17 +1,21 @@
-exports[`test renders correctly 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
 <View
   style={
     Object {
       "flex": 1,
     }
-  }>
+  }
+>
   <View
     style={
       Object {
         "backgroundColor": "#ffffff",
         "flex": 1,
       }
-    }>
+    }
+  >
     <RCTScrollView
       contentInset={
         Object {
@@ -37,7 +41,8 @@ exports[`test renders correctly 1`] = `
           "top": 85,
           "width": 750,
         }
-      }>
+      }
+    >
       <View>
         <View
           style={
@@ -49,13 +54,15 @@ exports[`test renders correctly 1`] = `
                 "paddingTop": 15,
               },
             ]
-          }>
+          }
+        >
           <View
             style={
               Object {
                 "flex": 1,
               }
-            }>
+            }
+          >
             <View
               style={
                 Object {
@@ -66,7 +73,8 @@ exports[`test renders correctly 1`] = `
                   "marginBottom": 15,
                   "paddingBottom": 10,
                 }
-              }>
+              }
+            >
               <View
                 style={
                   Object {
@@ -74,17 +82,20 @@ exports[`test renders correctly 1`] = `
                     "flex": -1,
                     "justifyContent": "center",
                   }
-                }>
+                }
+              >
                 <Text
                   accessible={true}
                   allowFontScaling={true}
+                  disabled={false}
                   ellipsizeMode="tail"
                   style={
                     Object {
                       "fontSize": 20,
                       "fontWeight": "bold",
                     }
-                  }>
+                  }
+                >
                   Receipent:
                 </Text>
               </View>
@@ -96,7 +107,8 @@ exports[`test renders correctly 1`] = `
                     "flexDirection": "row",
                     "justifyContent": "flex-end",
                   }
-                }>
+                }
+              >
                 <Image
                   source={
                     Object {
@@ -109,16 +121,19 @@ exports[`test renders correctly 1`] = `
                       "marginRight": 10,
                       "width": 40,
                     }
-                  } />
+                  }
+                />
                 <Text
                   accessible={true}
                   allowFontScaling={true}
+                  disabled={false}
                   ellipsizeMode="tail"
                   style={
                     Object {
                       "fontSize": 20,
                     }
-                  }>
+                  }
+                >
                   Testy McTest
                 </Text>
               </View>
@@ -129,7 +144,8 @@ exports[`test renders correctly 1`] = `
               Object {
                 "flex": 1,
               }
-            }>
+            }
+          >
             <View
               accessibilityComponentType={undefined}
               accessibilityLabel={undefined}
@@ -138,6 +154,7 @@ exports[`test renders correctly 1`] = `
               hasTVPreferredFocus={undefined}
               hitSlop={undefined}
               isTVSelectable={true}
+              nativeID={undefined}
               onLayout={undefined}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
@@ -161,14 +178,16 @@ exports[`test renders correctly 1`] = `
                 ]
               }
               testID={undefined}
-              tvParallaxProperties={undefined}>
+              tvParallaxProperties={undefined}
+            >
               <View
                 style={
                   Object {
                     "flex": 1,
                     "flexDirection": "row",
                   }
-                }>
+                }
+              >
                 <View
                   style={
                     Array [
@@ -181,10 +200,12 @@ exports[`test renders correctly 1`] = `
                         "flexDirection": "row",
                       },
                     ]
-                  }>
+                  }
+                >
                   <Text
                     accessible={true}
                     allowFontScaling={false}
+                    disabled={false}
                     ellipsizeMode="tail"
                     style={
                       Array [
@@ -203,19 +224,22 @@ exports[`test renders correctly 1`] = `
                           "fontWeight": "normal",
                         },
                       ]
-                    }>
+                    }
+                  >
                     
                   </Text>
                   <Text
                     accessible={true}
                     allowFontScaling={true}
+                    disabled={false}
                     ellipsizeMode="tail"
                     style={
                       Object {
                         "fontSize": 20,
                         "fontWeight": "bold",
                       }
-                    }>
+                    }
+                  >
                     One
                   </Text>
                 </View>
@@ -227,16 +251,19 @@ exports[`test renders correctly 1`] = `
                       "flexDirection": "row",
                       "justifyContent": "flex-end",
                     }
-                  }>
+                  }
+                >
                   <Text
                     accessible={true}
                     allowFontScaling={true}
+                    disabled={false}
                     ellipsizeMode="tail"
                     style={
                       Object {
                         "fontSize": 20,
                       }
-                    }>
+                    }
+                  >
                     $ 0.07
                   </Text>
                 </View>
@@ -252,7 +279,8 @@ exports[`test renders correctly 1`] = `
                   "marginBottom": 15,
                   "paddingBottom": 10,
                 }
-              }>
+              }
+            >
               <View
                 style={
                   Object {
@@ -260,17 +288,20 @@ exports[`test renders correctly 1`] = `
                     "flex": -1,
                     "justifyContent": "center",
                   }
-                }>
+                }
+              >
                 <Text
                   accessible={true}
                   allowFontScaling={true}
+                  disabled={false}
                   ellipsizeMode="tail"
                   style={
                     Object {
                       "fontSize": 20,
                       "fontWeight": "bold",
                     }
-                  }>
+                  }
+                >
                   Promo Code:
                 </Text>
               </View>
@@ -282,7 +313,8 @@ exports[`test renders correctly 1`] = `
                     "flexDirection": "row",
                     "justifyContent": "flex-end",
                   }
-                }>
+                }
+              >
                 <TextInput
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -296,7 +328,8 @@ exports[`test renders correctly 1`] = `
                       "textAlign": "center",
                       "width": 65,
                     }
-                  } />
+                  }
+                />
               </View>
             </View>
             <View
@@ -311,7 +344,8 @@ exports[`test renders correctly 1`] = `
                     "paddingBottom": 10,
                   },
                 ]
-              }>
+              }
+            >
               <View
                 accessibilityComponentType={undefined}
                 accessibilityLabel={undefined}
@@ -320,6 +354,7 @@ exports[`test renders correctly 1`] = `
                 hasTVPreferredFocus={undefined}
                 hitSlop={undefined}
                 isTVSelectable={true}
+                nativeID={undefined}
                 onLayout={undefined}
                 onResponderGrant={[Function]}
                 onResponderMove={[Function]}
@@ -339,14 +374,16 @@ exports[`test renders correctly 1`] = `
                   ]
                 }
                 testID={undefined}
-                tvParallaxProperties={undefined}>
+                tvParallaxProperties={undefined}
+              >
                 <View
                   style={
                     Object {
                       "flex": 1,
                       "flexDirection": "row",
                     }
-                  }>
+                  }
+                >
                   <View
                     style={
                       Array [
@@ -359,10 +396,12 @@ exports[`test renders correctly 1`] = `
                           "flex": 2,
                         },
                       ]
-                    }>
+                    }
+                  >
                     <Text
                       accessible={true}
                       allowFontScaling={true}
+                      disabled={false}
                       ellipsizeMode="tail"
                       style={
                         Array [
@@ -374,7 +413,8 @@ exports[`test renders correctly 1`] = `
                             "fontWeight": "normal",
                           },
                         ]
-                      }>
+                      }
+                    >
                       Add Credit Card
                     </Text>
                   </View>
@@ -386,10 +426,12 @@ exports[`test renders correctly 1`] = `
                         "flexDirection": "row",
                         "justifyContent": "flex-end",
                       }
-                    }>
+                    }
+                  >
                     <Text
                       accessible={true}
                       allowFontScaling={false}
+                      disabled={false}
                       ellipsizeMode="tail"
                       style={
                         Array [
@@ -404,7 +446,8 @@ exports[`test renders correctly 1`] = `
                             "fontWeight": "normal",
                           },
                         ]
-                      }>
+                      }
+                    >
                       
                     </Text>
                   </View>
@@ -424,7 +467,8 @@ exports[`test renders correctly 1`] = `
                   "paddingBottom": 10,
                 },
               ]
-            }>
+            }
+          >
             <View
               accessibilityComponentType={undefined}
               accessibilityLabel={undefined}
@@ -433,6 +477,7 @@ exports[`test renders correctly 1`] = `
               hasTVPreferredFocus={undefined}
               hitSlop={undefined}
               isTVSelectable={true}
+              nativeID={undefined}
               onLayout={undefined}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
@@ -452,14 +497,16 @@ exports[`test renders correctly 1`] = `
                 ]
               }
               testID={undefined}
-              tvParallaxProperties={undefined}>
+              tvParallaxProperties={undefined}
+            >
               <View
                 style={
                   Object {
                     "flex": 1,
                     "flexDirection": "row",
                   }
-                }>
+                }
+              >
                 <View
                   style={
                     Array [
@@ -472,10 +519,12 @@ exports[`test renders correctly 1`] = `
                         "flex": 2,
                       },
                     ]
-                  }>
+                  }
+                >
                   <Text
                     accessible={true}
                     allowFontScaling={true}
+                    disabled={false}
                     ellipsizeMode="tail"
                     style={
                       Array [
@@ -487,7 +536,8 @@ exports[`test renders correctly 1`] = `
                           "fontWeight": "normal",
                         },
                       ]
-                    }>
+                    }
+                  >
                     Add Message
                   </Text>
                 </View>
@@ -499,10 +549,12 @@ exports[`test renders correctly 1`] = `
                       "flexDirection": "row",
                       "justifyContent": "flex-end",
                     }
-                  }>
+                  }
+                >
                   <Text
                     accessible={true}
                     allowFontScaling={false}
+                    disabled={false}
                     ellipsizeMode="tail"
                     style={
                       Array [
@@ -517,7 +569,8 @@ exports[`test renders correctly 1`] = `
                           "fontWeight": "normal",
                         },
                       ]
-                    }>
+                    }
+                  >
                     
                   </Text>
                 </View>
@@ -530,7 +583,8 @@ exports[`test renders correctly 1`] = `
                 "height": 72,
                 "width": 750,
               }
-            } />
+            }
+          />
         </View>
       </View>
     </RCTScrollView>
@@ -546,7 +600,8 @@ exports[`test renders correctly 1`] = `
         "shadowRadius": 2,
         "zIndex": 1,
       }
-    }>
+    }
+  >
     <View
       style={
         Array [
@@ -563,7 +618,8 @@ exports[`test renders correctly 1`] = `
             "paddingVertical": 10,
           },
         ]
-      }>
+      }
+    >
       <View
         style={
           Array [
@@ -579,7 +635,8 @@ exports[`test renders correctly 1`] = `
               "paddingBottom": 0,
             },
           ]
-        }>
+        }
+      >
         <View
           style={
             Array [
@@ -589,7 +646,8 @@ exports[`test renders correctly 1`] = `
                 "justifyContent": "center",
               },
             ]
-          }>
+          }
+        >
           <View
             accessibilityLabel="Cancel Purchase Button"
             style={
@@ -597,7 +655,8 @@ exports[`test renders correctly 1`] = `
                 "flex": -1,
                 "flexDirection": "row-reverse",
               }
-            }>
+            }
+          >
             <View
               accessibilityComponentType={undefined}
               accessibilityLabel={undefined}
@@ -606,6 +665,7 @@ exports[`test renders correctly 1`] = `
               hasTVPreferredFocus={undefined}
               hitSlop={undefined}
               isTVSelectable={true}
+              nativeID={undefined}
               onLayout={undefined}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
@@ -622,7 +682,8 @@ exports[`test renders correctly 1`] = `
                 ]
               }
               testID={undefined}
-              tvParallaxProperties={undefined}>
+              tvParallaxProperties={undefined}
+            >
               <View
                 style={
                   Array [
@@ -655,10 +716,12 @@ exports[`test renders correctly 1`] = `
                       "height": 52,
                     },
                   ]
-                }>
+                }
+              >
                 <Text
                   accessible={true}
                   allowFontScaling={false}
+                  disabled={false}
                   ellipsizeMode="tail"
                   style={
                     Array [
@@ -685,7 +748,8 @@ exports[`test renders correctly 1`] = `
                         "fontWeight": "normal",
                       },
                     ]
-                  }>
+                  }
+                >
                   
                 </Text>
               </View>
@@ -700,7 +764,8 @@ exports[`test renders correctly 1`] = `
               "flexDirection": "row",
               "justifyContent": "flex-end",
             }
-          }>
+          }
+        >
           <View
             accessibilityLabel="Purchase & Send Button"
             style={
@@ -708,7 +773,8 @@ exports[`test renders correctly 1`] = `
                 "flex": -1,
                 "flexDirection": "row-reverse",
               }
-            }>
+            }
+          >
             <View
               accessibilityComponentType={undefined}
               accessibilityLabel={undefined}
@@ -717,6 +783,7 @@ exports[`test renders correctly 1`] = `
               hasTVPreferredFocus={undefined}
               hitSlop={undefined}
               isTVSelectable={true}
+              nativeID={undefined}
               onLayout={undefined}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
@@ -733,7 +800,8 @@ exports[`test renders correctly 1`] = `
                 ]
               }
               testID={undefined}
-              tvParallaxProperties={undefined}>
+              tvParallaxProperties={undefined}
+            >
               <View
                 style={
                   Array [
@@ -766,10 +834,12 @@ exports[`test renders correctly 1`] = `
                       "height": 52,
                     },
                   ]
-                }>
+                }
+              >
                 <Text
                   accessible={true}
                   allowFontScaling={false}
+                  disabled={false}
                   ellipsizeMode="tail"
                   style={
                     Array [
@@ -796,12 +866,14 @@ exports[`test renders correctly 1`] = `
                         "fontWeight": "normal",
                       },
                     ]
-                  }>
+                  }
+                >
                   
                 </Text>
                 <Text
                   accessible={true}
                   allowFontScaling={true}
+                  disabled={false}
                   ellipsizeMode="tail"
                   numberOfLines={1}
                   style={
@@ -814,7 +886,8 @@ exports[`test renders correctly 1`] = `
                         "fontSize": 20,
                       },
                     ]
-                  }>
+                  }
+                >
                   Purchase & Send
                 </Text>
               </View>
