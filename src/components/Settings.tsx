@@ -73,7 +73,7 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({
             }}>
               <FacebookButton
                 text="Log Out"
-                theme="logout"
+                size="normal"
                 onPress={logoutActions}
               />
             </View>

@@ -6,7 +6,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export interface FacebookLoginButtonProps {
   text: string;
-  theme: "login" | "logout";
+  size: "large" | "normal";
   onPress: () => void;
   showActivityIndicator?: boolean;
 }
@@ -20,7 +20,7 @@ const FacebookButton: React.StatelessComponent<
     <FontAwesome.Button
       name="facebook"
       backgroundColor="#3b5998"
-      size={props.theme === "logout" ? 18 : 24}
+      size={props.size === "large" ? 24 : 18}
       style={{
         paddingHorizontal: 15,
         paddingVertical: 5,
@@ -31,7 +31,7 @@ const FacebookButton: React.StatelessComponent<
         style={{
           backgroundColor: "transparent",
           color: "#ffffff",
-          fontSize: props.theme === "logout" ? 14 : 16,
+          fontSize: props.size === "large" ? 16 : 14,
           fontWeight: "600",
         }}
       >

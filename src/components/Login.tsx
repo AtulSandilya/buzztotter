@@ -52,7 +52,7 @@ const Login: React.StatelessComponent<LoginProps> = ({
       <View style={{ flex: -1, alignItems: "center" }}>
         <FacebookButton
           text="Login with Facebook"
-          theme="login"
+          size="large"
           onPress={requestLogin}
           showActivityIndicator={loginInProgress}
         />
