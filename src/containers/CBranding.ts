@@ -1,7 +1,7 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import Branding, {BrandingProps} from '../components/Branding';
-import {BannerProps} from "../reducers/banner";
+import Branding, { BrandingProps } from "../components/Branding";
+import { BannerProps } from "../reducers/banner";
 
 interface StateProps {
   bannerProps?: BannerProps;
@@ -10,8 +10,8 @@ interface StateProps {
 const mapStateToProps = (state): StateProps => {
   return {
     bannerProps: state.banner,
-  }
-}
+  };
+};
 
 interface DispatchProps {
   goToSettings?(): void;
@@ -20,14 +20,14 @@ interface DispatchProps {
 
 const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
-    goToSettings: () => {
-      dispatch({type: 'GO_TO_ROUTE', payload: {route: "Settings"}});
-    },
     goBackRoute: () => {
-      dispatch({type: 'GO_BACK_ROUTE'});
-    }
-  }
-}
+      dispatch({ type: "GO_BACK_ROUTE" });
+    },
+    goToSettings: () => {
+      dispatch({ type: "GO_TO_ROUTE", payload: { route: "Settings" } });
+    },
+  };
+};
 
 const CBranding = connect<StateProps, DispatchProps, BrandingProps>(
   mapStateToProps,
