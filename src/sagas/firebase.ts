@@ -42,12 +42,12 @@ import * as DbSchema from "../db/schema";
 //  Login / Logout ------------------------------------------------------{{{
 
 /* tslint:disable:object-literal-sort-keys */
-export function* firebaseFacebookLogin(action) {
+export function* firebaseFacebookLogin(facebookAccessToken: string) {
   try {
     yield put({ type: "ATTEMPING_FIREBASE_LOGIN" });
     const firebaseCredential = yield call(
       firebaseLoginViaFacebookToken,
-      action.payload.token,
+      facebookAccessToken,
     );
 
     const firebaseUser: FirebaseUser = {

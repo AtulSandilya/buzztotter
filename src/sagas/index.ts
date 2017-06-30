@@ -58,10 +58,6 @@ import {Location, User} from "../db/tables";
 export default function* rootSaga() {
   yield all([
     // Facebook
-    takeEvery("USER_FETCH_REQUESTED", facebook.fetchUser),
-    takeEveryIfInternetConnected("CONTACTS_FETCH_REQUESTED", function *(action) {
-      yield call(facebook.fetchContacts, action);
-    }, "banner"),
     takeEveryIfInternetConnected(
       "FACEBOOK_CONTACTS_RELOAD_REQUEST",
       facebook.reloadContacts,
@@ -69,22 +65,38 @@ export default function* rootSaga() {
     ),
 
     // Logging In
-    takeEvery("SUCCESSFUL_FACEBOOK_LOGIN", facebook.successfulLogin),
-    takeEvery("INITIALIZE_USER_DATA_WITH_FACEBOOK_TOKEN", function *(action) {
-      // Facebook user info is required to properly initialize a firebase user
-      yield [
-        yield call(facebook.fetchContacts, action),
-        yield call(facebook.fetchUser, action),
-      ];
+    takeEveryIfInternetConnected("LOGIN", function *(action) {
+      yield put({type: "LOGIN_IN_PROGRESS"});
+      const loginFailedMessage = "Facebook Login Failed";
 
-      yield call(firebaseFacebookLogin, action);
-      yield call(getUser);
+      try {
+        const facebookAccessToken = yield call(facebook.login);
+        if (!facebookAccessToken) { throw new Error(loginFailedMessage); }
+        yield call(goToRoute, {payload: {route: "MainUi"}});
+        // Facebook user info is required to properly initialize a firebase user
+        yield all([
+          yield call(facebook.fetchContacts, facebookAccessToken),
+          yield call(facebook.fetchUser, facebookAccessToken),
+        ]);
 
-      yield call(updatePurchasePackages);
-      yield call(updateHistory);
-      yield call(notifications.startListener);
-      yield call(getLocationsNearUser);
-    }),
+        yield call(facebook.successfulLogin);
+        yield call(firebaseFacebookLogin, facebookAccessToken);
+        yield call(getUser);
+
+        yield all([
+          yield call(updatePurchasePackages),
+          yield call(updateHistory),
+          yield call(notifications.startListener),
+          yield call(getLocationsNearUser),
+        ]);
+      } catch (e) {
+        if (!e.message as any === loginFailedMessage) {
+          throw e;
+        }
+      } finally {
+        yield put({type: "LOGIN_COMPLETE"});
+      }
+    }, "alert", "Login"),
 
     // Logging Out
     takeEvery("REQUEST_LOGOUT", function *(action) {
@@ -98,7 +110,7 @@ export default function* rootSaga() {
         if (!(yield call(internet.isConnected, "none") as any)) {
           throw new Error(internetNotConnectedErrorMessage);
         }
-        yield call(facebook.logOutFacebook);
+        yield call(facebook.logout);
         yield call(notifications.stopListener);
         yield call(firebaseLogOut, action);
       } catch (e) {

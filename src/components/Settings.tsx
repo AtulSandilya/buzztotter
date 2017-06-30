@@ -6,8 +6,8 @@ import {settingsKeys} from "../reducers/settings";
 
 import {isAndroid} from "../ReactNativeUtilities";
 
-import CFacebookLoginButton from "../containers/CFacebookLoginButton";
 import BevButton from "./BevButton";
+import FacebookButton from "./FacebookButton";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 import TitleText from "./TitleText";
 
@@ -71,8 +71,10 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({
               flex: 1,
               justifyContent: "flex-end",
             }}>
-              <CFacebookLoginButton
-                logoutActions={logoutActions}
+              <FacebookButton
+                text="Log Out"
+                theme="logout"
+                onPress={logoutActions}
               />
             </View>
           </SettingRight>

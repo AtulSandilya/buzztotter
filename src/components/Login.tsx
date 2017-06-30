@@ -2,22 +2,20 @@ import * as React from "react";
 import { Component } from "react";
 import { Image, Text, TouchableHighlight, View } from "react-native";
 
-import CFacebookLoginButton from "../containers/CFacebookLoginButton";
+import FacebookButton from "./FacebookButton";
 
 import { WindowHeight, WindowWidth } from "../ReactNativeUtilities";
 import { globalColors } from "./GlobalStyles";
 
 export interface LoginProps {
-  isLoggedIn: boolean;
-  onSuccessfulFacebookLogin(): void;
-  requestFacebookData(token: string): void;
+  loginInProgress: boolean;
+  requestLogin: () => void;
 }
 
 /* tslint:disable:no-magic-numbers */
 const Login: React.StatelessComponent<LoginProps> = ({
-  isLoggedIn,
-  onSuccessfulFacebookLogin,
-  requestFacebookData,
+  loginInProgress,
+  requestLogin,
 }) =>
   <View
     style={{
@@ -52,9 +50,11 @@ const Login: React.StatelessComponent<LoginProps> = ({
     </View>
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <View style={{ flex: -1, alignItems: "center" }}>
-        <CFacebookLoginButton
-          onLoginSuccessful={onSuccessfulFacebookLogin}
-          onGetTokenSuccessful={requestFacebookData}
+        <FacebookButton
+          text="Login with Facebook"
+          theme="login"
+          onPress={requestLogin}
+          showActivityIndicator={loginInProgress}
         />
       </View>
       <View

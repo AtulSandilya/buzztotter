@@ -5,33 +5,24 @@ import { Actions } from "react-native-router-flux";
 import Login, {LoginProps} from "../components/Login";
 
 interface StateProps {
-  isLoggedIn: boolean;
+  loginInProgress: boolean;
 }
 
 const mapStateToProps = (state): StateProps => {
   return {
-    isLoggedIn: state.user.isLoggedIn,
+    loginInProgress: state.loginView.inProgress,
   };
 };
 
 interface DispatchProps {
-  onSuccessfulFacebookLogin(): void;
-  requestFacebookData(token: string): void;
+  requestLogin(): void;
 
 }
 
 const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
-    onSuccessfulFacebookLogin: () => {
-      dispatch({type: "SUCCESSFUL_FACEBOOK_LOGIN"});
-      dispatch({type: "GO_TO_ROUTE", payload: {
-        route: "MainUi",
-      }});
-    },
-    requestFacebookData: (token) => {
-      dispatch({type: "INITIALIZE_USER_DATA_WITH_FACEBOOK_TOKEN", payload: {
-        token: token,
-      }});
+    requestLogin: () => {
+      dispatch({type: "LOGIN"});
     },
   };
 };
