@@ -8,6 +8,7 @@
     "switch-default": false,
     "jsx-no-multiline-js": false,
     "arrow-parens": false,
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "jsx-wrap-multiline": false
   }
 }
