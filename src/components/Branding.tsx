@@ -22,11 +22,14 @@ import Icon from "react-native-vector-icons/Ionicons";
 import {isAndroid, isIOS, StatusBarHeight} from "../ReactNativeUtilities";
 
 import CSettings from "../containers/CSettings";
+import { BannerProps } from "../reducers/banner";
+import Banner from "./Banner";
 import CenteredModal from "./CenteredModal";
 
 import {globalColors, globalStyles} from "./GlobalStyles";
 
 export const BrandingHeight = (isIOS ? 75 : 75) + 10;
+export const BrandingZIndex = 100;
 export const NavBarHeight = BrandingHeight;
 // Respect the StatusBar
 const topMargin = StatusBarHeight;
@@ -56,6 +59,7 @@ const styles = StyleSheet.create<Style>({
     position: "absolute",
     top: 0,
     width: Dimensions.get("window").width,
+    zIndex: BrandingZIndex,
   },
   section: {
     flex: 1,
@@ -69,6 +73,7 @@ const styles = StyleSheet.create<Style>({
     overflow: "hidden",
     paddingHorizontal: 10,
     paddingVertical: verticalPadding,
+    zIndex: BrandingZIndex,
   },
   leftContainer: {
     alignItems: "flex-start",
@@ -99,6 +104,7 @@ export interface BrandingProps {
   backText?: string;
   navBarText?: string;
   showSettings?: boolean;
+  bannerProps?: BannerProps;
   goToSettings?(): void;
   goBackRoute?(): void;
 }
@@ -108,6 +114,7 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
   showBack = false,
   showSettings = false,
   backText = "",
+  bannerProps,
   navBarText = "",
   goToSettings,
   goBackRoute,
@@ -203,6 +210,9 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
           }
         </View>
       </View>
+      <Banner
+        {...bannerProps}
+      />
     </View>
   );
 };
