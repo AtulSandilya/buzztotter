@@ -44,6 +44,8 @@ import {
   getLocationsNearUser,
 } from "./location";
 
+import * as internet from "./internet";
+import {takeEveryIfInternetConnected} from "./internet";
 import * as settings from "./settings";
 
 import * as ReactNativeUtil from "../ReactNativeUtilities";
@@ -57,8 +59,14 @@ export default function* rootSaga() {
   yield all([
     // Facebook
     takeEvery("USER_FETCH_REQUESTED", facebook.fetchUser),
-    takeEvery("CONTACTS_FETCH_REQUESTED", facebook.fetchContacts),
-    takeEvery("FACEBOOK_CONTACTS_RELOAD_REQUEST", facebook.reloadContacts),
+    takeEveryIfInternetConnected("CONTACTS_FETCH_REQUESTED", function *(action) {
+      yield call(facebook.fetchContacts, action);
+    }, "banner"),
+    takeEveryIfInternetConnected(
+      "FACEBOOK_CONTACTS_RELOAD_REQUEST",
+      facebook.reloadContacts,
+      "banner",
+    ),
 
     // Logging In
     takeEvery("SUCCESSFUL_FACEBOOK_LOGIN", facebook.successfulLogin),
@@ -80,17 +88,33 @@ export default function* rootSaga() {
 
     // Logging Out
     takeEvery("REQUEST_LOGOUT", function *(action) {
-      yield call(facebook.logOutFacebook);
       yield call(goToRoute, action);
-      yield call(notifications.stopListener);
-      yield call(firebaseLogOut, action);
-      yield put({type: "RESET_STATE"});
-      yield delay(10);
-      yield put({type: "LOADING_COMPLETE"});
+      const internetNotConnectedErrorMessage = "NoInternet";
+
+      // If the user tries to logout when they are not connected to the
+      // internet we honor their request but skip the actions that require
+      // internet connectivity.
+      try {
+        if (!(yield call(internet.isConnected, "none") as any)) {
+          throw new Error(internetNotConnectedErrorMessage);
+        }
+        yield call(facebook.logOutFacebook);
+        yield call(notifications.stopListener);
+        yield call(firebaseLogOut, action);
+      } catch (e) {
+        if (!(e.message === internetNotConnectedErrorMessage)) {
+          throw e;
+        }
+      } finally {
+        const delayBeforeLoadComplete = 10;
+        yield put({type: "RESET_STATE"});
+        yield delay(delayBeforeLoadComplete);
+        yield put({type: "LOADING_COMPLETE"});
+      }
     }),
 
     // Handling credit cards
-    takeEvery("REQUEST_CREDIT_CARD_VERIFICATION", function *(action) {
+    takeEveryIfInternetConnected("REQUEST_CREDIT_CARD_VERIFICATION", function *(action) {
       const cardToken = yield call(fetchCreditCardToken, action);
       if (cardToken) {
         yield call(queue.addCreditCardToCustomer, cardToken);
@@ -101,9 +125,9 @@ export default function* rootSaga() {
           "stripe.error",
         );
       }
-    }),
+    }, "banner"),
 
-    takeEvery("REQUEST_UPDATE_DEFAULT_CARD", function *(action) {
+    takeEveryIfInternetConnected("REQUEST_UPDATE_DEFAULT_CARD", function *(action) {
       yield put({type: "ATTEMPTING_STRIPE_DEFAULT_CARD_UPDATE"});
       yield call(queue.updateDefaultCard, action);
       yield call(
@@ -113,9 +137,9 @@ export default function* rootSaga() {
         "stripe.error",
         true,
       );
-    }),
+    }, "banner"),
 
-    takeEvery("REQUEST_REMOVE_CARD", function *(action) {
+    takeEveryIfInternetConnected("REQUEST_REMOVE_CARD", function *(action) {
       yield put({type: "ATTEMPTING_STRIPE_REMOVE_CARD"});
       yield call(queue.removeCreditCardFromCustomer, action);
       yield call(
@@ -125,18 +149,21 @@ export default function* rootSaga() {
         "stripe.error",
         true,
       );
-    }),
+    }, "banner"),
 
-    takeEvery("PURCHASE_REQUEST_UPDATE_USER", function *() {
+    takeEveryIfInternetConnected("PURCHASE_REQUEST_UPDATE_USER", function *() {
       yield put({type: "ATTEMPTING_USER_REFRESH_FOR_PURCHASE"});
       yield call(getUser);
       yield call(updatePurchasePackages);
       yield put({type: "COMPLETED_USER_REFRESH_FOR_PURCHASE"});
-    }),
+    }, "banner"),
 
     // Purchasing Then Sending
     takeEvery("PURCHASE_THEN_SEND_BEVEGRAM", function *(action) {
-      yield call(goToRoute, action);
+      const successfulRoute = yield call(goToRoute, action);
+
+      if (!successfulRoute) { return; }
+
       yield call(queue.purchase, action);
 
       yield call(listenUntilPurchaseSuccessOrFailure);
@@ -144,24 +171,24 @@ export default function* rootSaga() {
     }),
 
     // Receive Bevegrams
-    takeEvery("FETCH_RECEIVED_BEVEGRAMS", function *(action){
+    takeEveryIfInternetConnected("FETCH_RECEIVED_BEVEGRAMS", function *(action){
       yield put({type: "ATTEMPTING_UPDATE_RECEIVED_BEVEGRAMS"});
       const receivedBevegrams = yield call(updateReceivedBevegrams);
       yield put({type: "UPDATE_RECEIVED_BEVEGRAMS", payload: {
         receivedBevegrams: receivedBevegrams,
       }});
       yield put({type: "SUCCESSFUL_UPDATE_RECEIVED_BEVEGRAMS"});
-    }),
+    }, "banner"),
 
     // Redeem Bevegram
-    takeEvery("REDEEM_BEVEGRAM", function *(action){
+    takeEveryIfInternetConnected("REDEEM_BEVEGRAM", function *(action){
       yield put({type: "ATTEMPTING_REDEEM"});
       const redeemLocation: Location = yield call(getLocationsAtUserLocation);
       yield call(queue.redeem, action, redeemLocation);
       yield call(listenUntilRedeemSuccessOrFailure);
       yield call(updateHistory);
       yield put({type: "FINISHED_REDEEM"});
-    }),
+    }, "alert"),
 
     // Routes
     takeEvery("GO_TO_ROUTE", goToRoute),
@@ -180,13 +207,21 @@ export default function* rootSaga() {
     }),
 
     // History
-    takeEvery("REFRESH_HISTORY", updateHistory),
+    takeEveryIfInternetConnected("REFRESH_HISTORY", function *(action) {
+      yield call(updateHistory);
+    }, "banner"),
 
     // Locations Near User
-    takeEvery("REQUEST_LOCATIONS_NEAR_USER", getLocationsNearUser),
-    takeEvery("REQUEST_BAR_AT_USER_LOCATION", getLocationsAtUserLocation),
+    takeEveryIfInternetConnected("REQUEST_LOCATIONS_NEAR_USER", function *(action){
+      yield call(getLocationsNearUser);
+    }, "banner"),
+    takeEveryIfInternetConnected("REQUEST_BAR_AT_USER_LOCATION", function *(action){
+      yield call(getLocationsAtUserLocation);
+    }, "banner"),
 
     // Settings
-    takeEvery("TOGGLE_NOTIFICATION_SETTING", settings.toggleNotification),
+    takeEveryIfInternetConnected("TOGGLE_NOTIFICATION_SETTING", function *() {
+      yield call(settings.toggleNotification);
+    }, "banner"),
   ]);
 }
