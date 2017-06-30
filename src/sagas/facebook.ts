@@ -67,6 +67,12 @@ export function *successfulLogin() {
   yield put({type: "LOGIN_FACEBOOK"});
 }
 
+export function *startAppInvite() {
+  yield put({type: "INVITE_IN_PROGRESS"});
+  yield call(facebookApi.appInvite);
+  yield put({type: "INVITE_COMPLETE"});
+}
+
 export function FacebookFetchError(message) {
   this.name = "FacebookFetchError";
   this.message = "Facebook Error: " + message;

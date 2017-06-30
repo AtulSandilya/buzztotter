@@ -1,5 +1,6 @@
 import {
   AccessToken,
+  AppInviteDialog,
   GraphRequest,
   GraphRequestManager,
   LoginManager,
@@ -27,6 +28,16 @@ export const login = async (): Promise<FacebookAccessToken> => {
 
 export const logout = () => {
   LoginManager.logOut();
+};
+
+export const appInvite = async () => {
+  // TODO: Link this to the actual website
+  const applinkUrl = "https://fb.me/2145387155685498";
+  const appInviteData = await AppInviteDialog.show({
+    applinkUrl,
+  });
+
+  return appInviteData ? true : false;
 };
 
 const graphRequest = (token, urlString, parameterString, callback) => {

@@ -63,6 +63,12 @@ export default function* rootSaga() {
       facebook.reloadContacts,
       "banner",
     ),
+    takeEveryIfInternetConnected(
+      "REQUEST_APP_INVITE",
+      facebook.startAppInvite,
+      "alert",
+      "Inviting",
+    ),
 
     // Logging In
     takeEveryIfInternetConnected("LOGIN", function *(action) {

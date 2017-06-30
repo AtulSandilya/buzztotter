@@ -45,6 +45,7 @@ interface ContactsViewState {
   searchQuery: string;
   searchInputIsFocused: boolean;
   isSortOptionsVisible: boolean;
+  inviteInProgress: boolean;
 }
 
 const initialState: ContactsViewState = {
@@ -52,6 +53,7 @@ const initialState: ContactsViewState = {
   searchQuery: "",
   searchInputIsFocused: false,
   isSortOptionsVisible: false,
+  inviteInProgress: false,
 };
 
 export const contactsView = (state = initialState, action) => {
@@ -86,6 +88,16 @@ export const contactsView = (state = initialState, action) => {
       return {
         ...state,
         isSortOptionsVisible: false,
+      };
+    case "INVITE_IN_PROGRESS":
+      return {
+        ...state,
+        inviteInProgress: true,
+      };
+    case "INVITE_COMPLETE":
+      return {
+        ...state,
+        inviteInProgress: false,
       };
     default:
       return state;

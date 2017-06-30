@@ -23,6 +23,7 @@ interface StateProps {
   sortingMethodsList?: ContactsSortOptionsViewLine[];
   searchInputIsFocused?: boolean;
   isSortOptionsVisible?: boolean;
+  inviteInProgress?: boolean;
 }
 
 const sortContacts = (sortingMethod: ContactsSortingMethod, contactsList: Contact[], searchQuery: string) => {
@@ -93,6 +94,7 @@ const mapStateToProps = (state): StateProps => {
     sortingMethodsList: ContactsSortOptionsViewList,
     searchInputIsFocused: state.contactsView.searchInputIsFocused,
     isSortOptionsVisible: state.contactsView.isSortOptionsVisible,
+    inviteInProgress: state.contactsView.inviteInProgress,
   };
 };
 
@@ -103,6 +105,7 @@ interface DispatchProps {
   exitedSearchInput?();
   showSortOptions?();
   hideSortOptions?();
+  showAppInvite?();
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -131,6 +134,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     hideSortOptions: () => {
       dispatch({type: "HIDE_SORT_OPTIONS"});
+    },
+    showAppInvite: () => {
+      dispatch({type: "REQUEST_APP_INVITE"});
     },
   };
 };

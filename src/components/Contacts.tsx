@@ -25,7 +25,7 @@ import {buildFacebookProfilePicUrlFromFacebookId} from "../api/facebook";
 
 import CBevegramStatusBar from "../containers/CBevegramStatusBar";
 import CContact from "../containers/CContact";
-import FacebookAppInviteButton from "./FacebookAppInviteButton";
+import FacebookButton from "./FacebookButton";
 import theme from "../theme";
 
 import {Contact} from "../reducers/contacts";
@@ -50,8 +50,10 @@ export interface ContactsProps {
   exitedSearchInput?();
   searchInputIsFocused?: boolean;
   isSortOptionsVisible?: boolean;
+  inviteInProgress?: boolean;
   showSortOptions?();
   hideSortOptions?();
+  showAppInvite?();
 }
 
 const Contacts: React.StatelessComponent<ContactsProps> = ({
@@ -74,6 +76,8 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
   isSortOptionsVisible,
   showSortOptions,
   hideSortOptions,
+  showAppInvite,
+  inviteInProgress,
 }) => {
   const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -351,7 +355,13 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
         }
         renderFooter={() => {
           return (
-            <FacebookAppInviteButton />
+            <FacebookButton
+              text="Invite Friends"
+              size="normal"
+              onPress={showAppInvite}
+              showActivityIndicator={inviteInProgress}
+              marginTop={15}
+            />
           );
         }}
       />
