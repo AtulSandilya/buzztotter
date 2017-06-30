@@ -10,11 +10,23 @@ import {
   promiseUserInfoFromFacebook,
 } from "../api/facebook";
 
-export function* fetchContacts(action) {
+import * as facebookApi from "../api/facebook";
+
+export function *login() {
+  const accessToken = yield call(facebookApi.login);
+  return accessToken;
+}
+
+export function *logout() {
+  yield call(facebookApi.logout);
+  yield put({type: "LOGOUT_FACEBOOK"});
+}
+
+export function* fetchContacts(facebookAccessToken: string) {
   try {
     // Each yield completes before the other starts
     yield put({type: "LOADING_CONTACTS_FROM_FACEBOOK"});
-    const contacts = yield call(promiseContactsFromFacebook, action.payload.token);
+    const contacts = yield call(promiseContactsFromFacebook, facebookAccessToken);
     yield put({type: "POPULATE_CONTACTS_FROM_FACEBOOK", payload: {contacts: contacts}});
   } catch (e) {
     yield put({type: "FAILED_LOADING_CONTACTS_FROM_FACEBOOK"});
@@ -22,11 +34,11 @@ export function* fetchContacts(action) {
   }
 }
 
-export function* fetchUser(action) {
+export function* fetchUser(facebookAccessToken: string) {
   try {
-    const userData = yield call(promiseUserInfoFromFacebook, action.payload.token);
+    const userData = yield call(promiseUserInfoFromFacebook, facebookAccessToken);
     yield put({type: "POPULATE_USER_DATA_FROM_FACEBOOK", payload: {
-      token: action.payload.token,
+      token: facebookAccessToken,
       userData: userData,
     }});
   } catch (e) {
@@ -51,13 +63,8 @@ export function *reloadContacts(action) {
   }
 }
 
-export function *successfulLogin(action) {
+export function *successfulLogin() {
   yield put({type: "LOGIN_FACEBOOK"});
-}
-
-export function *logOutFacebook() {
-  // Actual facebook logout is handled by `LoginManager`
-  yield put({type: "LOGOUT_FACEBOOK"});
 }
 
 export function FacebookFetchError(message) {

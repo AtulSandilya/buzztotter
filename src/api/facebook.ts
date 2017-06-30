@@ -1,6 +1,33 @@
-import { GraphRequest, GraphRequestManager } from "react-native-fbsdk";
+import {
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+  LoginManager,
+} from "react-native-fbsdk";
 
 import { isNarrow } from "../ReactNativeUtilities";
+
+type FacebookAccessToken = string;
+
+export const login = async (): Promise<FacebookAccessToken> => {
+  const loginResult = await LoginManager.logInWithReadPermissions([
+    "public_profile",
+    "user_friends",
+    "email",
+    "user_birthday",
+  ]);
+
+  if (!loginResult.isCancelled) {
+    const accessTokenRequest = await AccessToken.getCurrentAccessToken();
+    return accessTokenRequest.accessToken.toString();
+  }
+
+  return;
+};
+
+export const logout = () => {
+  LoginManager.logOut();
+};
 
 const graphRequest = (token, urlString, parameterString, callback) => {
   // If parameterString is empty the the parameters object needs to be an
