@@ -40,12 +40,13 @@ export const takeEveryIfInternetConnected = (
   pattern: string,
   saga: any,
   errorType: internetErrorMessageTypes,
+  prettyAction?: string,
 ) =>
   fork(function*() {
     while (true) {
       const action = yield take(pattern);
 
-      const thisIsConnected = yield call(isConnected, errorType);
+      const thisIsConnected = yield call(isConnected, errorType, prettyAction);
       if (thisIsConnected) {
         yield fork(saga);
       }
