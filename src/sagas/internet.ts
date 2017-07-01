@@ -60,7 +60,7 @@ export const takeEveryIfInternetConnected = (
 
       const thisIsConnected = yield call(isConnected, errorType, prettyAction);
       if (thisIsConnected) {
-        yield fork(saga);
+        yield fork(saga, action);
       }
     }
   });
@@ -72,4 +72,3 @@ export class InternetNotConnectedError extends Error {
     this.name = "InternetNotConnected";
   }
 }
-
