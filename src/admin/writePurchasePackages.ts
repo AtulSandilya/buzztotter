@@ -7,7 +7,9 @@ import SetupMultipleAdminDatabases from "./SetupMultipleAdminDatabases";
 
   const argvArgPosition = 2;
   const dbs = argv.length >= argvArgPosition
-    ? await SetupMultipleAdminDatabases(argv[argvArgPosition].replace(/-/g, "") as any)
+    ? await SetupMultipleAdminDatabases(
+        argv[argvArgPosition].replace(/-/g, "") as any,
+      )
     : await SetupMultipleAdminDatabases();
 
   for (const db of dbs) {

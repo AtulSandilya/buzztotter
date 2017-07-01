@@ -1,10 +1,13 @@
 import * as child_process from "child_process";
 
-import {message} from "./log";
+import { message } from "./log";
 
 const spawn = child_process.spawn;
 
-const runCommandAsync = async (fullCommand: string, dir?: string): Promise<number> => {
+const runCommandAsync = async (
+  fullCommand: string,
+  dir?: string,
+): Promise<number> => {
   return new Promise<number>((resolve, reject) => {
     // Splitting the command on spaces fails when their are spaces inside of
     // quoted strings, but for the admin simplicity trumps correctness. If you
@@ -24,11 +27,13 @@ const runCommandAsync = async (fullCommand: string, dir?: string): Promise<numbe
       stdio: "inherit",
     });
 
-    thisProcess.on("close", (exitStatus) => {
+    thisProcess.on("close", exitStatus => {
       if (exitStatus === 0) {
         resolve(exitStatus);
       } else {
-        reject(`Command '${fullCommand}' returned with exit status ${exitStatus}!`);
+        reject(
+          `Command '${fullCommand}' returned with exit status ${exitStatus}!`,
+        );
       }
     });
   });

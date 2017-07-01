@@ -14,7 +14,7 @@ const parseEnv = (): Env => {
   const dev = {};
   const production = {};
 
-  Object.keys(env).map((envKey) => {
+  Object.keys(env).map(envKey => {
     const sanitizedVal = env[envKey].replace(/\n/g, "\\n");
     if (envKey.indexOf(productionPrefix) !== -1) {
       production[envKey.replace(productionPrefix, "")] = sanitizedVal;

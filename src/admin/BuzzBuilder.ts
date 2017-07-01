@@ -1,6 +1,6 @@
 import * as fs from "fs-extra";
 
-import {BuzzDirs, BuzzFilenames} from "./BuzzPath";
+import { BuzzDirs, BuzzFilenames } from "./BuzzPath";
 
 import runCommandAsync from "./runCommandAsync";
 
@@ -27,7 +27,10 @@ class BuzzBuilder {
   }
 
   private async buildAndroid(buildType: BuildType) {
-    await runCommandAsync(`./gradlew assembleRelease -Pbuild_key_type=${buildType}`, this.buzzDir.android);
+    await runCommandAsync(
+      `./gradlew assembleRelease -Pbuild_key_type=${buildType}`,
+      this.buzzDir.android,
+    );
 
     let filename;
     switch (buildType) {

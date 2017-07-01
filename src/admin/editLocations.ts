@@ -2,16 +2,12 @@ import * as inquirer from "inquirer";
 import fetch from "node-fetch";
 import * as prompt from "./prompt";
 
-import {config} from "dotenv";
+import { config } from "dotenv";
 config();
 
 import SetupMultipleAdminDatabases from "./SetupMultipleAdminDatabases";
 
-import {
-  BasicLocation,
-  Location,
-  Vendor,
-} from "../db/tables";
+import { BasicLocation, Location, Vendor } from "../db/tables";
 
 import * as child_process from "child_process";
 const exec = child_process.execSync;
@@ -21,7 +17,10 @@ let dbs = [];
 /* tslint:disable:no-console */
 //  Google Maps ---------------------------------------------------------{{{
 
-const buildGoogleMapsUrl = (apiName: "geocode" | "place/details", values: Array<{[key: string]: string}>): string => {
+const buildGoogleMapsUrl = (
+  apiName: "geocode" | "place/details",
+  values: Array<{ [key: string]: string }>,
+): string => {
   let apiKey;
 
   switch (apiName) {
@@ -34,10 +33,12 @@ const buildGoogleMapsUrl = (apiName: "geocode" | "place/details", values: Array<
     default:
       console.error("Invalid api name");
   }
-  const encodedValues = values.map((val) => {
-    const key = Object.keys(val)[0];
-    return `${key}=${encodeURIComponent(val[key])}`;
-  }).join("&");
+  const encodedValues = values
+    .map(val => {
+      const key = Object.keys(val)[0];
+      return `${key}=${encodeURIComponent(val[key])}`;
+    })
+    .join("&");
   return `https://maps.googleapis.com/maps/api/${apiName}/json?&key=${apiKey}&${encodedValues}`;
 };
 
@@ -46,21 +47,32 @@ const stringFormatObject = (input: object) => {
   return JSON.stringify(input, null, jsonSpaces);
 };
 
-const fetchGoogleMapsLocation = async (address: string, name: string): Promise<BasicLocation> => {
-  const response = await fetch(buildGoogleMapsUrl("geocode", [{address: `${name} ${address}`}]));
+const fetchGoogleMapsLocation = async (
+  address: string,
+  name: string,
+): Promise<BasicLocation> => {
+  const response = await fetch(
+    buildGoogleMapsUrl("geocode", [{ address: `${name} ${address}` }]),
+  );
   let googlePlaceId = parseGoogleMapsGeocodeResult(await response.json(), name);
 
   if (!googlePlaceId) {
     console.log(
       `Could not find location for ${name} and ${address}! Searching by address only. The result may be less accurate!`,
     );
-    const justAddressResponse = await fetch(buildGoogleMapsUrl("geocode", [{address}]));
-    googlePlaceId = parseGoogleMapsGeocodeResult(await justAddressResponse.json(), name);
+    const justAddressResponse = await fetch(
+      buildGoogleMapsUrl("geocode", [{ address }]),
+    );
+    googlePlaceId = parseGoogleMapsGeocodeResult(
+      await justAddressResponse.json(),
+      name,
+    );
   }
 
-  const placeDetailsResponse = await fetch(buildGoogleMapsUrl("place/details", [{placeid: googlePlaceId}]));
+  const placeDetailsResponse = await fetch(
+    buildGoogleMapsUrl("place/details", [{ placeid: googlePlaceId }]),
+  );
   return parseGoogleMapsPlaceDetailsResult(await placeDetailsResponse.json());
-
 };
 
 interface GoogleMapsCoords {
@@ -79,25 +91,34 @@ interface GoogleMapsApiGeocodeLocation {
   formatted_address: string;
   geometry: {
     location: GoogleMapsCoords;
-    location_type: "ROOFTOP" | "RANGE_INTERPOLATED" | "GEOMETRIC_CENTER" | "APPROXIMATE";
+    location_type:
+      | "ROOFTOP"
+      | "RANGE_INTERPOLATED"
+      | "GEOMETRIC_CENTER"
+      | "APPROXIMATE";
     viewport: {
       northeast: GoogleMapsCoords;
       southwest: GoogleMapsCoords;
-    }
+    };
   };
   place_id: string;
   types: string[];
 }
 
-type GoogleMapsApiStatusResponse = "OK" | "ZERO_RESULTS" | "OVER_QUERY_LIMIT"
-                                     | "REQUEST_DENIED" | "INVALID_REQUEST" | "UNKNOWN_ERROR";
+type GoogleMapsApiStatusResponse =
+  | "OK"
+  | "ZERO_RESULTS"
+  | "OVER_QUERY_LIMIT"
+  | "REQUEST_DENIED"
+  | "INVALID_REQUEST"
+  | "UNKNOWN_ERROR";
 
 interface GoogleMapsApiGeocodeResponse {
   results: GoogleMapsApiGeocodeLocation[];
   status: GoogleMapsApiStatusResponse;
 }
 interface GoogleMapsApiPlaceReview {
-  aspects: Array<{rating: number, type: string}>;
+  aspects: Array<{ rating: number; type: string }>;
   author_name: string;
   author_url: string;
   language: string;
@@ -114,7 +135,7 @@ interface GoogleMapsApiPlaceDetailLocation extends GoogleMapsApiGeocodeLocation 
   international_phone_number: string;
   name: string;
   scope: string;
-  alt_ids: Array<{place_id: string, scope: string}>;
+  alt_ids: Array<{ place_id: string; scope: string }>;
   rating: number;
   reference: string;
   reviews: GoogleMapsApiPlaceReview[];
@@ -123,7 +144,10 @@ interface GoogleMapsApiPlaceDetailLocation extends GoogleMapsApiGeocodeLocation 
   vicinity: string;
   opening_hours: {
     open_now: boolean;
-    periods: Array<{open: {day: number, time: number}, close: {day: number, time: number}}>;
+    periods: Array<{
+      open: { day: number; time: number };
+      close: { day: number; time: number };
+    }>;
     weekday_text: string[];
   };
   website: string;
@@ -135,22 +159,33 @@ interface GoogleMapsApiPlaceDetailResponse {
   status: GoogleMapsApiStatusResponse;
 }
 
-const parseGoogleMapsGeocodeResult = (json: GoogleMapsApiGeocodeResponse, name: string): string => {
+const parseGoogleMapsGeocodeResult = (
+  json: GoogleMapsApiGeocodeResponse,
+  name: string,
+): string => {
   if (json.status === "OK") {
     const coords = json.results[0].geometry.location;
     const formattedAddress = json.results[0].formatted_address;
-    const addressWithoutCountry = formattedAddress.split(",").slice(0, -1).join(",");
+    const addressWithoutCountry = formattedAddress
+      .split(",")
+      .slice(0, -1)
+      .join(",");
     return json.results[0].place_id;
   }
 };
 
-const parseGoogleMapsPlaceDetailsResult = (json: GoogleMapsApiPlaceDetailResponse): BasicLocation => {
+const parseGoogleMapsPlaceDetailsResult = (
+  json: GoogleMapsApiPlaceDetailResponse,
+): BasicLocation => {
   if (json.status === "OK") {
     const result = json.result;
-    const formattedAddress = result.formatted_address.split(",").slice(0, -1).join(",");
-    const sundayFirstTypicalHours = result.opening_hours.weekday_text.slice(-1).concat(
-      result.opening_hours.weekday_text.slice(0, -1),
-    );
+    const formattedAddress = result.formatted_address
+      .split(",")
+      .slice(0, -1)
+      .join(",");
+    const sundayFirstTypicalHours = result.opening_hours.weekday_text
+      .slice(-1)
+      .concat(result.opening_hours.weekday_text.slice(0, -1));
     return {
       address: formattedAddress,
       googlePlaceId: result.place_id,
@@ -177,12 +212,19 @@ const parseGoogleMapsPlaceDetailsResult = (json: GoogleMapsApiPlaceDetailRespons
 //  End Google Maps -----------------------------------------------------}}}
 //  Basic Location ------------------------------------------------------{{{
 
-const getBasicLocation = async (locName?: string, locAddress?: string): Promise<BasicLocation> => {
+const getBasicLocation = async (
+  locName?: string,
+  locAddress?: string,
+): Promise<BasicLocation> => {
   let locationName;
   let locationAddress;
   if (!locName && !locAddress) {
-    locationName = await prompt.getStringUntilCorrect("Enter the exact business name");
-    locationAddress = await prompt.getStringUntilCorrect(`Enter the address of ${locationName}`);
+    locationName = await prompt.getStringUntilCorrect(
+      "Enter the exact business name",
+    );
+    locationAddress = await prompt.getStringUntilCorrect(
+      `Enter the address of ${locationName}`,
+    );
   } else {
     locationName = locName;
     locationAddress = locAddress;
@@ -191,11 +233,18 @@ const getBasicLocation = async (locName?: string, locAddress?: string): Promise<
   console.log("Searching for gps coordinates...");
   let basicLocation: BasicLocation;
   try {
-    basicLocation = await fetchGoogleMapsLocation(locationAddress, locationName);
-    console.log(`Found gps coordinates for ${locationName}! ${basicLocation.latitude}, ${basicLocation.longitude}`);
+    basicLocation = await fetchGoogleMapsLocation(
+      locationAddress,
+      locationName,
+    );
+    console.log(
+      `Found gps coordinates for ${locationName}! ${basicLocation.latitude}, ${basicLocation.longitude}`,
+    );
   } catch (e) {
     console.error("Error fetching basic location:", e);
-    console.log(`Could not find ${locationName} in google maps. Please check location details and try again!`);
+    console.log(
+      `Could not find ${locationName} in google maps. Please check location details and try again!`,
+    );
     throw e;
   }
   return basicLocation;
@@ -213,7 +262,7 @@ const buildTypicalHours = (
   openPeriodOfDay: string,
   closeHour: number,
   closePeriodOfDay: string,
-  ) => {
+) => {
   const separator = "-";
   return `${openHour}${openPeriodOfDay} ${separator} ${closeHour}${closePeriodOfDay}`;
 };
@@ -221,9 +270,13 @@ const buildTypicalHours = (
 const promptTypicalHours = async (name: string) => {
   let typicalHours;
   while (true) {
-    const openHour = await prompt.getInteger(`What time does ${name} typically open?`);
+    const openHour = await prompt.getInteger(
+      `What time does ${name} typically open?`,
+    );
     const openPOD = await promptAmOrPm();
-    const closeHour = await prompt.getInteger(`What time does ${name} typically close?`);
+    const closeHour = await prompt.getInteger(
+      `What time does ${name} typically close?`,
+    );
     const closePOD = await promptAmOrPm();
     typicalHours = buildTypicalHours(openHour, openPOD, closeHour, closePOD);
     const isCorrect = await prompt.confirm(`Is ${typicalHours} correct`);
@@ -235,17 +288,23 @@ const promptTypicalHours = async (name: string) => {
 };
 
 const addLocation = async (basicLocation: BasicLocation) => {
-  exec(`open "http://maps.google.com/?q=${basicLocation.latitude},${basicLocation.longitude}"`);
+  exec(
+    `open "http://maps.google.com/?q=${basicLocation.latitude},${basicLocation.longitude}"`,
+  );
   if (!await prompt.confirm("Does this location seem correct")) {
     process.exit();
   }
 
   for (const db of dbs) {
-    const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLocation);
+    const { vendor, vendorId } = await db.getVendorFromBasicLocation(
+      basicLocation,
+    );
     const loc = basicLocation;
 
     if (vendor) {
-      console.log(`Cannot add location! ${loc.name} already exists in the database!`);
+      console.log(
+        `Cannot add location! ${loc.name} already exists in the database!`,
+      );
     } else {
       await db.addLocation(loc);
       console.log(`'${loc.name}' successfully added to the database!`);
@@ -261,13 +320,17 @@ const updateLocation = async () => {
     console.log("Enter the current (possibly old) business information");
     const basicLoc: BasicLocation = await getBasicLocation();
 
-    const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLoc);
+    const { vendor, vendorId } = await db.getVendorFromBasicLocation(basicLoc);
 
     if (!vendor) {
-      console.log(`Cannot update location! ${basicLoc.name} does not exists in the database!`);
+      console.log(
+        `Cannot update location! ${basicLoc.name} does not exists in the database!`,
+      );
     }
 
-    const shouldUpdate = await prompt.confirm(`Does ${stringFormatObject(basicLoc)} look correct`);
+    const shouldUpdate = await prompt.confirm(
+      `Does ${stringFormatObject(basicLoc)} look correct`,
+    );
     if (shouldUpdate) {
       await db.updateLocation(basicLoc, vendor, vendorId, basicLoc);
       console.log("Location update complete!");
@@ -351,19 +414,29 @@ const updateLocation = async () => {
 
 const updateSquareFootage = async (basicLocation: BasicLocation) => {
   for (const db of dbs) {
-    const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLocation);
+    const { vendor, vendorId } = await db.getVendorFromBasicLocation(
+      basicLocation,
+    );
 
     const newSquareFootage: number = await prompt.getIntegerUntilCorrect(
       `Enter the new square footage of ${basicLocation.name}`,
     );
 
-    const updatedLocation = Object.assign({}, basicLocation, {
+    const updatedLocation = {
+      ...basicLocation,
       squareFootage: newSquareFootage,
-    });
+    };
 
-    const shouldUpdate = await prompt.confirm(`Does ${stringFormatObject(updatedLocation)} look correct`);
+    const shouldUpdate = await prompt.confirm(
+      `Does ${stringFormatObject(updatedLocation)} look correct`,
+    );
     if (shouldUpdate) {
-      await db.updateLocation(updatedLocation, vendor, vendorId, updatedLocation);
+      await db.updateLocation(
+        updatedLocation,
+        vendor,
+        vendorId,
+        updatedLocation,
+      );
       console.log("Location update complete!");
     }
   }
@@ -374,15 +447,19 @@ const updateSquareFootage = async (basicLocation: BasicLocation) => {
 
 const disablePurchasingAtLocation = async (basicLocation: BasicLocation) => {
   for (const db of dbs) {
-    const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLocation);
+    const { vendor, vendorId } = await db.getVendorFromBasicLocation(
+      basicLocation,
+    );
     if (vendor && vendor.allowPurchasing) {
       await db.disablePurchasingAtLocation(vendor, vendorId);
       console.log(`Purchasing disabled @ ${vendor.name}`);
     } else {
-      if (vendor && (vendor.allowPurchasing === false)) {
+      if (vendor && vendor.allowPurchasing === false) {
         console.log(`Purchasing is already disabled at ${basicLocation.name}`);
       } else {
-        console.log(`Location "${basicLocation.name}" does not exist in the database!`);
+        console.log(
+          `Location "${basicLocation.name}" does not exist in the database!`,
+        );
       }
     }
   }
@@ -393,10 +470,14 @@ const disablePurchasingAtLocation = async (basicLocation: BasicLocation) => {
 
 const enablePurchasingAtLocation = async (basicLocation: BasicLocation) => {
   for (const db of dbs) {
-    const {vendor, vendorId} = await db.getVendorFromBasicLocation(basicLocation);
+    const { vendor, vendorId } = await db.getVendorFromBasicLocation(
+      basicLocation,
+    );
 
     if (vendor.allowPurchasing) {
-      console.log(`Location ${basicLocation.name} is already allowing purchasing`);
+      console.log(
+        `Location ${basicLocation.name} is already allowing purchasing`,
+      );
       return;
     }
 
@@ -404,7 +485,9 @@ const enablePurchasingAtLocation = async (basicLocation: BasicLocation) => {
       await db.enablePurchasingAtLocation(vendor, vendorId);
       console.log(`Purchasing enabled @ ${vendor.name}`);
     } else {
-      console.log(`Location at "${basicLocation.address}" does not exist in the database!`);
+      console.log(
+        `Location at "${basicLocation.address}" does not exist in the database!`,
+      );
     }
   }
 };
@@ -424,9 +507,12 @@ const main = async () => {
     enablePurchasing: "Enable purchasing @ location",
   };
 
-  const action = await prompt.getChoice("Choose Action:", Object.keys(locationActions).map((key) => {
-    return locationActions[key];
-  }));
+  const action = await prompt.getChoice(
+    "Choose Action:",
+    Object.keys(locationActions).map(key => {
+      return locationActions[key];
+    }),
+  );
 
   switch (action) {
     case locationActions.addLocation:

@@ -39,7 +39,10 @@ class BuzzPath {
   public filename: BuzzFilenames;
 
   constructor(version: string) {
-    const gitRootCmd = child_process.spawnSync("git", ["rev-parse", "--show-toplevel"]);
+    const gitRootCmd = child_process.spawnSync("git", [
+      "rev-parse",
+      "--show-toplevel",
+    ]);
     const gitRootDir = gitRootCmd.stdout.toString().trim();
     this.rootDir = path.join(gitRootDir);
 
@@ -52,7 +55,10 @@ class BuzzPath {
     this.filename = await this.buildFilename();
   }
 
-  public buildReleaseName = (platform: "ios" | "android", releaseType: "dev" | "production") => {
+  public buildReleaseName(
+    platform: "ios" | "android",
+    releaseType: "dev" | "production",
+  ) {
     const appName = "BuzzOtter";
     const versionForFilename = this.version.replace(/\./g, "-");
     const filetype = platform === "android" ? "apk" : "ipa";
@@ -76,7 +82,13 @@ class BuzzPath {
       ios: this.checkPath("ios"),
       androidRelease: this.checkPath(this.releaseDir, "android"),
       iosRelease: this.checkPath(this.releaseDir, "ios"),
-      androidDefaultBuildDir: this.checkPath("android", "app", "build", "outputs", "apk"),
+      androidDefaultBuildDir: this.checkPath(
+        "android",
+        "app",
+        "build",
+        "outputs",
+        "apk",
+      ),
       src: this.checkPath("src"),
     };
   }
@@ -91,9 +103,14 @@ class BuzzPath {
     let promptCompleted = false;
     const fileExistsMessage = `File '${buzzFilename}' already exists!`;
     const throwFileExists = async (showPrompt: boolean) => {
-      if (promptCompleted) { return; }
+      if (promptCompleted) {
+        return;
+      }
 
-      if (showPrompt && !(await prompt.confirm(`${fileExistsMessage} Continue anyway`))) {
+      if (
+        showPrompt &&
+        !await prompt.confirm(`${fileExistsMessage} Continue anyway`)
+      ) {
         throw new Error(fileExistsMessage);
       } else {
         promptCompleted = true;
@@ -108,7 +125,9 @@ class BuzzPath {
         // Continue
       }
 
-      if (isFile) { await throwFileExists(promptIfExists); }
+      if (isFile) {
+        await throwFileExists(promptIfExists);
+      }
     }
 
     return buzzFilename;
@@ -117,16 +136,45 @@ class BuzzPath {
   private async buildFilename(): Promise<BuzzFilenames> {
     return {
       publicApiKeys: await this.checkFName(this.dir.src, "publicApiKeys.ts"),
-      tempDevPublicApiKeys: await this.checkFName(this.dir.src, "publicApiKeys-dev.ts", false),
-      productionPublicApiKeys: await this.checkFName(this.dir.src, "publicApiKeys-production.ts"),
-      androidProductionRelease: await this.checkFName(this.dir.androidRelease,
-                                                      this.buildReleaseName("android", "production"), true, true),
-      androidDevRelease: await this.checkFName(this.dir.androidRelease,
-                                               this.buildReleaseName("android", "dev"), true, true),
-      androidDefaultBuildApk: await this.checkFName(this.dir.androidDefaultBuildDir, "app-release.apk", false),
-      androidGoogleServices: await this.checkFName(this.dir.androidApp, "google-services.json"),
-      androidGoogleServicesProduction: await this.checkFName(this.dir.androidApp, "google-services-production.json"),
-      androidGoogleServicesTempDev: await this.checkFName(this.dir.androidApp, "google-services-dev.json", false),
+      tempDevPublicApiKeys: await this.checkFName(
+        this.dir.src,
+        "publicApiKeys-dev.ts",
+        false,
+      ),
+      productionPublicApiKeys: await this.checkFName(
+        this.dir.src,
+        "publicApiKeys-production.ts",
+      ),
+      androidProductionRelease: await this.checkFName(
+        this.dir.androidRelease,
+        this.buildReleaseName("android", "production"),
+        true,
+        true,
+      ),
+      androidDevRelease: await this.checkFName(
+        this.dir.androidRelease,
+        this.buildReleaseName("android", "dev"),
+        true,
+        true,
+      ),
+      androidDefaultBuildApk: await this.checkFName(
+        this.dir.androidDefaultBuildDir,
+        "app-release.apk",
+        false,
+      ),
+      androidGoogleServices: await this.checkFName(
+        this.dir.androidApp,
+        "google-services.json",
+      ),
+      androidGoogleServicesProduction: await this.checkFName(
+        this.dir.androidApp,
+        "google-services-production.json",
+      ),
+      androidGoogleServicesTempDev: await this.checkFName(
+        this.dir.androidApp,
+        "google-services-dev.json",
+        false,
+      ),
     };
   }
 }

@@ -17,9 +17,15 @@ const firebaseConfig = {
 const jsonWhitespace = 2;
 /* tslint:disable:no-console */
 console.log(`Writing firebase db rules to ${firebaseDbRulesFilename}...`);
-fs.writeFileSync(firebaseDbRulesFilename, JSON.stringify(firebaseDbRules, null, jsonWhitespace));
+fs.writeFileSync(
+  firebaseDbRulesFilename,
+  JSON.stringify(firebaseDbRules, null, jsonWhitespace),
+);
 console.log(`Updating ${firebaseConfigFilename}...`);
-fs.writeFileSync(firebaseConfigFilename, JSON.stringify(firebaseConfig, null, jsonWhitespace));
+fs.writeFileSync(
+  firebaseConfigFilename,
+  JSON.stringify(firebaseConfig, null, jsonWhitespace),
+);
 
 console.log("Deploying rules to firebase...");
 console.log("This can take up to a minute...");

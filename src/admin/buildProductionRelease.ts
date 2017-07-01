@@ -9,7 +9,7 @@ import * as prompt from "./prompt";
 import BuzzBuilder from "./BuzzBuilder";
 import BuzzPath from "./BuzzPath";
 
-import {failure, message, success} from "./log";
+import { failure, message, success } from "./log";
 import parseEnv from "./parseEnv";
 import runCommandAsync from "./runCommandAsync";
 
@@ -60,11 +60,22 @@ const checkAndroidBundleForEnvKeys = async (buzzPath: BuzzPath) => {
 
   try {
     for (const releaseType of releaseTypes) {
-      const androidReleaseFName = buzzPath.buildReleaseName("android", releaseType as any);
+      const androidReleaseFName = buzzPath.buildReleaseName(
+        "android",
+        releaseType as any,
+      );
 
-      await runCommandAsync(`unzip ${androidReleaseFName} -d ${unzipFolder}`, buzzPath.dir.androidRelease);
+      await runCommandAsync(
+        `unzip ${androidReleaseFName} -d ${unzipFolder}`,
+        buzzPath.dir.androidRelease,
+      );
 
-      const bundlePath = path.join(buzzPath.dir.androidRelease, unzipFolder, "assets", "index.android.bundle");
+      const bundlePath = path.join(
+        buzzPath.dir.androidRelease,
+        unzipFolder,
+        "assets",
+        "index.android.bundle",
+      );
       const firebaseEnvKeyPrefix = "FIREBASE_ADMIN_KEY_";
       const keysToSkip = [
         `${firebaseEnvKeyPrefix}project_id`,
@@ -72,17 +83,24 @@ const checkAndroidBundleForEnvKeys = async (buzzPath: BuzzPath) => {
       ];
 
       fs.readFile(bundlePath, (err, data) => {
-        Object.keys(env[releaseType]).map((key) => {
-          if (keysToSkip.indexOf(key) !== -1) { return; }
+        Object.keys(env[releaseType]).map(key => {
+          if (keysToSkip.indexOf(key) !== -1) {
+            return;
+          }
 
           const val = env[releaseType][key];
           if (data.indexOf(val) !== -1) {
-            throw new Error(`Env var '${key}' value '${val}' exists in android bundle file`);
+            throw new Error(
+              `Env var '${key}' value '${val}' exists in android bundle file`,
+            );
           }
         });
       });
 
-      await runCommandAsync(`rm -rf ${unzipFolder}`, buzzPath.dir.androidRelease);
+      await runCommandAsync(
+        `rm -rf ${unzipFolder}`,
+        buzzPath.dir.androidRelease,
+      );
     }
   } catch (e) {
     throw e;
@@ -92,10 +110,11 @@ const checkAndroidBundleForEnvKeys = async (buzzPath: BuzzPath) => {
 };
 
 const deployHeroku = async () => {
-
-  const stringifyEnv = (inputEnv: {[key: string]: string}): string => {
+  const stringifyEnv = (inputEnv: { [key: string]: string }): string => {
     const result = [];
-    Object.keys(inputEnv).map((key) => result.push(`${key}="${inputEnv[key.replace(/\n/g, "\\n")]}"`));
+    Object.keys(inputEnv).map(key =>
+      result.push(`${key}="${inputEnv[key.replace(/\n/g, "\\n")]}"`),
+    );
     return result.join(" ");
   };
 
@@ -108,7 +127,11 @@ const deployHeroku = async () => {
 
   for (const appKey of Object.keys(herokuAppNames)) {
     // execSync avoids any problems with env keys with spaces
-    child_process.execSync(`heroku config:set ${stringifyEnv(herokuAppNames[appKey])} --app ${appKey}`);
+    child_process.execSync(
+      `heroku config:set ${stringifyEnv(
+        herokuAppNames[appKey],
+      )} --app ${appKey}`,
+    );
   }
 
   const gitRemoteBranches = ["heroku", "heroku-production"];
@@ -126,7 +149,7 @@ const formatDuration = (startInUnixMs: number): string => {
   const timeUnits = ["hours", "minutes", "seconds"];
   const dur = moment.duration(Date.now() - startInUnixMs);
   const result = [];
-  timeUnits.map((unit) => {
+  timeUnits.map(unit => {
     const time = dur.get(unit as any);
     if (isNaN(time) || time === 0) {
       return;
@@ -144,12 +167,16 @@ const formatDuration = (startInUnixMs: number): string => {
 (async () => {
   const start = Date.now();
   try {
-  /* tslint:disable:no-var-requires */
+    /* tslint:disable:no-var-requires */
     const version = require("../../package.json").version;
     message(`Starting version ${version} production build...`);
 
-    const cont = await prompt.confirm("Is the android emulator running with gps turned on");
-    if (!cont) { throw new Error(`User exited production build!`); }
+    const cont = await prompt.confirm(
+      "Is the android emulator running with gps turned on",
+    );
+    if (!cont) {
+      throw new Error(`User exited production build!`);
+    }
 
     const buzzPath = new BuzzPath(version);
     await buzzPath.setup();
@@ -170,7 +197,11 @@ const formatDuration = (startInUnixMs: number): string => {
 
     success(`Production build completed in ${formatDuration(start)}!`);
   } catch (e) {
-    failure(`Production build failed in ${formatDuration(start)}!\n\n${e}\n\nSee above for details.`);
+    failure(
+      `Production build failed in ${formatDuration(
+        start,
+      )}!\n\n${e}\n\nSee above for details.`,
+    );
   }
   process.exit(0);
 })();
