@@ -10,7 +10,8 @@ import appReducers from "./reducers";
 import rootSaga from "./sagas/index";
 
 let engine = createEngine("BevStorage");
-engine = filter(engine,
+engine = filter(
+  engine,
   [
     // Explicitly save these state keys
   ],
@@ -37,10 +38,10 @@ const storageReducer = persistentStorage.reducer(appReducers);
 const sagaMiddleware = createSagaMiddleware();
 
 function configureStore(reducers) {
-  const store = createStore(reducers, applyMiddleware(
-    sagaMiddleware,
-    storageMiddleware,
-  ));
+  const store = createStore(
+    reducers,
+    applyMiddleware(sagaMiddleware, storageMiddleware),
+  );
   sagaMiddleware.run(rootSaga);
 
   if (module.hot) {
@@ -56,9 +57,8 @@ function configureStore(reducers) {
 const store = configureStore(storageReducer);
 
 const load = persistentStorage.createLoader(engine);
-load(store)
-  .then((newState) => {
-    store.dispatch({type: "LOADING_COMPLETE"});
-  });
+load(store).then(newState => {
+  store.dispatch({ type: "LOADING_COMPLETE" });
+});
 
 export default store;
