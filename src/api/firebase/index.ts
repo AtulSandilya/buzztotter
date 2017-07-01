@@ -50,14 +50,17 @@ export const readNode = (url: string) => {
   return firebaseUserDb.readNode(url);
 };
 
-type FirebaseDbEvent =  "child_added" | "child_changed" | "child_removed";
+type FirebaseDbEvent = "child_added" | "child_changed" | "child_removed";
 
-export const OnNextNodeEvent = (url: string, firebaseDbEvent: FirebaseDbEvent) => {
-  return new Promise((resolve) => {
+export const OnNextNodeEvent = (
+  url: string,
+  firebaseDbEvent: FirebaseDbEvent,
+) => {
+  return new Promise(resolve => {
     const ref = firebaseUserDb.getRef(url);
-    ref.once(firebaseDbEvent, (data) => {
+    ref.once(firebaseDbEvent, data => {
       // Resolve the whole node instead of just the updated data (data.val())
-      firebaseUserDb.readNode(url).then((newValue) => {
+      firebaseUserDb.readNode(url).then(newValue => {
         resolve(newValue);
       });
     });
@@ -74,11 +77,19 @@ export const OnNextNodeEvent = (url: string, firebaseDbEvent: FirebaseDbEvent) =
 // TLDR: This only fires if you change a child node, adding and removing a
 // node is not changing (to firebase).
 export const OnNextUserNodeChange = (userFirebaseId: string) => {
-  return OnNextNodeEvent(DbSchema.GetUserDbUrl(userFirebaseId), "child_changed");
+  return OnNextNodeEvent(
+    DbSchema.GetUserDbUrl(userFirebaseId),
+    "child_changed",
+  );
 };
 
-export const OnNextPurchaseTransactionStatusChange = (userFirebaseId: string) => {
-  return OnNextNodeEvent(DbSchema.GetPurchaseTransactionStatusDbUrl(userFirebaseId), "child_changed");
+export const OnNextPurchaseTransactionStatusChange = (
+  userFirebaseId: string,
+) => {
+  return OnNextNodeEvent(
+    DbSchema.GetPurchaseTransactionStatusDbUrl(userFirebaseId),
+    "child_changed",
+  );
 };
 
 export const OnNextUrlNodeChange = (url: string) => {
@@ -88,8 +99,14 @@ export const OnNextUrlNodeChange = (url: string) => {
 //  End Utilities ------------------------------------------------------}}}
 //  User -------------------------------------------------------{{{
 
-export const initializeFirebaseUserFacebookId = (firebaseId: string, facebookId: string): any => {
-  return firebaseUserDb.writeNode(DbSchema.GetFirebaseIdDbUrl(facebookId), firebaseId);
+export const initializeFirebaseUserFacebookId = (
+  firebaseId: string,
+  facebookId: string,
+): any => {
+  return firebaseUserDb.writeNode(
+    DbSchema.GetFirebaseIdDbUrl(facebookId),
+    firebaseId,
+  );
 };
 
 export const updateFirebaseUser = (user: User): any => {
@@ -125,23 +142,33 @@ export const getFirebaseId = (facebookId: string): any => {
 //  End Firebase / Facebook Id Conversion -------------------------------}}}
 
 export const readPurchasedBevegrams = (userFirebaseId: string) => {
-  return firebaseUserDb.readNode(DbSchema.GetPurchasedBevegramListDbUrl(userFirebaseId));
+  return firebaseUserDb.readNode(
+    DbSchema.GetPurchasedBevegramListDbUrl(userFirebaseId),
+  );
 };
 
 export const readPurchasedBevegramsSummary = (userFirebaseId: string) => {
-  return firebaseUserDb.readNode(DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId));
+  return firebaseUserDb.readNode(
+    DbSchema.GetPurchasedBevegramSummaryDbUrl(userFirebaseId),
+  );
 };
 
 export const readSentBevegrams = (userFirebaseId: string) => {
-  return firebaseUserDb.readNode(DbSchema.GetSentBevegramListDbUrl(userFirebaseId));
+  return firebaseUserDb.readNode(
+    DbSchema.GetSentBevegramListDbUrl(userFirebaseId),
+  );
 };
 
 export const readReceivedBevegrams = (userFirebaseId: string) => {
-  return firebaseUserDb.readNode(DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId));
+  return firebaseUserDb.readNode(
+    DbSchema.GetReceivedBevegramListDbUrl(userFirebaseId),
+  );
 };
 
 export const readRedeemedBevegrams = (userFirebaseId: string) => {
-  return firebaseUserDb.readNode(DbSchema.GetRedeemedBevegramListDbUrl(userFirebaseId));
+  return firebaseUserDb.readNode(
+    DbSchema.GetRedeemedBevegramListDbUrl(userFirebaseId),
+  );
 };
 //  PurchasePackages ----------------------------------------------------{{{
 
@@ -158,32 +185,64 @@ const TaskifyUrl = (url: string): string => {
   return `${url}/tasks`;
 };
 
-export const QueueAddCreditCardToCustomerPackage = (inputPackage: AddCreditCardToCustomerPackageForQueue) => {
-  firebaseUserDb.pushNode(TaskifyUrl(DbSchema.GetAddCreditCardToCustomerQueueUrl()), inputPackage);
+export const QueueAddCreditCardToCustomerPackage = (
+  inputPackage: AddCreditCardToCustomerPackageForQueue,
+) => {
+  firebaseUserDb.pushNode(
+    TaskifyUrl(DbSchema.GetAddCreditCardToCustomerQueueUrl()),
+    inputPackage,
+  );
 };
 
-export const QueueRemoveCreditCardFromCustomerPackage = (inputPackage: RemoveCreditCardFromCustomerPackageForQueue) => {
-  firebaseUserDb.pushNode(TaskifyUrl(DbSchema.GetRemoveCreditCardFromCustomerQueueUrl()), inputPackage);
+export const QueueRemoveCreditCardFromCustomerPackage = (
+  inputPackage: RemoveCreditCardFromCustomerPackageForQueue,
+) => {
+  firebaseUserDb.pushNode(
+    TaskifyUrl(DbSchema.GetRemoveCreditCardFromCustomerQueueUrl()),
+    inputPackage,
+  );
 };
 
-export const QueueUpdateDefaultCreditCard = (input: UpdateDefaultCreditCardForCustomerPackageForQueue) => {
-  firebaseUserDb.pushNode(TaskifyUrl(DbSchema.GetUpdateDefaultCreditCardForCustomerUrl()), input);
+export const QueueUpdateDefaultCreditCard = (
+  input: UpdateDefaultCreditCardForCustomerPackageForQueue,
+) => {
+  firebaseUserDb.pushNode(
+    TaskifyUrl(DbSchema.GetUpdateDefaultCreditCardForCustomerUrl()),
+    input,
+  );
 };
 
 export const QueuePurchasePackage = (inputPackage: PurchasePackageForQueue) => {
-  firebaseUserDb.pushNode(TaskifyUrl(DbSchema.GetPurchaseQueueUrl()), inputPackage);
+  firebaseUserDb.pushNode(
+    TaskifyUrl(DbSchema.GetPurchaseQueueUrl()),
+    inputPackage,
+  );
 };
 
-export const QueueToggleNotificationSettingPackage = (inputPackage: ToggleNotificationSettingPackageForQueue) => {
-  firebaseUserDb.pushNode(TaskifyUrl(DbSchema.GetToggleNotificationSettingQueueUrl()), inputPackage);
+export const QueueToggleNotificationSettingPackage = (
+  inputPackage: ToggleNotificationSettingPackageForQueue,
+) => {
+  firebaseUserDb.pushNode(
+    TaskifyUrl(DbSchema.GetToggleNotificationSettingQueueUrl()),
+    inputPackage,
+  );
 };
 
 export const QueueRedeemPackage = (inputPackage: RedeemPackageForQueue) => {
-  firebaseUserDb.pushNode(TaskifyUrl(DbSchema.GetRedeemQueueUrl()), inputPackage);
+  firebaseUserDb.pushNode(
+    TaskifyUrl(DbSchema.GetRedeemQueueUrl()),
+    inputPackage,
+  );
 };
 
-export const DbWriteUserVerificationToken = (token: string, userFirebaseId: string) => {
-  firebaseUserDb.writeNode(DbSchema.GetUserVerificationTokenDbUrl(userFirebaseId), token);
+export const DbWriteUserVerificationToken = (
+  token: string,
+  userFirebaseId: string,
+) => {
+  firebaseUserDb.writeNode(
+    DbSchema.GetUserVerificationTokenDbUrl(userFirebaseId),
+    token,
+  );
 };
 
 //  End Queue ----------------------------------------------}}}

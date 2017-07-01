@@ -7,11 +7,13 @@ const stripeApiKey = publicApiKeys.stripe;
 
 const uriEncodeObjectToString = (inputObj, separator = "&") => {
   const result = [];
-  Object.keys(inputObj).forEach((key) => {
+  Object.keys(inputObj).forEach(key => {
     if (typeof inputObj[key] === "object") {
       result.push(uriEncodeNestedObject(inputObj[key], key));
     } else {
-      result.push(encodeURIComponent(key) + "=" + encodeURIComponent(inputObj[key]));
+      result.push(
+        encodeURIComponent(key) + "=" + encodeURIComponent(inputObj[key]),
+      );
     }
   });
   const strResult = result.join("&");
@@ -27,8 +29,12 @@ const uriEncodeObjectToString = (inputObj, separator = "&") => {
 const uriEncodeNestedObject = (inputObj, objName) => {
   const result = [];
   const name = encodeURIComponent(objName);
-  Object.keys(inputObj).forEach((key) => {
-    result.push(`${name}[${encodeURIComponent(key)}]=${encodeURIComponent(inputObj[key])}`);
+  Object.keys(inputObj).forEach(key => {
+    result.push(
+      `${name}[${encodeURIComponent(key)}]=${encodeURIComponent(
+        inputObj[key],
+      )}`,
+    );
   });
   return result.join("&");
 };
@@ -48,12 +54,12 @@ const stripeRequest = (
     },
     method: method,
   })
-  .then((response) => {
-    return response.json();
-  })
-  .catch((error) => {
-    throw Error(`Error ${method}ing ${body} to ${url}: ${error}`);
-  });
+    .then(response => {
+      return response.json();
+    })
+    .catch(error => {
+      throw Error(`Error ${method}ing ${body} to ${url}: ${error}`);
+    });
 };
 
 // Verify a credit card. Returns a token if verification is successful.
