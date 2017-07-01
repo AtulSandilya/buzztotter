@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import {View, ViewStyle} from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import TimeAgo from "react-timeago";
 
@@ -11,9 +11,9 @@ interface BevTimestampProps {
   style?: ViewStyle;
 }
 
-const BevTimestamp: React.StatelessComponent<BevTimestampProps> = (props) => {
+const BevTimestamp: React.StatelessComponent<BevTimestampProps> = props => {
   return (
-    <View style={[{flex: -1}, props.style]}>
+    <View style={[{ flex: -1 }, props.style]}>
       <TimeAgo
         date={props.date}
         component={BevUiText}

@@ -4,17 +4,17 @@ import { ListView, RefreshControl, Text, View } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import {Pluralize} from "../CommonUtilities";
-import {globalColors, globalStyles} from "./GlobalStyles";
+import { Pluralize } from "../CommonUtilities";
 import theme from "../theme";
+import { globalColors, globalStyles } from "./GlobalStyles";
 
 import BevTimestamp from "./BevTimestamp";
 
 import {
   PurchasedBevegram,
   ReceivedBevegram,
-  UserRedeemedBevegram,
   SentBevegram,
+  UserRedeemedBevegram,
 } from "../db/tables";
 
 export interface HistoryProps {
@@ -47,14 +47,18 @@ const History: React.StatelessComponent<HistoryProps> = ({
   completedInitialLoad,
   refreshHistory,
 }) => {
-  const historyData = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+  const historyData = new ListView.DataSource({
+    rowHasChanged: (r1, r2) => r1 !== r2,
+  });
 
   const formatPurchasedBevegram = (input: PurchasedBevegram): HistoryItem => {
     return {
       label: "Purchased",
       icon: "usd",
       date: input.purchaseDate,
-      info: `${input.quantity} Bevegram${input.quantity !== 1 ? "s" : ""} for $${(input.purchasePrice / 100).toFixed(2)}`,
+      info: `${input.quantity} Bevegram${input.quantity !== 1
+        ? "s"
+        : ""} for $${(input.purchasePrice / 100).toFixed(2)}`,
     };
   };
 
@@ -63,7 +67,9 @@ const History: React.StatelessComponent<HistoryProps> = ({
       label: "Sent",
       icon: "paper-plane",
       date: input.sendDate,
-      info: `${input.quantity} Bevegram${Pluralize(input.quantity)} to ${input.receiverName}`,
+      info: `${input.quantity} Bevegram${Pluralize(
+        input.quantity,
+      )} to ${input.receiverName}`,
     };
   };
 
@@ -72,7 +78,9 @@ const History: React.StatelessComponent<HistoryProps> = ({
       label: "Received",
       icon: "envelope",
       date: input.receivedDate,
-      info: `${input.quantity} Bevegram${Pluralize(input.quantity)} from ${input.sentFromName}`,
+      info: `${input.quantity} Bevegram${Pluralize(
+        input.quantity,
+      )} from ${input.sentFromName}`,
     };
   };
 
@@ -81,41 +89,53 @@ const History: React.StatelessComponent<HistoryProps> = ({
       label: "Redeemed",
       icon: "glass",
       date: input.redeemedDate,
-      info: `${input.quantity} Bevegram${Pluralize(input.quantity)} at ${input.vendorName}`,
+      info: `${input.quantity} Bevegram${Pluralize(
+        input.quantity,
+      )} at ${input.vendorName}`,
     };
   };
 
   const formatPurchaseSendPair = (index: number): HistoryItem => {
-    const purchasedBevegram = purchasedBevegrams[bevegramHistoryKeys[index + 1]];
+    const purchasedBevegram =
+      purchasedBevegrams[bevegramHistoryKeys[index + 1]];
     const quantity = purchasedBevegram.quantity;
     const sentBevegram = sentBevegrams[bevegramHistoryKeys[index]];
     return {
       label: "Purchased & Sent",
       icon: "paper-plane",
       date: purchasedBevegram.purchaseDate,
-      info: `${quantity} Bevegram${quantity !== 1 ? "s" : ""} to ${sentBevegram.receiverName} for $${(purchasedBevegram.purchasePrice / 100).toFixed(2)}`,
+      info: `${quantity} Bevegram${quantity !== 1
+        ? "s"
+        : ""} to ${sentBevegram.receiverName} for $${(purchasedBevegram.purchasePrice /
+        100).toFixed(2)}`,
     };
   };
 
   let skipNextRender = false;
 
   const isPurchaseSendPair = (index: number): true => {
-    if(index === (bevegramHistoryKeys.length - 1)) return;
+    if (index === bevegramHistoryKeys.length - 1) {
+      return;
+    }
     const thisKeyValue = bevegramHistoryKeys[index];
     const nextKeyValue = bevegramHistoryKeys[index + 1];
 
-
-    if(sentBevegrams.hasOwnProperty(thisKeyValue)) {
-      if(purchasedBevegrams.hasOwnProperty(nextKeyValue)) {
-        const sentBevegramPurchaseId = sentBevegrams[thisKeyValue].purchasedBevegramId;
-        const purchasedBevegramSendId = purchasedBevegrams[nextKeyValue].sentBevegramId;
-        if(sentBevegramPurchaseId === nextKeyValue && purchasedBevegramSendId === thisKeyValue) {
+    if (sentBevegrams.hasOwnProperty(thisKeyValue)) {
+      if (purchasedBevegrams.hasOwnProperty(nextKeyValue)) {
+        const sentBevegramPurchaseId =
+          sentBevegrams[thisKeyValue].purchasedBevegramId;
+        const purchasedBevegramSendId =
+          purchasedBevegrams[nextKeyValue].sentBevegramId;
+        if (
+          sentBevegramPurchaseId === nextKeyValue &&
+          purchasedBevegramSendId === thisKeyValue
+        ) {
           skipNextRender = true;
           return true;
         }
       }
     }
-  }
+  };
 
   const getEventForId = (key: string, index: number): HistoryItem => {
     if (isPurchaseSendPair(index)) {
@@ -143,37 +163,58 @@ const History: React.StatelessComponent<HistoryProps> = ({
       dataSource={historyData.cloneWithRows(bevegramHistoryKeys)}
       enableEmptySections={true}
       renderRow={(historyKey, sectionId, index) => {
-        if(skipNextRender) {
+        if (skipNextRender) {
           skipNextRender = false;
-          return <View/>
+          return <View />;
         }
         const item = getEventForId(historyKey, parseInt(index as any, 10));
         return (
-          <View style={{flex: 1, flexDirection: "row", justifyContent: "center", paddingVertical: 8}}>
-            <View style={{
-              height: 45,
-              width: 45,
-              borderRadius: 45,
-              backgroundColor: globalColors.bevPrimary,
-              alignItems: "center",
-              alignSelf: "center",
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
               justifyContent: "center",
-              marginLeft: 10,
-              marginRight: 15,
-            }}>
+              paddingVertical: 8,
+            }}
+          >
+            <View
+              style={{
+                height: 45,
+                width: 45,
+                borderRadius: 45,
+                backgroundColor: globalColors.bevPrimary,
+                alignItems: "center",
+                alignSelf: "center",
+                justifyContent: "center",
+                marginLeft: 10,
+                marginRight: 15,
+              }}
+            >
               <FontAwesome
                 name={item.icon}
                 color={"#ffffff"}
                 size={20}
-                style={{alignSelf: "center"}}
+                style={{ alignSelf: "center" }}
               />
             </View>
-            <View style={{
-              flex: 1,
-              flexDirection: "column",
-            }}>
-              <View style={{flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingBottom: 5}}>
-                <Text style={[globalStyles.importantText, {fontSize: 14}]}>{item.label}</Text>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+              }}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  paddingBottom: 5,
+                }}
+              >
+                <Text style={[globalStyles.importantText, { fontSize: 14 }]}>
+                  {item.label}
+                </Text>
                 <BevTimestamp
                   date={item.date}
                   style={{
@@ -187,7 +228,8 @@ const History: React.StatelessComponent<HistoryProps> = ({
           </View>
         );
       }}
-      renderSeparator={(sectionId, rowId) => <View key={rowId} style={globalStyles.listRowSeparator} />}
+      renderSeparator={(sectionId, rowId) =>
+        <View key={rowId} style={globalStyles.listRowSeparator} />}
       refreshControl={
         <RefreshControl
           refreshing={isRefreshing}

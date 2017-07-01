@@ -1,13 +1,9 @@
 import * as React from "react";
-import { Component} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Component } from "react";
+import { StyleSheet, Text, View } from "react-native";
 
-import BevButton from './BevButton';
-import {globalColors, globalStyles} from './GlobalStyles';
+import BevButton from "./BevButton";
+import { globalColors, globalStyles } from "./GlobalStyles";
 
 export interface BevegramStatusBarProps {
   userBevegrams?: number;
@@ -16,33 +12,39 @@ export interface BevegramStatusBarProps {
 
 const BevegramStatusBar: React.StatelessComponent<BevegramStatusBarProps> = ({
   userBevegrams,
-  goToPurchase
+  goToPurchase,
 }) => {
   return (
-    <View style={{
-      flex: 1,
-      flexDirection: 'row',
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: globalColors.lightSeparator,
-    }}>
-    <View style={{
-      flex: -1,
-      alignItems: 'center',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      paddingLeft: 10,
-    }}>
+    <View
+      style={{
+        borderBottomColor: globalColors.lightSeparator,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        flex: 1,
+        flexDirection: "row",
+      }}
+    >
+      <View
+        style={{
+          alignItems: "center",
+          flex: -1,
+          flexDirection: "row",
+          justifyContent: "center",
+          paddingLeft: 10,
+        }}
+      >
         <Text style={globalStyles.bevLineTextTitle}>
           Your Bevegrams :
         </Text>
         <Text style={globalStyles.bevLineText}>
-          {" " + (userBevegrams).toString()}
+          {" " + userBevegrams.toString()}
         </Text>
       </View>
-    <View style={{
-      flex: 1,
-      alignItems: 'flex-end',
-    }}>
+      <View
+        style={{
+          alignItems: "flex-end",
+          flex: 1,
+        }}
+      >
         <BevButton
           text="Buy More"
           shortText="Buy More"
@@ -53,8 +55,7 @@ const BevegramStatusBar: React.StatelessComponent<BevegramStatusBarProps> = ({
         />
       </View>
     </View>
-  )
-
-}
+  );
+};
 
 export default BevegramStatusBar;

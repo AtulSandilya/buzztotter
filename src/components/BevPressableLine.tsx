@@ -1,11 +1,7 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import { StyleSheet, TouchableHighlight, View } from "react-native";
 
-import {globalColors} from "./GlobalStyles";
+import { globalColors } from "./GlobalStyles";
 
 import RightArrow from "./RightArrow";
 
@@ -15,11 +11,13 @@ interface BevPressableLineProps {
   showTopBorder?: boolean;
 }
 
-const BevPressableLine: React.StatelessComponent<BevPressableLineProps> = (props) => {
+const BevPressableLine: React.StatelessComponent<
+  BevPressableLineProps
+> = props => {
   return (
     <TouchableHighlight
       onPress={props.onPress}
-      style={{flex: 1}}
+      style={{ flex: 1 }}
       underlayColor={"#ffffff"}
     >
       <View
@@ -36,11 +34,11 @@ const BevPressableLine: React.StatelessComponent<BevPressableLineProps> = (props
           paddingVertical: 10,
         }}
       >
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           {props.children}
         </View>
-        <View style={{flex: -1}}>
-          <RightArrow/>
+        <View style={{ flex: -1 }}>
+          <RightArrow />
         </View>
       </View>
     </TouchableHighlight>

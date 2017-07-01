@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Component } from "react";
+import { Text, View } from "react-native";
 
 interface IconBadgeProps {
   containerHeight: number;
@@ -13,58 +13,60 @@ const IconBadge: React.StatelessComponent<IconBadgeProps> = ({
   containerWidth,
   displayNumber,
 }) => {
-  if(displayNumber == 0) {
-    return (
-      <View></View>
-    )
+  if (displayNumber === 0) {
+    return <View />;
   }
 
   return (
-    <View style={{
-      flex: 1,
-      flexDirection: 'column-reverse',
-      zIndex: 500,
-      top: 0,
-      left: 0,
-      height: containerHeight,
-      width: containerWidth,
-      position: 'absolute'
-    }}>
-      <View style={{flex: 1}}></View>
-      <View style={{flex: 1, flexDirection: 'row-reverse'}}>
-        <View style={{flex: 4, justifyContent: 'center'}}>
-          <View style={{
-            padding: 7,
-            paddingVertical: 2,
-            borderRadius: 20,
-            backgroundColor: 'rgba(255, 0, 0, 0.85)',
-            flex: -1,
-            alignSelf: 'flex-start',
-            elevation: 1,
-            shadowColor: '#333333',
-            shadowOpacity: 0.35,
-            shadowRadius: 1,
-            shadowOffset: {
-              width: 1,
-              height: 1,
-            },
-            justifyContent: 'center'
-          }}>
+    <View
+      style={{
+        flex: 1,
+        flexDirection: "column-reverse",
+        height: containerHeight,
+        left: 0,
+        position: "absolute",
+        top: 0,
+        width: containerWidth,
+        zIndex: 500,
+      }}
+    >
+      <View style={{ flex: 1 }} />
+      <View style={{ flex: 1, flexDirection: "row-reverse" }}>
+        <View style={{ flex: 4, justifyContent: "center" }}>
+          <View
+            style={{
+              alignSelf: "flex-start",
+              backgroundColor: "rgba(255, 0, 0, 0.85)",
+              borderRadius: 20,
+              elevation: 1,
+              flex: -1,
+              justifyContent: "center",
+              padding: 7,
+              paddingVertical: 2,
+              shadowColor: "#333333",
+              shadowOffset: {
+                height: 1,
+                width: 1,
+              },
+              shadowOpacity: 0.35,
+              shadowRadius: 1,
+            }}
+          >
             <Text
               numberOfLines={1}
               style={{
+                color: "#ffffff",
                 fontSize: 12,
-                color: '#ffffff',
               }}
             >
               {displayNumber}
             </Text>
           </View>
         </View>
-        <View style={{flex: 5}}></View>
+        <View style={{ flex: 5 }} />
       </View>
     </View>
-  )
-}
+  );
+};
 
 export default IconBadge;

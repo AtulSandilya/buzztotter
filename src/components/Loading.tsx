@@ -1,15 +1,10 @@
 import * as React from "react";
-import { Component} from "react";
-import {
-  Image,
-  Text,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Component } from "react";
+import { Image, Text, View, ViewStyle } from "react-native";
 
 import * as Animatable from "react-native-animatable";
 
-import {WindowWidth} from "../ReactNativeUtilities";
+import { WindowWidth } from "../ReactNativeUtilities";
 import theme from "../theme";
 
 const Loading: React.StatelessComponent<{}> = () => {
@@ -17,11 +12,13 @@ const Loading: React.StatelessComponent<{}> = () => {
   const animationDuration = 2000;
 
   return (
-    <View style={{
-      backgroundColor: theme.colors.bevPrimary,
-      flex: 1,
-    }}>
-      <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+    <View
+      style={{
+        backgroundColor: theme.colors.bevPrimary,
+        flex: 1,
+      }}
+    >
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Animatable.Image
           animation="rotate"
           duration={animationDuration}

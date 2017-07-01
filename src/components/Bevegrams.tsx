@@ -2,18 +2,18 @@ import * as React from "react";
 import { Component } from "react";
 import { ListView, RefreshControl, Text, View } from "react-native";
 
-import {modalKeys} from "../reducers/modals";
+import { modalKeys } from "../reducers/modals";
 
-import {buildFacebookProfilePicUrlFromFacebookId} from "../api/facebook";
-import {ReceivedBevegram} from "../db/tables";
+import { buildFacebookProfilePicUrlFromFacebookId } from "../api/facebook";
+import { ReceivedBevegram } from "../db/tables";
 
 import CBevegram from "../containers/CBevegram";
 import CRedeemBeer from "../containers/CRedeemBeer";
 import CenteredModal from "./CenteredModal";
 
-import {globalColors, globalStyles} from "./GlobalStyles";
+import { globalColors, globalStyles } from "./GlobalStyles";
 
-const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export interface BevegramsProps {
   bevegramsList?: string[];
@@ -34,10 +34,12 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
   reloadBevegrams,
   receivedBevegrams,
   unseenBevegrams,
-}) => (
-  <View style={{
-    flex: 1,
-  }}>
+}) =>
+  <View
+    style={{
+      flex: 1,
+    }}
+  >
     <ListView
       enableEmptySections={true}
       dataSource={ds.cloneWithRows(bevegramsList)}
@@ -48,13 +50,16 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
             from={thisBevegram.sentFromName}
             date={thisBevegram.receivedDate}
             quantity={thisBevegram.quantity - thisBevegram.quantityRedeemed}
-            imagePath={buildFacebookProfilePicUrlFromFacebookId(thisBevegram.sentFromFacebookId)}
+            imagePath={buildFacebookProfilePicUrlFromFacebookId(
+              thisBevegram.sentFromFacebookId,
+            )}
             id={rowKey}
             displayAsUnseen={unseenBevegrams >= parseInt(rowId as any, 10) + 1}
           />
         );
       }}
-      renderSeparator={(sectionId, rowId) => <View key={rowId} style={globalStyles.listRowSeparator} />}
+      renderSeparator={(sectionId, rowId) =>
+        <View key={rowId} style={globalStyles.listRowSeparator} />}
       refreshControl={
         <RefreshControl
           refreshing={isLoadingBevegrams}
@@ -72,22 +77,25 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
       renderFooter={() => {
         if (bevegramsList.length === 0) {
           return (
-            <View style={[globalStyles.bevLine, {
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: 0,
-              paddingBottom: 0,
-            }]}>
-              <Text style={{color: "#666", padding: 15}}>
+            <View
+              style={[
+                globalStyles.bevLine,
+                {
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 0,
+                  paddingBottom: 0,
+                },
+              ]}
+            >
+              <Text style={{ color: "#666", padding: 15 }}>
                 You have 0 bevegrams!
               </Text>
             </View>
           );
         }
-      }
-      }
+      }}
     />
-  </View>
-);
+  </View>;
 
 export default Bevegrams;

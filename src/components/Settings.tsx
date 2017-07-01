@@ -1,17 +1,24 @@
 import * as React from "react";
 import { Component } from "react";
-import { Linking, StyleSheet, Switch, Text, View, ViewStyle } from "react-native";
+import {
+  Linking,
+  StyleSheet,
+  Switch,
+  Text,
+  View,
+  ViewStyle,
+} from "react-native";
 
-import {settingsKeys} from "../reducers/settings";
+import { settingsKeys } from "../reducers/settings";
 
-import {isAndroid} from "../ReactNativeUtilities";
+import { isAndroid } from "../ReactNativeUtilities";
 
 import BevButton from "./BevButton";
 import FacebookButton from "./FacebookButton";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 import TitleText from "./TitleText";
 
-import {globalColors} from "./GlobalStyles";
+import { globalColors } from "./GlobalStyles";
 
 interface Style {
   settingLine: ViewStyle;
@@ -21,11 +28,11 @@ const linePadding = 8;
 
 const styles = StyleSheet.create<Style>({
   settingLine: {
-      borderBottomWidth: 1,
-      borderColor: globalColors.subtleSeparator,
-      flex: 1,
-      flexDirection: "row",
-      paddingVertical: linePadding,
+    borderBottomWidth: 1,
+    borderColor: globalColors.subtleSeparator,
+    flex: 1,
+    flexDirection: "row",
+    paddingVertical: linePadding,
   },
 });
 
@@ -50,7 +57,9 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({
 }) => {
   const supportEmail = "support@buzzotter.com";
   const emailSubject = `Support request regarding BuzzOtter version ${version}`;
-  const emailLink = `mailto:${supportEmail}?subject=${encodeURIComponent(emailSubject)}`;
+  const emailLink = `mailto:${supportEmail}?subject=${encodeURIComponent(
+    emailSubject,
+  )}`;
 
   return (
     <RouteWithNavBarWrapper>
@@ -66,11 +75,13 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({
             <SettingNameLight>{fullName}</SettingNameLight>
           </SettingLeft>
           <SettingRight>
-            <View style={{
-              alignItems: "flex-end",
-              flex: 1,
-              justifyContent: "flex-end",
-            }}>
+            <View
+              style={{
+                alignItems: "flex-end",
+                flex: 1,
+                justifyContent: "flex-end",
+              }}
+            >
               <FacebookButton
                 text="Log Out"
                 size="normal"
@@ -109,7 +120,7 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({
             <SettingNameLight>{version}</SettingNameLight>
           </SettingRight>
         </SettingLine>
-        <SettingLine style={{paddingVertical: 0}}>
+        <SettingLine style={{ paddingVertical: 0 }}>
           <SettingLeft>
             <SettingName>Support:</SettingName>
           </SettingLeft>
@@ -122,7 +133,7 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({
               margin={linePadding}
               rightIcon={true}
               onPress={() => {
-                Linking.canOpenURL(emailLink).then((supported) => {
+                Linking.canOpenURL(emailLink).then(supported => {
                   if (supported) {
                     Linking.openURL(emailLink);
                   } else {
@@ -138,7 +149,7 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({
   );
 };
 
-const SettingLeft = (props) => (
+const SettingLeft = props =>
   <View
     style={{
       alignItems: "flex-start",
@@ -147,10 +158,9 @@ const SettingLeft = (props) => (
     }}
   >
     {props.children}
-  </View>
-);
+  </View>;
 
-const SettingRight = (props) => (
+const SettingRight = props =>
   <View
     style={{
       alignItems: "flex-end",
@@ -159,19 +169,15 @@ const SettingRight = (props) => (
     }}
   >
     {props.children}
-  </View>
-);
+  </View>;
 
-const SettingLine = (props) => (
+const SettingLine = props =>
   <View style={[styles.settingLine, props.style ? props.style : {}]}>
     {props.children}
-  </View>
-);
+  </View>;
 
-const SettingName = (props) => (
-  <Text style={{fontSize: 20, fontWeight: "bold"}}>{props.children}</Text>
-);
+const SettingName = props =>
+  <Text style={{ fontSize: 20, fontWeight: "bold" }}>{props.children}</Text>;
 
-const SettingNameLight = (props) => (
-  <Text style={{fontSize: 20}}>{props.children}</Text>
-);
+const SettingNameLight = props =>
+  <Text style={{ fontSize: 20 }}>{props.children}</Text>;

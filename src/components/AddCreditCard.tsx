@@ -12,12 +12,12 @@ import {
 
 import moment from "moment";
 
-import {isIOS, isNarrow} from "../ReactNativeUtilities";
+import { isIOS, isNarrow } from "../ReactNativeUtilities";
 
-import {CardDataForVerification} from "../reducers/addCreditCard";
+import { CardDataForVerification } from "../reducers/addCreditCard";
 
 import BevButton from "./BevButton";
-import {globalStyles} from "./GlobalStyles";
+import { globalStyles } from "./GlobalStyles";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 
 interface AddCreditCardState {
@@ -44,53 +44,65 @@ export interface AddCreditCardProps {
   verificationFailed(errorMessage): void;
 }
 
-export default class AddCreditCard extends Component<AddCreditCardProps, AddCreditCardState> {
+/* tslint:disable:member-ordering */
+export default class AddCreditCard extends Component<
+  AddCreditCardProps,
+  AddCreditCardState
+> {
   constructor(props) {
     super(props);
     this.state = {
+      cardCvc: "",
+      cardExpMonth: "",
+      cardExpYear: "",
       cardNum1: "",
       cardNum2: "",
       cardNum3: "",
       cardNum4: "",
-      cardExpMonth: "",
-      cardExpYear: "",
-      cardCvc: "",
-      showCardNumberAsError: false,
+      showCardCvcAsError: false,
       showCardExpMonthAsError: false,
       showCardExpYearAsError: false,
-      showCardCvcAsError: false,
+      showCardNumberAsError: false,
     };
   }
 
-  verifyCard() {
+  private verifyCard() {
     if (this.clientSideVerify()) {
       Keyboard.dismiss();
       this.props.verifyCardDetailsWithStripe(this.packageCardData());
     }
   }
 
-  packageCardData(): CardDataForVerification {
+  private packageCardData(): CardDataForVerification {
     return {
-      cardNumber: this.getCardNumber(),
+      cardCvc: this.state.cardCvc,
       cardExpMonth: this.state.cardExpMonth,
       cardExpYear: this.state.cardExpYear,
-      cardCvc: this.state.cardCvc,
+      cardNumber: this.getCardNumber(),
     };
   }
 
-  clientSideVerify(): boolean {
-    return this.isValidCardNumber(this.getCardNumber())
-           && this.isValidCardExpMonth(this.state.cardExpMonth)
-           && this.isValidCardExpYear(this.state.cardExpYear)
-           && this.isValidCardCvc(this.state.cardCvc);
+  private clientSideVerify(): boolean {
+    return (
+      this.isValidCardNumber(this.getCardNumber()) &&
+      this.isValidCardExpMonth(this.state.cardExpMonth) &&
+      this.isValidCardExpYear(this.state.cardExpYear) &&
+      this.isValidCardCvc(this.state.cardCvc)
+    );
   }
 
-  getCardNumber(): string {
-    return this.state.cardNum1 + this.state.cardNum2 + this.state.cardNum3 + this.state.cardNum4;
+  private getCardNumber(): string {
+    return (
+      this.state.cardNum1 +
+      this.state.cardNum2 +
+      this.state.cardNum3 +
+      this.state.cardNum4
+    );
   }
 
-  isValidCardNumber(cardNum: string): boolean {
-    if (isNaN(parseInt(cardNum)) || cardNum.length !== 16) {
+  private isValidCardNumber(cardNum: string): boolean {
+    /* tslint:disable:no-magic-numbers */
+    if (isNaN(parseInt(cardNum, 10)) || cardNum.length !== 16) {
       this.props.verificationFailed("Invalid Card Number");
       this.updateState("showCardNumberAsError", true);
       return false;
@@ -100,10 +112,10 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
     return true;
   }
 
-  isValidCardExpMonth(cardExpMonth: string): boolean {
+  private isValidCardExpMonth(cardExpMonth: string): boolean {
     // parseInt returns NaN if cardExpMonth is not an int. NaN fails the
     // comparisons in the if statement.
-    const month = parseInt(cardExpMonth);
+    const month = parseInt(cardExpMonth, 10);
     if (month >= 1 && month <= 12) {
       this.updateState("showCardExpMonthAsError", false);
       return true;
@@ -114,12 +126,13 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
     return false;
   }
 
-  isValidCardExpYear(cardExpYear: string): boolean {
+  private isValidCardExpYear(cardExpYear: string): boolean {
     const thisYear: number = new Date().getFullYear();
     // The user input year is two digit and must be converted to 4 digits.
     // This is done by rounding the current year to the lowest hundred and
     // adding the year
-    const year: number = parseInt(cardExpYear) + (Math.floor(thisYear  / 100) * 100);
+    const year: number =
+      parseInt(cardExpYear, 10) + Math.floor(thisYear / 100) * 100;
     const validYearVariance: number = 20;
 
     if (year >= thisYear && year <= thisYear + validYearVariance) {
@@ -132,8 +145,8 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
     return false;
   }
 
-  isValidCardCvc(cvc: string): boolean {
-    const cvcInt: number = parseInt(cvc);
+  private isValidCardCvc(cvc: string): boolean {
+    const cvcInt: number = parseInt(cvc, 10);
     if (cvc.length !== 3 || isNaN(cvcInt)) {
       this.updateState("showCardCvcAsError", true);
       this.props.verificationFailed("Invalid CVC");
@@ -144,30 +157,35 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
     return true;
   }
 
-  updateState(property, value) {
+  private updateState(property, value) {
     this.setState((prevState, currentProps) => {
-      const nextState = Object.assign({}, prevState);
+      const nextState = { ...prevState };
       nextState[property] = value;
       return nextState;
     });
   }
 
-  render() {
+  public render() {
     return (
       <RouteWithNavBarWrapper>
         <View style={globalStyles.bevContainer}>
           <View style={globalStyles.bevLine}>
             <View style={globalStyles.bevLineLeft}>
               <Text style={globalStyles.bevLineTextTitle}>
-              {`${!isNarrow ? "Card " : ""}`}Number:
+                {`${!isNarrow ? "Card " : ""}`}Number:
               </Text>
             </View>
-            <View style={[globalStyles.bevLineRight, {
-              flexDirection: "row",
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "flex-end",
-            }]}>
+            <View
+              style={[
+                globalStyles.bevLineRight,
+                {
+                  alignItems: "center",
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                },
+              ]}
+            >
               <CreditCardInput
                 autoFocus={true}
                 ref="1"
@@ -179,7 +197,7 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
                 returnKeyType="next"
                 showError={this.state.showCardNumberAsError}
                 showEmpty={this.props.attemptingVerification}
-                onChangeText={(text) => {
+                onChangeText={text => {
                   this.updateState("showCardNumberAsError", false);
                   this.updateState("cardNum1", text);
                 }}
@@ -193,7 +211,7 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
                 width={40}
                 showError={this.state.showCardNumberAsError}
                 showEmpty={this.props.attemptingVerification}
-                onChangeText={(text) => {
+                onChangeText={text => {
                   this.updateState("showCardNumberAsError", false);
                   this.updateState("cardNum2", text);
                 }}
@@ -207,7 +225,7 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
                 width={40}
                 showError={this.state.showCardNumberAsError}
                 showEmpty={this.props.attemptingVerification}
-                onChangeText={(text) => {
+                onChangeText={text => {
                   this.updateState("showCardNumberAsError", false);
                   this.updateState("cardNum3", text);
                 }}
@@ -221,7 +239,7 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
                 width={40}
                 showError={this.state.showCardNumberAsError}
                 showSpinner={this.props.attemptingVerification}
-                onChangeText={(text) => {
+                onChangeText={text => {
                   this.updateState("showCardNumberAsError", false);
                   this.updateState("cardNum4", text);
                 }}
@@ -232,19 +250,22 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
             <View style={globalStyles.bevLineLeft}>
               <Text style={globalStyles.bevLineTextTitle}>Exp Date:</Text>
             </View>
-            <View style={[globalStyles.bevLineRight,
-              {
-                flex: 1,
-                flexDirection: "row",
-                alignItems: "flex-end",
-                justifyContent: "flex-end",
-              }]}
+            <View
+              style={[
+                globalStyles.bevLineRight,
+                {
+                  alignItems: "flex-end",
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                },
+              ]}
             >
               <View
-              style={{
-                flex: -1,
-                flexDirection: "row",
-              }}
+                style={{
+                  flex: -1,
+                  flexDirection: "row",
+                }}
               >
                 <CreditCardInput
                   ref="5"
@@ -255,18 +276,23 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
                   width={30}
                   showError={this.state.showCardExpMonthAsError}
                   showSpinner={this.props.attemptingVerification}
-                  onChangeText={(text) => {
-                  this.updateState("showCardExpMonthAsError", false);
-                  this.updateState("cardExpMonth", text);
+                  onChangeText={text => {
+                    this.updateState("showCardExpMonthAsError", false);
+                    this.updateState("cardExpMonth", text);
                   }}
                 />
-                <View style={[{
-                  width: 2,
-                  backgroundColor: "#999999",
-                  marginRight: 5,
-                  marginLeft: 10,
-                  marginVertical: 8,
-                }, styles.rotateSlash]}></View>
+                <View
+                  style={[
+                    {
+                      backgroundColor: "#999999",
+                      marginLeft: 10,
+                      marginRight: 5,
+                      marginVertical: 8,
+                      width: 2,
+                    },
+                    styles.rotateSlash,
+                  ]}
+                />
                 <CreditCardInput
                   ref="6"
                   value={this.state.cardExpYear}
@@ -276,7 +302,7 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
                   width={30}
                   showError={this.state.showCardExpYearAsError}
                   showSpinner={this.props.attemptingVerification}
-                  onChangeText={(text) => {
+                  onChangeText={text => {
                     this.updateState("showCardExpYearAsError", false);
                     this.updateState("cardExpYear", text);
                   }}
@@ -288,12 +314,17 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
             <View style={globalStyles.bevLineLeft}>
               <Text style={globalStyles.bevLineTextTitle}>CVC:</Text>
             </View>
-            <View style={[globalStyles.bevLineRight, {
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "flex-end",
-              flexDirection: "row",
-            }]}>
+            <View
+              style={[
+                globalStyles.bevLineRight,
+                {
+                  alignItems: "center",
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                },
+              ]}
+            >
               <CreditCardInput
                 ref="7"
                 value={this.state.cardCvc}
@@ -302,7 +333,7 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
                 width={45}
                 showError={this.state.showCardCvcAsError}
                 showSpinner={this.props.attemptingVerification}
-                onChangeText={(text) => {
+                onChangeText={text => {
                   this.updateState("showCardCvcAsError", false);
                   this.updateState("cardCvc", text);
                 }}
@@ -316,43 +347,56 @@ export default class AddCreditCard extends Component<AddCreditCardProps, AddCred
               />
             </View>
           </View>
-          {this.props.failed  && !this.props.attemptingVerification ?
-            <View style={globalStyles.bevLine}>
-              <View style={[globalStyles.bevLineLeft, {justifyContent: "flex-start"}]}>
-                <Text style={[{
-                  color: "red",
-                  paddingRight: 10,
-                }, globalStyles.bevLineTextTitle]}>
-                  Error:
-                </Text>
-              </View>
-              <View style={globalStyles.bevLineWideRight}>
-                <Text
-                  numberOfLines={Infinity}
+          {this.props.failed && !this.props.attemptingVerification
+            ? <View style={globalStyles.bevLine}>
+                <View
+                  style={[
+                    globalStyles.bevLineLeft,
+                    { justifyContent: "flex-start" },
+                  ]}
                 >
-                  {this.props.failMessage}
-                </Text>
+                  <Text
+                    style={[
+                      {
+                        color: "red",
+                        paddingRight: 10,
+                      },
+                      globalStyles.bevLineTextTitle,
+                    ]}
+                  >
+                    Error:
+                  </Text>
+                </View>
+                <View style={globalStyles.bevLineWideRight}>
+                  <Text numberOfLines={Infinity}>
+                    {this.props.failMessage}
+                  </Text>
+                </View>
               </View>
-            </View>
-          :
-          null}
+            : null}
           <View style={globalStyles.bevLastLine}>
             <View style={globalStyles.bevLineLeft}>
               <BevButton
                 text="Cancel"
                 shortText="Cancel"
                 label="Cancel Add Credit Card Button"
-                onPress={this.props.goBackToPurchase.bind(this)}
+                onPress={this.props.goBackToPurchase}
                 buttonFontSize={20}
                 margin={0}
               />
             </View>
             <View style={globalStyles.bevLineRight}>
               <BevButton
-                text={this.props.attemptingVerification ? "Verifying" : "Verify Card"}
-                shortText={this.props.attemptingVerification ? "Verifying" : "Verify"}
+                text={
+                  this.props.attemptingVerification
+                    ? "Verifying"
+                    : "Verify Card"
+                }
+                shortText={
+                  this.props.attemptingVerification ? "Verifying" : "Verify"
+                }
                 label="Verify Credit Card Button"
-                onPress={this.verifyCard.bind(this)}
+                onPress={this.verifyCard}
                 buttonFontSize={20}
                 margin={0}
                 showSpinner={this.props.attemptingVerification}
@@ -376,35 +420,36 @@ interface CreditCardInputProps {
   showError?: boolean;
   showEmpty?: boolean;
   returnKeyType?: "next" | "done";
-  onChangeText(string): void;
-  onMaxLength?: Function;
+  onChangeText(text: string): void;
+  onMaxLength?: () => void;
 }
 
-interface CreditCardInputState {}
-
-class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputState> {
-
+/* tslint:disable:max-classes-per-file */
+class CreditCardInput extends Component<
+  CreditCardInputProps,
+  {},
+> {
   public static defaultProps: CreditCardInputProps = {
-    ref: undefined,
-    nextRef: undefined,
-    width: undefined,
+    autoFocus: false,
     maxChars: undefined,
-    placeholder: "",
+    nextRef: undefined,
     onChangeText: undefined,
     onMaxLength: undefined,
+    placeholder: "",
+    ref: undefined,
     returnKeyType: "next",
+    showEmpty: false,
     showError: false,
     showSpinner: false,
-    showEmpty: false,
     value: undefined,
-    autoFocus: false,
+    width: undefined,
   };
 
-  onSubmit() {
+  private onSubmit() {
     this.goToNextInput();
   }
 
-  onMaxLength() {
+  private onMaxLength() {
     if (this.props.onMaxLength) {
       this.props.onMaxLength();
     } else {
@@ -412,44 +457,48 @@ class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputSta
     }
   }
 
-  goToNextInput() {
+  private goToNextInput() {
     if (this.props.nextRef) {
-      this.props.nextRef.refs["textInput"].focus();
+      this.props.nextRef.refs.textInput.focus();
     }
   }
 
-  render() {
+  public render() {
     const oneCharWidth = 12;
     if (this.props.showEmpty) {
-      return (
-        <View></View>
-      );
+      return <View />;
     }
     if (this.props.showSpinner) {
       return (
         <ActivityIndicator
-        style={{
-          height: 45,
-          width: this.props.width,
-          flex: -1,
-          alignSelf: "center",
-        }}
+          style={{
+            alignSelf: "center",
+            flex: -1,
+            height: 45,
+            width: this.props.width,
+          }}
         />
       );
     }
-    return(
-      <View style={ this.props.showError ? {
-        borderBottomWidth: 1,
-        borderColor: "rgba(255, 0, 0, 0.75)",
-      } : {
-        borderBottomWidth: 1,
-        borderColor: "rgba(255, 255, 255, 1)",
-      }}>
+    return (
+      <View
+        style={
+          this.props.showError
+            ? {
+                borderBottomWidth: 1,
+                borderColor: "rgba(255, 0, 0, 0.75)",
+              }
+            : {
+                borderBottomWidth: 1,
+                borderColor: "rgba(255, 255, 255, 1)",
+              }
+        }
+      >
         <TextInput
           style={{
-            width: this.props.maxChars * oneCharWidth,
-            textAlign: "center",
             height: 45,
+            textAlign: "center",
+            width: this.props.maxChars * oneCharWidth,
           }}
           autoFocus={this.props.autoFocus}
           ref="textInput"
@@ -459,13 +508,13 @@ class CreditCardInput extends Component<CreditCardInputProps, CreditCardInputSta
           maxLength={this.props.maxChars}
           placeholder={this.props.placeholder}
           placeholderTextColor={"#cccccc"}
-          onChangeText={(text) => {
+          onChangeText={text => {
             this.props.onChangeText(text);
             if (text.length === this.props.maxChars) {
               this.onMaxLength();
             }
           }}
-          onSubmitEditing={this.onSubmit.bind(this)}
+          onSubmitEditing={this.onSubmit}
         />
       </View>
     );
@@ -478,6 +527,6 @@ interface Style {
 
 const styles = StyleSheet.create<Style>({
   rotateSlash: {
-    transform: [{rotate: "15deg"}],
+    transform: [{ rotate: "15deg" }],
   },
 });

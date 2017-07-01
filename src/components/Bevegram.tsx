@@ -1,6 +1,13 @@
 import * as React from "react";
 import { Component } from "react";
-import { Image, StyleSheet, Text, TouchableHighlight, View, ViewStyle} from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+  ViewStyle,
+} from "react-native";
 
 import { connect } from "react-redux";
 import { modalKeys } from "../reducers/modals.js";
@@ -16,15 +23,18 @@ interface Style {
 }
 
 const styles = StyleSheet.create<Style>({
-  parentContainer: {
-    flex: 1,
+  buttonContainer: {
+    alignItems: "flex-end",
+    alignSelf: "center",
+    flex: -1,
     flexDirection: "row",
+    justifyContent: "flex-end",
   },
   infoContainer: {
+    alignItems: "center",
+    alignSelf: "center",
     flex: 2,
     flexDirection: "row",
-    alignSelf: "center",
-    alignItems: "center",
     paddingLeft: 10,
   },
   infoTextContainer: {
@@ -32,12 +42,9 @@ const styles = StyleSheet.create<Style>({
     flexDirection: "column",
     paddingLeft: 15,
   },
-  buttonContainer: {
-    flex: -1,
+  parentContainer: {
+    flex: 1,
     flexDirection: "row",
-    alignSelf: "center",
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
   },
 });
 
@@ -57,22 +64,35 @@ export interface BevegramProps {
   goToRedeem?(routeData: DataForRoute): void;
 }
 
-const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, quantity, goToRedeem, imagePath, displayAsUnseen}) => (
+const Bevegram: React.StatelessComponent<BevegramProps> = ({
+  from,
+  date,
+  id,
+  quantity,
+  goToRedeem,
+  imagePath,
+  displayAsUnseen,
+}) =>
   <View style={styles.parentContainer}>
     <View style={styles.infoContainer}>
       <Image
-        source={imagePath ?
-          {uri: imagePath}
-        :
-          require("../../img/icons/bev-contact.png")
+        source={
+          imagePath
+            ? { uri: imagePath }
+            : require("../../img/icons/bev-contact.png")
         }
-        style={{height: 50, width: 50}}
+        style={{ height: 50, width: 50 }}
       />
       <View style={styles.infoTextContainer}>
-        <Text style={[{paddingBottom: 5}, displayAsUnseen ? {fontWeight: "bold"} : {}]}>{from}</Text>
-        <BevTimestamp
-          date={date}
-        />
+        <Text
+          style={[
+            { paddingBottom: 5 },
+            displayAsUnseen ? { fontWeight: "bold" } : {},
+          ]}
+        >
+          {from}
+        </Text>
+        <BevTimestamp date={date} />
       </View>
     </View>
     <View style={styles.buttonContainer}>
@@ -80,11 +100,10 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({from, date, id, quan
         text={`Redeem ${quantity} Bevegram${quantity === 1 ? "" : "s"}`}
         shortText="Redeem"
         label="Redeem Bevegram Button"
-        onPress={() => goToRedeem({id: id, from: from, quantity: quantity})}
+        onPress={() => goToRedeem({ id: id, from: from, quantity: quantity })}
         rightIcon={true}
       />
     </View>
-  </View>
-);
+  </View>;
 
 export default Bevegram;

@@ -4,13 +4,11 @@ import { ActivityIndicator, Text, View } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import {
-  EventStatus,
-} from "../db/tables";
+import { EventStatus } from "../db/tables";
 
 import theme from "../theme";
 
-import {globalStyles} from "./GlobalStyles";
+import { globalStyles } from "./GlobalStyles";
 
 const iconSize = 30;
 
@@ -20,17 +18,13 @@ const StatusLineIcon = (iconName: string, color: string) => {
       name={iconName}
       size={iconSize}
       color={color}
-      style={{paddingRight: 7}}
+      style={{ paddingRight: 7 }}
     />
   );
 };
 
-const StatusLineActivityIndicator = (isSpinning: boolean = true) => (
-  <ActivityIndicator
-    style={{marginRight: 10}}
-    animating={isSpinning}
-  />
-);
+const StatusLineActivityIndicator = (isSpinning: boolean = true) =>
+  <ActivityIndicator style={{ marginRight: 10 }} animating={isSpinning} />;
 
 interface GenericStatusObject {
   [eventName: string]: EventStatus;
@@ -43,7 +37,7 @@ interface StatusLineProps {
 }
 
 const StatusLine = (props: StatusLineProps) => {
-  const failedKeys = Object.keys(props.statusObject).filter((key) => {
+  const failedKeys = Object.keys(props.statusObject).filter(key => {
     return props.statusObject[key] === "failed";
   });
 

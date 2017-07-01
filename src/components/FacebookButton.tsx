@@ -43,7 +43,7 @@ const FacebookButton: React.StatelessComponent<
           {props.text}
         </Text>
         {props.showActivityIndicator
-          ? <ActivityIndicator color="#ffffff" style={{paddingLeft: 15}} />
+          ? <ActivityIndicator color="#ffffff" style={{ paddingLeft: 15 }} />
           : null}
       </Icon.Button>
     </View>

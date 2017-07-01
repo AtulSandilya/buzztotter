@@ -4,7 +4,7 @@ import Ionicon from "react-native-vector-icons/Ionicons";
 
 import theme from "../theme";
 
-const RightArrow: React.StatelessComponent<{}> = () => (
+const RightArrow: React.StatelessComponent<{}> = () =>
   <Ionicon
     name="ios-arrow-forward"
     style={{
@@ -12,7 +12,6 @@ const RightArrow: React.StatelessComponent<{}> = () => (
       fontSize: 35,
       paddingLeft: 15,
     }}
-  />
-);
+  />;
 
 export default RightArrow;

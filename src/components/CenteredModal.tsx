@@ -1,28 +1,36 @@
 import * as React from "react";
-import { Component } from 'react';
-import { Dimensions, Modal, ScrollView, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Component } from "react";
+import {
+  Dimensions,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+} from "react-native";
 
-import {globalColors} from './GlobalStyles';
+import { globalColors } from "./GlobalStyles";
 
 const styles = StyleSheet.create({
   outerView: {
-    backgroundColor: '#222222',
+    backgroundColor: "#222222",
     opacity: 20,
   },
   innerView: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     opacity: 100,
-  }
+  },
 });
 
 const calcDimensions = (dimensionProperty, innerSize) => {
-  let full = Dimensions.get('window')[dimensionProperty]
+  const full = Dimensions.get("window")[dimensionProperty];
   return {
     full: full,
     inner: full * innerSize,
-    edge: (full - (full * innerSize)) / 2
-  }
-}
+    edge: (full - full * innerSize) / 2,
+  };
+};
 
 interface CenteredModalProps {
   isVisible: boolean;
@@ -33,7 +41,7 @@ interface CenteredModalProps {
   closeFromParent?(): void;
 }
 
-const CenteredModal:React.StatelessComponent<CenteredModalProps> = ({
+const CenteredModal: React.StatelessComponent<CenteredModalProps> = ({
   children,
   isVisible = false,
   bgOpacity = 0.6,
@@ -41,54 +49,60 @@ const CenteredModal:React.StatelessComponent<CenteredModalProps> = ({
   widthPercent = 0.9,
   closeFromParent,
 }) => {
-  const width = calcDimensions('width', widthPercent);
-  const height = calcDimensions('height', heightPercent);
+  const width = calcDimensions("width", widthPercent);
+  const height = calcDimensions("height", heightPercent);
   const cancelButtonSize = 25;
 
-  return(
+  return (
     <Modal
-      animationType={'fade'}
+      animationType={"fade"}
       transparent={true}
       visible={isVisible}
       onRequestClose={() => closeFromParent()}
     >
-      <View style={{
-        height: height.full,
-        width: width.full,
-      }}>
-        <View style={{
+      <View
+        style={{
           height: height.full,
           width: width.full,
-          backgroundColor: 'rgba(34, 34, 34, ' + bgOpacity.toString() + ')',
-          zIndex: 1,
-        }}>
-          <TouchableHighlight style={{
+        }}
+      >
+        <View
+          style={{
+            height: height.full,
+            width: width.full,
+            backgroundColor: "rgba(34, 34, 34, " + bgOpacity.toString() + ")",
+            zIndex: 1,
+          }}
+        >
+          <TouchableHighlight
+            style={{
               height: height.full,
               width: width.full,
             }}
-            underlayColor={'#222222'}
+            underlayColor={"#222222"}
             onPress={() => closeFromParent()}
           >
-          <Text> </Text>
+            <Text> </Text>
           </TouchableHighlight>
         </View>
-        <View style={{
-          height: height.inner,
-          width: width.inner,
-          backgroundColor: '#ffffff',
-          position: 'absolute',
-          top: height.edge,
-          left: width.edge,
-          zIndex: 100,
-        }}>
-          <ScrollView style={{zIndex: 100, height: height.inner}}>
+        <View
+          style={{
+            height: height.inner,
+            width: width.inner,
+            backgroundColor: "#ffffff",
+            position: "absolute",
+            top: height.edge,
+            left: width.edge,
+            zIndex: 100,
+          }}
+        >
+          <ScrollView style={{ zIndex: 100, height: height.inner }}>
             {children}
           </ScrollView>
         </View>
       </View>
     </Modal>
   );
-}
-
+};
 
 export default CenteredModal;

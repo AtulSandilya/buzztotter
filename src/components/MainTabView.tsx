@@ -49,7 +49,7 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
     this.props.stopNotificationListener();
   }
 
-  render() {
+  public render() {
     // ScrollableTabView is a cross platform `ViewPagerAndroid`
 
     const numButtons = 4;
@@ -62,6 +62,7 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
     const textColor = "#eeeeee";
     const activeTextColor = "#ffffff";
     const iconPrefix = isIOS ? "ios-" : "md-";
+    /* tslint:disable:object-literal-sort-keys */
     const iconMap = {
       // Keys must match tabLabel
       Contacts: iconPrefix + "people",

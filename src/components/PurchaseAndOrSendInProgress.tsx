@@ -45,10 +45,10 @@ export interface PurchaseOrSendInProgressProps {
 }
 
 export const IsPurchaseAndOrSendCompleted = (
-  purchaseTransactionStatus: PurchaseTransactionStatus
+  purchaseTransactionStatus: PurchaseTransactionStatus,
 ) => {
   return transactionFinished<PurchaseTransactionStatus>(
-    purchaseTransactionStatus
+    purchaseTransactionStatus,
   );
 };
 
@@ -67,11 +67,11 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
   closeRoute,
   resetPurchase,
   buttonFontSize,
-  purchaseTransactionStatus
+  purchaseTransactionStatus,
 }) => {
   const renderPurchaseOrSendOrBothComplete = () => {
     const showCompleted = IsPurchaseAndOrSendCompleted(
-      purchaseTransactionStatus
+      purchaseTransactionStatus,
     );
 
     if (!showCompleted || transactionFailed(purchaseTransactionStatus)) {
@@ -88,13 +88,13 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
     const bevegramsUserSent = bevegramsUserIsSending;
     const bevegramsUserPurchased = bevegramsUserIsPurchasing;
     const sentSummaryText = `Sent ${bevegramsUserSent} ${bevStr(
-      bevegramsUserSent
+      bevegramsUserSent,
     )} to ${recipentFullName}`;
     const purchasedSummaryText = `Purchased ${bevegramsUserPurchased} ${bevStr(
-      bevegramsUserPurchased
+      bevegramsUserPurchased,
     )} for $${bevegramsPurchasePrice}`;
     const purchasedAndSentSummaryText = `Purchased & Sent ${bevegramsUserIsPurchasing} ${bevStr(
-      bevegramsUserIsPurchasing
+      bevegramsUserIsPurchasing,
     )} to ${recipentFullName} for ${bevegramsPurchasePrice}`;
 
     let summaryText: string;
@@ -164,10 +164,10 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
                 <View style={globalStyles.bevLineRight}>
                   <View
                     style={{
+                      alignItems: "center",
                       flex: -1,
                       flexDirection: "row",
                       justifyContent: "center",
-                      alignItems: "center"
                     }}
                   >
                     <FontAwesome
@@ -215,7 +215,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
                     style={{
                       height: 40,
                       marginRight: 10,
-                      width: 40
+                      width: 40,
                     }}
                   />
                   <Text style={globalStyles.bevLineText}>
@@ -226,6 +226,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
             </View>
           : null}
         {userIsSending
+          /* tslint:disable:jsx-alignment */
           ? <StatusLine
               title="Sending Bevegram"
               statusObject={purchaseTransactionStatus}
@@ -248,14 +249,14 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
                 <View
                   style={{
                     flex: 1,
-                    flexDirection: "row"
+                    flexDirection: "row",
                   }}
                 >
                   <View
                     style={{
-                      flex: 1,
                       alignItems: "flex-start",
-                      paddingTop: 10
+                      flex: 1,
+                      paddingTop: 10,
                     }}
                   >
                     <BevButton

@@ -1,9 +1,16 @@
 import * as React from "react";
-import { Component } from 'react';
-import { Image, StyleSheet, Text, TouchableHighlight, View, ViewStyle } from 'react-native';
+import { Component } from "react";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+  ViewStyle,
+} from "react-native";
 
+import BevButton from "./BevButton";
 import BevUiText from "./BevUiText";
-import BevButton from './BevButton';
 
 interface Styles {
   parentContainer: ViewStyle;
@@ -13,29 +20,29 @@ interface Styles {
 }
 
 const styles = StyleSheet.create<Styles>({
-  parentContainer: {
+  buttonContainer: {
+    alignItems: "center",
+    alignSelf: "center",
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
+    justifyContent: "flex-end",
   },
   infoContainer: {
+    alignItems: "center",
+    alignSelf: "center",
     flex: -1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'center',
+    flexDirection: "row",
     paddingLeft: 10,
   },
   infoTextContainer: {
     flex: -1,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
-  buttonContainer: {
+  parentContainer: {
     flex: 1,
-    flexDirection: 'row',
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    flexDirection: "row",
   },
-})
+});
 
 interface Name {
   first: string;
@@ -51,21 +58,22 @@ export interface ContactProps {
   closePurchaseRoute?(): void;
 }
 
-const Contact: React.StatelessComponent<ContactProps> = ({name, birthday, imagePath, facebookId, openPurchaseRoute, closePurchaseRoute}) => {
+const Contact: React.StatelessComponent<ContactProps> = ({
+  name,
+  birthday,
+  imagePath,
+  facebookId,
+  openPurchaseRoute,
+  closePurchaseRoute,
+}) => {
   const fullName = name.first + " " + name.last;
   return (
     <View style={styles.parentContainer}>
       <View style={styles.infoContainer}>
-        <Image
-          source={{uri: imagePath}}
-          style={{height: 50, width: 50}}
-        />
+        <Image source={{ uri: imagePath }} style={{ height: 50, width: 50 }} />
         <View style={styles.infoTextContainer}>
-          <Text style={{paddingLeft: 15, paddingBottom: 5}}>{fullName}</Text>
-          <BevUiText
-            icon="birthday-cake"
-            style={{paddingLeft: 15}}
-          >
+          <Text style={{ paddingLeft: 15, paddingBottom: 5 }}>{fullName}</Text>
+          <BevUiText icon="birthday-cake" style={{ paddingLeft: 15 }}>
             {birthday}
           </BevUiText>
         </View>
@@ -75,17 +83,18 @@ const Contact: React.StatelessComponent<ContactProps> = ({name, birthday, imageP
           text={"Send Bevegram"}
           shortText="Send Bevegram"
           label="Send Bevegram Button"
-          onPress={() => openPurchaseRoute({
-            fullName: fullName,
-            firstName: name.first,
-            imageUri: imagePath,
-            facebookId: facebookId,
-          })}
+          onPress={() =>
+            openPurchaseRoute({
+              facebookId: facebookId,
+              firstName: name.first,
+              fullName: fullName,
+              imageUri: imagePath,
+            })}
           rightIcon={true}
         />
       </View>
     </View>
-  )
-}
+  );
+};
 
 export default Contact;

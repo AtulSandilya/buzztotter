@@ -14,19 +14,19 @@ import {
   ViewStyle,
 } from "react-native";
 
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 import * as Animatable from "react-native-animatable";
 import Icon from "react-native-vector-icons/Ionicons";
 
-import {isAndroid, isIOS, StatusBarHeight} from "../ReactNativeUtilities";
+import { isAndroid, isIOS, StatusBarHeight } from "../ReactNativeUtilities";
 
 import CSettings from "../containers/CSettings";
 import { BannerProps } from "../reducers/banner";
 import Banner from "./Banner";
 import CenteredModal from "./CenteredModal";
 
-import {globalColors, globalStyles} from "./GlobalStyles";
+import { globalColors, globalStyles } from "./GlobalStyles";
 
 export const BrandingHeight = (isIOS ? 75 : 75) + 10;
 export const BrandingZIndex = 100;
@@ -34,7 +34,7 @@ export const NavBarHeight = BrandingHeight;
 // Respect the StatusBar
 const topMargin = StatusBarHeight;
 const verticalPadding = 5;
-const logoHeight = BrandingHeight - topMargin - (verticalPadding * 2);
+const logoHeight = BrandingHeight - topMargin - verticalPadding * 2;
 const contentHeight = BrandingHeight - StatusBarHeight;
 
 const textSizeMultiplier = 0.35;
@@ -100,7 +100,7 @@ export interface BrandingProps {
   showLogo?: boolean;
   showBack?: boolean;
   rightIcon?: boolean;
-  rightAction?: Function;
+  rightAction?: () => void;
   backText?: string;
   navBarText?: string;
   showSettings?: boolean;
@@ -121,98 +121,94 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
 }) => {
   const centerText = navBarText;
   const logoAnimationDuration = 800;
+  /* tslint:disable:jsx-alignment */
   return (
     <View style={styles.wrapper}>
       <View style={styles.content}>
         <View style={[styles.section, styles.leftContainer]}>
-          {showLogo ?
-            <Logo/>
-          :
-            null
-          }
-          { showBack ?
-            <TouchableHighlight
-              underlayColor={"transparent"}
-              style={{
-                flex: -1,
-              }}
-              onPress={() => {
-                // Close the keyboard if it is open, otherwise go back a
-                // route. This assumes that the keyboard is open if there is a
-                // text field in focus, this is the simplest way to detect if
-                // the keyboard is open.
-                let shouldDismissKeyboard;
-                try {
-                  shouldDismissKeyboard = TextInput.State.currentlyFocusedField();
-                } catch (e) {
-                  // pass
-                }
+          {showLogo ? <Logo /> : null}
+          {showBack
+            ? <TouchableHighlight
+                underlayColor={"transparent"}
+                style={{
+                  flex: -1,
+                }}
+                onPress={() => {
+                  // Close the keyboard if it is open, otherwise go back a
+                  // route. This assumes that the keyboard is open if there is a
+                  // text field in focus, this is the simplest way to detect if
+                  // the keyboard is open.
+                  let shouldDismissKeyboard;
+                  try {
+                    shouldDismissKeyboard = TextInput.State.currentlyFocusedField();
+                  } catch (e) {
+                    // pass
+                  }
 
-                if (shouldDismissKeyboard) {
-                  Keyboard.dismiss();
-                  goBackRoute();
-                } else {
-                  goBackRoute();
-                }
-              }}
-            >
-              <View style={{flex: -1, flexDirection: "row"}}>
-                <Icon
-                  name={(isIOS ? "ios" : "md") + "-arrow-back"}
-                  size={logoHeight * 0.9}
-                  style={styles.icon}
-                />
-                {/* Only show back text if there is no center text */}
-                {centerText.length !== 0 ?
-                  <Text style={styles.text}>
-                    {backText}
-                  </Text>
-                :
-                  null
-                }
-              </View>
-            </TouchableHighlight>
-          :
-            null
-          }
+                  if (shouldDismissKeyboard) {
+                    Keyboard.dismiss();
+                    goBackRoute();
+                  } else {
+                    goBackRoute();
+                  }
+                }}
+              >
+                <View style={{ flex: -1, flexDirection: "row" }}>
+                  <Icon
+                    name={(isIOS ? "ios" : "md") + "-arrow-back"}
+                    size={logoHeight * 0.9}
+                    style={styles.icon}
+                  />
+                  {/* Only show back text if there is no center text */}
+                  {centerText.length !== 0
+                    ? <Text style={styles.text}>
+                        {backText}
+                      </Text>
+                    : null}
+                </View>
+              </TouchableHighlight>
+            : null}
         </View>
-        <View style={[
-          styles.section,
-          styles.centerContainer,
-          {
-            alignItems: "center",
-            justifyContent: "center",
-          }, centerText.length > 0 ? {flex: 3} : null]}>
+        <View
+          style={[
+            styles.section,
+            styles.centerContainer,
+            {
+              alignItems: "center",
+              justifyContent: "center",
+            },
+            centerText.length > 0 ? { flex: 3 } : null,
+          ]}
+        >
           <Text
-            style={[styles.text, {
-              alignSelf: "center",
-              overflow: "visible",
-            }]}
+            style={[
+              styles.text,
+              {
+                alignSelf: "center",
+                overflow: "visible",
+              },
+            ]}
             numberOfLines={1}
           >
             {centerText}
           </Text>
         </View>
         <View style={[styles.section, styles.rightContainer]}>
-          {showSettings ?
-            <TouchableHighlight
-              underlayColor={"transparent"}
-              onPress={goToSettings}
-            >
-              <Icon
-                name={(isIOS ? "ios" : "md") + "-settings"}
-                size={logoHeight * 0.9}
-                style={styles.icon}
-              />
-            </TouchableHighlight>
-          :
-            null
-          }
+          {showSettings
+            ? <TouchableHighlight
+                underlayColor={"transparent"}
+                onPress={goToSettings}
+              >
+                <Icon
+                  name={(isIOS ? "ios" : "md") + "-settings"}
+                  size={logoHeight * 0.9}
+                  style={styles.icon}
+                />
+              </TouchableHighlight>
+            : null}
         </View>
       </View>
-      <Banner
-        {...bannerProps}
-      />
+      <Banner {...bannerProps} />
     </View>
   );
 };
@@ -221,10 +217,12 @@ class Logo extends Component<{}, {}> {
   public static logoAnimationDuration = 500;
   public render() {
     return (
-      <TouchableWithoutFeedback onPress={() => {
-        const refs = this.refs as any;
-        refs.logo.rotate(Logo.logoAnimationDuration);
-      }}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          const refs = this.refs as any;
+          refs.logo.rotate(Logo.logoAnimationDuration);
+        }}
+      >
         <Animatable.Image
           ref="logo"
           easing="ease-in"
