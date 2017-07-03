@@ -5,7 +5,7 @@ import { Platform, StatusBar, View } from "react-native";
 import { withNetworkConnectivity } from "react-native-offline";
 import { Provider } from "react-redux";
 
-import CInitialRouter from "./containers/CInitialRouter.js";
+import CRouter from "./containers/CRouter.js";
 
 import store from "./configureStore";
 
@@ -13,7 +13,7 @@ interface BevegramState {
   store: any;
 }
 
-let Router = () => <CInitialRouter />;
+let Router = () => <CRouter />;
 
 Router = withNetworkConnectivity({
   withRedux: true,
@@ -24,7 +24,7 @@ export default class Bevegram extends Component<{}, BevegramState> {
     super(props);
 
     this.state = {
-      store: store,
+      store,
     };
   }
 

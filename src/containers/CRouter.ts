@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 
-import InitialRouter, { InitialRouterProps } from "../routers/InitialRouter";
+import Router, { RouterProps } from "../Router";
 
 interface MapStateProps {
   showLogin?: boolean;
@@ -26,10 +26,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const CInitialRouter = connect<
-  MapStateProps,
-  MapDispatchProps,
-  InitialRouterProps
->(mapStateToProps, mapDispatchToProps)(InitialRouter);
+const CRouter = connect<MapStateProps, MapDispatchProps, RouterProps>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Router);
 
-export default CInitialRouter;
+export default CRouter;
