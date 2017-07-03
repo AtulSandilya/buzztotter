@@ -32,7 +32,7 @@ export const sendNotification = async (notif: NotificationPackage) => {
     }),
     headers: {
       "Accept": "application/json",
-      "Authorization": `key=${process.env.TEST_FIREBASE_GCM_KEY}`,
+      "Authorization": `key=${process.env.FIREBASE_GCM_KEY}`,
       "Content-Type": "application/json",
     },
     method: "POST",
