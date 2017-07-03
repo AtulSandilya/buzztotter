@@ -180,3 +180,5 @@ nnoremap <silent> gds :vs <bar> YcmCompleter GoToDefinition <bar> winc w<CR>
 nnoremap <silent> gt :YcmCompleter GetType<CR>
 nnoremap <silent> gm :YcmCompleter GetDoc<CR>
 nnoremap gr :call RestartYcmServers()<CR>
+" Faster global search
+nnoremap g* :Ag <C-r><C-w><CR>
