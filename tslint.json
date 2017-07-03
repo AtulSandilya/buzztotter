@@ -2,7 +2,6 @@
   "extends": ["tslint:latest", "tslint-react"],
   "rules": {
     "interface-name": [true, "never-prefix"],
-    "object-literal-shorthand": false,
     "no-magic-numbers": true,
     "no-switch-case-fall-through": true,
     "switch-default": false,
