@@ -123,11 +123,11 @@ export default function* rootSaga() {
         yield call(notifications.stopListener);
         yield call(firebaseLogOut, action);
       } catch (e) {
-          if (e instanceof InternetNotConnectedError) {
-            // pass
-          } else {
-            throw e;
-          }
+        if (e instanceof InternetNotConnectedError) {
+          // pass
+        } else {
+          throw e;
+        }
       } finally {
         const delayBeforeLoadComplete = 10;
         yield put({ type: "RESET_STATE" });
@@ -220,7 +220,7 @@ export default function* rootSaga() {
         yield put({
           type: "UPDATE_RECEIVED_BEVEGRAMS",
           payload: {
-            receivedBevegrams: receivedBevegrams,
+            receivedBevegrams,
           },
         });
         yield put({ type: "SUCCESSFUL_UPDATE_RECEIVED_BEVEGRAMS" });

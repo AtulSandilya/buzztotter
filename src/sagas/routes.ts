@@ -17,7 +17,9 @@ import * as internet from "./internet";
 /* tslint:disable:object-literal-sort-keys */
 export function* goToRoute(action) {
   const nextRoute = action.payload.route;
-  const routeState = yield select<{ routes: RouteState }>(state => state.routes);
+  const routeState = yield select<{ routes: RouteState }>(
+    state => state.routes,
+  );
 
   const nextRouteState = routeState[nextRoute];
 
@@ -26,7 +28,13 @@ export function* goToRoute(action) {
   }
 
   if (nextRouteState.requiresInternetConnection) {
-    if (!(yield call(internet.isConnected, "alert", nextRouteState.prettyAction) as any)) {
+    if (
+      !(yield call(
+        internet.isConnected,
+        "alert",
+        nextRouteState.prettyAction,
+      ) as any)
+    ) {
       return false;
     }
   }

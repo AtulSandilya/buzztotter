@@ -65,7 +65,7 @@ export function* firebaseFacebookLogin(facebookAccessToken: string) {
     yield put({
       type: "SUCCESSFUL_FIREBASE_LOGIN",
       payload: {
-        firebaseUser: firebaseUser,
+        firebaseUser,
       },
     });
 

@@ -2,15 +2,13 @@ import { call, put } from "redux-saga/effects";
 
 import { CardDataForVerification } from "../reducers/addCreditCard";
 
-import {
-  promiseCreditCardToken,
-} from "../api/stripe";
+import { promiseCreditCardToken } from "../api/stripe";
 
-export function *fetchCreditCardToken(action) {
-
+/* tslint:disable:object-literal-sort-keys */
+export function* fetchCreditCardToken(action) {
   const cardData: CardDataForVerification = action.payload.cardData;
   try {
-    yield put({type: "ATTEMPTING_CREDIT_CARD_VERIFICATION"});
+    yield put({ type: "ATTEMPTING_CREDIT_CARD_VERIFICATION" });
 
     const creditCardTokenResponse = yield call(
       promiseCreditCardToken,
@@ -27,9 +25,12 @@ export function *fetchCreditCardToken(action) {
     // Return the token if successful
     return creditCardTokenResponse.id;
   } catch (e) {
-    yield put({type: "FAILED_CREDIT_CARD_VERIFICATION", payload: {
-      error: e.message,
-    }});
+    yield put({
+      type: "FAILED_CREDIT_CARD_VERIFICATION",
+      payload: {
+        error: e.message,
+      },
+    });
     return;
   }
 }

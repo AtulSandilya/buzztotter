@@ -1,13 +1,8 @@
-import {
-  call,
-  select,
-} from "redux-saga/effects";
+import { call, select } from "redux-saga/effects";
 
 import uuid from "react-native-uuid";
 
-import {
-  User,
-} from "../db/tables";
+import { User } from "../db/tables";
 
 import {
   DbWriteUserVerificationToken,
@@ -31,21 +26,25 @@ import {
   UpdateDefaultCreditCardForCustomerPackageForQueue,
 } from "../db/tables";
 
-function *getUserFirebaseId() {
-  return yield select<{user: User}>((state) => state.user.firebase.uid);
+function* getUserFirebaseId() {
+  return yield select<{ user: User }>(state => state.user.firebase.uid);
 }
 
 // firebase-queue does not have a method for determining which user sent a
 // request. This is a hack to verify that the sending user is who they say
 // they are. On a device a user can only write to their verification node, the
 // server checks this node and if it matches then the server continues
-function *writeVerificationToken() {
+function* writeVerificationToken() {
   const token = uuid.v4();
-  yield call(DbWriteUserVerificationToken, token, yield call(getUserFirebaseId));
+  yield call(
+    DbWriteUserVerificationToken,
+    token,
+    yield call(getUserFirebaseId),
+  );
   return token;
 }
 
-export function *addCreditCardToCustomer(stripeCreditCardToken: string) {
+export function* addCreditCardToCustomer(stripeCreditCardToken: string) {
   const verificationToken = yield call(writeVerificationToken);
 
   const addCreditCardToCustomerPackage: AddCreditCardToCustomerPackageForQueue = {
@@ -54,10 +53,13 @@ export function *addCreditCardToCustomer(stripeCreditCardToken: string) {
     verificationToken,
   };
 
-  yield call(QueueAddCreditCardToCustomerPackage, addCreditCardToCustomerPackage);
+  yield call(
+    QueueAddCreditCardToCustomerPackage,
+    addCreditCardToCustomerPackage,
+  );
 }
 
-export function *removeCreditCardFromCustomer(action: any) {
+export function* removeCreditCardFromCustomer(action: any) {
   const verificationToken = yield call(writeVerificationToken);
   const stripeCardId = action.payload.cardToDelete;
   const removeCreditCardPackage: RemoveCreditCardFromCustomerPackageForQueue = {
@@ -69,7 +71,7 @@ export function *removeCreditCardFromCustomer(action: any) {
   yield call(QueueRemoveCreditCardFromCustomerPackage, removeCreditCardPackage);
 }
 
-export function *updateDefaultCard(action: any) {
+export function* updateDefaultCard(action: any) {
   const verificationToken = yield call(writeVerificationToken);
   const stripeCardId = action.payload.newDefaultCard;
   const updateDefaultCardPackage: UpdateDefaultCreditCardForCustomerPackageForQueue = {
@@ -81,7 +83,7 @@ export function *updateDefaultCard(action: any) {
   yield call(QueueUpdateDefaultCreditCard, updateDefaultCardPackage);
 }
 
-export function *purchase(action: any) {
+export function* purchase(action: any) {
   const verificationToken = yield call(writeVerificationToken);
   const purchaseData: PurchaseActionData = action.payload.purchaseData;
   const sendBevegramData: SendActionData = action.payload.sendBevegramData;
@@ -98,7 +100,9 @@ export function *purchase(action: any) {
     purchasePackageForQueue.promoCode = promoCode;
   }
 
-  const message = yield select<{message: any}>(state => state.message.message);
+  const message = yield select<{ message: any }>(
+    state => state.message.message,
+  );
   if (message && message.length > 0) {
     purchasePackageForQueue.message = message;
   }
@@ -106,7 +110,7 @@ export function *purchase(action: any) {
   yield call(QueuePurchasePackage, purchasePackageForQueue);
 }
 
-export function *redeem(action, location: Location) {
+export function* redeem(action, location: Location) {
   const verificationToken = yield call(writeVerificationToken);
   const receivedId: string = action.payload.receivedId;
   const quantity: number = action.payload.quantity;
@@ -122,15 +126,15 @@ export function *redeem(action, location: Location) {
   yield call(QueueRedeemPackage, redeemPackageForQueue);
 }
 
-export function *turnOnNotifications(fcmToken: string) {
+export function* turnOnNotifications(fcmToken: string) {
   yield call(toggleNotificationSetting, fcmToken);
 }
 
-export function *turnOffNotifications() {
+export function* turnOffNotifications() {
   yield call(toggleNotificationSetting);
 }
 
-function *toggleNotificationSetting(fcmToken?: string) {
+function* toggleNotificationSetting(fcmToken?: string) {
   const verificationToken = yield call(writeVerificationToken);
   const toggleNotificationSettingPackageForQueue: ToggleNotificationSettingPackageForQueue = {
     userFirebaseId: yield call(getUserFirebaseId),
@@ -142,6 +146,8 @@ function *toggleNotificationSetting(fcmToken?: string) {
     toggleNotificationSettingPackageForQueue["fcmToken"] = fcmToken;
   }
 
-  yield call(QueueToggleNotificationSettingPackage, toggleNotificationSettingPackageForQueue);
-
+  yield call(
+    QueueToggleNotificationSettingPackage,
+    toggleNotificationSettingPackageForQueue,
+  );
 }

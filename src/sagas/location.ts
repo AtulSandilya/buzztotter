@@ -64,9 +64,12 @@ export function* getLocationsNearUser() {
     yield put({ type: "FAILED_LOCATION_NEAR_USER_UPDATE" });
     return;
   }
-  yield put({type: "STORE_LAST_USER_LOCATION", payload: {
-    lastUserCoords: deviceCoordinates,
-  }});
+  yield put({
+    type: "STORE_LAST_USER_LOCATION",
+    payload: {
+      lastUserCoords: deviceCoordinates,
+    },
+  });
 
   const locationsNearUser = yield call(
     getLocationsNearCoordinates,
@@ -91,16 +94,20 @@ let oneTimeLocationUsage = false;
 let lastSuccessfulFetch: number;
 let lastSuccessfulLocation;
 export function* getLocationsAtUserLocation() {
-
   const msElapsedBeforeLocationCheckRequired = 45000;
-  const hasLastSuccessfulLocation = lastSuccessfulFetch && lastSuccessfulLocation;
-  const locationFetchNotRequired = (hasLastSuccessfulLocation && ((Date.now() - lastSuccessfulFetch) < msElapsedBeforeLocationCheckRequired));
+  const hasLastSuccessfulLocation =
+    lastSuccessfulFetch && lastSuccessfulLocation;
+  const locationFetchNotRequired =
+    hasLastSuccessfulLocation &&
+    Date.now() - lastSuccessfulFetch < msElapsedBeforeLocationCheckRequired;
 
   if (locationFetchNotRequired) {
     return lastSuccessfulLocation;
   }
 
-  const currentLocationSetting = yield select<{settings: Settings}>(state => state.settings.location);
+  const currentLocationSetting = yield select<{ settings: Settings }>(
+    state => state.settings.location,
+  );
   if (!currentLocationSetting && !oneTimeLocationUsage) {
     yield put({
       type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION",
@@ -112,11 +119,17 @@ export function* getLocationsAtUserLocation() {
     RedeemAlert(
       "Redeeming requires your current location! Allow one time location usage?",
       [
-        {text: "No", onPress: () => store.dispatch({type: "GO_BACK_ROUTE"})},
-        {text: "Yes", onPress: () => {
-          oneTimeLocationUsage = true;
-          store.dispatch({type: "REQUEST_BAR_AT_USER_LOCATION"});
-        }},
+        {
+          text: "No",
+          onPress: () => store.dispatch({ type: "GO_BACK_ROUTE" }),
+        },
+        {
+          text: "Yes",
+          onPress: () => {
+            oneTimeLocationUsage = true;
+            store.dispatch({ type: "REQUEST_BAR_AT_USER_LOCATION" });
+          },
+        },
       ],
     );
     return;
@@ -141,9 +154,12 @@ export function* getLocationsAtUserLocation() {
       throw new Error();
     }
 
-    yield put({type: "STORE_LAST_USER_LOCATION", payload: {
-      lastUserCoords: deviceCoordinates,
-    }});
+    yield put({
+      type: "STORE_LAST_USER_LOCATION",
+      payload: {
+        lastUserCoords: deviceCoordinates,
+      },
+    });
 
     const timeElapsed = Date.now() - locationFetchStart;
     if (timeElapsed < locationFetchMinMs) {

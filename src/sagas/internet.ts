@@ -22,10 +22,7 @@ export function* isConnected(
         // views, a necessary requirement of `Banner`. The workaround is to
         // use ToastAndroid and wait until Android supports `overflow: visible`
         if (isAndroid) {
-          ToastAndroid.show(
-            "No Internet Connection!",
-            ToastAndroid.LONG,
-          );
+          ToastAndroid.show("No Internet Connection!", ToastAndroid.LONG);
         } else {
           yield put({ type: "SHOW_NO_INTERNET_CONNECTION_BANNER" });
         }
