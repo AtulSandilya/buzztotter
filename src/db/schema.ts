@@ -1,10 +1,6 @@
-import {
-  FormatGpsCoordinates,
-} from "../CommonUtilities";
+import { FormatGpsCoordinates } from "../CommonUtilities";
 
-import {
-  GpsCoordinates,
-} from "./tables";
+import { GpsCoordinates } from "./tables";
 
 // This is what the firebase database looks like
 /* tslint:disable:object-literal-sort-keys */
@@ -93,7 +89,7 @@ const Schema = {
     allLocations: {
       summary: {
         totalLocations: "number",
-        },
+      },
       list: {
         vendorId: "Location",
       },
@@ -163,8 +159,8 @@ const Schema = {
 };
 
 const has = (obj: object, key: string): any => {
-  let newObj = Object.assign({}, obj);
-  key.split(".").map((k) => {
+  let newObj = { ...obj };
+  key.split(".").map(k => {
     if (newObj) {
       newObj = newObj[k];
     }
@@ -172,7 +168,10 @@ const has = (obj: object, key: string): any => {
   return newObj;
 };
 
-export const GetSchemaDbUrl = (table: string, keysToReplace?: string | any): string => {
+export const GetSchemaDbUrl = (
+  table: string,
+  keysToReplace?: string | any,
+): string => {
   const urlSeparator = "/";
   const periodsRe = /\./g;
 
@@ -183,7 +182,9 @@ export const GetSchemaDbUrl = (table: string, keysToReplace?: string | any): str
       throw Error;
     }
   } catch (e) {
-    throw Error(`Db Error: Table "${table}" does not exist within the database schema!`);
+    throw Error(
+      `Db Error: Table "${table}" does not exist within the database schema!`,
+    );
   }
 
   if (!keysToReplace) {
@@ -199,18 +200,20 @@ export const GetSchemaDbUrl = (table: string, keysToReplace?: string | any): str
 
     let newTable = table.replace(periodsRe, urlSeparator);
 
-    Object.keys(keysToReplace).map((k) => {
+    Object.keys(keysToReplace).map(k => {
       newTable = newTable.replace(k, keysToReplace[k]);
     });
 
-    Object.keys(invalidKeyChars).map((key) => {
+    Object.keys(invalidKeyChars).map(key => {
       const regex = new RegExp(key, "g");
       newTable = newTable.replace(regex, invalidKeyChars[key]);
     });
 
     return newTable;
   } else {
-    return [table, keysToReplace.replace(periodsRe, urlSeparator)].join(urlSeparator);
+    return [table, keysToReplace.replace(periodsRe, urlSeparator)].join(
+      urlSeparator,
+    );
   }
 };
 
@@ -219,11 +222,11 @@ export const GetUserDbUrl = (firebaseId: string) => {
 };
 
 export const GetFirebaseIdDbUrl = (facebookId: string) => {
-  return GetSchemaDbUrl("firebaseIds.facebookId", {facebookId: facebookId});
+  return GetSchemaDbUrl("firebaseIds.facebookId", { facebookId: facebookId });
 };
 
 export const GetFcmTokenDbUrl = (facebookId: string) => {
-  return GetSchemaDbUrl("fcmTokens.facebookId", {facebookId: facebookId});
+  return GetSchemaDbUrl("fcmTokens.facebookId", { facebookId: facebookId });
 };
 
 export const GetAddCreditCardToCustomerQueueUrl = () => {
@@ -250,64 +253,94 @@ export const GetToggleNotificationSettingQueueUrl = () => {
   return GetSchemaDbUrl("toggleNotificationSettingQueue");
 };
 
-export const GetUserVerificationTokenDbUrl = (userFirebaseId: string): string => {
-  return GetSchemaDbUrl("userVerificationTokens.userFirebaseId", {userFirebaseId: userFirebaseId});
+export const GetUserVerificationTokenDbUrl = (
+  userFirebaseId: string,
+): string => {
+  return GetSchemaDbUrl("userVerificationTokens.userFirebaseId", {
+    userFirebaseId: userFirebaseId,
+  });
 };
 
 export const GetPurchasedBevegramListDbUrl = (firebaseId: string): string => {
-  return GetSchemaDbUrl("purchasedBevegrams.firebaseId.list", {firebaseId: firebaseId});
+  return GetSchemaDbUrl("purchasedBevegrams.firebaseId.list", {
+    firebaseId: firebaseId,
+  });
 };
 
-export const GetPurchasedBevegramSummaryDbUrl = (firebaseId: string): string => {
-  return GetSchemaDbUrl("purchasedBevegrams.firebaseId.summary", {firebaseId: firebaseId});
+export const GetPurchasedBevegramSummaryDbUrl = (
+  firebaseId: string,
+): string => {
+  return GetSchemaDbUrl("purchasedBevegrams.firebaseId.summary", {
+    firebaseId: firebaseId,
+  });
 };
 
 export const GetSentBevegramListDbUrl = (firebaseId: string): string => {
-  return GetSchemaDbUrl("sentBevegrams.firebaseId.list", {firebaseId: firebaseId});
+  return GetSchemaDbUrl("sentBevegrams.firebaseId.list", {
+    firebaseId: firebaseId,
+  });
 };
 
 export const GetSentBevegramSummaryDbUrl = (firebaseId: string): string => {
-  return GetSchemaDbUrl("sentBevegrams.firebaseId.summary", {firebaseId: firebaseId});
+  return GetSchemaDbUrl("sentBevegrams.firebaseId.summary", {
+    firebaseId: firebaseId,
+  });
 };
 
 export const GetReceivedBevegramListDbUrl = (firebaseId: string): string => {
-  return GetSchemaDbUrl("receivedBevegrams.firebaseId.list", {firebaseId: firebaseId});
+  return GetSchemaDbUrl("receivedBevegrams.firebaseId.list", {
+    firebaseId: firebaseId,
+  });
 };
 
 export const GetReceivedBevegramSummaryDbUrl = (firebaseId: string): string => {
-  return GetSchemaDbUrl("receivedBevegrams.firebaseId.summary", {firebaseId: firebaseId});
+  return GetSchemaDbUrl("receivedBevegrams.firebaseId.summary", {
+    firebaseId: firebaseId,
+  });
 };
 
 export const GetRedeemedBevegramListDbUrl = (firebaseId: string): string => {
-  return GetSchemaDbUrl("redeemedBevegrams.firebaseId.list", {firebaseId});
+  return GetSchemaDbUrl("redeemedBevegrams.firebaseId.list", { firebaseId });
 };
 
 export const GetRedeemedBevegramSummaryDbUrl = (firebaseId: string): string => {
-  return GetSchemaDbUrl("redeemedBevegrams.firebaseId.summary", {firebaseId});
+  return GetSchemaDbUrl("redeemedBevegrams.firebaseId.summary", { firebaseId });
 };
 
 export const GetPromoCodeListDbUrl = (promotionCode: string): string => {
-  return GetSchemaDbUrl("promoCodes.promotionCode.list", {promotionCode: promotionCode});
+  return GetSchemaDbUrl("promoCodes.promotionCode.list", {
+    promotionCode: promotionCode,
+  });
 };
 
 export const GetPromoCodeSummaryDbUrl = (promotionCode: string): string => {
-  return GetSchemaDbUrl("promoCodes.promotionCode.summary", {promotionCode: promotionCode});
+  return GetSchemaDbUrl("promoCodes.promotionCode.summary", {
+    promotionCode: promotionCode,
+  });
 };
 
 export const GetStripeCustomerIdDbUrl = (userFirebaseId: string): string => {
-  return GetSchemaDbUrl("stripeCustomerIds.userFirebaseId", {userFirebaseId});
+  return GetSchemaDbUrl("stripeCustomerIds.userFirebaseId", { userFirebaseId });
 };
 
 export const GetPurchasePackagesDbUrl = () => {
   return GetSchemaDbUrl("purchasePackages");
 };
 
-export const GetPurchaseTransactionStatusDbUrl = (userFirebaseId: string): string => {
-  return GetSchemaDbUrl("purchaseTransactionStatus.userFirebaseId", {userFirebaseId});
+export const GetPurchaseTransactionStatusDbUrl = (
+  userFirebaseId: string,
+): string => {
+  return GetSchemaDbUrl("purchaseTransactionStatus.userFirebaseId", {
+    userFirebaseId,
+  });
 };
 
-export const GetRedeemTransactionStatusDbUrl = (userFirebaseId: string): string => {
-  return GetSchemaDbUrl("redeemTransactionStatus.userFirebaseId", {userFirebaseId});
+export const GetRedeemTransactionStatusDbUrl = (
+  userFirebaseId: string,
+): string => {
+  return GetSchemaDbUrl("redeemTransactionStatus.userFirebaseId", {
+    userFirebaseId,
+  });
 };
 
 export const GetVendorPushDbUrl = () => {
@@ -315,15 +348,15 @@ export const GetVendorPushDbUrl = () => {
 };
 
 export const GetVendorDbUrl = (vendorId: string) => {
-  return GetSchemaDbUrl("vendors.vendorId", {vendorId: vendorId});
+  return GetSchemaDbUrl("vendors.vendorId", { vendorId: vendorId });
 };
 
 export const GetVendorMetadataDbUrl = (vendorId: string) => {
-  return GetSchemaDbUrl("vendors.vendorId.metadata", {vendorId: vendorId});
+  return GetSchemaDbUrl("vendors.vendorId.metadata", { vendorId: vendorId });
 };
 
 export const GetVendorRedeemListDbUrl = (vendorId: string) => {
-  return GetSchemaDbUrl("vendors.vendorId.list", {vendorId});
+  return GetSchemaDbUrl("vendors.vendorId.list", { vendorId });
 };
 
 /* tslint:disable:no-magic-numbers */
@@ -336,18 +369,24 @@ export const GetLocationByDegreeUrl = (
   switch (decimalPlaces) {
     case 0:
       return GetSchemaDbUrl(
-        "locationsByDegree.latitudeInDegrees.longitudeInDegrees." + listOrSummary,
-        {latitudeInDegrees: lat, longitudeInDegrees: long},
+        "locationsByDegree.latitudeInDegrees.longitudeInDegrees." +
+          listOrSummary,
+        { latitudeInDegrees: lat, longitudeInDegrees: long },
       );
     case 1:
       return GetSchemaDbUrl(
-        "locationsByTenthOfDegree.latitudeInTenthOfDegrees.longitudeInTenthOfDegrees." + listOrSummary,
-        {latitudeInTenthOfDegrees: lat, longitudeInTenthOfDegrees: long},
+        "locationsByTenthOfDegree.latitudeInTenthOfDegrees.longitudeInTenthOfDegrees." +
+          listOrSummary,
+        { latitudeInTenthOfDegrees: lat, longitudeInTenthOfDegrees: long },
       );
     case 2:
       return GetSchemaDbUrl(
-        "locationsByHundrethOfDegree.latitudeInHundrethOfDegrees.longitudeInHundrethOfDegrees." + listOrSummary,
-        {latitudeInHundrethOfDegrees: lat, longitudeInHundrethOfDegrees: long},
+        "locationsByHundrethOfDegree.latitudeInHundrethOfDegrees.longitudeInHundrethOfDegrees." +
+          listOrSummary,
+        {
+          latitudeInHundrethOfDegrees: lat,
+          longitudeInHundrethOfDegrees: long,
+        },
       );
     default:
       console.error("Invalid decimal place");
@@ -366,15 +405,20 @@ export const GetGpsCoordNodeFullSummaryUrl = (decimalPlaces: number) => {
   }
 };
 
-export const GetAllGpsCoordNodeUrls = (gpsCoords: GpsCoordinates): Array<{listUrl: string, summaryUrl: string}> => {
+export const GetAllGpsCoordNodeUrls = (
+  gpsCoords: GpsCoordinates,
+): Array<{ listUrl: string; summaryUrl: string }> => {
   const gpsCoordNodeDataList = [
-    {decimalPlace: 0},
-    {decimalPlace: 1},
-    {decimalPlace: 2},
+    { decimalPlace: 0 },
+    { decimalPlace: 1 },
+    { decimalPlace: 2 },
   ];
 
-  const list = gpsCoordNodeDataList.map((gpsCoordNodeData) => {
-    const formattedCoords = FormatGpsCoordinates(gpsCoords, gpsCoordNodeData.decimalPlace);
+  const list = gpsCoordNodeDataList.map(gpsCoordNodeData => {
+    const formattedCoords = FormatGpsCoordinates(
+      gpsCoords,
+      gpsCoordNodeData.decimalPlace,
+    );
     return {
       listUrl: GetLocationByDegreeUrl(
         formattedCoords.latitude,

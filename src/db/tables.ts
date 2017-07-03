@@ -16,7 +16,7 @@ export interface FirebaseUser {
 
 export interface User {
   isLoggedIn: boolean;
-  facebook?: {token: string, id: string};
+  facebook?: { token: string; id: string };
   firstName?: string;
   lastName?: string;
   fullName?: string;
