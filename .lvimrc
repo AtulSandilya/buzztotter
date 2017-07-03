@@ -150,6 +150,7 @@ endfunction
 augroup ts_config
   au!
   au FileType javascript,typescript set shiftwidth=2 tabstop=2
+  au FileType typescript let g:ale_fix_on_save = 1
 
   au BufWritePost *.ts,*.tsx call jobstart("ctags src -R")
   autocmd BufWritePost *.ts,*.tsx call OnTypescriptSave()
