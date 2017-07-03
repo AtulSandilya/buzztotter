@@ -1,7 +1,4 @@
-import {
-  PurchasePackage,
-  PurchaseTransactionStatus,
-} from "../db/tables";
+import { PurchasePackage, PurchaseTransactionStatus } from "../db/tables";
 import PurchasePackages from "../staticDbContent/PurchasePackages";
 
 export interface PurchaseState {
@@ -43,95 +40,115 @@ export const initialPurchaseState: PurchaseState = {
 };
 
 export const purchase = (state = initialPurchaseState, action) => {
-  switch(action.type){
-    case 'ATTEMPTING_CREDIT_CARD_PURCHASE':
-      return Object.assign({}, state, {
-          paymentMethod: 'creditCard',
-          attemptingPurchase: true,
-        });
-    case 'SUCCESSFUL_CREDIT_CARD_PURCHASE':
-      return Object.assign({}, state, {
-          confirmed: true,
-        });
-    case 'FAILED_CREDIT_CARD_PURCHASE':
-      return Object.assign({}, state, {
-          confirmed: false,
-          failed: true,
-          failMessage: action.payload.error,
-        });
-    case 'HANDLE_CREDIT_CARD_FAILED':
-      return Object.assign({}, state, {
-          failed: true,
-          // Only update failMessage if there is no message, other messages are
-          // more specific
-          failMessage: state.failMessage.length > 0 ? state.failMessage : action.payload.error,
-        });
-    case 'ATTEMPTING_STRIPE_DEFAULT_CARD_UPDATE':
-      return Object.assign({}, state, {
+  switch (action.type) {
+    case "ATTEMPTING_CREDIT_CARD_PURCHASE":
+      return {
+        ...state,
+        paymentMethod: "creditCard",
+        attemptingPurchase: true,
+      };
+    case "SUCCESSFUL_CREDIT_CARD_PURCHASE":
+      return {
+        ...state,
+        confirmed: true,
+      };
+    case "FAILED_CREDIT_CARD_PURCHASE":
+      return {
+        ...state,
+        confirmed: false,
+        failed: true,
+        failMessage: action.payload.error,
+      };
+    case "HANDLE_CREDIT_CARD_FAILED":
+      return {
+        ...state,
+        failed: true,
+        // Only update failMessage if there is no message, other messages are
+        // more specific
+        failMessage: state.failMessage.length > 0
+          ? state.failMessage
+          : action.payload.error,
+      };
+    case "ATTEMPTING_STRIPE_DEFAULT_CARD_UPDATE":
+      return {
+        ...state,
         attemptingStripeUpdate: true,
-      });
-    case 'RENDER_SUCCESSFUL_STRIPE_DEFAULT_CARD_UPDATE':
-    case 'RENDER_FAILED_STRIPE_DEFAULT_CARD_UPDATE':
-      return Object.assign({}, state, {
+      };
+    case "RENDER_SUCCESSFUL_STRIPE_DEFAULT_CARD_UPDATE":
+    case "RENDER_FAILED_STRIPE_DEFAULT_CARD_UPDATE":
+      return {
+        ...state,
         attemptingStripeUpdate: false,
-      });
-    case 'ATTEMPTING_STRIPE_REMOVE_CARD':
-      return Object.assign({}, state, {
+      };
+    case "ATTEMPTING_STRIPE_REMOVE_CARD":
+      return {
+        ...state,
         attemptingStripeUpdate: true,
-      });
-    case 'RENDER_SUCCESSFUL_STRIPE_REMOVE_CARD':
-    case 'RENDER_FAILED_STRIPE_REMOVE_CARD':
-      return Object.assign({}, state, {
+      };
+    case "RENDER_SUCCESSFUL_STRIPE_REMOVE_CARD":
+    case "RENDER_FAILED_STRIPE_REMOVE_CARD":
+      return {
+        ...state,
         attemptingStripeUpdate: false,
-      });
-    case 'END_CREDIT_CARD_PURCHASE_IF_NOT_ATTEMPTING':
-      if(state.attemptingPurchase && (state.confirmed !== true)){
+      };
+    case "END_CREDIT_CARD_PURCHASE_IF_NOT_ATTEMPTING":
+      if (state.attemptingPurchase && state.confirmed !== true) {
         return state;
       } else {
         return initialPurchaseState;
       }
-    case 'END_CREDIT_CARD_PURCHASE':
-    case 'RESET_CREDIT_CARD_PURCHASE':
+    case "END_CREDIT_CARD_PURCHASE":
+    case "RESET_CREDIT_CARD_PURCHASE":
       // Reset everything
       return initialPurchaseState;
-    case 'SELECT_PURCHASE_PACKAGE':
-      return Object.assign({}, state, {
-        selectedPurchasePackageIndex: action.payload.newSelectedPurchasePackageIndex,
-      });
-    case 'ATTEMPTING_SEND_BEVEGRAM':
-      return Object.assign({}, state, {
+    case "SELECT_PURCHASE_PACKAGE":
+      return {
+        ...state,
+        selectedPurchasePackageIndex:
+          action.payload.newSelectedPurchasePackageIndex,
+      };
+    case "ATTEMPTING_SEND_BEVEGRAM":
+      return {
+        ...state,
         attemptingSend: true,
-      });
-    case 'COMPLETED_SEND_BEVEGRAM':
-      return Object.assign({}, state, {
+      };
+    case "COMPLETED_SEND_BEVEGRAM":
+      return {
+        ...state,
         completedSend: true,
-      });
+      };
     case "ATTEMPTING_USER_REFRESH_FOR_PURCHASE":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         attemptingStripeUpdate: true,
         isRefreshingUser: true,
-      });
+      };
     case "COMPLETED_USER_REFRESH_FOR_PURCHASE":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         attemptingStripeUpdate: false,
         isRefreshingUser: false,
-      })
+      };
     case "UPDATE_PURCHASE_PACKAGES":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         purchasePackages: action.payload.purchasePackages,
-      });
+      };
     case "UPDATE_PURCHASE_TRANSACTION_STATUS":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         purchaseTransactionStatus: action.payload.purchaseTransactionStatus,
-      });
+      };
     case "FAILED_PURCHASE_TRANSACTION":
-      const purchaseTransactionStatus = Object.assign({}, state.purchaseTransactionStatus, {
+      const purchaseTransactionStatus = {
+        ...state.purchaseTransactionStatus,
         error: action.payload.error,
-      });
-      return Object.assign({}, state, {
+      };
+      return {
+        ...state,
         purchaseTransactionStatus,
-      });
+      };
     default:
       return state;
   }
-}
+};

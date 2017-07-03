@@ -25,9 +25,9 @@ const parseBirthday = (inputDate: string): Birthday => {
   try {
     let bday;
 
-    if (inputDate.match(dateButNotYearRegex)){
+    if (inputDate.match(dateButNotYearRegex)) {
       bday = moment(inputDate, "MM/DD");
-    } else if (inputDate.match(completeDateRegex)){
+    } else if (inputDate.match(completeDateRegex)) {
       bday = moment(inputDate, "MM/DD/YYYY");
     } else {
       throw Error;
@@ -36,13 +36,13 @@ const parseBirthday = (inputDate: string): Birthday => {
     const dateStr = bday.format("MMMM Do"); // November 29th
     const dayOfYear = bday.dayOfYear();
 
-    if (dateStr === "Invalid date" || Number.isNaN(dayOfYear)){
+    if (dateStr === "Invalid date" || Number.isNaN(dayOfYear)) {
       throw Error;
     }
 
     return {
-      dateStr: dateStr,
-      dayOfYear: dayOfYear,
+      dateStr,
+      dayOfYear,
     };
   } catch (e) {
     return {
@@ -56,95 +56,114 @@ const formatContact = (firstName, lastName, bdayStr, imagePath, facebookId) => {
   const bday: Birthday = parseBirthday(bdayStr);
 
   return {
+    birthDayOfYear: bday.dayOfYear,
+    birthday: bday.dateStr,
+    facebookId,
+    imagePath,
     name: {
       first: firstName,
       last: lastName,
     },
-    birthday: bday.dateStr,
-    birthDayOfYear: bday.dayOfYear,
-    imagePath: imagePath,
-    facebookId: facebookId,
   };
 };
 
 const initialState = {
+  contactList: [],
   loadingFromFacebook: false,
   loadingFromFacebookFailed: false,
   reloadingFromFacebook: false,
   reloadingFromFacebookFailed: false,
   toastContactsReloaded: false,
-  contactList: [],
 };
 
-const sortContactsByBirthday = (contacts) => {
-
+const sortContactsByBirthday = contacts => {
   const dayOfYear = moment().dayOfYear();
 
-  const newContacts = contacts.map(function(contact){
-    if (contact.birthDayOfYear < dayOfYear){
-      contact.birthDayOfYear += 365;
+  const newContacts = contacts.map(contact => {
+    const daysInYear = 365;
+    if (contact.birthDayOfYear < dayOfYear) {
+      contact.birthDayOfYear += daysInYear;
     }
     return contact;
   });
 
-  newContacts.sort(function(a, b){
-    if (a.birthDayOfYear > b.birthDayOfYear) return 1;
-    if (a.birthDayOfYear < b.birthDayOfYear) return -1;
-    if (a.birthDayOfYear === b.birthDayOfYear) return 0;
+  newContacts.sort((a, b) => {
+    if (a.birthDayOfYear > b.birthDayOfYear) {
+      return 1;
+    }
+    if (a.birthDayOfYear < b.birthDayOfYear) {
+      return -1;
+    }
+    if (a.birthDayOfYear === b.birthDayOfYear) {
+      return 0;
+    }
   });
 
   return newContacts;
 };
 
 const addContactsFromFacebook = (state, contacts) => {
-  const newContacts = contacts.data.map(function(contact){
+  const newContacts = contacts.data.map((contact) => {
     let birthday = "unknown";
-    if (contact.birthday){
+    if (contact.birthday) {
       birthday = contact.birthday;
     }
 
-    return formatContact(contact.first_name, contact.last_name, birthday, contact.picture.data.url, contact.id);
+    return formatContact(
+      contact.first_name,
+      contact.last_name,
+      birthday,
+      contact.picture.data.url,
+      contact.id,
+    );
   });
-  return Object.assign({}, state,
-    {
-      contactList: newContacts,
-      loadingFromFacebook: false,
-    },
-  );
+  return {
+    ...state,
+
+    contactList: newContacts,
+    loadingFromFacebook: false,
+  };
 };
 
 export const contacts = (state = initialState, action) => {
-  switch (action.type){
+  switch (action.type) {
     case "POPULATE_CONTACTS_FROM_FACEBOOK":
       return addContactsFromFacebook(state, action.payload.contacts);
     case "LOADING_CONTACTS_FROM_FACEBOOK":
-      return Object.assign({}, state, {
-          loadingFromFacebook: true,
-      });
+      return {
+        ...state,
+        loadingFromFacebook: true,
+      };
     case "FAILED_LOADING_CONTACTS_FROM_FACEBOOK":
-      return Object.assign({}, state, {
-          loadingFromFacebookFailed: true,
-      });
+      return {
+        ...state,
+        loadingFromFacebookFailed: true,
+      };
     case "RELOADING_CONTACTS_FROM_FACEBOOK":
-      return Object.assign({}, state, {
-          reloadingFromFacebook: true,
-      });
+      return {
+        ...state,
+        reloadingFromFacebook: true,
+      };
     case "COMPLETED_RELOADING_CONTACTS_FROM_FACEBOOK":
-      return Object.assign({}, state, {
-          reloadingFromFacebook: false,
-      });
+      return {
+        ...state,
+        reloadingFromFacebook: false,
+      };
     case "FAILED_RELOADING_CONTACTS_FROM_FACEBOOK":
-      return Object.assign({}, state, {
-          reloadingFromFacebookFailed: true,
-      });
+      return {
+        ...state,
+        reloadingFromFacebookFailed: true,
+      };
     case "TOAST_CONTACTS_RELOADED":
-      return Object.assign({}, state, {
-          toastContactsReloaded: true,
-      });
+      return {
+        ...state,
+        toastContactsReloaded: true,
+      };
     case "END_TOAST_CONTACTS_RELOADED":
-      return Object.assign({}, state, {
-          toastContactsReloaded: false,
-      });
+      return {
+        ...state,
+        toastContactsReloaded: false,
+      };
     default:
       return state;
   }

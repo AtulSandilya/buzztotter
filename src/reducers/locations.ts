@@ -1,6 +1,6 @@
-import {Location} from "../db/tables";
+import { Location } from "../db/tables";
 
-export const defaultLocationsState = []
+export const defaultLocationsState = [];
 
 export const locations = (state = defaultLocationsState, action) => {
   switch (action.type) {

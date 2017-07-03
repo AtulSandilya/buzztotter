@@ -1,7 +1,4 @@
-import {
-  PurchasedBevegram,
-  PurchasedBevegramSummary,
-} from "../db/tables";
+import { PurchasedBevegram, PurchasedBevegramSummary } from "../db/tables";
 
 interface PurchasedBevegramState {
   summary: PurchasedBevegramSummary;
@@ -20,9 +17,10 @@ const defaultState = {
 export const purchasedBevegrams = (state = defaultState, action) => {
   switch (action.type) {
     case "SET_PURCHASED_BEVEGRAM_LIST": {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         list: action.payload.list,
-      });
+      };
     }
 
     default:

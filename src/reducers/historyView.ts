@@ -4,21 +4,23 @@ interface HistoryViewState {
 }
 
 const initialState: HistoryViewState = {
-  isRefreshing: false,
   completedInitialLoad: false,
-}
+  isRefreshing: false,
+};
 
 export const historyView = (state: HistoryViewState = initialState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case "ATTEMPTING_HISTORY_UPDATE":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isRefreshing: true,
-      });
+      };
     case "SUCCESSFUL_HISTORY_UPDATE":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isRefreshing: false,
-      });
+      };
     default:
       return state;
   }
-}
+};
