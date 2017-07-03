@@ -1,11 +1,8 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import {
-  PurchaseTransactionStatus,
-} from "../db/tables";
+import { PurchaseTransactionStatus } from "../db/tables";
 
-import PurchaseAndOrSendInProgress from '../components/PurchaseAndOrSendInProgress';
-
+import PurchaseAndOrSendInProgress from "../components/PurchaseAndOrSendInProgress";
 
 interface MapStateProps {
   // From State
@@ -25,32 +22,32 @@ interface MapStateProps {
 
 const mapStateToProps = (state): MapStateProps => {
   // Combine Route Data with other relevant data
-  return Object.assign({},
-    state.routes.PurchaseInProgress.data,
-    state.routes.SendInProgress.data, {
-      purchaseTransactionStatus: state.purchase.purchaseTransactionStatus,
-  });
-}
+  return {
+    ...state.routes.PurchaseInProgress.data,
+    ...state.routes.SendInProgress.data,
+    purchaseTransactionStatus: state.purchase.purchaseTransactionStatus,
+  };
+};
 
 interface MapDispatchProps {
   closeRoute();
   resetPurchase();
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     closeRoute: () => {
-      dispatch({type: 'GO_BACK_ROUTE'});
+      dispatch({ type: "GO_BACK_ROUTE" });
     },
     resetPurchase: () => {
-      dispatch({type: 'RESET_CREDIT_CARD_PURCHASE'});
-    }
-  }
-}
+      dispatch({ type: "RESET_CREDIT_CARD_PURCHASE" });
+    },
+  };
+};
 
 const CPurchaseAndOrSendInProgress = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(PurchaseAndOrSendInProgress);
 
 export default CPurchaseAndOrSendInProgress;

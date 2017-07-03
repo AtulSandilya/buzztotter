@@ -1,8 +1,8 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import AddCreditCard, {AddCreditCardProps} from '../components/AddCreditCard';
+import AddCreditCard, { AddCreditCardProps } from "../components/AddCreditCard";
 
-import {CardDataForVerification} from '../reducers/addCreditCard';
+import { CardDataForVerification } from "../reducers/addCreditCard";
 
 interface AddCreditCardMap {
   attemptingVerification: boolean;
@@ -14,11 +14,11 @@ interface AddCreditCardMap {
 const mapStateToProps = (state): AddCreditCardMap => {
   return {
     attemptingVerification: state.addCreditCard.attemptingVerification,
-    isVerified: state.addCreditCard.isVerified,
-    failed: state.addCreditCard.failed,
     failMessage: state.addCreditCard.failMessage,
+    failed: state.addCreditCard.failed,
+    isVerified: state.addCreditCard.isVerified,
   };
-}
+};
 
 interface AddCreditCardDispatch {
   goBackToPurchase(): void;
@@ -29,27 +29,31 @@ interface AddCreditCardDispatch {
 const mapDispatchToProps = (dispatch): AddCreditCardDispatch => {
   return {
     goBackToPurchase: () => {
-      dispatch({type: 'GO_BACK_ROUTE'});
+      dispatch({ type: "GO_BACK_ROUTE" });
     },
-    verifyCardDetailsWithStripe: (cardData: CardDataForVerification)  => {
+    verificationFailed: errorMessage => {
       dispatch({
-        type: 'REQUEST_CREDIT_CARD_VERIFICATION',
+        type: "FAILED_CREDIT_CARD_VERIFICATION",
+        payload: {
+          error: errorMessage,
+        },
+      });
+    },
+    verifyCardDetailsWithStripe: (cardData: CardDataForVerification) => {
+      dispatch({
+        type: "REQUEST_CREDIT_CARD_VERIFICATION",
         payload: {
           cardData: cardData,
-        }
-      })
+        },
+      });
     },
-    verificationFailed: (errorMessage) => {
-      dispatch({type: 'FAILED_CREDIT_CARD_VERIFICATION', payload: {
-        error: errorMessage,
-      }});
-    }
-  }
-}
+  };
+};
 
-const CAddCreditCard = connect<AddCreditCardMap, AddCreditCardDispatch, AddCreditCardProps>(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AddCreditCard);
+const CAddCreditCard = connect<
+  AddCreditCardMap,
+  AddCreditCardDispatch,
+  AddCreditCardProps
+>(mapStateToProps, mapDispatchToProps)(AddCreditCard);
 
 export default CAddCreditCard;

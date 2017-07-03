@@ -23,10 +23,10 @@ interface DispatchProps {
 const mapDispatchToProps = dispatch => {
   return {
     clearMessage: () => {
-      dispatch({type: "RESET_MESSAGE"});
+      dispatch({ type: "RESET_MESSAGE" });
     },
     onSubmit: () => {
-      dispatch({type: "GO_BACK_ROUTE"});
+      dispatch({ type: "GO_BACK_ROUTE" });
     },
     saveMessage: message => {
       dispatch({

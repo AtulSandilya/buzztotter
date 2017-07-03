@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import Contact, {ContactProps} from '../components/Contact';
+import Contact, { ContactProps } from "../components/Contact";
 
 interface DispatchProps {
   openPurchaseRoute?(routeData: any): void;
@@ -8,21 +8,21 @@ interface DispatchProps {
 
 export const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
-    openPurchaseRoute: (routeData) => {
+    openPurchaseRoute: routeData => {
       dispatch({
-        type: 'GO_TO_ROUTE',
+        type: "GO_TO_ROUTE",
         payload: {
           route: "SendBevegram",
           routeData: routeData,
         },
-      })
+      });
     },
-  }
-}
+  };
+};
 
 const CContact = connect<{}, DispatchProps, ContactProps>(
   undefined,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Contact);
 
 export default CContact;

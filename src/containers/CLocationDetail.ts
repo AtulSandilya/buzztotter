@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 
-import LocationDetail, {LocationDetailProps} from "../components/LocationDetail";
-import {Location} from "../db/tables";
+import LocationDetail, { LocationDetailProps } from "../components/LocationDetail";
+import { Location } from "../db/tables";
 
 interface StateProps {
   loc: Location;
@@ -13,10 +13,8 @@ const mapStateToProps = (state): StateProps => {
   };
 };
 
-const CLocationDetail = connect<
-  StateProps,
-  {},
-  LocationDetailProps
->(mapStateToProps)(LocationDetail);
+const CLocationDetail = connect<StateProps, {}, LocationDetailProps>(
+  mapStateToProps,
+)(LocationDetail);
 
 export default CLocationDetail;

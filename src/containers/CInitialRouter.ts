@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 
-import InitialRouter, {InitialRouterProps} from "../routers/InitialRouter";
+import InitialRouter, { InitialRouterProps } from "../routers/InitialRouter";
 
 interface MapStateProps {
   showLogin?: boolean;
@@ -18,17 +18,18 @@ interface MapDispatchProps {
   goBackRoute?(): void;
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     goBackRoute: () => {
-      dispatch({type: "GO_BACK_ROUTE"});
+      dispatch({ type: "GO_BACK_ROUTE" });
     },
   };
 };
 
-const CInitialRouter = connect<MapStateProps, MapDispatchProps, InitialRouterProps>(
-  mapStateToProps,
-  mapDispatchToProps,
-)(InitialRouter);
+const CInitialRouter = connect<
+  MapStateProps,
+  MapDispatchProps,
+  InitialRouterProps
+>(mapStateToProps, mapDispatchToProps)(InitialRouter);
 
 export default CInitialRouter;

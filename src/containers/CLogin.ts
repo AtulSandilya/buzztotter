@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 
 import { Actions } from "react-native-router-flux";
 
-import Login, {LoginProps} from "../components/Login";
+import Login, { LoginProps } from "../components/Login";
 
 interface StateProps {
   loginInProgress: boolean;
@@ -16,13 +16,12 @@ const mapStateToProps = (state): StateProps => {
 
 interface DispatchProps {
   requestLogin(): void;
-
 }
 
 const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
     requestLogin: () => {
-      dispatch({type: "LOGIN"});
+      dispatch({ type: "LOGIN" });
     },
   };
 };

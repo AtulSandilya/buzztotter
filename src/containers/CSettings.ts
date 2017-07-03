@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 
 import { Settings } from "../components/Settings";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     fullName: state.user.fullName,
     location: state.settings.location,
@@ -11,25 +11,25 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     logoutActions: () => {
-      dispatch({type: "REQUEST_LOGOUT", payload: {
-        route: "Login",
-      }});
+      dispatch({
+        type: "REQUEST_LOGOUT",
+        payload: {
+          route: "Login",
+        },
+      });
+    },
+    onSettingToggle: inputKey => {
+      dispatch({ type: "TOGGLE_SETTING", settingKey: inputKey });
     },
     toggleNotificationSetting: () => {
-      dispatch({type: "TOGGLE_NOTIFICATION_SETTING"});
-    },
-    onSettingToggle: (inputKey) => {
-      dispatch({type: "TOGGLE_SETTING", settingKey: inputKey});
+      dispatch({ type: "TOGGLE_NOTIFICATION_SETTING" });
     },
   };
 };
 
-const CSettings = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Settings);
+const CSettings = connect(mapStateToProps, mapDispatchToProps)(Settings);
 
 export default CSettings;

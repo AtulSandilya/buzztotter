@@ -104,13 +104,16 @@ const mapDispatchToProps = dispatch => {
     getUser: () => {
       dispatch({ type: "PURCHASE_REQUEST_UPDATE_USER" });
     },
-    goToMessageRoute: (name) => {
-      dispatch({type: "GO_TO_ROUTE", payload: {
-        route: "Message",
-        routeData: {
-          name,
+    goToMessageRoute: name => {
+      dispatch({
+        type: "GO_TO_ROUTE",
+        payload: {
+          route: "Message",
+          routeData: {
+            name,
+          },
         },
-      }});
+      });
     },
   };
 };

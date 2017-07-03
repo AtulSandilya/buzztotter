@@ -6,7 +6,7 @@ import {
   SentBevegram,
 } from "../db/tables";
 
-import History, {HistoryProps} from "../components/History";
+import History, { HistoryProps } from "../components/History";
 
 interface MapStateProps {
   bevegramHistoryKeys?: string[];
@@ -20,7 +20,7 @@ interface MapStateProps {
 
 const mergeKeys = (objects: any[]) => {
   const allKeys = [];
-  objects.map((x) => {
+  objects.map(x => {
     const xKeys = Object.keys(x);
     if (xKeys.length > 0) {
       allKeys.push.apply(allKeys, xKeys);
@@ -29,14 +29,16 @@ const mergeKeys = (objects: any[]) => {
   return allKeys;
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     bevegramHistoryKeys: mergeKeys([
       state.purchasedBevegrams.list,
       state.sentBevegrams.list,
       state.receivedBevegrams,
       state.redeemedBevegrams,
-    ]).sort().reverse(),
+    ])
+      .sort()
+      .reverse(),
     completedInitialLoad: state.historyView.completedInitialLoad,
     isRefreshing: state.historyView.isRefreshing,
     purchasedBevegrams: state.purchasedBevegrams.list,
@@ -50,10 +52,10 @@ interface MapDispatchProps {
   refreshHistory?(): void;
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     refreshHistory: () => {
-      dispatch({type: "REFRESH_HISTORY"});
+      dispatch({ type: "REFRESH_HISTORY" });
     },
   };
 };

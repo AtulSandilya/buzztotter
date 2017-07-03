@@ -1,25 +1,28 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import Bevegram, {BevegramProps} from '../components/Bevegram';
+import Bevegram, { BevegramProps } from "../components/Bevegram";
 
 interface DispatchProps {
-  goToRedeem?(routeData: Object): void;
+  goToRedeem?(routeData: object): void;
 }
 
-const mapDispatchToProps = (dispatch): DispatchProps  => {
+const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
-    goToRedeem: (routeData) => {
-      dispatch({type: 'GO_TO_ROUTE', payload: {
-        route: 'RedeemBeer',
-        routeData: routeData,
-      }})
-    }
-  }
-}
+    goToRedeem: routeData => {
+      dispatch({
+        type: "GO_TO_ROUTE",
+        payload: {
+          route: "RedeemBeer",
+          routeData: routeData,
+        },
+      });
+    },
+  };
+};
 
 const CBevegram = connect<{}, DispatchProps, BevegramProps>(
   undefined,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Bevegram);
 
 export default CBevegram;

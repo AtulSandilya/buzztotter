@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 
-import RedeemBeer, {RedeemBeerProps} from "../components/RedeemBeer";
+import RedeemBeer, { RedeemBeerProps } from "../components/RedeemBeer";
 import { sceneKeys, sceneOrder } from "../reducers/view";
 
-import {StringifyDate} from "../CommonUtilities";
+import { StringifyDate } from "../CommonUtilities";
 import {
   GpsCoordinates,
   Location,
@@ -36,7 +36,8 @@ const mapStateToProps = (state): StateProps => {
     currentLocationBusinessName: state.redeemView.currentLocationBusinessName,
     currentLocationLastModified: state.redeemView.lastModified,
     getLocationFailed: state.redeemView.getLocationFailed,
-    getLocationFailedErrorMessage: state.redeemView.getLocationFailedErrorMessage,
+    getLocationFailedErrorMessage:
+      state.redeemView.getLocationFailedErrorMessage,
     id: state.routes.RedeemBeer.data.id,
     isProcessing: state.redeemView.isProcessing,
     isRefreshingLocation: state.redeemView.isRefreshingLocation,
@@ -60,20 +61,26 @@ interface DispatchProps {
 const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
     onRedeemClicked: (quantity, receivedId) => {
-      dispatch({type: "REDEEM_BEVEGRAM", payload: {
-        quantity,
-        receivedId,
-      }});
+      dispatch({
+        type: "REDEEM_BEVEGRAM",
+        payload: {
+          quantity,
+          receivedId,
+        },
+      });
     },
     closeRedeem: () => {
-      dispatch({type: "GO_BACK_ROUTE"});
+      dispatch({ type: "GO_BACK_ROUTE" });
     },
     goToMap: () => {
-      dispatch({type: "GO_BACK_ROUTE"});
-      dispatch({type: "GOTO_VIEW", newScene: sceneOrder[sceneKeys.bevegramLocations]});
+      dispatch({ type: "GO_BACK_ROUTE" });
+      dispatch({
+        type: "GOTO_VIEW",
+        newScene: sceneOrder[sceneKeys.bevegramLocations],
+      });
     },
     updateLocation: () => {
-      dispatch({type: "REQUEST_BAR_AT_USER_LOCATION"});
+      dispatch({ type: "REQUEST_BAR_AT_USER_LOCATION" });
     },
   };
 };
