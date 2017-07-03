@@ -1,14 +1,11 @@
 import fetch from "node-fetch";
 
-import {config} from "dotenv";
+import { config } from "dotenv";
 config();
 
 import theme from "../theme";
 
-import {
-  NotificationActions,
-  NotificationPackage,
-} from "../db/tables";
+import { NotificationActions, NotificationPackage } from "../db/tables";
 
 export const sendNotification = async (notif: NotificationPackage) => {
   const fullNotif = {
@@ -26,9 +23,10 @@ export const sendNotification = async (notif: NotificationPackage) => {
     // See https://firebase.google.com/docs/cloud-messaging/http-server-ref
     // for documentation for these parameters
     body: JSON.stringify({
-      data: Object.assign({}, notif.data, {
+      data: {
+        ...notif.data,
         action: notif.action,
-      }),
+      },
       notification: fullNotif,
       to: notif.receiverGCMId,
     }),

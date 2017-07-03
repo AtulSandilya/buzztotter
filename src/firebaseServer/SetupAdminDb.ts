@@ -4,7 +4,8 @@ const SetupAdminDb = (environmentVars?: object, name?: string) => {
   require("dotenv").config();
   const env = environmentVars ? environmentVars : process.env;
   const serviceAccount = {
-    auth_provider_x509_cert_url: env.FIREBASE_ADMIN_KEY_auth_provider_x509_cert_url,
+    auth_provider_x509_cert_url:
+      env.FIREBASE_ADMIN_KEY_auth_provider_x509_cert_url,
     auth_uri: env.FIREBASE_ADMIN_KEY_auth_uri,
     client_email: env.FIREBASE_ADMIN_KEY_client_email,
     client_id: env.FIREBASE_ADMIN_KEY_client_id,
@@ -20,10 +21,13 @@ const SetupAdminDb = (environmentVars?: object, name?: string) => {
   // initial admin db has been created. See:
   // https://firebase.google.com/docs/admin/setup#initialize_multiple_apps
   if (name) {
-    const secondaryDb = admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-      databaseURL: env.FIREBASE_ADMIN_KEY_firebaseDatabaseURL,
-    }, name);
+    const secondaryDb = admin.initializeApp(
+      {
+        credential: admin.credential.cert(serviceAccount),
+        databaseURL: env.FIREBASE_ADMIN_KEY_firebaseDatabaseURL,
+      },
+      name,
+    );
 
     return secondaryDb.database();
   } else {

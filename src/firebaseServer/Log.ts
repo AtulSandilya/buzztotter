@@ -1,6 +1,6 @@
 /* tslint:disable:no-console */
 class Log {
-  public static StartQueueMessage = (url: string) => {
+  public static StartQueueMessage(url: string) {
     console.log("Listening for changes on node: ", url);
   }
 
@@ -12,20 +12,24 @@ class Log {
     this.start = this.getUnixTime();
   }
 
-  public successMessage = () => {
-    console.log(`Successfully completed ${this.action} in ${this.getTimeElapsed()} ms`);
+  public successMessage() {
+    console.log(
+      `Successfully completed ${this.action} in ${this.getTimeElapsed()} ms`,
+    );
   }
 
-  public failMessage = (error: Error) => {
+  public failMessage(error: Error) {
     console.log(`Failed ${this.action} in ${this.getTimeElapsed()} ms`);
-    console.error(`Error executing ${this.action}: ${error}\n Stacktrace: ${error.stack}`);
+    console.error(
+      `Error executing ${this.action}: ${error}\n Stacktrace: ${error.stack}`,
+    );
   }
 
-  private getUnixTime = (): number => {
+  private getUnixTime(): number {
     return Date.now();
   }
 
-  private getTimeElapsed = () => {
+  private getTimeElapsed() {
     return this.getUnixTime() - this.start;
   }
 }
