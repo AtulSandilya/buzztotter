@@ -49,6 +49,7 @@ export const PrettyFormatDistance = (
 ) => {
   let prettyDistance: string;
   let prettyUnit: string;
+  const postfix = "away";
 
   const squareFootageRadius = SquareFootageToRadius(squareFootage);
   if (distanceInMeters < squareFootageRadius) {
@@ -65,7 +66,8 @@ export const PrettyFormatDistance = (
         prettyUnit = "m";
         prettyDistance = distanceInMeters.toFixed(0);
       }
-      break;
+
+      return `${prettyDistance} ${prettyUnit} ${postfix}`;
     case "imperial":
       const feet = MetersToFeet(distanceInMeters);
       const feetPerMile = 5280;
@@ -85,11 +87,9 @@ export const PrettyFormatDistance = (
         prettyUnit = "miles";
         prettyDistance = (feet / feetPerMile).toFixed(0);
       }
-      break;
-  }
 
-  const postfix = "away";
-  return `${prettyDistance} ${prettyUnit} ${postfix}`;
+      return `${prettyDistance} ${prettyUnit} ${postfix}`;
+  }
 };
 
 export const CoordsAreWithinViewport = (
