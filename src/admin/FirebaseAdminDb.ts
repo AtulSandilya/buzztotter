@@ -154,7 +154,7 @@ class FirebaseAdminDb extends FirebaseDb {
 
   public async getVendorFromBasicLocation(
     basicLocation: BasicLocation,
-  ): Promise<{ vendor: Vendor; vendorId: string }> {
+  ): Promise<{ vendor: Vendor; vendorId: string } | undefined> {
     const vendorWithKey = await this.queryInList(
       DbSchema.GetVendorPushDbUrl(),
       "address",
@@ -179,10 +179,7 @@ class FirebaseAdminDb extends FirebaseDb {
       }
     }
 
-    return {
-      vendor: undefined,
-      vendorId: undefined,
-    };
+    return;
   }
 
   //  End Location List ---------------------------------------------------}}}
