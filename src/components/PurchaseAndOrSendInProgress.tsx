@@ -1,12 +1,11 @@
 import * as React from "react";
-import { Component } from "react";
 import { Image, Text, View } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import { PurchaseTransactionStatus } from "../db/tables";
 
-import BevButton, { getButtonHeight } from "./BevButton";
+import BevButton from "./BevButton";
 import { globalStyles } from "./GlobalStyles";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 import StatusLine from "./StatusLine";
@@ -226,8 +225,8 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
             </View>
           : null}
         {userIsSending
-          /* tslint:disable:jsx-alignment */
-          ? <StatusLine
+          ? /* tslint:disable:jsx-alignment */
+            <StatusLine
               title="Sending Bevegram"
               statusObject={purchaseTransactionStatus}
               statusKey="sendingNotification"

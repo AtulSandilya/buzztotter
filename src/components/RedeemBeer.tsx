@@ -3,7 +3,6 @@ import { Component } from "react";
 import {
   ActivityIndicator,
   Alert,
-  StyleSheet,
   Text,
   TextInput,
   TouchableHighlight,
@@ -17,7 +16,6 @@ import { Location } from "../db/tables";
 import BevButton from "./BevButton";
 import BevUiText from "./BevUiText";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
-import TitleText from "./TitleText";
 
 import { globalColors, globalStyles } from "./GlobalStyles";
 
@@ -298,8 +296,8 @@ export default class RedeemBeer extends Component<
               ]}
             >
               {this.props.isRefreshingLocation
-                /* tslint:disable:jsx-alignment */
-                ? <ActivityIndicator />
+                ? /* tslint:disable:jsx-alignment */
+                  <ActivityIndicator />
                 : <TouchableHighlight
                     onPress={() => this.updateLocation()}
                     underlayColor={"rgba(255, 255, 255, 0.1)"}

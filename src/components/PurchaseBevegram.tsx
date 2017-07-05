@@ -2,7 +2,6 @@ import * as React from "react";
 import { Component } from "react";
 import {
   ActivityIndicator,
-  Alert,
   Image,
   StyleSheet,
   Text,
@@ -16,7 +15,7 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionicon from "react-native-vector-icons/Ionicons";
 
-import { isIOS, WindowWidth } from "../ReactNativeUtilities";
+import { WindowWidth } from "../ReactNativeUtilities";
 
 import {
   PurchaseActionData,
@@ -32,8 +31,6 @@ import { InProgressData } from "./PurchaseAndOrSendInProgress";
 
 import BevButton, { getButtonHeight } from "./BevButton";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
-import StatusLine from "./StatusLine";
-import TitleText from "./TitleText";
 
 import { BevLayoutAnimation, globalColors, globalStyles } from "./GlobalStyles";
 
@@ -41,10 +38,10 @@ export const FormatCreditCardBrandForFontAwesomeIcon = (card: CreditCard) => {
   const cardMap = {
     "American Express": "amex",
     "Diners Club": "diners-club",
-    "Discover": "discover",
-    "JCB": "jcb",
-    "MasterCard": "mastercard",
-    "Visa": "visa",
+    Discover: "discover",
+    JCB: "jcb",
+    MasterCard: "mastercard",
+    Visa: "visa",
   };
 
   const cardPrefix = "cc-";
@@ -111,7 +108,7 @@ export default class PurchaseBevegram extends Component<
     return this.renderSendAndPurchaseOptions();
   }
 
-  private componentWillUpdate() {
+  public componentWillUpdate() {
     BevLayoutAnimation();
   }
 
@@ -332,8 +329,8 @@ export default class PurchaseBevegram extends Component<
             <View style={[globalStyles.bevLineLeft, { flexDirection: "row" }]}>
               {this.props.selectedPurchasePackageIndex === index &&
                 this.userIsPurchasing()
-                /* tslint:disable:jsx-alignment */
-                ? <FontAwesome
+                ? /* tslint:disable:jsx-alignment */
+                  <FontAwesome
                     name="check-square-o"
                     color="green"
                     size={25}

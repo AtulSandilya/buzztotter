@@ -1,12 +1,9 @@
 import * as React from "react";
-import { Component } from "react";
 import { StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import theme from "../theme";
-
-import { globalColors } from "./GlobalStyles";
 
 type BevUiSizeType = "huge" | "large" | "normal" | "small";
 
@@ -57,7 +54,6 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
     "icon",
   );
 
-  const iconStyle = props.icon ? { paddingLeft: 8 } : undefined;
   const text = typeof props.children !== "string"
     ? ""
     : props.preserveCase ? props.children : props.children.toUpperCase();

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Component } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -25,10 +24,6 @@ const StatusLineIcon = (iconName: string, color: string) => {
 
 const StatusLineActivityIndicator = (isSpinning: boolean = true) =>
   <ActivityIndicator style={{ marginRight: 10 }} animating={isSpinning} />;
-
-interface GenericStatusObject {
-  [eventName: string]: EventStatus;
-}
 
 interface StatusLineProps {
   statusKey: string;

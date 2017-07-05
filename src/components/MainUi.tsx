@@ -1,10 +1,6 @@
 import * as React from "react";
-import { Component } from "react";
 import { View } from "react-native";
 
-import { connect } from "react-redux";
-
-import CBranding from "../containers/CBranding";
 import CMainTabView from "../containers/CMainTabView";
 
 import { BrandingHeight } from "./Branding";

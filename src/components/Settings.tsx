@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Component } from "react";
 import {
   Linking,
   StyleSheet,
@@ -11,12 +10,9 @@ import {
 
 import { settingsKeys } from "../reducers/settings";
 
-import { isAndroid } from "../ReactNativeUtilities";
-
 import BevButton from "./BevButton";
 import FacebookButton from "./FacebookButton";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
-import TitleText from "./TitleText";
 
 import { globalColors } from "./GlobalStyles";
 

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Component } from "react";
 import {
   Linking,
   StyleSheet,
@@ -15,7 +14,6 @@ import { Location, LocationViewport } from "../db/tables";
 import { isAndroid, isIOS } from "../ReactNativeUtilities";
 import { globalColors, globalStyles } from "./GlobalStyles";
 
-import BevButton from "./BevButton";
 import BevPressableLine from "./BevPressableLine";
 import BevUiText from "./BevUiText";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";

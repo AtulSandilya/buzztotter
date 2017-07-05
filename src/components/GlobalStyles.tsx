@@ -5,8 +5,6 @@ import {
   ViewStyle,
 } from "react-native";
 
-import { isAndroid } from "../ReactNativeUtilities";
-
 /* tslint:disable:object-literal-sort-keys */
 export const globalColors = {
   // Tealish Green

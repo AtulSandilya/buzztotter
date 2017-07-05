@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Component } from "react";
-import { Image, Text, View, ViewStyle } from "react-native";
+import { View } from "react-native";
 
 import * as Animatable from "react-native-animatable";
 

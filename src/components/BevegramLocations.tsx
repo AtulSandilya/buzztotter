@@ -3,8 +3,6 @@ import { Component } from "react";
 import {
   ActivityIndicator,
   Alert,
-  Image,
-  Linking,
   ListView,
   RefreshControl,
   Text,
@@ -16,15 +14,10 @@ import MapView from "react-native-maps";
 
 import { PrettyFormatDistance } from "../CommonUtilities";
 import { GpsCoordinates, Location } from "../db/tables";
-import { isAndroid, isIOS } from "../ReactNativeUtilities";
 import { FormatDayHours } from "./LocationDetail";
 
-import BevButton from "./BevButton";
 import BevPressableLine from "./BevPressableLine";
 import BevUiText from "./BevUiText";
-import TitleText from "./TitleText";
-
-import theme from "../theme";
 
 import { globalColors, globalStyles } from "./GlobalStyles";
 
@@ -69,7 +62,7 @@ export default class BevegramLocations extends Component<
 
   /* tslint:disable:member-ordering */
   private onRegionChange(region) {
-    this.setState((prevState, currentProps) => {
+    this.setState(prevState => {
       return {
         ...prevState,
         // If region is undefined we want to change the center of the map but

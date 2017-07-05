@@ -1,11 +1,9 @@
 import * as React from "react";
-import { Component } from "react";
 import { ListView, RefreshControl, Text, View } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import { Pluralize } from "../CommonUtilities";
-import theme from "../theme";
 import { globalColors, globalStyles } from "./GlobalStyles";
 
 import BevTimestamp from "./BevTimestamp";

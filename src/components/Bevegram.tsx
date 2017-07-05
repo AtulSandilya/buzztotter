@@ -1,16 +1,5 @@
 import * as React from "react";
-import { Component } from "react";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-  ViewStyle,
-} from "react-native";
-
-import { connect } from "react-redux";
-import { modalKeys } from "../reducers/modals.js";
+import { Image, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import BevButton from "./BevButton";
 import BevTimestamp from "./BevTimestamp";

@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Component } from "react";
-import { Image, Text, TouchableHighlight, View } from "react-native";
+import { Image, Text, View } from "react-native";
 
 import FacebookButton from "./FacebookButton";
 

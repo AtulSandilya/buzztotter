@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Component } from "react";
-import { RefreshControl, StyleSheet, View, ViewStyle } from "react-native";
+import { RefreshControl, ViewStyle } from "react-native";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -23,7 +22,6 @@ const RouteWithNavBarWrapper: React.StatelessComponent<
 > = props => {
   const extraScrollHeight = 30;
   const leftOffset = 0;
-  const extraHeightForExpand = 150;
   const containerStyle: ViewStyle = {
     flex: 1,
     height: WindowHeight - NavBarHeight - props.viewBelowHeight,

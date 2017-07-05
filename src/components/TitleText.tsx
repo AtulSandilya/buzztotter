@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Component } from "react";
 import { Text, View } from "react-native";
 
 import { globalStyles } from "./GlobalStyles";

@@ -1,7 +1,5 @@
 import * as React from "react";
-import { Component } from "react";
 import {
-  ActivityIndicator,
   Keyboard,
   LayoutAnimation,
   ListView,
@@ -28,14 +26,12 @@ import { globalColors, globalStyles } from "./GlobalStyles.js";
 
 import { buildFacebookProfilePicUrlFromFacebookId } from "../api/facebook";
 
-import CBevegramStatusBar from "../containers/CBevegramStatusBar";
 import CContact from "../containers/CContact";
 import theme from "../theme";
 import FacebookButton from "./FacebookButton";
 
 import { Contact } from "../reducers/contacts";
 import {
-  ContactsSort,
   ContactsSortingMethod,
   ContactsSortOptionsViewLine,
 } from "../reducers/contactsView";

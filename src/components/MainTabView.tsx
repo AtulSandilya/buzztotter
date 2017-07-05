@@ -1,18 +1,12 @@
 import * as React from "react";
 import { Component } from "react";
-import {
-  BackHandler,
-  Dimensions,
-  Text,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import { BackHandler, Text, TouchableHighlight, View } from "react-native";
 
 import ScrollableTabView, { DefaultTabBar } from "react-native-scrollable-tab-view";
 
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { isAndroid, isIOS, WindowWidth } from "../ReactNativeUtilities";
+import { isIOS, WindowWidth } from "../ReactNativeUtilities";
 
 import { globalColors } from "../components/GlobalStyles";
 

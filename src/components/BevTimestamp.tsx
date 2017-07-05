@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Component } from "react";
 import { View, ViewStyle } from "react-native";
 
 import TimeAgo from "react-timeago";

@@ -1,9 +1,6 @@
 import * as React from "react";
-import { Component } from "react";
 import {
   ActivityIndicator,
-  Dimensions,
-  PixelRatio,
   StyleSheet,
   Text,
   TextStyle,
@@ -15,7 +12,7 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionicon from "react-native-vector-icons/Ionicons";
 
-import { isAndroid, isIOS, isNarrow } from "../ReactNativeUtilities";
+import { isAndroid, isNarrow } from "../ReactNativeUtilities";
 import { globalColors } from "./GlobalStyles";
 
 interface Style {
@@ -86,7 +83,6 @@ const BevButton = ({
   // In a row with two buttons if one has an icon it will be taller than the
   // button without the icon, this prop makes the icon button shorter, trying
   // to match the height of the adjacentButton
-  adjacentButton = false,
   leftIcon = "",
   fontAwesomeLeftIcon = "",
   style = {},

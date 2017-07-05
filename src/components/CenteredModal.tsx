@@ -1,27 +1,12 @@
 import * as React from "react";
-import { Component } from "react";
 import {
   Dimensions,
   Modal,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableHighlight,
   View,
 } from "react-native";
-
-import { globalColors } from "./GlobalStyles";
-
-const styles = StyleSheet.create({
-  outerView: {
-    backgroundColor: "#222222",
-    opacity: 20,
-  },
-  innerView: {
-    backgroundColor: "#ffffff",
-    opacity: 100,
-  },
-});
 
 const calcDimensions = (dimensionProperty, innerSize) => {
   const full = Dimensions.get("window")[dimensionProperty];
@@ -51,7 +36,6 @@ const CenteredModal: React.StatelessComponent<CenteredModalProps> = ({
 }) => {
   const width = calcDimensions("width", widthPercent);
   const height = calcDimensions("height", heightPercent);
-  const cancelButtonSize = 25;
 
   return (
     <Modal

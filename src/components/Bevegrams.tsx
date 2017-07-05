@@ -1,15 +1,10 @@
 import * as React from "react";
-import { Component } from "react";
 import { ListView, RefreshControl, Text, View } from "react-native";
-
-import { modalKeys } from "../reducers/modals";
 
 import { buildFacebookProfilePicUrlFromFacebookId } from "../api/facebook";
 import { ReceivedBevegram } from "../db/tables";
 
 import CBevegram from "../containers/CBevegram";
-import CRedeemBeer from "../containers/CRedeemBeer";
-import CenteredModal from "./CenteredModal";
 
 import { globalColors, globalStyles } from "./GlobalStyles";
 

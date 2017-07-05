@@ -1,18 +1,11 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import { Text, TextInput, TouchableHighlight, View } from "react-native";
 
-import theme from "../theme";
 import BevUiText from "./BevUiText";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 
 import { MESSAGE_MAX_CHARS } from "../db/tables";
-import { isAndroid, WindowWidth } from "../ReactNativeUtilities";
+import { WindowWidth } from "../ReactNativeUtilities";
 import { globalColors, globalStyles } from "./GlobalStyles";
 
 export interface MessageProps {

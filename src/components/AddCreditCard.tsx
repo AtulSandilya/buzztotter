@@ -10,9 +10,7 @@ import {
   View,
 } from "react-native";
 
-import moment from "moment";
-
-import { isIOS, isNarrow } from "../ReactNativeUtilities";
+import { isNarrow } from "../ReactNativeUtilities";
 
 import { CardDataForVerification } from "../reducers/addCreditCard";
 
@@ -64,6 +62,8 @@ export default class AddCreditCard extends Component<
       showCardExpYearAsError: false,
       showCardNumberAsError: false,
     };
+
+    this.verifyCard = this.verifyCard.bind(this);
   }
 
   private verifyCard() {
@@ -158,7 +158,7 @@ export default class AddCreditCard extends Component<
   }
 
   private updateState(property, value) {
-    this.setState((prevState, currentProps) => {
+    this.setState(prevState => {
       const nextState = { ...prevState };
       nextState[property] = value;
       return nextState;
@@ -425,10 +425,7 @@ interface CreditCardInputProps {
 }
 
 /* tslint:disable:max-classes-per-file */
-class CreditCardInput extends Component<
-  CreditCardInputProps,
-  {},
-> {
+class CreditCardInput extends Component<CreditCardInputProps, {}> {
   public static defaultProps: CreditCardInputProps = {
     autoFocus: false,
     maxChars: undefined,

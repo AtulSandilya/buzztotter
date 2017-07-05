@@ -2,7 +2,6 @@ import * as React from "react";
 import { Component } from "react";
 import {
   Dimensions,
-  Image,
   Keyboard,
   StyleSheet,
   Text,
@@ -14,19 +13,15 @@ import {
   ViewStyle,
 } from "react-native";
 
-import { connect } from "react-redux";
-
 import * as Animatable from "react-native-animatable";
 import Icon from "react-native-vector-icons/Ionicons";
 
-import { isAndroid, isIOS, StatusBarHeight } from "../ReactNativeUtilities";
+import { isIOS, StatusBarHeight } from "../ReactNativeUtilities";
 
-import CSettings from "../containers/CSettings";
 import { BannerProps } from "../reducers/banner";
 import Banner from "./Banner";
-import CenteredModal from "./CenteredModal";
 
-import { globalColors, globalStyles } from "./GlobalStyles";
+import { globalColors } from "./GlobalStyles";
 
 export const BrandingHeight = (isIOS ? 75 : 75) + 10;
 export const BrandingZIndex = 100;
@@ -120,7 +115,6 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
   goBackRoute,
 }) => {
   const centerText = navBarText;
-  const logoAnimationDuration = 800;
   /* tslint:disable:jsx-alignment */
   return (
     <View style={styles.wrapper}>

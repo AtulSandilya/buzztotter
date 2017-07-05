@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 
-import { Animated, Easing, Text, View } from "react-native";
+import { Animated, Easing } from "react-native";
 
 import * as ReactMixin from "react-mixin";
 import * as TimerMixin from "react-timer-mixin";
@@ -9,7 +9,7 @@ import * as TimerMixin from "react-timer-mixin";
 import theme from "../theme";
 import BevUiText from "./BevUiText";
 
-import { isAndroid, isIOS, WindowWidth } from "../ReactNativeUtilities";
+import { WindowWidth } from "../ReactNativeUtilities";
 import { BannerProps } from "../reducers/banner";
 import { BrandingHeight, BrandingZIndex } from "./Branding";
 
@@ -31,9 +31,7 @@ class Banner extends Component<BannerProps, BannerState> {
   private animationDuration = 200;
   private bannerOpenDuration = 4000;
   private openHeight = 32;
-  private closedHeight = 0;
   private easingCurve = Easing.cubic as any;
-  private defaultBackgroundColor = "#323232";
   private setTimeout: any;
   private clearTimeout: any;
   private timeoutId: number;
@@ -75,7 +73,7 @@ class Banner extends Component<BannerProps, BannerState> {
     }).start();
   }
 
-  public componentWillReceiveProps(nextProps: BannerProps) {
+  public componentWillReceiveProps() {
     const showBanner = !this.state.isVisible;
     const extendBannerLife = this.state.isVisible;
 
