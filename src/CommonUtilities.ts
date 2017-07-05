@@ -126,7 +126,7 @@ export const MetersBetweenCoordinates = (
   b: GpsCoordinates,
 ): number => {
   const RadiusOfTheEarthInMeters = 6371 * 1000;
-  const deg2rad = deg => deg * (Math.PI / 180);
+  const deg2rad = (deg: number) => deg * (Math.PI / 180);
 
   const dLat = deg2rad(b.latitude - a.latitude);
   const dLong = deg2rad(b.longitude - a.longitude);
