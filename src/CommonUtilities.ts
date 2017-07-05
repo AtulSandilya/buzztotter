@@ -5,6 +5,14 @@ import {
   UnixTime,
 } from "./db/tables";
 
+export const assertNever = (x?: never): never => {
+  if (x) {
+    throw new Error("Unexpected object: " + x);
+  } else {
+    throw new Error("Unexpected never");
+  }
+};
+
 export const StringifyDate = (): string => {
   return new Date().toJSON();
 };
@@ -42,11 +50,13 @@ const MetersToFeet = (meters: number): number => {
   return meters * feetPerMeter;
 };
 
+type DistanceUnits = "metric" | "imperial";
+
 export const PrettyFormatDistance = (
   distanceInMeters: number,
-  units: "metric" | "imperial",
+  units: DistanceUnits,
   squareFootage: number = DEFAULT_SQUARE_FOOTAGE,
-) => {
+): string => {
   let prettyDistance: string;
   let prettyUnit: string;
   const postfix = "away";
@@ -90,6 +100,8 @@ export const PrettyFormatDistance = (
 
       return `${prettyDistance} ${prettyUnit} ${postfix}`;
   }
+
+  return assertNever();
 };
 
 export const CoordsAreWithinViewport = (
