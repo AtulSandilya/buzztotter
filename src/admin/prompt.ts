@@ -1,5 +1,7 @@
 import * as inquirer from "inquirer";
 
+import { ParseIntAsDecimal } from "../CommonUtilities";
+
 export const getString = async (message): Promise<string> => {
   const result = await inquirer.prompt({
     message: `${message}:`,
@@ -22,8 +24,7 @@ export const getInteger = async (message): Promise<number> => {
       }
     },
   });
-  const base10 = 10;
-  return parseInt(result.answer, base10);
+  return ParseIntAsDecimal(result.answer);
 };
 
 export const confirm = async (message: string) => {

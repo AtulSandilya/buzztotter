@@ -12,7 +12,7 @@ import {
 
 import MapView from "react-native-maps";
 
-import { PrettyFormatDistance } from "../CommonUtilities";
+import { ParseIntAsDecimal, PrettyFormatDistance } from "../CommonUtilities";
 import { GpsCoordinates, Location } from "../db/tables";
 import { FormatDayHours } from "./LocationDetail";
 
@@ -295,7 +295,7 @@ export default class BevegramLocations extends Component<
                 onPress={() => this.props.goToLocationDetail(rowData)}
               >
                 <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                  {parseInt(rowId as any, 10) + 1}. {rowData.name}
+                  {ParseIntAsDecimal(rowId as string) + 1}. {rowData.name}
                 </Text>
                 <BevUiText icon="map-marker" style={{ marginTop: 3 }}>
                   {rowData.distanceFromUser

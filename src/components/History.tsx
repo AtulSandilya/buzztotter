@@ -3,7 +3,7 @@ import { ListView, RefreshControl, Text, View } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import { Pluralize } from "../CommonUtilities";
+import { ParseIntAsDecimal, Pluralize } from "../CommonUtilities";
 import { globalColors, globalStyles } from "./GlobalStyles";
 
 import BevTimestamp from "./BevTimestamp";
@@ -165,7 +165,10 @@ const History: React.StatelessComponent<HistoryProps> = ({
           skipNextRender = false;
           return <View />;
         }
-        const item = getEventForId(historyKey, parseInt(index as any, 10));
+        const item = getEventForId(
+          historyKey,
+          ParseIntAsDecimal(index as string),
+        );
         return (
           <View
             style={{

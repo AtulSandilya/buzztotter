@@ -161,3 +161,8 @@ export const PrettyFormatAddress = (name: string, address: string): string => {
   const splitAddress = address.split(",");
   return [name, splitAddress[0], splitAddress[1]].join("\n");
 };
+
+export const ParseIntAsDecimal = (input: string): number => {
+  const decimalBase = 10;
+  return parseInt(input, decimalBase);
+};

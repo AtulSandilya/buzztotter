@@ -2,6 +2,7 @@ import * as React from "react";
 import { ListView, RefreshControl, Text, View } from "react-native";
 
 import { buildFacebookProfilePicUrlFromFacebookId } from "../api/facebook";
+import { ParseIntAsDecimal } from "../CommonUtilities";
 import { ReceivedBevegram } from "../db/tables";
 
 import CBevegram from "../containers/CBevegram";
@@ -49,7 +50,9 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
               thisBevegram.sentFromFacebookId,
             )}
             id={rowKey}
-            displayAsUnseen={unseenBevegrams >= parseInt(rowId as any, 10) + 1}
+            displayAsUnseen={
+              unseenBevegrams >= ParseIntAsDecimal(rowId as string) + 1
+            }
           />
         );
       }}

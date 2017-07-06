@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 
+import { ParseIntAsDecimal } from "../CommonUtilities";
 import { isNarrow } from "../ReactNativeUtilities";
 
 import { CardDataForVerification } from "../reducers/addCreditCard";
@@ -102,7 +103,7 @@ export default class AddCreditCard extends Component<
 
   private isValidCardNumber(cardNum: string): boolean {
     /* tslint:disable:no-magic-numbers */
-    if (isNaN(parseInt(cardNum, 10)) || cardNum.length !== 16) {
+    if (isNaN(ParseIntAsDecimal(cardNum)) || cardNum.length !== 16) {
       this.props.verificationFailed("Invalid Card Number");
       this.updateState("showCardNumberAsError", true);
       return false;
@@ -115,7 +116,7 @@ export default class AddCreditCard extends Component<
   private isValidCardExpMonth(cardExpMonth: string): boolean {
     // parseInt returns NaN if cardExpMonth is not an int. NaN fails the
     // comparisons in the if statement.
-    const month = parseInt(cardExpMonth, 10);
+    const month = ParseIntAsDecimal(cardExpMonth);
     if (month >= 1 && month <= 12) {
       this.updateState("showCardExpMonthAsError", false);
       return true;
@@ -132,7 +133,7 @@ export default class AddCreditCard extends Component<
     // This is done by rounding the current year to the lowest hundred and
     // adding the year
     const year: number =
-      parseInt(cardExpYear, 10) + Math.floor(thisYear / 100) * 100;
+      ParseIntAsDecimal(cardExpYear) + Math.floor(thisYear / 100) * 100;
     const validYearVariance: number = 20;
 
     if (year >= thisYear && year <= thisYear + validYearVariance) {
@@ -146,7 +147,7 @@ export default class AddCreditCard extends Component<
   }
 
   private isValidCardCvc(cvc: string): boolean {
-    const cvcInt: number = parseInt(cvc, 10);
+    const cvcInt: number = ParseIntAsDecimal(cvc);
     if (cvc.length !== 3 || isNaN(cvcInt)) {
       this.updateState("showCardCvcAsError", true);
       this.props.verificationFailed("Invalid CVC");
