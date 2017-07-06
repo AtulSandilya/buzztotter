@@ -74,6 +74,9 @@ export default class RedeemBeer extends Component<
       numDrinks: 1,
       // numDrinks: this.props.receivedBevegram.quantity - this.props.receivedBevegram.quantityRedeemed,
     };
+    this.updateQuantity = this.updateQuantity.bind(this);
+    this.updateLocation = this.updateLocation.bind(this);
+    this.purchaseDrink = this.purchaseDrink.bind(this);
   }
 
   public componentDidMount() {

@@ -58,6 +58,7 @@ export default class BevegramLocations extends Component<
       delta: undefined,
       region: undefined,
     };
+    this.onRegionChange = this.onRegionChange.bind(this);
   }
 
   /* tslint:disable:member-ordering */

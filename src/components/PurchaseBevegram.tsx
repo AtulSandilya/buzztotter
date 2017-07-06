@@ -102,6 +102,13 @@ export default class PurchaseBevegram extends Component<
       message: "",
       promoCode: "",
     };
+
+    this.onSelectPackage = this.onSelectPackage.bind(this);
+    this.initiatePurchaseOrSendOrBoth = this.initiatePurchaseOrSendOrBoth.bind(
+      this,
+    );
+    this.increaseBevegramsToSend = this.increaseBevegramsToSend.bind(this);
+    this.decreaseBevegramsToSend = this.decreaseBevegramsToSend.bind(this);
   }
 
   public render() {
@@ -323,7 +330,7 @@ export default class PurchaseBevegram extends Component<
           underlayColor={"transparent"}
           style={globalStyles.bevLine}
           key={"package" + index}
-          onPress={this.onSelectPackage.bind(this, index)}
+          onPress={() => this.onSelectPackage(index)}
         >
           <View style={{ flex: 1, flexDirection: "row" }}>
             <View style={[globalStyles.bevLineLeft, { flexDirection: "row" }]}>
