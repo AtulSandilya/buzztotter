@@ -87,12 +87,10 @@ export const PrettyFormatDistance = (
       if (feet < showAsFeet) {
         prettyDistance = feet.toFixed(0);
         prettyUnit = prettyDistance === "1" ? "foot" : "feet";
-        break;
       } else if (feet < showWithOneDecimal) {
         prettyDistance = (feet / feetPerMile).toFixed(1);
         prettyDistance = prettyDistance === "1.0" ? "1" : prettyDistance;
         prettyUnit = prettyDistance === "1" ? "mile" : "miles";
-        break;
       } else {
         prettyUnit = "miles";
         prettyDistance = (feet / feetPerMile).toFixed(0);
