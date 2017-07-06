@@ -99,7 +99,7 @@ export const PrettyFormatDistance = (
       return `${prettyDistance} ${prettyUnit} ${postfix}`;
   }
 
-  return assertNever();
+  return "?";
 };
 
 export const CoordsAreWithinViewport = (
