@@ -1,62 +1,3 @@
-function! BuildReactNativeForAndroid(release_version)
-    if(a:release_version == "")
-        return
-    endif
-
-    let build_dir = "app/build/outputs/apk/"
-    let release_dir = "ReleaseBuilds/"
-
-    " Substitute 1.2.3 -> 1-2-3 for compatible filenames
-    let sanitized_release_version = substitute(a:release_version, '\.', '-', 'g')
-
-    let apk_name = "Bevegram-" . sanitized_release_version . ".apk"
-
-    let install_cmd = ""
-    if confirm("Install apk on device?", "&Yes\n&No\n") == 1
-        let install_cmd = "adb uninstall com.bevegram && adb install " . release_dir . apk_name
-    endif
-
-    echo "Building Bevegram " . a:release_version . " android apk..."
-    exe ":Term cd android && ./gradlew assembleRelease && sleep 1 && cp " . build_dir . "app-release.apk " . release_dir . apk_name . " && " . install_cmd
-    exe "startinsert"
-    if confirm("Open release folder? ", "&Yes\n&No") == 1
-        call system("open android/" . release_dir)
-    endif
-endfunction
-
-function! GetPackageVersion()
-    let version_file = "package.json"
-    for line in readfile(version_file)
-        if line =~ '"version"'
-            " Match semver version number ex (1.14.21 or 0.0.2)
-            return matchstr(line, '\d\+.\d\+.\d\+')
-        endif
-    endfor
-    echoerr "Could not parse version number from '" . version_file . "'"
-    return ""
-endfunction
-
-function! BuildReactNative()
-    let build_platform = confirm("Build for which platform: ", "&Android\n&iOS")
-
-    " Android
-    if build_platform == 1
-        echo "\n"
-        call BuildReactNativeForAndroid(GetPackageVersion())
-    elseif
-        echo "Invalid build choice!"
-    endif
-endfunction
-
-function! RestartAndroidApp()
-    let package = "com.bevegram"
-    let activity = "MainActivity"
-    let stop_cmd = "adb shell am force-stop " . package
-    let start_cmd = "adb shell am start -n " . package . "/." . activity
-    echo "Restarting " . package . "..."
-    exe "Term " . stop_cmd . " && " . start_cmd
-endfunction
-
 function! RunJsTests()
     let l:test_cmd = "npm test"
     exe "Term " . l:test_cmd
@@ -159,12 +100,6 @@ augroup ts_config
   au FileType typescript setlocal errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
 augroup END
 
-" Compile
-nnoremap <silent> cp :call BuildReactNative()<CR>
-" Compile Open
-nnoremap <silent> co :call RestartAndroidApp()<CR>
-" Compile Latest
-nnoremap <silent> cl :call BuildReactNativeForAndroid('Latest')<CR>
 " Make tests
 nnoremap <silent> mt :call RunJsTests()<CR>
 " Make reload
