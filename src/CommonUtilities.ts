@@ -121,7 +121,7 @@ export const CoordsAreWithinViewport = (
   return withinNortheast && withinSouthwest;
 };
 
-const SquareFootageToRadius = (squareFootage: number): number => {
+export const SquareFootageToRadius = (squareFootage: number): number => {
   return Math.sqrt(squareFootage) / Math.PI;
 };
 
