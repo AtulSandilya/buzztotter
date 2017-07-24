@@ -44,7 +44,6 @@
     "redux-storage": "^4.1.2",
     "redux-storage-decorator-filter": "^1.1.8",
     "redux-storage-engine-reactnativeasyncstorage": "^1.0.5",
-    "typescript": "^2.3.4",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
@@ -89,7 +88,7 @@
     "react-native-mock": "^0.2.9",
     "react-test-renderer": "^16.0.0-alpha.12",
     "redux-mock-store": "^1.2.1",
-    "typescript": "^2.2.2"
+    "typescript": "^2.4.1"
   },
   "jest": {
     "preset": "react-native",
