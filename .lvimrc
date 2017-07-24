@@ -1,37 +1,37 @@
 function! RunJsTests()
-    let l:test_cmd = "npm test"
-    exe "Term " . l:test_cmd
-    exe "startinsert"
-    exe "winc p"
-    call feedkeys("\<Esc>")
+    let l:test_cmd = 'npm test'
+    exe 'Term ' . l:test_cmd
+    exe 'startinsert'
+    exe 'winc p'
+    call feedkeys('\<Esc>')
 endfunction
 
 function! EditTest(subdir)
-    let current_file = expand("%:t:r")
-    exe "vs __tests__/" . a:subdir . "/" . current_file . "-test.js"
+    let l:current_file = expand('%:t:r')
+    exe 'vs __tests__/' . a:subdir . '/' . l:current_file . '-test.js'
 endfunction
 
 function! RestartYcmServers()
-    exec "YcmCompleter RestartServer"
+    exec 'YcmCompleter RestartServer'
     sleep 2
-    exec "YcmRestartServer"
+    exec 'YcmRestartServer'
 endfunction
 
 function! EchoInput(...)
-  echo join(a:000[1], " ")
+  echo join(a:000[1], ' ')
 endfunction
 
 let g:tsc_build_error = []
 function! SaveError(...)
-  call add(g:tsc_build_error, join(a:000[1], " "))
+  call add(g:tsc_build_error, join(a:000[1], ' '))
 endfunction
 
 function! IncrementalCompile()
-  call jobstart("gulp incremental-tsc", {'on_exit': function("AfterTscCompile")})
+  call jobstart('gulp incremental-tsc', {'on_exit': function('AfterTscCompile')})
 endfunction
 
 function! AfterTscCompile(...)
-  echo "Typescript compile successful!"
+  echo 'Typescript compile successful!'
   call ServerJobStart()
 endfunction
 
@@ -39,27 +39,27 @@ let g:building_server = 0
 function! ServerJobStart()
   if !g:building_server
     let g:building_server = 1
-    echo "Building Server..."
-    let serverBuildCommand = "npm run-script buildServer"
-    call jobstart(serverBuildCommand, {'on_exit': function('AfterServerBuild'), 'on_stderr': function('SaveError')})
+    echo 'Building Server...'
+    let l:serverBuildCommand = 'npm run-script buildServer'
+    call jobstart(l:serverBuildCommand, {'on_exit': function('AfterServerBuild'), 'on_stderr': function('SaveError')})
   endif
 endfunction
 
 function! AfterServerBuild(...)
   if len(g:tsc_build_error) > 0
-    echoerr "Server Build Failed!"
-    echo join(g:tsc_build_error, "\n")
+    echoerr 'Server Build Failed!'
+    echo join(g:tsc_build_error, '\n')
     let g:tsc_build_error = []
   else
-    echo "Server Build Complete!"
+    echo 'Server Build Complete!'
   endif
   let g:building_server = 0
 endfunction
 
 function! TsLint()
-  let current_file = bufname("%")
-  call system("tslint --fix " . current_file)
-  exe "edit"
+  let l:current_file = bufname('%')
+  call system('tslint --fix ' . l:current_file)
+  exe 'edit'
 endfunction
 command! TsLint call TsLint()
 
@@ -67,19 +67,19 @@ function! ShowErrorsIfNecessary()
   " Show Errors based on their importance
   " Ycm (loclist) errors are shows if they exist
   " tslint (ale -> quickfix) are shown if they exist
-  let ycm_errors = youcompleteme#GetErrorCount()
-  if ycm_errors > 0
-    exe "YcmDiags"
+  let l:ycm_errors = youcompleteme#GetErrorCount()
+  if l:ycm_errors > 0
+    exe 'YcmDiags'
     redraw
-    echo printf("TSC: %s Error%s Found!", ycm_errors, ycm_errors == 1 ? "" : "s")
+    echo printf('TSC: %s Error%s Found!', l:ycm_errors, l:ycm_errors == 1 ? '' : 's')
   else
-    execute "lclose"
+    execute 'lclose'
   endif
 
-  if ale#statusline#Status() != "OK" && ycm_errors == 0
-    execute "copen"
+  if ale#statusline#Status() !=# 'OK' && l:ycm_errors == 0
+    execute 'copen'
   else
-    execute "cclose"
+    execute 'cclose'
   end
 endfunction
 
@@ -88,12 +88,26 @@ function! OnTypescriptSave()
   call IncrementalCompile()
 endfunction
 
+function! EnableTypescriptLinting()
+  let g:ale_fix_on_save=1
+  let g:ale_javascript_prettier_options = '--trailing-comma all'
+  " This is relatively slow, but only runs on save
+  " let g:ale_typescript_tslint_fix_options = printf('--format verbose --type-check --project '%s/tsconfig.json'', getcwd())
+  let g:ale_typescript_tslint_fix_options = '--format verbose'
+  let g:ale_typescript_tslint_options = '--format verbose'
+  " augroup ts_linting
+  "   au!
+  "   au InsertEnter *.ts,*.tsx let g:ale_typescript_tslint_options = '--format verbose'
+  "   au InsertLeave *.ts,*.tsx let g:ale_typescript_tslint_options = printf('--format verbose --type-check --project '%s/tsconfig.json'', getcwd())
+  " augroup END
+endfunction
+
 augroup ts_config
   au!
   au FileType javascript,typescript set shiftwidth=2 tabstop=2
-  au FileType typescript let g:ale_fix_on_save = 1
+  au FileType typescript call EnableTypescriptLinting()
 
-  au BufWritePost *.ts,*.tsx call jobstart("ctags src -R")
+  au BufWritePost *.ts,*.tsx call jobstart('ctags src -R')
   autocmd BufWritePost *.ts,*.tsx call OnTypescriptSave()
 
   au FileType typescript setlocal makeprg=tsc
@@ -105,7 +119,7 @@ nnoremap <silent> mt :call RunJsTests()<CR>
 " Make reload
 nnoremap <silent> mr :Term react-native run-android<CR>
 " Edit test
-nnoremap <silent> <Leader>ct :call EditTest("components")<CR>
+nnoremap <silent> <Leader>ct :call EditTest('components')<CR>
 " Kill test
 nnoremap <silent> mk :bd! *term*test*<CR>
 " Make an'd'roid test
