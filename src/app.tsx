@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import { Platform, StatusBar, View } from "react-native";
+import { StatusBar, View } from "react-native";
 
 import { withNetworkConnectivity } from "react-native-offline";
 import { Provider } from "react-redux";
