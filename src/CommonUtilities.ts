@@ -56,6 +56,7 @@ export const PrettyFormatDistance = (
   distanceInMeters: number,
   units: DistanceUnits,
   squareFootage: number = DEFAULT_SQUARE_FOOTAGE,
+  youAreHereText?: string,
 ): string => {
   if (distanceInMeters === undefined) {
     return "?";
@@ -67,7 +68,7 @@ export const PrettyFormatDistance = (
 
   const squareFootageRadius = SquareFootageToRadius(squareFootage);
   if (distanceInMeters < squareFootageRadius) {
-    return `You are here`;
+    return youAreHereText !== undefined ? youAreHereText : "You are here";
   }
 
   switch (units) {
