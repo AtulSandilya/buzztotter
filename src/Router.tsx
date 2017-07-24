@@ -1,18 +1,9 @@
 import * as React from "react";
 import { Component } from "react";
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 
 import { connect } from "react-redux";
 
-// import { Actions, Router, Scene } from "react-native-router-flux";
 import * as RNRF from "react-native-router-flux";
-
-import store from "./configureStore";
-
-import { globalColors } from "./components/GlobalStyles";
-import { isAndroid, isIOS, isNarrow } from "./ReactNativeUtilities";
-
-import Icon from "react-native-vector-icons/Ionicons";
 
 import Loading from "./components/Loading";
 import MainUi from "./components/MainUi";
@@ -28,7 +19,7 @@ import CSettings from "./containers/CSettings";
 
 import { routeKeys as RouteNames } from "./reducers/routes";
 
-const scenes = showLogin => {
+const scenes = (showLogin: boolean | undefined) => {
   return RNRF.Actions.create(
     <RNRF.Scene key="root" hideNavBar={true}>
       <RNRF.Scene
@@ -103,12 +94,12 @@ const scenes = showLogin => {
   );
 };
 
-const CRouter = connect()(RNRF.Router);
+const CRouter = connect()(RNRF.Router as any) as any;
 
 export interface RouterProps {
   showLogin?: boolean;
   isLoading?: boolean;
-  goBackRoute?(): void;
+  goBackRoute(): void;
 }
 
 export default class Router extends Component<RouterProps, {}> {
