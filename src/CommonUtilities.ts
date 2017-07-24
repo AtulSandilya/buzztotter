@@ -57,6 +57,10 @@ export const PrettyFormatDistance = (
   units: DistanceUnits,
   squareFootage: number = DEFAULT_SQUARE_FOOTAGE,
 ): string => {
+  if (distanceInMeters === undefined) {
+    return "?";
+  }
+
   let prettyDistance: string;
   let prettyUnit: string;
   const postfix = "away";
