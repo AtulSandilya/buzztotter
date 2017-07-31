@@ -47,17 +47,20 @@ const StatusLine = (props: StatusLineProps) => {
 
   const failureIcon = "times-circle-o";
   const failureColor = theme.colors.failure;
-  if ((somethingFailed && !thisFailed) || props.statusObject.error) {
-    component = StatusLineIcon(failureIcon, "#999");
+
+  const indifferentIcon = "minus";
+  const indifferentColor = "#999";
+
+  if (status === "complete") {
+    component = StatusLineIcon(successIcon, successColor);
+  } else if ((somethingFailed && !thisFailed) || props.statusObject.error) {
+    component = StatusLineIcon(indifferentIcon, indifferentColor);
   } else {
     switch (status) {
       case "pending":
       case "inProgress":
       default:
         component = StatusLineActivityIndicator();
-        break;
-      case "complete":
-        component = StatusLineIcon(successIcon, successColor);
         break;
       case "failed":
         component = StatusLineIcon(failureIcon, failureColor);
