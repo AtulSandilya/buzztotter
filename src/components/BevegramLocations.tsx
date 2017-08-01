@@ -299,13 +299,11 @@ export default class BevegramLocations extends Component<
                   {ParseIntAsDecimal(rowId as string) + 1}. {rowData.name}
                 </Text>
                 <BevUiText icon="map-marker" style={{ marginTop: 3 }}>
-                  {rowData.distanceFromUser
-                    ? PrettyFormatDistance(
-                        rowData.distanceFromUser,
-                        "imperial",
-                        rowData.squareFootage,
-                      )
-                    : ""}
+                  {PrettyFormatDistance(
+                    rowData.distanceFromUser,
+                    "imperial",
+                    rowData.squareFootage,
+                  )}
                 </BevUiText>
                 <BevUiText icon="clock-o" style={{ paddingTop: 5 }}>
                   {FormatDayHours(rowData.typicalHours[todayAsNumber])}
