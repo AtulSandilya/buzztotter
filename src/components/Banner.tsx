@@ -1,13 +1,15 @@
 import * as React from "react";
 import { Component } from "react";
 
-import { Animated, Easing } from "react-native";
+import { Animated, Easing, ToastAndroid } from "react-native";
 
 import * as ReactMixin from "react-mixin";
 import * as TimerMixin from "react-timer-mixin";
 
 import theme from "../theme";
 import BevUiText from "./BevUiText";
+
+import { isAndroid } from "../ReactNativeUtilities";
 
 import { WindowWidth } from "../ReactNativeUtilities";
 import { BannerProps } from "../reducers/banner";
@@ -23,11 +25,15 @@ interface BannerTheme {
   icon?: string;
 }
 
+interface BannerComponentProps extends BannerProps {
+  onHide: () => void;
+}
+
 // The react timer mixin is used to wrap setTimeout and avoid any crashes
 // where setTimout is called after the component is unmounted. Currently using
 // a decorator to apply a mixin is the community recommendation
 @ReactMixin.decorate(TimerMixin)
-class Banner extends Component<BannerProps, BannerState> {
+class Banner extends Component<BannerComponentProps, BannerState> {
   private animationDuration = 200;
   private bannerOpenDuration = 4000;
   private openHeight = 32;
@@ -73,11 +79,15 @@ class Banner extends Component<BannerProps, BannerState> {
     }).start();
   }
 
-  public componentWillReceiveProps() {
-    const showBanner = !this.state.isVisible;
-    const extendBannerLife = this.state.isVisible;
+  public componentWillReceiveProps(nextProps: BannerComponentProps) {
+    const showBanner = !this.state.isVisible && nextProps.show;
+    const extendBannerLife = this.state.isVisible && nextProps.show;
+    const dismiss = nextProps.dismiss && this.state.isVisible;
 
-    if (showBanner) {
+    if (dismiss) {
+      this.closeBanner();
+      this.clearTimeout(this.timeoutId);
+    } else if (showBanner) {
       this.showBanner();
     } else if (extendBannerLife) {
       this.extendBanner();
@@ -97,6 +107,7 @@ class Banner extends Component<BannerProps, BannerState> {
   }
 
   public closeBanner() {
+    this.props.onHide();
     this.setState({ isVisible: false });
     this.animate(BrandingHeight - this.openHeight);
   }

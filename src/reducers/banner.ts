@@ -1,13 +1,15 @@
 export type BannerStyle = "alert" | "success" | "message";
 
 export interface BannerProps {
-  show: boolean;
-  message: string;
-  style: BannerStyle;
+  dismiss: boolean;
   fontAwesomeIcon?: string;
+  message: string;
+  show: boolean;
+  style: BannerStyle;
 }
 
 const defaultState: BannerProps = {
+  dismiss: false,
   message: "",
   show: false,
   style: "message",
@@ -25,6 +27,15 @@ export const banner = (state = defaultState, action): BannerProps => {
     case "HIDE_BANNER":
       return {
         ...state,
+        dismiss: false,
+        message: "",
+        show: false,
+      };
+    case "DISMISS_BANNER":
+      return {
+        ...state,
+        dismiss: true,
+        message: "",
         show: false,
       };
     default:

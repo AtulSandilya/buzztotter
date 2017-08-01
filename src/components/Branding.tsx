@@ -102,6 +102,7 @@ export interface BrandingProps {
   bannerProps?: BannerProps;
   goToSettings?(): void;
   goBackRoute?(): void;
+  onHideBanner?(): void;
 }
 
 const Branding: React.StatelessComponent<BrandingProps> = ({
@@ -113,6 +114,7 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
   navBarText = "",
   goToSettings,
   goBackRoute,
+  onHideBanner,
 }) => {
   const centerText = navBarText;
   return (
@@ -201,7 +203,7 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
             : null}
         </View>
       </View>
-      <Banner {...bannerProps} />
+      <Banner onHide={onHideBanner} {...bannerProps} />
     </View>
   );
 };

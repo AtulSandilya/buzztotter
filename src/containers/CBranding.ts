@@ -16,6 +16,7 @@ const mapStateToProps = (state): StateProps => {
 interface DispatchProps {
   goToSettings?(): void;
   goBackRoute?(): void;
+  onHideBanner?(): void;
 }
 
 const mapDispatchToProps = (dispatch): DispatchProps => {
@@ -25,6 +26,9 @@ const mapDispatchToProps = (dispatch): DispatchProps => {
     },
     goToSettings: () => {
       dispatch({ type: "GO_TO_ROUTE", payload: { route: "Settings" } });
+    },
+    onHideBanner: () => {
+      dispatch({ type: "HIDE_BANNER" });
     },
   };
 };
