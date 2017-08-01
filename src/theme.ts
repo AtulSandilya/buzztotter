@@ -11,6 +11,7 @@ const theme = {
     successBg: "#188210",
     failure: "#FF0033",
     failureBg: "#770000",
+    text: "#222222",
     uiTextColor: "#999999",
     uiBoldTextColor: "#555555",
     uiLight: "#cccccc",
