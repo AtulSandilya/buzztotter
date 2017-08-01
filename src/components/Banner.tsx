@@ -84,6 +84,14 @@ class Banner extends Component<BannerComponentProps, BannerState> {
     const extendBannerLife = this.state.isVisible && nextProps.show;
     const dismiss = nextProps.dismiss && this.state.isVisible;
 
+    // Currently react-native (0.45.1) on Android doesn't support clipped
+    // views, a necessary requirement of `Banner`. The workaround is to
+    // use ToastAndroid and wait until Android supports `overflow: visible`
+    if (isAndroid) {
+      ToastAndroid.show(nextProps.message, ToastAndroid.LONG);
+      return;
+    }
+
     if (dismiss) {
       this.closeBanner();
       this.clearTimeout(this.timeoutId);
