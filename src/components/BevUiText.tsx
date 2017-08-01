@@ -68,7 +68,6 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
     color = theme.colors.uiTextColor;
   }
 
-  /* tslint:disable:jsx-alignment */
   return (
     <View
       style={[

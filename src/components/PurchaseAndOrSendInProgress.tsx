@@ -225,7 +225,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
             </View>
           : null}
         {userIsSending
-          ? /* tslint:disable:jsx-alignment */
+          ?
             <StatusLine
               title="Sending Bevegram"
               statusObject={purchaseTransactionStatus}

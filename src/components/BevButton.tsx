@@ -116,7 +116,6 @@ const BevButton = ({
   const buttonTextStyle = isGreen ? styles.greenButtonText : styles.buttonText;
   const leftIconPadding = text !== "" ? 10 : 0;
 
-  /* tslint:disable:jsx-alignment */
   return (
     <View style={styles.buttonContainer} accessibilityLabel={label}>
       <TouchableHighlight onPress={onPress} underlayColor={"#ffffff"}>

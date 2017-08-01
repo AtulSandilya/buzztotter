@@ -96,7 +96,6 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
   const QueryBarHeight = 44;
   const isSearching = searchInputIsFocused || "" !== searchQuery;
 
-  /* tslint:disable:jsx-alignment */
   return (
     <View style={{ flex: 1 }}>
       <View

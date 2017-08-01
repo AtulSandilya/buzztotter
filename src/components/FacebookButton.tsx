@@ -15,7 +15,6 @@ const FacebookButton: React.StatelessComponent<
   FacebookLoginButtonProps
 > = props => {
   /* tslint:disable:no-magic-numbers */
-  /* tslint:disable:jsx-alignment */
   return (
     <View
       style={{

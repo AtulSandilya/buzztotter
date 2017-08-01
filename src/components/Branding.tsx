@@ -115,7 +115,6 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
   goBackRoute,
 }) => {
   const centerText = navBarText;
-  /* tslint:disable:jsx-alignment */
   return (
     <View style={styles.wrapper}>
       <View style={styles.content}>

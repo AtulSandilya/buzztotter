@@ -336,7 +336,7 @@ export default class PurchaseBevegram extends Component<
             <View style={[globalStyles.bevLineLeft, { flexDirection: "row" }]}>
               {this.props.selectedPurchasePackageIndex === index &&
                 this.userIsPurchasing()
-                ? /* tslint:disable:jsx-alignment */
+                ?
                   <FontAwesome
                     name="check-square-o"
                     color="green"
