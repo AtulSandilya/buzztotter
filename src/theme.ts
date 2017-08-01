@@ -15,6 +15,9 @@ const theme = {
     uiBoldTextColor: "#555555",
     uiLight: "#cccccc",
   },
+  padding: {
+    default: 15,
+  },
   notificationIcons: {
     beverage: "ic_local_bar_white_48dp",
     cake: "ic_cake_white_48dp",

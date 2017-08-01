@@ -3,6 +3,8 @@ import { StyleSheet, TouchableHighlight, View } from "react-native";
 
 import { globalColors } from "./GlobalStyles";
 
+import theme from "../theme";
+
 import RightArrow from "./RightArrow";
 
 interface BevPressableLineProps {
@@ -30,7 +32,7 @@ const BevPressableLine: React.StatelessComponent<
           flex: 1,
           flexDirection: "row",
           justifyContent: "center",
-          paddingHorizontal: 15,
+          paddingHorizontal: props.noHorizontalPadding ? 0 : theme.padding.default,
           paddingVertical: 10,
         }}
       >
