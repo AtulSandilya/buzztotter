@@ -160,6 +160,10 @@ export const Pluralize = (input: number, suffix: string = "s"): string => {
   return input !== 1 ? suffix : "";
 };
 
+export const Capitalize = (input: string): string => {
+  return input.charAt(0).toUpperCase() + input.slice(1);
+};
+
 export const PrettyFormatAddress = (name: string, address: string): string => {
   const splitAddress = address.split(",");
   return [name, splitAddress[0], splitAddress[1]].join("\n");
