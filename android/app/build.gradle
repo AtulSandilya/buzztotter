@@ -92,7 +92,7 @@ def enableProguardInReleaseBuilds = false
 def buildKeyType = project.hasProperty("build_key_type") ? build_key_type : "dev"
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 25
     buildToolsVersion '25.0.0'
 
     configurations.all {
@@ -171,6 +171,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':lottie-react-native')
     compile project(':react-native-maps')
     compile project(':react-native-fcm')
     compile 'com.google.firebase:firebase-core:10.0.1'

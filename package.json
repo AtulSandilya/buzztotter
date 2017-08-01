@@ -21,6 +21,7 @@
     "firebase-queue": "^1.6.1",
     "fuse.js": "^2.6.2",
     "lodash": "^4.17.4",
+    "lottie-react-native": "^1.2.0",
     "moment": "^2.17.1",
     "node-fetch": "^1.6.3",
     "react": "^16.0.0-alpha.12",
