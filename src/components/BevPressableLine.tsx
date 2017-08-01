@@ -1,5 +1,11 @@
 import * as React from "react";
-import { StyleSheet, TouchableHighlight, View } from "react-native";
+
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableHighlight,
+  View,
+} from "react-native";
 
 import { globalColors } from "./GlobalStyles";
 
@@ -11,6 +17,9 @@ interface BevPressableLineProps {
   onPress: () => void;
   children?: React.ReactChild;
   showTopBorder?: boolean;
+  showRightArrow?: boolean;
+  showLoading?: boolean;
+  noHorizontalPadding?: boolean;
 }
 
 const BevPressableLine: React.StatelessComponent<
@@ -32,7 +41,9 @@ const BevPressableLine: React.StatelessComponent<
           flex: 1,
           flexDirection: "row",
           justifyContent: "center",
-          paddingHorizontal: props.noHorizontalPadding ? 0 : theme.padding.default,
+          paddingHorizontal: props.noHorizontalPadding
+            ? 0
+            : theme.padding.default,
           paddingVertical: 10,
         }}
       >
@@ -40,7 +51,9 @@ const BevPressableLine: React.StatelessComponent<
           {props.children}
         </View>
         <View style={{ flex: -1 }}>
-          <RightArrow />
+          {props.showLoading
+            ? <ActivityIndicator />
+            : props.showRightArrow ? <RightArrow /> : null}
         </View>
       </View>
     </TouchableHighlight>
