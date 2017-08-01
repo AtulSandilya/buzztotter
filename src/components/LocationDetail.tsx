@@ -1,21 +1,15 @@
 import * as React from "react";
-import {
-  Linking,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import { Linking, StyleSheet, Text, View } from "react-native";
 
 import MapView from "react-native-maps";
 
-import { PrettyFormatDistance } from "../CommonUtilities";
 import { Location, LocationViewport } from "../db/tables";
 import { isAndroid, isIOS } from "../ReactNativeUtilities";
 import { globalColors, globalStyles } from "./GlobalStyles";
 
 import BevPressableLine from "./BevPressableLine";
 import BevUiText from "./BevUiText";
+import LocationHero from "./LocationHero";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 
 export interface LocationDetailProps {
@@ -32,7 +26,7 @@ const OpenLink = (link: string, errorMessage: string) => {
   });
 };
 
-const OpenMapsAppToAddress = (latitude, longitude, name) => {
+export const OpenMapsAppToAddress = (latitude, longitude, name) => {
   let url;
   // encodeURIComponent properly converts characters into url format.
   if (isAndroid) {
@@ -73,28 +67,8 @@ const LocationDetail: React.StatelessComponent<LocationDetailProps> = props => {
   const loc: Location = props.loc;
   return (
     <RouteWithNavBarWrapper>
-      <View style={{ flex: 1, padding: 15 }}>
-        <Text style={globalStyles.heroText}>{loc.name}</Text>
-        <TouchableHighlight
-          onPress={() =>
-            OpenMapsAppToAddress(loc.latitude, loc.longitude, loc.name)}
-          underlayColor="#ffffff"
-        >
-          <View>
-            <BevUiText icon={"globe"} style={{ paddingBottom: 4 }}>
-              {loc.address}
-            </BevUiText>
-          </View>
-        </TouchableHighlight>
-        <BevUiText icon="map-marker">
-          {loc.distanceFromUser
-            ? PrettyFormatDistance(
-                loc.distanceFromUser,
-                "imperial",
-                loc.squareFootage,
-              )
-            : ""}
-        </BevUiText>
+      <View style={{ flex: 1, padding: 14 }}>
+        <LocationHero loc={props.loc} />
         <View
           style={{
             borderBottomWidth: StyleSheet.hairlineWidth,
