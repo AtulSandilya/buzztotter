@@ -15,7 +15,7 @@ interface StateProps {
   userCoords?: GpsCoordinates;
 }
 
-const sortLocations = (
+export const SortLocations = (
   locations: Location[],
   userCoords: GpsCoordinates,
   method: "nearToFar",
@@ -51,7 +51,7 @@ const mapStateToProps = (state): StateProps => {
   return {
     isReloading: state.locationsView.isReloading,
     locationFetchingAllowed: state.settings.location,
-    markers: sortLocations(
+    markers: SortLocations(
       state.locations,
       state.user.lastUserCoords,
       "nearToFar",
