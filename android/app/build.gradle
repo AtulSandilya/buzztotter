@@ -171,7 +171,6 @@ repositories {
 }
 
 dependencies {
-    compile project(':lottie-react-native')
     compile project(':react-native-maps')
     compile project(':react-native-fcm')
     compile 'com.google.firebase:firebase-core:10.0.1'
