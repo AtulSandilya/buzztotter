@@ -117,6 +117,7 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
   onHideBanner,
 }) => {
   const centerText = navBarText;
+  const hitSlop = 20;
   return (
     <View style={styles.wrapper}>
       <View style={styles.content}>
@@ -125,6 +126,12 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
           {showBack
             ? <TouchableHighlight
                 underlayColor={"transparent"}
+                hitSlop={{
+                  bottom: hitSlop,
+                  left: hitSlop,
+                  right: hitSlop,
+                  top: hitSlop,
+                }}
                 style={{
                   flex: -1,
                 }}
