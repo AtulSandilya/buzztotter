@@ -17,6 +17,13 @@ const defaultState: BannerProps = {
 
 export const banner = (state = defaultState, action): BannerProps => {
   switch (action.type) {
+    case "SHOW_ALERT_BANNER":
+      return {
+        ...state,
+        message: action.payload.message,
+        show: true,
+        style: "alert",
+      };
     case "SHOW_NO_INTERNET_CONNECTION_BANNER":
       return {
         ...state,
