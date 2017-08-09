@@ -1,20 +1,21 @@
 import { connect } from "react-redux";
 
-import Bevegram, { BevegramProps } from "../components/Bevegram";
+import Bevegram, {
+  BevegramProps,
+  SelectedBevegramPackage,
+} from "../components/Bevegram";
 
 interface DispatchProps {
   goToRedeem?(routeData: object): void;
 }
 
 const mapDispatchToProps = (dispatch): DispatchProps => {
+  /* tslint:disable:object-literal-sort-keys */
   return {
-    goToRedeem: routeData => {
+    goToRedeem: (selectedBevegramPackage: SelectedBevegramPackage) => {
       dispatch({
-        type: "GO_TO_ROUTE",
-        payload: {
-          route: "RedeemBeer",
-          routeData: routeData,
-        },
+        type: "ON_REDEEMABLE_BEVEGRAM_PRESS",
+        payload: selectedBevegramPackage,
       });
     },
   };

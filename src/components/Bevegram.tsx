@@ -37,7 +37,7 @@ const styles = StyleSheet.create<Style>({
   },
 });
 
-interface DataForRoute {
+export interface SelectedBevegramPackage {
   id: string;
   from: string;
   quantity: number;
@@ -50,7 +50,7 @@ export interface BevegramProps {
   imagePath: string;
   quantity: number;
   displayAsUnseen: boolean;
-  goToRedeem?(routeData: DataForRoute): void;
+  goToRedeem?(routeData: SelectedBevegramPackage): void;
 }
 
 const Bevegram: React.StatelessComponent<BevegramProps> = ({
