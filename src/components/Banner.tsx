@@ -134,6 +134,10 @@ class Banner extends Component<BannerComponentProps, BannerState> {
   // height because the text inside the banner does not gracefully handle
   // dynamically changing heights and appears to pop up out of nowhere.
   public render() {
+    if (isAndroid) {
+      return null;
+    }
+
     const theme = this.getBannerTheme();
     return (
       <Animated.View
