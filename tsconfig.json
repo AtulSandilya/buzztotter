@@ -11,7 +11,12 @@
         "allowSyntheticDefaultImports": true,
         "skipLibCheck": true,
         "experimentalDecorators": true,
-        "lib": ["ES2015", "dom"]
+        "lib": ["ES2015", "dom"],
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noImplicitAny": false,
+        "noImplicitReturns": false,
+        "noUnusedParameters": false
     },
     "include": [
         "typings/**/*.d.ts",
