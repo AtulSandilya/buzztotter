@@ -38,10 +38,10 @@ export const FormatCreditCardBrandForFontAwesomeIcon = (card: CreditCard) => {
   const cardMap = {
     "American Express": "amex",
     "Diners Club": "diners-club",
-    Discover: "discover",
-    JCB: "jcb",
-    MasterCard: "mastercard",
-    Visa: "visa",
+    "Discover": "discover",
+    "JCB": "jcb",
+    "MasterCard": "mastercard",
+    "Visa": "visa",
   };
 
   const cardPrefix = "cc-";
