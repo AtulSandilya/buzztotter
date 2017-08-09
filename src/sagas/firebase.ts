@@ -3,6 +3,8 @@ import { Alert } from "react-native";
 import { delay } from "redux-saga";
 import { call, put, race, select } from "redux-saga/effects";
 
+import {batchActions} from "redux-batched-actions";
+
 import FirebaseDb from "../api/firebase/FirebaseDb";
 import { FirebaseUser, User } from "../db/tables";
 
@@ -224,29 +226,36 @@ export function* updateHistory() {
     const receivedList = yield call(readReceivedBevegrams, userFirebaseId);
     const redeemedList = yield call(readRedeemedBevegrams, userFirebaseId);
 
-    // In theory doing a lot of puts at the same time should update the state
-    // only once.
-    yield put({
-      type: "SET_PURCHASED_BEVEGRAM_LIST",
-      payload: { list: purchasedList ? purchasedList : {} },
-    });
-    yield put({
-      type: "SET_SENT_BEVEGRAM_LIST",
-      payload: { list: sentList ? sentList : {} },
-    });
-    yield put({
-      type: "SET_RECEIVED_BEVEGRAM_LIST",
-      payload: { list: receivedList ? receivedList : {} },
-    });
-    yield put({
-      type: "SET_REDEEMED_BEVEGRAM_LIST",
-      payload: { list: redeemedList ? redeemedList : {} },
-    });
+    yield put(
+      batchActions([
+        {
+          type: "SET_PURCHASED_BEVEGRAM_LIST",
+          payload: { list: purchasedList ? purchasedList : {} },
+        },
+        {
+          type: "SET_SENT_BEVEGRAM_LIST",
+          payload: { list: sentList ? sentList : {} },
+        },
+        {
+          type: "SET_RECEIVED_BEVEGRAM_LIST",
+          payload: { list: receivedList ? receivedList : {} },
+        },
+        {
+          type: "SET_REDEEMED_BEVEGRAM_LIST",
+          payload: { list: redeemedList ? redeemedList : {} },
+        },
+      ]),
+    );
   } catch (e) {
-    console.warn(e);
+    yield put({
+      type: "SHOW_ALERT_BANNER",
+      payload: {
+        message: "Unable to update history",
+      },
+    });
+  } finally {
+    yield put({ type: "SUCCESSFUL_HISTORY_UPDATE" });
   }
-
-  yield put({ type: "SUCCESSFUL_HISTORY_UPDATE" });
 }
 
 //  End Update History --------------------------------------------------}}}

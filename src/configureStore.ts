@@ -1,4 +1,5 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
+import { enableBatching } from "redux-batched-actions";
 
 import createSagaMiddleware from "redux-saga";
 
@@ -39,7 +40,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 function configureStore(reducers) {
   const store = createStore(
-    reducers,
+    enableBatching(reducers),
     applyMiddleware(sagaMiddleware, storageMiddleware),
   );
   sagaMiddleware.run(rootSaga);
