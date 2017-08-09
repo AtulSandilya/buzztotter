@@ -1,21 +1,11 @@
-import { Alert } from "react-native";
-
 import { delay } from "redux-saga";
 import { call, put, race, select } from "redux-saga/effects";
 
-import {batchActions} from "redux-batched-actions";
+import { batchActions } from "redux-batched-actions";
 
-import FirebaseDb from "../api/firebase/FirebaseDb";
 import { FirebaseUser, User } from "../db/tables";
 
-import {
-  AddCreditCardToCustomerPackageForQueue,
-  EventStatus,
-  PurchasePackageForQueue,
-  RedeemPackageForQueue,
-  RemoveCreditCardFromCustomerPackageForQueue,
-  TransactionStatus,
-} from "../db/tables";
+import { EventStatus, TransactionStatus } from "../db/tables";
 
 import { StringifyDate } from "../CommonUtilities";
 
@@ -26,11 +16,7 @@ import {
   getFirebaseUser,
   getPurchasePackages,
   initializeFirebaseUserFacebookId,
-  isUserLoggedIn,
-  OnNextPurchaseTransactionStatusChange,
   OnNextUrlNodeChange,
-  OnNextUserNodeChange,
-  QueueAddCreditCardToCustomerPackage,
   readNode,
   readPurchasedBevegrams,
   readReceivedBevegrams,
@@ -212,7 +198,6 @@ export function* updateReceivedBevegrams() {
 }
 
 //  End User ------------------------------------------------------------}}}
-
 //  Update History ------------------------------------------------------{{{
 
 export function* updateHistory() {
