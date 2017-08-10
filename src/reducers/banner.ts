@@ -31,6 +31,13 @@ export const banner = (state = defaultState, action): BannerProps => {
         show: true,
         style: "alert",
       };
+    case "SHOW_VENDOR_ID_FAILED_BANNER":
+      return {
+        ...state,
+        message: "Incorrect Vendor Id",
+        show: true,
+        style: "alert",
+      };
     case "HIDE_BANNER":
       return {
         ...state,

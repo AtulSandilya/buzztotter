@@ -20,8 +20,10 @@ import { modals } from "./modals";
 import { purchase } from "./purchase";
 import { purchasedBevegrams } from "./purchasedBevegrams";
 import { receivedBevegrams } from "./receivedBevegrams";
+import { redeem } from "./redeem";
 import { redeemedBevegrams } from "./redeemedBevegrams";
-import { redeemView } from "./redeemView";
+import { redeemPickerView } from "./redeemPickerView";
+import { redeemVendorIdView } from "./redeemVendorIdView";
 import { routes } from "./routes";
 import { sentBevegrams } from "./sentBevegrams";
 import { settings } from "./settings";
@@ -48,7 +50,9 @@ const appReducer = combineReducers({
   purchase,
   purchasedBevegrams,
   receivedBevegrams,
-  redeemView,
+  redeem,
+  redeemPickerView,
+  redeemVendorIdView,
   redeemedBevegrams,
   routes,
   sentBevegrams,

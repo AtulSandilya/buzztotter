@@ -15,6 +15,7 @@ import CMessage from "./containers/CMessage";
 import CPurchaseAndOrSendInProgress from "./containers/CPurchaseAndOrSendInProgress";
 import CPurchaseBevegram from "./containers/CPurchaseBevegram";
 import CRedeemBeer from "./containers/CRedeemBeer";
+import CRedeemVendorIdInput from "./containers/CRedeemVendorIdInput";
 import CSettings from "./containers/CSettings";
 
 import { routeKeys as RouteNames } from "./reducers/routes";
@@ -72,6 +73,11 @@ const scenes = (showLogin: boolean | undefined) => {
         component={CRedeemBeer}
         navBar={() =>
           <CBranding showBack={true} navBarText="Redeem Bevegrams" />}
+      />
+      <RNRF.Scene
+        key={RouteNames.RedeemVendorIdInput}
+        component={CRedeemVendorIdInput}
+        navBar={() => <CBranding showBack={true} navBarText="Vendor Id" />}
       />
       <RNRF.Scene
         key={RouteNames.AddCreditCard}
