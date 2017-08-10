@@ -39,7 +39,7 @@ class FirebaseAdminDb extends FirebaseDb {
       vendorId,
     };
 
-    const gpsCoordNodeIds = this.addLocationToGpsCoordNodes(loc, vendorId);
+    this.addLocationToGpsCoordNodes(loc, vendorId);
   }
 
   public async updateLocation(
@@ -89,7 +89,7 @@ class FirebaseAdminDb extends FirebaseDb {
     const loc: Location = this.convertVendorToLocation(vendor);
     loc.vendorId = vendorId;
 
-    const gpsCoordNodeUrls = this.addLocationToGpsCoordNodes(loc, vendorId);
+    this.addLocationToGpsCoordNodes(loc, vendorId);
 
     vendor.allowPurchasing = true;
     vendor.lastModified = GetTimeNow();
@@ -101,7 +101,7 @@ class FirebaseAdminDb extends FirebaseDb {
     delete result.allowPurchasing;
     delete result.dateCreated;
     delete result.lastModified;
-    return result;
+    return result as Location;
   }
 
   private getGpsCoordNodeUrls(
