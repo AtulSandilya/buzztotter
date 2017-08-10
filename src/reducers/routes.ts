@@ -41,6 +41,7 @@ interface RouteData {
   confirmed?: boolean;
   requiresInternetConnection: boolean;
   prettyAction?: string;
+  clearDataOnGoBack?: boolean;
 }
 
 const defaultRouteState: RouteState = {
@@ -52,6 +53,7 @@ const defaultRouteState: RouteState = {
     confirmed: false,
     requiresInternetConnection: true,
     prettyAction: "Purchasing",
+    clearDataOnGoBack: true,
   },
   SendBevegram: {
     isActive: false,
@@ -59,6 +61,7 @@ const defaultRouteState: RouteState = {
     confirmed: false,
     requiresInternetConnection: true,
     prettyAction: "Sending",
+    clearDataOnGoBack: true,
   },
   PurchaseInProgress: {
     isActive: false,
@@ -66,6 +69,7 @@ const defaultRouteState: RouteState = {
     data: {},
     requiresInternetConnection: true,
     prettyAction: "Purchasing",
+    clearDataOnGoBack: true,
   },
   SendInProgress: {
     isActive: false,
@@ -73,6 +77,7 @@ const defaultRouteState: RouteState = {
     data: {},
     requiresInternetConnection: true,
     prettyAction: "Sending",
+    clearDataOnGoBack: true,
   },
   RedeemBeer: {
     isActive: false,
@@ -80,17 +85,20 @@ const defaultRouteState: RouteState = {
     confirmed: false,
     requiresInternetConnection: true,
     prettyAction: "Redeeming",
+    clearDataOnGoBack: false,
   },
   Settings: {
     isActive: false,
     data: {},
     requiresInternetConnection: false,
+    clearDataOnGoBack: false,
   },
   AddCreditCard: {
     isActive: false,
     data: {},
     requiresInternetConnection: true,
     prettyAction: "Adding a Credit Card",
+    clearDataOnGoBack: true,
   },
   MainUi: {
     isActive: false,
@@ -164,12 +172,12 @@ const goToRoute = (state, key, routeData) => {
   return newState;
 };
 
-const closeRoute = (state, key) => {
+const closeRoute = (state, routeName) => {
   const newState = { ...state };
-  newState[key].isActive = false;
-  newState[key].confirmed = false;
-  if (key !== "LocationDetail") {
-    newState[key].data = {};
+  newState[routeName].isActive = false;
+  newState[routeName].confirmed = false;
+  if (defaultRouteState[routeName].clearDataOnGoBack) {
+    newState[routeName].data = {};
   }
   return newState;
 };
