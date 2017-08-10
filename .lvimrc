@@ -1,9 +1,9 @@
 function! RunJsTests()
     let l:test_cmd = 'npm test'
     exe 'Term ' . l:test_cmd
-    exe 'startinsert'
-    exe 'winc p'
-    call feedkeys('\<Esc>')
+    " exe 'startinsert'
+    " exe 'winc p'
+    " call feedkeys('\<Esc>')
 endfunction
 
 function! EditTest(subdir)
