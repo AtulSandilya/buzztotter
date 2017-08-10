@@ -23,7 +23,7 @@ const SetupAdminDb = (environmentVars?: object, name?: string) => {
   if (name) {
     const secondaryDb = admin.initializeApp(
       {
-        credential: admin.credential.cert(serviceAccount),
+        credential: admin.credential.cert(serviceAccount as any),
         databaseURL: env.FIREBASE_ADMIN_KEY_firebaseDatabaseURL,
       },
       name,
@@ -32,7 +32,7 @@ const SetupAdminDb = (environmentVars?: object, name?: string) => {
     return secondaryDb.database();
   } else {
     admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
+      credential: admin.credential.cert(serviceAccount as any),
       databaseURL: env.FIREBASE_ADMIN_KEY_firebaseDatabaseURL,
     });
 
