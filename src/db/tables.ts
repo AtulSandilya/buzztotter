@@ -216,6 +216,7 @@ export interface ReceivedBevegramSummary {
 //  End ReceivedBevegram -----------------------------------------------}}}
 //  RedeemedBevegram ----------------------------------------------------{{{
 
+export const DEFAULT_REDEEM_PICKER_LOCATIONS = 3;
 export interface UserRedeemedBevegram {
   receivedId: string;
   redeemedDate: UnixTime;

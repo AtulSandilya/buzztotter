@@ -1,19 +1,28 @@
 import { delay } from "redux-saga";
 import { call, put, select } from "redux-saga/effects";
 
+import { batchActions } from "redux-batched-actions";
+
 import store from "../configureStore";
 
 import { readNode } from "../api/firebase/index";
-import { CoordsAreInRadius, CoordsAreWithinViewport } from "../CommonUtilities";
+import {
+  MetersBetweenCoordinates,
+} from "../CommonUtilities";
 import { RedeemAlert } from "../components/RedeemBeer";
+import { SortLocations } from "../containers/CBevegramLocations";
 import * as DbSchema from "../db/schema";
-import { DEFAULT_SQUARE_FOOTAGE, GpsCoordinates, Location } from "../db/tables";
+import {
+  DEFAULT_REDEEM_PICKER_LOCATIONS,
+  GpsCoordinates,
+  User,
+} from "../db/tables";
 import { Settings } from "../reducers/Settings";
 
 /* tslint:disable:object-literal-sort-keys */
 const getDeviceGpsCoordinates = (
   enableHighAccuracy: boolean = false,
-): Promise<GpsCoordinates> => {
+): Promise<GpsCoordinates | undefined> => {
   const timeout = 5000;
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
@@ -91,20 +100,9 @@ export function* getLocationsNearUser() {
 }
 
 let oneTimeLocationUsage = false;
-let lastSuccessfulFetch: number;
-let lastSuccessfulLocation;
+
 export function* getLocationsAtUserLocation() {
-  const msElapsedBeforeLocationCheckRequired = 45000;
-  const hasLastSuccessfulLocation =
-    lastSuccessfulFetch && lastSuccessfulLocation;
-  const locationFetchNotRequired =
-    hasLastSuccessfulLocation &&
-    Date.now() - lastSuccessfulFetch < msElapsedBeforeLocationCheckRequired;
-
-  if (locationFetchNotRequired) {
-    return lastSuccessfulLocation;
-  }
-
+  yield put({ type: "ATTEMPTING_GET_LOCATIONS_AT_USER_LOCATION" });
   const currentLocationSetting = yield select<{ settings: Settings }>(
     state => state.settings.location,
   );
@@ -136,7 +134,7 @@ export function* getLocationsAtUserLocation() {
   }
   oneTimeLocationUsage = false;
 
-  yield put({ type: "ATTEMPTING_GET_LOCATIONS_AT_USER_LOCATION" });
+  yield put({ type: "ATTEMPTING_REDEEM_PICKER_LOCATION_REFRESH" });
 
   const locationFetchMinMs = 3000;
   const locationFetchStart = Date.now();
@@ -166,77 +164,52 @@ export function* getLocationsAtUserLocation() {
       yield delay(locationFetchMinMs - timeElapsed);
     }
   } catch (e) {
-    yield put({
-      type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION",
-      payload: {
-        error: "Unable to fetch location!",
-      },
-    });
+    yield put(
+      batchActions([
+        {
+          type: "COMPLETED_REDEEM_PICKER_LOCATION_REFRESH",
+        },
+        {
+          type: "SHOW_ALERT_BANNER",
+          payload: {
+            message: "Unable to fetch location!",
+          },
+        },
+      ]),
+    );
     return;
   }
   const gpsCoordUrls = DbSchema.GetAllGpsCoordNodeUrls(deviceCoordinates);
+
+  // TODO: For now we pull every location. In the future we should pull locations
+  // around the users location in a grid
   const locationsAtUserLoc = yield call(
     readNode,
-    gpsCoordUrls[gpsCoordUrls.length - 1].listUrl,
+    // gpsCoordUrls[gpsCoordUrls.length - 1].listUrl,
+    gpsCoordUrls[0].listUrl,
   );
 
-  if (!locationsAtUserLoc) {
-    yield put({
-      type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION",
-      payload: {
-        error: "You are not at a location that accepts bevegrams",
-        showGoToMapAlert: true,
-      },
-    });
-    return;
-  } else {
-    const locationKeysAtUserLocation = Object.keys(
-      locationsAtUserLoc,
-    ).filter(key => {
-      const loc: Location = locationsAtUserLoc[key];
-      const squareFootage = loc.squareFootage
-        ? loc.squareFootage
-        : DEFAULT_SQUARE_FOOTAGE;
+  const locationsWithVendorId = Object.keys(locationsAtUserLoc).map(key => {
+    return {
+      ...locationsAtUserLoc[key],
+      vendorId: key,
+    };
+  });
 
-      return (
-        CoordsAreWithinViewport(deviceCoordinates, loc.viewport) &&
-        CoordsAreInRadius(
-          deviceCoordinates,
-          { latitude: loc.latitude, longitude: loc.longitude },
-          squareFootage,
-        )
-      );
-    });
+  const locationsNearUser = SortLocations(
+    locationsWithVendorId,
+    deviceCoordinates,
+    "nearToFar",
+  );
 
-    if (locationKeysAtUserLocation.length === 0) {
-      yield put({
-        type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION",
-        payload: {
-          error: "You are not at a location that accepts bevegrams",
-        },
-      });
-      return;
-    } else if (locationKeysAtUserLocation.length > 1) {
-      yield put({
-        type: "FAILED_GET_LOCATIONS_AT_USER_LOCATION",
-        payload: {
-          error: "Multiple bars were found at your location",
-        },
-      });
-      return;
-    } else {
-      const loc = locationsAtUserLoc[locationKeysAtUserLocation[0]];
-      yield put({
-        type: "SUCCESSFUL_GET_LOCATIONS_AT_USER_LOCATION",
-        payload: {
-          location: loc,
-        },
-      });
-
-      const result = {
-        ...loc,
-        vendorId: locationKeysAtUserLocation[0],
-      };
+  const locationsToShow = DEFAULT_REDEEM_PICKER_LOCATIONS;
+  yield put({
+    type: "UPDATE_REDEEM_PICKER",
+    payload: {
+      locations: locationsNearUser.slice(0, locationsToShow),
+    },
+  });
+}
 
       lastSuccessfulFetch = Date.now();
       lastSuccessfulLocation = result;

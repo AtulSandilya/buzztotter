@@ -230,16 +230,14 @@ export default function* rootSaga() {
 
     // Redeem Bevegram
     takeEveryIfInternetConnected(
-      "REDEEM_BEVEGRAM",
-      function*(action) {
-        yield put({ type: "ATTEMPTING_REDEEM" });
-        const redeemLocation: Location = yield call(getLocationsAtUserLocation);
-        yield call(queue.redeem, action, redeemLocation);
-        yield call(listenUntilRedeemSuccessOrFailure);
-        yield call(updateHistory);
-        yield put({ type: "FINISHED_REDEEM" });
-      },
-      "alert",
+      "ON_REDEEMABLE_BEVEGRAM_PRESS",
+      redeem.onRedeemableBevegramPress,
+      "banner",
+    ),
+    takeEveryIfInternetConnected(
+      "ON_REDEEM_LOCATION_SELECTION",
+      redeem.onRedeemLocationSelected,
+      "banner",
     ),
 
     // Routes

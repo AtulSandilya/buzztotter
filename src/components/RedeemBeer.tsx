@@ -1,57 +1,30 @@
 import * as React from "react";
 import { Component } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import { Alert, Text, TouchableHighlight, View } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import { Location } from "../db/tables";
-
-import BevButton from "./BevButton";
-import BevUiText from "./BevUiText";
-import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
-
-import { globalColors, globalStyles } from "./GlobalStyles";
-
 import {
-  GpsCoordinates,
+  DEFAULT_REDEEM_PICKER_LOCATIONS,
+  Location,
   ReceivedBevegram,
-  RedeemTransactionStatus,
 } from "../db/tables";
 
-import { Pluralize } from "../CommonUtilities";
+import BevUiText from "./BevUiText";
+import RedeemLocationChoiceLine from "./RedeemLocationChoiceLine";
+import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 
-import { transactionFailed, transactionFinished } from "../sagas/firebase";
-
-import theme from "../theme";
+import { BevLayoutAnimation, globalStyles } from "./GlobalStyles";
 
 export interface RedeemBeerProps {
   id?: string;
   name?: string;
-  quantity?: number;
-  currentLocation?: GpsCoordinates;
-  currentLocationBusinessName?: string;
-  currentLocationLastModified?: string;
-  getLocationFailed?: boolean;
-  getLocationFailedErrorMessage?: string;
-  isProcessing?: boolean;
-  redeemFailed?: boolean;
-  isLoading?: boolean;
   isRefreshingLocation?: boolean;
-  redeemTransactionStatus?: RedeemTransactionStatus;
   receivedBevegram?: ReceivedBevegram;
-  showGoToMapAlert?: boolean;
-  locations?: [Location];
-  onRedeemClicked?(quantity: number, receivedId: string): void;
-  closeRedeem?(): void;
+  pickerLocations?: Location[];
   goToMap?(): void;
   updateLocation?(): void;
+  selectLocation?(loc: Location, quantity: number): void;
 }
 
 interface RedeemBeerState {
@@ -63,7 +36,6 @@ export const RedeemAlert = (message: string, buttons: any[]) => {
 };
 
 /* tslint:disable:member-ordering */
-/* tslint:disable:no-magic-numbers */
 export default class RedeemBeer extends Component<
   RedeemBeerProps,
   RedeemBeerState
@@ -75,73 +47,36 @@ export default class RedeemBeer extends Component<
       // numDrinks: this.props.receivedBevegram.quantity - this.props.receivedBevegram.quantityRedeemed,
     };
     this.updateQuantity = this.updateQuantity.bind(this);
-    this.updateLocation = this.updateLocation.bind(this);
-    this.purchaseDrink = this.purchaseDrink.bind(this);
+    this.goToMapAlert = this.goToMapAlert.bind(this);
   }
 
   public componentDidMount() {
-    this.updateLocation();
+    this.props.updateLocation();
   }
 
-  private purchaseDrink() {
-    if (
-      this.props.getLocationFailed ||
-      this.props.currentLocationBusinessName === undefined
-    ) {
-      if (this.props.showGoToMapAlert) {
-        RedeemAlert(
-          "You are not at a location that accepts bevegrams." +
-            "\nPlease see the map for locations that accept bevegrams.",
-          [
-            { text: "Cancel", onPress: () => this.props.closeRedeem() },
-            {
-              text: "Refresh Location",
-              onPress: () => this.props.updateLocation(),
-            },
-            { text: "Show Map", onPress: () => this.props.goToMap() },
-          ],
-        );
-      } else {
-        RedeemAlert(this.props.getLocationFailedErrorMessage, [
-          { text: "Cancel", onPress: () => this.props.closeRedeem() },
-          {
-            text: "Refresh Location",
-            onPress: () => this.props.updateLocation(),
-          },
-        ]);
-      }
-      return;
-    }
-
-    this.props.onRedeemClicked(this.state.numDrinks, this.props.id);
+  public componentWillUpdate() {
+    BevLayoutAnimation();
   }
 
-  private renderErrorMessage() {
-    if (this.props.redeemTransactionStatus.error) {
-      return (
-        <View style={globalStyles.bevLine}>
-          <View style={globalStyles.bevLineLeft}>
-            <Text style={globalStyles.bevLineTextTitle}>Error:</Text>
-          </View>
-          <View style={globalStyles.bevLineRight}>
-            <Text
-              style={[
-                globalStyles.bevMultiLineText,
-                { color: theme.colors.failure },
-              ]}
-            >
-              {this.props.redeemTransactionStatus.error}
-            </Text>
-          </View>
-        </View>
-      );
-    }
+  private goToMapAlert() {
+    Alert.alert(
+      "Notice",
+      "You are not at a location that accepts bevegrams. Go to the map to see locations that accept bevegrams.",
+      [
+        { text: "Go To Map", onPress: () => this.props.goToMap() },
+        {
+          onPress: () => this.props.updateLocation(),
+          text: "Refresh Location",
+        },
+        { text: "Cancel" },
+      ],
+    );
   }
 
   private renderQuantityLine() {
-    const bev = this.props.receivedBevegram;
-    const allowIncrement = false;
+    // const bev = this.props.receivedBevegram;
     // const allowIncrement = bev && (bev.quantity > 1) && (bev.quantity > bev.quantityRedeemed);
+    const allowIncrement = false;
     return (
       <View style={globalStyles.bevLine}>
         <View style={[globalStyles.bevLineLeft, { flex: 1 }]}>
@@ -205,72 +140,63 @@ export default class RedeemBeer extends Component<
     }
   }
 
-  private isRedeemComplete() {
-    const status: RedeemTransactionStatus = this.props.redeemTransactionStatus;
-    return transactionFinished<RedeemTransactionStatus>(status);
-  }
-
-  private renderPurchaseConfirmed() {
-    if (this.isRedeemComplete()) {
-      const redeemQuantityMessage = `${this.state
-        .numDrinks} Bevegram${Pluralize(this.state.numDrinks)} Redeemed!`;
-      return (
-        <View>
-          {!transactionFailed(this.props.redeemTransactionStatus)
-            ? <View style={{ flex: 1, alignItems: "center", paddingTop: 20 }}>
-                <Text style={{ color: globalColors.bevPrimary, fontSize: 30 }}>
-                  {redeemQuantityMessage}
-                </Text>
-              </View>
-            : <View />}
-          <View style={{ alignItems: "flex-end", paddingTop: 10 }}>
-            <BevButton
-              onPress={this.props.closeRedeem}
-              text={"Close"}
-              shortText={"Close"}
-              label="Close Redeem Button"
-              buttonFontSize={20}
-            />
-          </View>
-        </View>
-      );
-    }
-  }
-
-  private renderVendorPinLine() {
+  private renderPickers() {
     return (
       <View>
-        <View style={{ paddingBottom: 10 }}>
-          <View>
-            <Text style={{ color: "red" }}>
-              * Show this to your bartender or server:
+        <View
+          style={[
+            globalStyles.bevLine,
+            { borderBottomWidth: 0, marginBottom: 0 },
+          ]}
+        >
+          <View style={globalStyles.bevLineLeft}>
+            <Text style={globalStyles.bevLineTextTitle}>
+              Select Your Location:
             </Text>
-            <Text>
-              1. They enter the vendor id and press "Redeem Bevegram".
-            </Text>
-            <Text>2. They get you a nice cold beverage.</Text>
-            <Text>3. You enjoy a nice cold beverage.</Text>
+          </View>
+          <View style={globalStyles.bevLineRight}>
+            <TouchableHighlight
+              onPress={() => {
+                if (!this.props.isRefreshingLocation) {
+                  this.props.updateLocation();
+                }
+              }}
+              underlayColor="#ffffff"
+            >
+              <View>
+                <BevUiText icon="refresh">
+                  {this.props.isRefreshingLocation ? "Refreshing" : "Refresh"}
+                </BevUiText>
+              </View>
+            </TouchableHighlight>
           </View>
         </View>
-        <View style={globalStyles.bevLine}>
-          <View style={globalStyles.bevLineLeft}>
-            <Text style={globalStyles.bevLineTextTitle}>Vendor PIN:</Text>
-          </View>
-          <View style={[globalStyles.bevLineRight, { flex: 1, maxWidth: 125 }]}>
-            <TextInput
-              placeholder={"1234"}
-              placeholderTextColor={"#bbbbbb"}
-              style={{ flex: 1, textAlign: "right", paddingRight: 10 }}
-              keyboardType={"numeric"}
-            />
-          </View>
+        <View>
+          {this.props.pickerLocations.map((l: Location, i: number) => {
+            return (
+              <RedeemLocationChoiceLine
+                loc={l}
+                index={i + 1}
+                isLoading={this.props.isRefreshingLocation}
+                onPress={() => {
+                  if (!this.props.isRefreshingLocation || l) {
+                    this.props.selectLocation(l, this.state.numDrinks);
+                  }
+                }}
+                key={i}
+              />
+            );
+          })}
+          <RedeemLocationChoiceLine
+            loc={undefined}
+            index={DEFAULT_REDEEM_PICKER_LOCATIONS + 1}
+            other={true}
+            onPress={this.goToMapAlert}
+            isLoading={this.props.isRefreshingLocation}
+          />
         </View>
       </View>
     );
-  }
-
-  private updateLocation() {
-    this.props.updateLocation();
   }
 
   public render() {
@@ -286,79 +212,7 @@ export default class RedeemBeer extends Component<
             </View>
           </View>
           {this.renderQuantityLine()}
-          <View style={globalStyles.bevLine}>
-            <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Your Location:</Text>
-            </View>
-            <View
-              style={[
-                globalStyles.bevLineRight,
-                {
-                  paddingLeft: 15,
-                },
-              ]}
-            >
-              {this.props.isRefreshingLocation
-                ? /* tslint:disable:jsx-alignment */
-                  <ActivityIndicator />
-                : <TouchableHighlight
-                    onPress={() => this.updateLocation()}
-                    underlayColor={"rgba(255, 255, 255, 0.1)"}
-                  >
-                    <View>
-                      {this.props.currentLocationBusinessName
-                        ? <Text
-                            style={globalStyles.bevLineText}
-                            numberOfLines={10}
-                          >
-                            {this.props.currentLocationBusinessName}
-                          </Text>
-                        : <Text
-                            style={globalStyles.bevLineText}
-                            numberOfLines={10}
-                          >
-                            {this.props.getLocationFailed
-                              ? this.props.getLocationFailedErrorMessage
-                              : "Unknown Error checking your location"}
-                          </Text>}
-                      <BevUiText icon="refresh" style={{ paddingTop: 5 }}>
-                        Tap to Refresh
-                      </BevUiText>
-                    </View>
-                  </TouchableHighlight>}
-            </View>
-          </View>
-          {!this.isRedeemComplete()
-            ? <View style={[globalStyles.bevLine, { paddingTop: 20 }]}>
-                <View style={globalStyles.bevLineLeft}>
-                  <BevButton
-                    onPress={this.props.closeRedeem}
-                    text={""}
-                    shortText={""}
-                    fontAwesomeLeftIcon="ban"
-                    label="Close Redeem Button"
-                    buttonFontSize={18}
-                    margin={0}
-                  />
-                </View>
-                <View style={globalStyles.bevLineRight}>
-                  <BevButton
-                    onPress={this.purchaseDrink}
-                    text={`Redeem ${this.state.numDrinks} Bevegram${this.state
-                      .numDrinks === 1
-                      ? ""
-                      : "s"}`}
-                    shortText={"Redeem"}
-                    label={"Redeem Bevegram Button"}
-                    buttonFontSize={18}
-                    showSpinner={this.props.isProcessing}
-                    margin={0}
-                  />
-                </View>
-              </View>
-            : <View />}
-          {this.renderErrorMessage()}
-          {this.renderPurchaseConfirmed()}
+          {this.renderPickers()}
         </View>
       </RouteWithNavBarWrapper>
     );
