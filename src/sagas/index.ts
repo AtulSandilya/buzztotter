@@ -1,19 +1,7 @@
 import { delay } from "redux-saga";
-import {
-  all,
-  call,
-  fork,
-  put,
-  select,
-  takeEvery,
-  takeLatest,
-} from "redux-saga/effects";
+import { all, call, put, takeEvery } from "redux-saga/effects";
 
 import { ActionConst } from "react-native-router-flux";
-
-import * as facebook from "./facebook";
-
-import { fetchCreditCardToken } from "./stripe";
 
 import { goBackRoute, goToRoute, onFocusRoute } from "./routes";
 
@@ -22,30 +10,26 @@ import {
   firebaseLogOut,
   getUser,
   listenUntilPurchaseSuccessOrFailure,
-  listenUntilRedeemSuccessOrFailure,
-  updateFirebaseUser,
   updateHistory,
   updatePurchasePackages,
   updateReceivedBevegrams,
   updateUserStateOnNextChange,
-  verifyReceiverExists,
 } from "./firebase";
-
-import * as notifications from "./notifications";
 
 import { getLocationsAtUserLocation, getLocationsNearUser } from "./location";
 
-import * as internet from "./internet";
 import {
   InternetNotConnectedError,
   takeEveryIfInternetConnected,
 } from "./internet";
-import * as settings from "./settings";
 
-import * as ReactNativeUtil from "../ReactNativeUtilities";
+import * as facebook from "./facebook";
+import * as internet from "./internet";
+import * as notifications from "./notifications";
 import * as queue from "./queue";
-
-import { Location, User } from "../db/tables";
+import * as redeem from "./redeem";
+import * as settings from "./settings";
+import * as stripe from "./stripe";
 
 // Like combine reducers
 /* tslint:disable:object-literal-sort-keys */
@@ -140,7 +124,7 @@ export default function* rootSaga() {
     takeEveryIfInternetConnected(
       "REQUEST_CREDIT_CARD_VERIFICATION",
       function*(action) {
-        const cardToken = yield call(fetchCreditCardToken, action);
+        const cardToken = yield call(stripe.fetchCreditCardToken, action);
         if (cardToken) {
           yield call(queue.addCreditCardToCustomer, cardToken);
           yield call(
@@ -239,6 +223,7 @@ export default function* rootSaga() {
       redeem.onRedeemLocationSelected,
       "banner",
     ),
+    takeEveryIfInternetConnected("REDEEM_BEVEGRAM", redeem.redeem, "alert"),
 
     // Routes
     takeEvery("GO_TO_ROUTE", goToRoute),
