@@ -119,6 +119,8 @@ export function* goBackRoute(action) {
       } else {
         Actions.MainUi({ type: ActionConst.BACK, popNum: 2 });
       }
+    } else if (currentRoute === "RedeemComplete") {
+      Actions[nextRoute]({ type: ActionConst.BACK, popNum: 4 });
     } else {
       Actions[nextRoute]({ type: ActionConst.BACK });
     }

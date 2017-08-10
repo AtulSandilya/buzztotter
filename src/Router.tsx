@@ -15,6 +15,7 @@ import CMessage from "./containers/CMessage";
 import CPurchaseAndOrSendInProgress from "./containers/CPurchaseAndOrSendInProgress";
 import CPurchaseBevegram from "./containers/CPurchaseBevegram";
 import CRedeemBeer from "./containers/CRedeemBeer";
+import CRedeemComplete from "./containers/CRedeemComplete";
 import CRedeemInProgress from "./containers/CRedeemInProgress";
 import CRedeemVendorIdInput from "./containers/CRedeemVendorIdInput";
 import CSettings from "./containers/CSettings";
@@ -85,6 +86,13 @@ const scenes = (showLogin: boolean | undefined) => {
         component={CRedeemInProgress}
         panHandlers={null}
         navBar={() => <CBranding showBack={false} navBarText="Redeeming..." />}
+      />
+      <RNRF.Scene
+        key={RouteNames.RedeemComplete}
+        component={CRedeemComplete}
+        panHandlers={null}
+        navBar={() =>
+          <CBranding showBack={false} navBarText="Redeem Successful!" />}
       />
       <RNRF.Scene
         key={RouteNames.AddCreditCard}

@@ -28,6 +28,7 @@ interface Styles {
   titleText: TextStyle;
   importantText: TextStyle;
   heroText: TextStyle;
+  smallerHeroText: TextStyle;
   sectionStartText: TextStyle;
   titleTextContainer: ViewStyle;
   bevColorPrimary: ViewStyle;
@@ -63,6 +64,11 @@ export const globalStyles = StyleSheet.create<Styles>({
   heroText: {
     color: globalColors.lightText,
     fontSize: 40,
+    fontWeight: "300",
+  },
+  smallerHeroText: {
+    color: globalColors.lightText,
+    fontSize: 30,
     fontWeight: "300",
   },
   sectionStartText: {

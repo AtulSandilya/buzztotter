@@ -1,39 +1,51 @@
 import * as React from "react";
-import { StyleSheet, Text, View, ViewStyle } from "react-native";
+import { StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import theme from "../theme";
+import { globalStyles } from "./GlobalStyles";
 
-type BevUiSizeType = "huge" | "large" | "normal" | "small";
+type BevUiSizeType = "massive" | "huge" | "large" | "normal" | "small";
 
 interface BevUiTextProps {
   children?: React.ReactChild;
+  text?: string;
   fontSize?: BevUiSizeType;
+  fontStyle?: TextStyle;
   icon?: string;
   iconSize?: BevUiSizeType;
+  iconRight?: boolean;
   iconBold?: boolean;
   isButton?: boolean;
   morePaddingAfterIcon?: boolean;
   style?: ViewStyle;
   color?: string;
   preserveCase?: boolean;
+  calculatedColor?: () => string;
+  hero?: boolean;
 }
 
 const baseSize = 9;
 const multiplier = 1.25;
-const iconMultiplier = 1.5;
+const iconMultiplier = 0.75;
 
-const calcSize = (size: BevUiSizeType, context: "font" | "icon"): number => {
+const calcSize = (
+  size: BevUiSizeType = "normal",
+  context: "font" | "icon",
+): number => {
   let result: number;
 
   /* tslint:disable:no-magic-numbers */
   switch (size) {
+    case "massive":
+      result = baseSize * Math.pow(multiplier, 4);
+      break;
     case "huge":
-      result = baseSize * Math.pow(multiplier, 2);
+      result = baseSize * Math.pow(multiplier, 3);
       break;
     case "large":
-      result = baseSize * Math.pow(multiplier, 1);
+      result = baseSize * Math.pow(multiplier, 2);
       break;
     case "small":
       result = baseSize / Math.pow(multiplier, 2);
@@ -44,7 +56,10 @@ const calcSize = (size: BevUiSizeType, context: "font" | "icon"): number => {
       break;
   }
 
-  return Math.round(result * (context === "icon" ? iconMultiplier : 1));
+  const shouldUseIconMultiplier =
+    context === "icon" && (size === "massive" || size === "huge");
+
+  return Math.round(result * (shouldUseIconMultiplier ? iconMultiplier : 1));
 };
 
 const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
@@ -54,19 +69,19 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
     "icon",
   );
 
-  const text = typeof props.children !== "string"
-    ? ""
-    : props.preserveCase ? props.children : props.children.toUpperCase();
+  const text = props.text
+    ? props.text
+    : typeof props.children !== "string"
+      ? ""
+      : props.preserveCase ? props.children : props.children.toUpperCase();
 
-  let color: string;
-
-  if (props.color) {
-    color = props.color;
-  } else if (props.iconBold) {
-    color = theme.colors.uiBoldTextColor;
-  } else {
-    color = theme.colors.uiTextColor;
-  }
+  const color = typeof props.calculatedColor === "function"
+    ? props.calculatedColor()
+    : props.color
+      ? props.color
+      : props.iconBold
+        ? theme.colors.uiBoldTextColor
+        : theme.colors.uiTextColor;
 
   return (
     <View
@@ -79,34 +94,57 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
               borderRadius: 3,
               borderWidth: StyleSheet.hairlineWidth,
               padding: 7,
+              paddingLeft: props.iconRight ? 13 : undefined,
             }
           : {},
       ]}
     >
-      {props.icon
+      {props.icon && !props.iconRight && !props.hero
         ? <View
             style={{
               alignItems: "center",
               marginRight: props.morePaddingAfterIcon ? 10 : 4,
-              width: iconSize,
+              width: fontSize * multiplier,
             }}
           >
             <FontAwesome
               name={props.icon}
               style={{
                 color,
+                fontSize: iconSize,
               }}
             />
           </View>
         : <View />}
       <Text
-        style={{
-          color: props.color ? props.color : color,
-          fontSize,
-        }}
+        style={[
+          { fontSize },
+          props.hero ? globalStyles.smallerHeroText : {},
+          {
+            color: props.color ? props.color : color,
+          },
+          props.fontStyle,
+        ]}
       >
         {text}
       </Text>
+      {props.icon && props.iconRight && !props.hero
+        ? <View
+            style={{
+              alignItems: "center",
+              marginLeft: props.morePaddingAfterIcon ? 10 : 4,
+              width: fontSize * multiplier,
+            }}
+          >
+            <FontAwesome
+              name={props.icon}
+              style={{
+                color,
+                fontSize: iconSize,
+              }}
+            />
+          </View>
+        : <View />}
     </View>
   );
 };
