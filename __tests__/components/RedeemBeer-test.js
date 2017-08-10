@@ -1,15 +1,15 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-import { shallow } from 'enzyme';
+import renderer from 'react-test-renderer';
 
 import { defaultLocationsState } from '../../build/reducers/locations';
 
 import RedeemBeer from '../../build/components/RedeemBeer';
 
 describe('RedeemBeer component', () => {
-  it('renders successfully', () => {
-    const wrapper = shallow(
+  it('renders correctly', () => {
+    const tree = renderer.create(
       <RedeemBeer
         id="1234"
         name="Testy"
@@ -27,12 +27,20 @@ describe('RedeemBeer component', () => {
           connectionEstablished: "complete",
           updatingDatabase: "inProgress",
         }}
+        pickerLocations={[undefined, undefined, undefined]}
+        updateLocation={() => console.log("Redeem")}
       />
-    )
+    ).toJSON();
 
-    const numButtons = wrapper.find(View).find('BevButton').length;
-    // Redeem Beer should have 2 buttons
-    expect(numButtons).toEqual(2);
-  })
+    expect(tree).toMatchSnapshot();
+  });
+
+  it('fails without props', () => {
+    expect(() => {
+      renderer.create(
+        <RedeemBeer/>
+      ).toJSON();
+    }).toThrow();
+  });
 })
 
