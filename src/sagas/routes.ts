@@ -1,4 +1,7 @@
+import { delay } from "redux-saga";
 import { call } from "redux-saga/effects";
+
+import { batchActions } from "redux-batched-actions";
 
 import { Keyboard, ToastAndroid } from "react-native";
 import { put, select } from "redux-saga/effects";
@@ -7,7 +10,7 @@ import { ActionConst, Actions } from "react-native-router-flux";
 
 import { RouteState } from "../reducers/routes";
 
-import { isAndroid, isIOS } from "../ReactNativeUtilities";
+import { isAndroid } from "../ReactNativeUtilities";
 
 import { IsPurchaseAndOrSendCompleted } from "../components/PurchaseAndOrSendInProgress";
 
@@ -60,13 +63,6 @@ export function* goToRoute(action) {
   return true;
 }
 
-interface GoBackRoutePayloadProps {
-  route: string;
-  nextRoute: string;
-  preActions?: [{ any }];
-  postActions?: [{ any }];
-}
-
 export function* goBackRoute(action) {
   const nextRoute = yield select<{ routes: RouteState }>(
     state => state.routes.previousRoute,
@@ -90,7 +86,6 @@ export function* goBackRoute(action) {
       currentRoute === "PurchaseInProgress" ||
       currentRoute === "SendInProgress"
     ) {
-      const purchaseState = yield select<any>(state => state.purchase);
       const routeState = yield select<{ routes: RouteState }>(state => {
         return {
           ...state.routes.PurchaseInProgress.data,
@@ -138,6 +133,7 @@ export function* goBackRoute(action) {
 }
 
 export function* onFocusRoute(action) {
+  const delayBeforeReset = 1500;
   if (action.scene) {
     yield put({
       type: "UPDATE_CURRENT_ROUTE",
@@ -154,10 +150,17 @@ export function* onFocusRoute(action) {
         yield put({ type: "END_CREDIT_CARD_VERIFICATION_IF_NOT_ATTEMPTING" });
         break;
       case "MainUi":
-        yield put({ type: "END_CREDIT_CARD_PURCHASE_IF_NOT_ATTEMPTING" });
-        yield put({ type: "CLEAR_ROUTES" });
-        yield put({ type: "RESET_REDEEM" });
-        yield put({ type: "RESET_MESSAGE" });
+        yield delay(delayBeforeReset);
+        yield put(
+          batchActions([
+            { type: "END_CREDIT_CARD_PURCHASE_IF_NOT_ATTEMPTING" },
+            { type: "CLEAR_ROUTES" },
+            { type: "RESET_REDEEM" },
+            { type: "RESET_REDEEM_PICKER_VIEW" },
+            { type: "RESET_REDEEM_IN_PROGRESS" },
+            { type: "RESET_MESSAGE" },
+          ]),
+        );
         break;
       default:
         return;
