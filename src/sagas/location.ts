@@ -211,10 +211,19 @@ export function* getLocationsAtUserLocation() {
   });
 }
 
-      lastSuccessfulFetch = Date.now();
-      lastSuccessfulLocation = result;
+export function* userIsNearLastLocation() {
+  const lastUserCoords = yield select<{ user: User }>(
+    state => state.user.lastUserCoords,
+  );
+  const currentLocation = yield call(getDeviceGpsCoordinates);
 
-      return result;
-    }
+  if (!currentLocation || !lastUserCoords) {
+    return false;
   }
+
+  const closeTogetherMeters = 50;
+  return (
+    MetersBetweenCoordinates(lastUserCoords, currentLocation) <
+    closeTogetherMeters
+  );
 }

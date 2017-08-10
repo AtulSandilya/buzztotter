@@ -3,6 +3,7 @@ import { call, select } from "redux-saga/effects";
 import uuid from "react-native-uuid";
 
 import { User } from "../db/tables";
+import {RedeemStateProps} from "../reducers/redeem";
 
 import {
   DbWriteUserVerificationToken,
@@ -16,7 +17,6 @@ import {
 
 import {
   AddCreditCardToCustomerPackageForQueue,
-  Location,
   PurchaseActionData,
   PurchasePackageForQueue,
   RedeemPackageForQueue,
@@ -110,15 +110,12 @@ export function* purchase(action: any) {
   yield call(QueuePurchasePackage, purchasePackageForQueue);
 }
 
-export function* redeem(action, location: Location) {
+export function* redeem() {
   const verificationToken = yield call(writeVerificationToken);
-  const receivedId: string = action.payload.receivedId;
-  const quantity: number = action.payload.quantity;
+  const redeemProps: RedeemStateProps = yield select<{redeem: RedeemStateProps}>(state => state.redeem);
 
   const redeemPackageForQueue: RedeemPackageForQueue = {
-    location,
-    quantity,
-    receivedId,
+    ...redeemProps,
     userFirebaseId: yield call(getUserFirebaseId),
     verificationToken,
   };

@@ -22,6 +22,7 @@ import { purchasedBevegrams } from "./purchasedBevegrams";
 import { receivedBevegrams } from "./receivedBevegrams";
 import { redeem } from "./redeem";
 import { redeemedBevegrams } from "./redeemedBevegrams";
+import { redeemInProgressView } from "./redeemInProgressView";
 import { redeemPickerView } from "./redeemPickerView";
 import { redeemVendorIdView } from "./redeemVendorIdView";
 import { routes } from "./routes";
@@ -51,6 +52,7 @@ const appReducer = combineReducers({
   purchasedBevegrams,
   receivedBevegrams,
   redeem,
+  redeemInProgressView,
   redeemPickerView,
   redeemVendorIdView,
   redeemedBevegrams,

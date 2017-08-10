@@ -78,6 +78,7 @@ export function* goBackRoute(action) {
   const routesThatDontGoBack = {
     Login: true,
     MainUi: true,
+    RedeemInProgress: true,
   };
 
   if (routesThatDontGoBack[currentRoute] === undefined) {

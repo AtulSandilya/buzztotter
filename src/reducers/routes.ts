@@ -8,6 +8,7 @@ export const routeKeys = {
   PurchaseBevegram: "PurchaseBevegram",
   PurchaseInProgress: "PurchaseInProgress",
   RedeemBeer: "RedeemBeer",
+  RedeemInProgress: "RedeemInProgress",
   RedeemVendorIdInput: "RedeemVendorIdInput",
   SendBevegram: "SendBevegram",
   SendInProgress: "SendInProgress",
@@ -29,6 +30,7 @@ export interface RouteState {
   LocationDetail: RouteData;
   Message: RouteData;
   RedeemVendorIdInput: RouteData;
+  RedeemInProgress: RouteData;
 }
 
 interface RouteData {
@@ -113,6 +115,12 @@ const defaultRouteState: RouteState = {
     data: {},
     requiresInternetConnection: true,
     prettyAction: "Checking Vendor Id",
+  },
+  RedeemInProgress: {
+    isActive: false,
+    data: {},
+    requiresInternetConnection: true,
+    prettyAction: "Redeeming",
   },
 };
 

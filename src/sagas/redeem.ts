@@ -2,6 +2,9 @@ import { call, put, select } from "redux-saga/effects";
 
 import { Keyboard } from "react-native";
 
+import * as firebase from "./firebase";
+import * as location from "./location";
+import * as queue from "./queue";
 import { goToRoute } from "./routes";
 
 import { SelectedBevegramPackage } from "../components/Bevegram";
@@ -127,3 +130,33 @@ export function* verifyVendorId(action) {
 }
 
 //  End verifyVendorId -------------------------------------------------}}}
+//  redeem -------------------------------------------------------------{{{
+
+export function* redeem(action) {
+  yield put({ type: "ATTEMPTING_REDEEM" });
+
+  yield put({ type: "ATTEMPTING_REDEEM_LOCATION_VERIFICATION" });
+
+  const userLocationIsStationary = yield call(location.userIsNearLastLocation);
+  if (userLocationIsStationary) {
+    yield put({ type: "SUCCESSFUL_REDEEM_LOCATION_VERIFICATION" });
+  } else {
+    yield put({ type: "FAILED_REDEEM_LOCATION_VERIFICATION" });
+    return;
+  }
+
+  yield call(queue.redeem, action, action.payload.loc);
+  yield call(firebase.listenUntilRedeemSuccessOrFailure);
+  yield put({ type: "FINISHED_REDEEM" });
+  yield call(goToRoute, {
+    payload: {
+      route: "RedeemComplete",
+      routeData: {
+        redeemCompletedTime: Date.now(),
+      },
+    },
+  });
+  yield call(firebase.updateHistory);
+}
+
+//  End redeem ---------------------------------------------------------}}}

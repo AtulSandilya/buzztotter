@@ -170,6 +170,8 @@ export interface PurchaseTransactionStatus extends TransactionStatus {
 
 export interface RedeemTransactionStatus extends TransactionStatus {
   connectionEstablished: EventStatus;
+  locationVerified: EventStatus;
+  vendorVerified: EventStatus;
   updatingDatabase: EventStatus;
 }
 

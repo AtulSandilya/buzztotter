@@ -289,5 +289,12 @@ export default function* rootSaga() {
       },
       "banner",
     ),
+    takeEveryIfInternetConnected(
+      "VERIFY_VENDOR_ID",
+      function*(action) {
+        yield call(redeem.verifyVendorId, action);
+      },
+      "alert",
+    ),
   ]);
 }
