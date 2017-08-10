@@ -86,7 +86,7 @@ exports[`renders correctly 1`] = `
               Object {
                 "alignItems": "center",
                 "marginRight": 4,
-                "width": 14,
+                "width": 11.25,
               }
             }
           >
@@ -103,6 +103,7 @@ exports[`renders correctly 1`] = `
                   },
                   Object {
                     "color": "#999999",
+                    "fontSize": 9,
                   },
                   Object {
                     "fontFamily": "FontAwesome",
@@ -121,14 +122,21 @@ exports[`renders correctly 1`] = `
             disabled={false}
             ellipsizeMode="tail"
             style={
-              Object {
-                "color": "#999999",
-                "fontSize": 9,
-              }
+              Array [
+                Object {
+                  "fontSize": 9,
+                },
+                Object {},
+                Object {
+                  "color": "#999999",
+                },
+                undefined,
+              ]
             }
           >
             2 YEARS AGO
           </Text>
+          <View />
         </View>
       </View>
     </View>
