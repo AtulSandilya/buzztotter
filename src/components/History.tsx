@@ -3,7 +3,11 @@ import { ListView, RefreshControl, Text, View } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import { ParseIntAsDecimal, Pluralize } from "../CommonUtilities";
+import {
+  ParseIntAsDecimal,
+  Pluralize,
+  PrettyFormatCentsToDollars,
+} from "../CommonUtilities";
 import { globalColors, globalStyles } from "./GlobalStyles";
 
 import BevTimestamp from "./BevTimestamp";
@@ -56,7 +60,7 @@ const History: React.StatelessComponent<HistoryProps> = ({
       date: input.purchaseDate,
       info: `${input.quantity} Bevegram${input.quantity !== 1
         ? "s"
-        : ""} for $${(input.purchasePrice / 100).toFixed(2)}`,
+        : ""} for ${PrettyFormatCentsToDollars(input.purchasePrice)}`,
     };
   };
 
@@ -104,8 +108,9 @@ const History: React.StatelessComponent<HistoryProps> = ({
       date: purchasedBevegram.purchaseDate,
       info: `${quantity} Bevegram${quantity !== 1
         ? "s"
-        : ""} to ${sentBevegram.receiverName} for $${(purchasedBevegram.purchasePrice /
-        100).toFixed(2)}`,
+        : ""} to ${sentBevegram.receiverName} for ${PrettyFormatCentsToDollars(
+        purchasedBevegram.purchasePrice,
+      )}`,
     };
   };
 

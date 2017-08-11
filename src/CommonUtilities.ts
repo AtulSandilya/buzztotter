@@ -173,3 +173,9 @@ export const ParseIntAsDecimal = (input: string): number => {
   const decimalBase = 10;
   return parseInt(input, decimalBase);
 };
+
+export const PrettyFormatCentsToDollars = (cents: number): string => {
+  const centsPerDollar = 100;
+  const decimalPlaces = 2;
+  return `$${(cents / centsPerDollar).toFixed(decimalPlaces)}`;
+};
