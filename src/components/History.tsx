@@ -49,6 +49,7 @@ const History: React.StatelessComponent<HistoryProps> = ({
   completedInitialLoad,
   refreshHistory,
 }) => {
+  const iconSize = 20;
   const historyData = new ListView.DataSource({
     rowHasChanged: (r1, r2) => r1 !== r2,
   });
@@ -199,7 +200,7 @@ const History: React.StatelessComponent<HistoryProps> = ({
               <FontAwesome
                 name={item.icon}
                 color={"#ffffff"}
-                size={20}
+                size={iconSize}
                 style={{ alignSelf: "center" }}
               />
             </View>
