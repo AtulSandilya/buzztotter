@@ -54,7 +54,7 @@ interface Env {
 }
 
 const checkAndroidBundleForEnvKeys = async (buzzPath: BuzzPath) => {
-  const env = parseEnv();
+  const env: Env = parseEnv();
   const unzipFolder = "unzippedAPK";
   const releaseTypes = ["dev", "production"];
 
