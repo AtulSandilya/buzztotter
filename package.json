@@ -29,7 +29,7 @@
     "react-native": "^0.45.1",
     "react-native-animatable": "^1.2.0",
     "react-native-fbsdk": "github:facebook/react-native-fbsdk",
-    "react-native-fcm": "^5.0.0",
+    "react-native-fcm": "^6.2.3",
     "react-native-keyboard-aware-scroll-view": "^0.2.9",
     "react-native-maps": "^0.15.2",
     "react-native-offline": "^3.0.1",

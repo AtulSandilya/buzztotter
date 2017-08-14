@@ -55,6 +55,7 @@ android/app/google-services*.json
 .firebaserc
 firebase.json
 firebaseDbRules.json
+GoogleService-Info.plist
 
 # Typescript
 build/

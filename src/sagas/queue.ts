@@ -124,6 +124,7 @@ export function* redeem() {
 }
 
 export function* turnOnNotifications(fcmToken: string) {
+  console.log("fcmToken: ", fcmToken);
   yield call(toggleNotificationSetting, fcmToken);
 }
 
