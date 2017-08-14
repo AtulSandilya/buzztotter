@@ -4,12 +4,15 @@ import { Alert, Text, TouchableHighlight, View } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
+import theme from "../theme";
+
 import {
   DEFAULT_REDEEM_PICKER_LOCATIONS,
   Location,
   ReceivedBevegram,
 } from "../db/tables";
 
+import BevUiButton from "./BevUiButton";
 import BevUiText from "./BevUiText";
 import RedeemLocationChoiceLine from "./RedeemLocationChoiceLine";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
@@ -124,6 +127,15 @@ export default class RedeemBeer extends Component<
     );
   }
 
+  private hasValidPickerLocations(): boolean {
+    for (const loc of this.props.pickerLocations) {
+      if (loc !== undefined) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private updateQuantity(amount: number) {
     const newAmount = this.state.numDrinks + amount;
     const min = 1;
@@ -171,30 +183,46 @@ export default class RedeemBeer extends Component<
             </TouchableHighlight>
           </View>
         </View>
-        <View>
-          {this.props.pickerLocations.map((l: Location, i: number) => {
-            return (
+        {this.hasValidPickerLocations() || this.props.isRefreshingLocation
+          ? <View>
+              {this.props.pickerLocations.map((l: Location, i: number) => {
+                return (
+                  <RedeemLocationChoiceLine
+                    loc={l}
+                    index={i + 1}
+                    isLoading={this.props.isRefreshingLocation}
+                    onPress={() => {
+                      if (!this.props.isRefreshingLocation || l) {
+                        this.props.selectLocation(l, this.state.numDrinks);
+                      }
+                    }}
+                    key={i}
+                  />
+                );
+              })}
               <RedeemLocationChoiceLine
-                loc={l}
-                index={i + 1}
+                loc={undefined}
+                index={DEFAULT_REDEEM_PICKER_LOCATIONS + 1}
+                other={true}
+                onPress={this.goToMapAlert}
                 isLoading={this.props.isRefreshingLocation}
-                onPress={() => {
-                  if (!this.props.isRefreshingLocation || l) {
-                    this.props.selectLocation(l, this.state.numDrinks);
-                  }
-                }}
-                key={i}
               />
-            );
-          })}
-          <RedeemLocationChoiceLine
-            loc={undefined}
-            index={DEFAULT_REDEEM_PICKER_LOCATIONS + 1}
-            other={true}
-            onPress={this.goToMapAlert}
-            isLoading={this.props.isRefreshingLocation}
-          />
-        </View>
+            </View>
+          : <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <Text
+                style={[
+                  globalStyles.smallerHeroText,
+                  { paddingVertical: theme.padding.default },
+                ]}
+              >
+                Unable to determine your location!
+              </Text>
+              <BevUiButton
+                icon="refresh"
+                text="Try Again"
+                onPress={this.props.updateLocation}
+              />
+            </View>}
       </View>
     );
   }

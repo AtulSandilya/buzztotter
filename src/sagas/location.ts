@@ -1,14 +1,10 @@
 import { delay } from "redux-saga";
 import { call, put, select } from "redux-saga/effects";
 
-import { batchActions } from "redux-batched-actions";
-
 import store from "../configureStore";
 
 import { readNode } from "../api/firebase/index";
-import {
-  MetersBetweenCoordinates,
-} from "../CommonUtilities";
+import { MetersBetweenCoordinates } from "../CommonUtilities";
 import { RedeemAlert } from "../components/RedeemBeer";
 import { SortLocations } from "../containers/CBevegramLocations";
 import * as DbSchema from "../db/schema";
@@ -164,19 +160,9 @@ export function* getLocationsAtUserLocation() {
       yield delay(locationFetchMinMs - timeElapsed);
     }
   } catch (e) {
-    yield put(
-      batchActions([
-        {
-          type: "COMPLETED_REDEEM_PICKER_LOCATION_REFRESH",
-        },
-        {
-          type: "SHOW_ALERT_BANNER",
-          payload: {
-            message: "Unable to fetch location!",
-          },
-        },
-      ]),
-    );
+    yield put({
+      type: "COMPLETED_REDEEM_PICKER_LOCATION_REFRESH",
+    });
     return;
   }
   const gpsCoordUrls = DbSchema.GetAllGpsCoordNodeUrls(deviceCoordinates);
