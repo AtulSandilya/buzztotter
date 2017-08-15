@@ -16,7 +16,7 @@ import BevUiButton from "./BevUiButton";
 import BevUiText from "./BevUiText";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 
-import { globalStyles } from "./GlobalStyles";
+import { globalColors, globalStyles } from "./GlobalStyles";
 
 export interface RedeemCompleteProps {
   loc: Location;
@@ -114,6 +114,17 @@ class RedeemComplete extends React.Component<RedeemCompleteProps, {}> {
                 />
               </View>
             </View>
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <BevUiText
+              color={globalColors.lightText}
+              fontSize="large"
+              icon="warning"
+              preserveCase={true}
+              style={{ marginBottom: theme.padding.default }}
+            >
+              {"Don't forget to tip your bartender or server!"}
+            </BevUiText>
           </View>
           <HeroLine
             icon="beer"
