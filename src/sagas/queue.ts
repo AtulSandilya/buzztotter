@@ -112,7 +112,9 @@ export function* purchase(action: any) {
 
 export function* redeem() {
   const verificationToken = yield call(writeVerificationToken);
-  const redeemProps: RedeemStateProps = yield select<{redeem: RedeemStateProps}>(state => state.redeem);
+  const redeemProps: RedeemStateProps = yield select<{
+    redeem: RedeemStateProps;
+  }>(state => state.redeem);
 
   const redeemPackageForQueue: RedeemPackageForQueue = {
     ...redeemProps,
@@ -124,7 +126,6 @@ export function* redeem() {
 }
 
 export function* turnOnNotifications(fcmToken: string) {
-  console.log("fcmToken: ", fcmToken);
   yield call(toggleNotificationSetting, fcmToken);
 }
 
