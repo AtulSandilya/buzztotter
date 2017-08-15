@@ -74,7 +74,6 @@ export function* goBackRoute(action) {
   const routesThatDontGoBack = {
     Login: true,
     MainUi: true,
-    RedeemInProgress: true,
   };
 
   if (routesThatDontGoBack[currentRoute] === undefined) {
@@ -114,6 +113,8 @@ export function* goBackRoute(action) {
       } else {
         Actions.MainUi({ type: ActionConst.BACK, popNum: 2 });
       }
+    } else if (currentRoute === "RedeemInProgress") {
+      Actions[nextRoute]({ type: ActionConst.BACK, popNum: 3 });
     } else if (currentRoute === "RedeemComplete") {
       Actions[nextRoute]({ type: ActionConst.BACK, popNum: 4 });
     } else {
