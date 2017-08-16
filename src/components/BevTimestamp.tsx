@@ -3,7 +3,7 @@ import { View, ViewStyle } from "react-native";
 
 import TimeAgo from "react-timeago";
 
-import { CalcSuccessFailColor } from "../ReactNativeUtilities";
+import { CalcSuccessFailColor, isAndroid } from "../ReactNativeUtilities";
 
 import BevUiText from "./BevUiText";
 
@@ -17,6 +17,10 @@ interface BevTimestampProps {
 }
 
 const BevTimestamp: React.StatelessComponent<BevTimestampProps> = props => {
+  const millisPerSecond = 1000;
+  const secondsPerMinute = 60;
+  const maxPeriodMinutes = 2;
+  const maxPeriod = millisPerSecond * secondsPerMinute * maxPeriodMinutes;
   return (
     <View style={[{ flex: -1 }, props.style]}>
       <TimeAgo
@@ -43,6 +47,8 @@ const BevTimestamp: React.StatelessComponent<BevTimestampProps> = props => {
             return `${value} ${unit}${value > 1 ? "s" : ""} ${suffix}`;
           }
         }}
+        // Android doesn't handle long timeouts properly
+        maxPeriod={isAndroid ? maxPeriod : Infinity}
         {...props}
       />
     </View>
