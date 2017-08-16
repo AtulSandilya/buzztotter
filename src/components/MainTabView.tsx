@@ -53,9 +53,9 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
     const buttonSeparatorColor = globalColors.bevActiveSecondary;
     const buttonActiveColor = globalColors.bevActiveSecondary;
     const textSize = 12;
-    const textColor = "#eeeeee";
-    const activeTextColor = "#ffffff";
+    const textColor = "#ffffff";
     const iconPrefix = isIOS ? "ios-" : "md-";
+    const iconSizeMultiplier = 3;
     /* tslint:disable:object-literal-sort-keys */
     const iconMap = {
       // Keys must match tabLabel
@@ -112,20 +112,16 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
                         name={iconMap[name]}
                         style={{
                           color: "#ffffff",
-                          fontSize: textSize * 3,
+                          fontSize: textSize * iconSizeMultiplier,
                           backgroundColor: "rgba(0, 0, 0, 0)",
                         }}
                       />
                       <Text
-                        style={[
-                          {
-                            fontSize: textSize,
-                            backgroundColor: "rgba(0, 0, 0, 0.0)",
-                          },
-                          isTabActive
-                            ? { color: activeTextColor, fontWeight: "bold" }
-                            : { color: textColor },
-                        ]}
+                        style={{
+                          backgroundColor: "rgba(0, 0, 0, 0.0)",
+                          color: textColor,
+                          fontSize: textSize,
+                        }}
                       >
                         {name}
                       </Text>
