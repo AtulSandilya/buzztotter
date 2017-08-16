@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 import { StatusBar, View } from "react-native";
+import PerfMonitor from "react-native/Libraries/Performance/RCTRenderingPerf";
 
 import { withNetworkConnectivity } from "react-native-offline";
 import { Provider } from "react-redux";
@@ -26,6 +27,21 @@ export default class Bevegram extends Component<{}, BevegramState> {
     this.state = {
       store,
     };
+  }
+
+  public componentDidMount() {
+    if (__DEV__ === true) {
+      const perfMonitorStartDelay = 500;
+      const perfMonitorLen = 10000;
+      PerfMonitor.toggle();
+
+      setTimeout(() => {
+        PerfMonitor.start();
+        setTimeout(() => {
+          PerfMonitor.stop();
+        }, perfMonitorLen);
+      }, perfMonitorStartDelay);
+    }
   }
 
   public render() {
