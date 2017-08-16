@@ -57,7 +57,7 @@
     "@types/node": "^7.0.12",
     "@types/node-fetch": "^1.6.7",
     "@types/react": "^15.0.14",
-    "@types/react-native": "^0.44.16",
+    "@types/react-native": "^0.47.3",
     "@types/react-redux": "^4.4.45",
     "@types/uuid": "^2.0.29",
     "@types/webpack-env": "^1.13.0",
