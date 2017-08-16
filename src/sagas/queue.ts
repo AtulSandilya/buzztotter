@@ -3,7 +3,7 @@ import { call, select } from "redux-saga/effects";
 import uuid from "react-native-uuid";
 
 import { User } from "../db/tables";
-import {RedeemStateProps} from "../reducers/redeem";
+import { RedeemStateProps } from "../reducers/redeem";
 
 import {
   DbWriteUserVerificationToken,
