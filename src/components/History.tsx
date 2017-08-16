@@ -1,15 +1,15 @@
 import * as React from "react";
-import { ListView, RefreshControl, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import {
-  ParseIntAsDecimal,
   Pluralize,
   PrettyFormatCentsToDollars,
 } from "../CommonUtilities";
 import { globalColors, globalStyles } from "./GlobalStyles";
 
+import BevFlatList from "./BevFlatList";
 import BevTimestamp from "./BevTimestamp";
 
 import {
@@ -49,11 +49,6 @@ const History: React.StatelessComponent<HistoryProps> = ({
   completedInitialLoad,
   refreshHistory,
 }) => {
-  const iconSize = 20;
-  const historyData = new ListView.DataSource({
-    rowHasChanged: (r1, r2) => r1 !== r2,
-  });
-
   const formatPurchasedBevegram = (input: PurchasedBevegram): HistoryItem => {
     return {
       label: "Purchased",
@@ -115,10 +110,8 @@ const History: React.StatelessComponent<HistoryProps> = ({
     };
   };
 
-  let skipNextRender = false;
-
   const isPurchaseSendPair = (index: number): true => {
-    if (index === bevegramHistoryKeys.length - 1) {
+    if (index === bevegramHistoryKeys.length - 1 || index < 0) {
       return;
     }
     const thisKeyValue = bevegramHistoryKeys[index];
@@ -134,7 +127,6 @@ const History: React.StatelessComponent<HistoryProps> = ({
           sentBevegramPurchaseId === nextKeyValue &&
           purchasedBevegramSendId === thisKeyValue
         ) {
-          skipNextRender = true;
           return true;
         }
       }
@@ -144,6 +136,9 @@ const History: React.StatelessComponent<HistoryProps> = ({
   const getEventForId = (key: string, index: number): HistoryItem => {
     if (isPurchaseSendPair(index)) {
       return formatPurchaseSendPair(index);
+    } else if (isPurchaseSendPair(index - 1)) {
+      // This checks if the last render was a purchase pair render
+      return undefined;
     } else if (purchasedBevegrams.hasOwnProperty(key)) {
       return formatPurchasedBevegram(purchasedBevegrams[key]);
     } else if (sentBevegrams.hasOwnProperty(key)) {
@@ -163,95 +158,94 @@ const History: React.StatelessComponent<HistoryProps> = ({
   };
 
   return (
-    <ListView
-      dataSource={historyData.cloneWithRows(bevegramHistoryKeys)}
-      enableEmptySections={true}
-      renderRow={(historyKey, sectionId, index) => {
-        if (skipNextRender) {
-          skipNextRender = false;
-          return <View />;
-        }
-        const item = getEventForId(
-          historyKey,
-          ParseIntAsDecimal(index as string),
-        );
-        return (
+    <BevFlatList
+      isRefreshing={isRefreshing}
+      onRefresh={refreshHistory}
+      keyExtractor={(item: HistoryItem, index: number) => {
+        return item.date;
+      }}
+      refreshText="Updating History..."
+      data={bevegramHistoryKeys
+        .map((key, index) => {
+          return getEventForId(key, index);
+        })
+        .filter((item: HistoryItem | undefined) => {
+          return item !== undefined;
+        })}
+      renderItemPureComponent={PureHistoryItem}
+    />
+  );
+};
+
+interface PureHistoryItemProps {
+  item: HistoryItem;
+  index: number;
+}
+
+class PureHistoryItem extends React.PureComponent<PureHistoryItemProps, {}> {
+  private iconSize = 20;
+
+  public render() {
+    return (
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "center",
+          paddingVertical: 8,
+        }}
+      >
+        <View
+          style={{
+            height: 45,
+            width: 45,
+            borderRadius: 45,
+            backgroundColor: globalColors.bevPrimary,
+            alignItems: "center",
+            alignSelf: "center",
+            justifyContent: "center",
+            marginLeft: 10,
+            marginRight: 15,
+          }}
+        >
+          <FontAwesome
+            name={this.props.item.icon}
+            color={"#ffffff"}
+            size={this.iconSize}
+            style={{ alignSelf: "center" }}
+          />
+        </View>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "column",
+          }}
+        >
           <View
             style={{
               flex: 1,
               flexDirection: "row",
-              justifyContent: "center",
-              paddingVertical: 8,
+              alignItems: "center",
+              justifyContent: "space-between",
+              paddingBottom: 5,
             }}
           >
-            <View
+            <Text style={[globalStyles.importantText, { fontSize: 14 }]}>
+              {this.props.item.label}
+            </Text>
+            <BevTimestamp
+              date={this.props.item.date}
               style={{
-                height: 45,
-                width: 45,
-                borderRadius: 45,
-                backgroundColor: globalColors.bevPrimary,
-                alignItems: "center",
-                alignSelf: "center",
-                justifyContent: "center",
-                marginLeft: 10,
-                marginRight: 15,
+                paddingRight: 8,
+                alignItems: "flex-end",
               }}
-            >
-              <FontAwesome
-                name={item.icon}
-                color={"#ffffff"}
-                size={iconSize}
-                style={{ alignSelf: "center" }}
-              />
-            </View>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "column",
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingBottom: 5,
-                }}
-              >
-                <Text style={[globalStyles.importantText, { fontSize: 14 }]}>
-                  {item.label}
-                </Text>
-                <BevTimestamp
-                  date={item.date}
-                  style={{
-                    paddingRight: 8,
-                    alignItems: "flex-end",
-                  }}
-                />
-              </View>
-              <Text>{item.info}</Text>
-            </View>
+            />
           </View>
-        );
-      }}
-      renderSeparator={(sectionId, rowId) =>
-        <View key={rowId} style={globalStyles.listRowSeparator} />}
-      refreshControl={
-        <RefreshControl
-          refreshing={isRefreshing}
-          onRefresh={() => {
-            if (!isRefreshing) {
-              refreshHistory();
-            }
-          }}
-          title={"Loading History..."}
-          tintColor={globalColors.bevPrimary}
-          colors={[globalColors.bevPrimary]}
-        />
-      }
-    />
-  );
-};
+          <Text>{this.props.item.info}</Text>
+        </View>
+      </View>
+    );
+  }
+}
 
 export default History;
