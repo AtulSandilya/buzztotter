@@ -30,18 +30,18 @@ export default class Bevegram extends Component<{}, BevegramState> {
   }
 
   public componentDidMount() {
-    if (__DEV__ === true) {
-      const perfMonitorStartDelay = 500;
-      const perfMonitorLen = 10000;
-      PerfMonitor.toggle();
+    // if (__DEV__ === true) {
+    //   const perfMonitorStartDelay = 500;
+    //   const perfMonitorLen = 10000;
+    //   PerfMonitor.toggle();
 
-      setTimeout(() => {
-        PerfMonitor.start();
-        setTimeout(() => {
-          PerfMonitor.stop();
-        }, perfMonitorLen);
-      }, perfMonitorStartDelay);
-    }
+    //   setTimeout(() => {
+    //     PerfMonitor.start();
+    //     setTimeout(() => {
+    //       PerfMonitor.stop();
+    //     }, perfMonitorLen);
+    //   }, perfMonitorStartDelay);
+    // }
   }
 
   public render() {

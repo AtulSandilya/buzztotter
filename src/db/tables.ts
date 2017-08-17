@@ -10,7 +10,6 @@ export interface FirebaseUser {
   email: string;
   emailVerified: boolean;
   photoURL: string;
-  refreshToken: string;
   uid: string;
 }
 

@@ -43,7 +43,6 @@ export function* firebaseFacebookLogin(facebookAccessToken: string) {
       email: firebaseCredential.email,
       emailVerified: firebaseCredential.emailVerified,
       photoURL: firebaseCredential.photoURL,
-      refreshToken: firebaseCredential.refreshToken,
       uid: firebaseCredential.uid,
     };
 

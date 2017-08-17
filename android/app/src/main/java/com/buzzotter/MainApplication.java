@@ -6,6 +6,10 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.database.RNFirebaseDatabasePackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+
 import com.facebook.react.ReactApplication;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import com.airbnb.android.react.maps.MapsPackage;
@@ -37,7 +41,10 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new FIRMessagingPackage(),
             new MapsPackage(),
-            new FBSDKPackage(mCallbackManager)
+            new FBSDKPackage(mCallbackManager),
+            new RNFirebasePackage(),
+            new RNFirebaseDatabasePackage(),
+            new RNFirebaseAuthPackage()
       );
     }
   };
