@@ -46,7 +46,7 @@
     "react-timer-mixin": "^0.13.3",
     "redux": "^3.6.0",
     "redux-batched-actions": "^0.1.6",
-    "redux-saga": "^0.15.3",
+    "redux-saga": "^0.15.6",
     "redux-storage": "^4.1.2",
     "redux-storage-decorator-filter": "^1.1.8",
     "redux-storage-engine-reactnativeasyncstorage": "^1.0.5",
