@@ -8,6 +8,7 @@
  */
 
 #import "AppDelegate.h"
+#import <Firebase.h>
 #import "RNFIRMessaging.h"
 
 #import <React/RCTBundleURLProvider.h>
@@ -19,8 +20,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [FIRApp configure];
-  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
 
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
@@ -39,6 +38,11 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+
+  // Firebase setup from `react-native-firebase`
+  [FIRApp configure];
+  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+
   return YES;
 }
 
@@ -54,6 +58,7 @@
   return handled;
 }
 
+// Notification setup from `react-native-fcm`
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
  {
    [RNFIRMessaging willPresentNotification:notification withCompletionHandler:completionHandler];
