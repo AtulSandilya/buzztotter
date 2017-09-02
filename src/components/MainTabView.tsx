@@ -36,11 +36,9 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
   }
 
   public componentDidMount() {
+    // When this component mounts we start listening for notifications and/or
+    // handle any notification events
     this.props.startNotificationListener();
-  }
-
-  public componentWillUnmount() {
-    this.props.stopNotificationListener();
   }
 
   public render() {
