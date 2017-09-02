@@ -17,7 +17,6 @@ import {
   RemoveCreditCardFromCustomerPackageForQueue,
   SentBevegram,
   STRIPE_MAX_NUMBER_OF_CREDIT_CARDS,
-  StripeCreditCard,
   ToggleNotificationSettingPackageForQueue,
   UpdateDefaultCreditCardForCustomerPackageForQueue,
   User,
@@ -431,7 +430,6 @@ const PurchaseQueue = new Queue(
           };
 
           const notifResult = await sendNotification(notif);
-          const jsonSpaces = 2;
           console.log("notifResult: ", notifResult);
 
           setTimeout(() => {
