@@ -1,7 +1,4 @@
-// import * as firebase from "firebase";
 import RNFirebase from "react-native-firebase";
-
-import publicApiKeys from "../../publicApiKeys";
 
 import * as DbSchema from "../../db/schema";
 import FirebaseDb from "./FirebaseDb";
@@ -20,30 +17,21 @@ import {
 
 const firebase = RNFirebase.initializeApp({
   debug: false,
-  persistence: true,
+  // WARNING: Leave persistence off! When enabled calls to update data from
+  // the server don't actually get updated!
+  persistence: false,
 });
 
-//   apiKey: publicApiKeys.firebaseApiKey,
-//   authDomain: publicApiKeys.firebaseAuthDomain,
-//   databaseURL: publicApiKeys.firebaseDatabaseURL,
-//   storageBucket: publicApiKeys.firebaseStorageBucket,
-// };
-
-// const firebaseApp = firebase.initializeApp(firebaseConfig);
 const firebaseUserDb = new FirebaseDb(firebase.database());
-// const firebaseUserDb = firebase.database();
 
 //  End Init Firebase -------------------------------------------------- }}}
 //  Login/Logout ----------------------------------------------------- {{{
 
 export function firebaseLoginViaFacebookToken(token: string): any {
-  // const credential = firebase.auth().FacebookAuthProvider.credential(token);
-  const credential = {
-    provider: "facebook",
-    token,
-    secret: publicApiKeys.facebook,
-  };
-  console.log("credential: ", credential);
+  // FacebookAuthProvider is not typed but does exist as a module within
+  // firebase.auth
+  const firebaseAuth = firebase.auth as any;
+  const credential = firebaseAuth.FacebookAuthProvider.credential(token);
   return firebase.auth().signInWithCredential(credential);
 }
 
