@@ -1,5 +1,5 @@
 import { delay } from "redux-saga";
-import { all, call, put, takeEvery } from "redux-saga/effects";
+import { all, call, put } from "redux-saga/effects";
 
 import { ActionConst } from "react-native-router-flux";
 
@@ -20,8 +20,10 @@ import { getLocationsAtUserLocation, getLocationsNearUser } from "./location";
 
 import {
   InternetNotConnectedError,
-  takeEveryIfInternetConnected,
+  tryEveryIfInternetConnected,
 } from "./internet";
+
+import { tryEvery } from "./utilities";
 
 import * as facebook from "./facebook";
 import * as internet from "./internet";
@@ -36,12 +38,12 @@ import * as stripe from "./stripe";
 export default function* rootSaga() {
   yield all([
     // Facebook
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "FACEBOOK_CONTACTS_RELOAD_REQUEST",
       facebook.reloadContacts,
       "banner",
     ),
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "REQUEST_APP_INVITE",
       facebook.startAppInvite,
       "alert",
@@ -49,7 +51,7 @@ export default function* rootSaga() {
     ),
 
     // Logging In
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "LOGIN",
       function*(action) {
         yield put({ type: "LOGIN_IN_PROGRESS" });
@@ -92,7 +94,7 @@ export default function* rootSaga() {
     ),
 
     // Logging Out
-    takeEvery("REQUEST_LOGOUT", function*(action) {
+    tryEvery("REQUEST_LOGOUT", function*(action) {
       yield call(goToRoute, action);
       const internetNotConnectedErrorMessage = "NoInternet";
 
@@ -121,7 +123,7 @@ export default function* rootSaga() {
     }),
 
     // Handling credit cards
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "REQUEST_CREDIT_CARD_VERIFICATION",
       function*(action) {
         const cardToken = yield call(stripe.fetchCreditCardToken, action);
@@ -138,7 +140,7 @@ export default function* rootSaga() {
       "banner",
     ),
 
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "REQUEST_UPDATE_DEFAULT_CARD",
       function*(action) {
         yield put({ type: "ATTEMPTING_STRIPE_DEFAULT_CARD_UPDATE" });
@@ -154,7 +156,7 @@ export default function* rootSaga() {
       "banner",
     ),
 
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "REQUEST_REMOVE_CARD",
       function*(action) {
         yield put({ type: "ATTEMPTING_STRIPE_REMOVE_CARD" });
@@ -170,7 +172,7 @@ export default function* rootSaga() {
       "banner",
     ),
 
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "PURCHASE_REQUEST_UPDATE_USER",
       function*() {
         yield put({ type: "ATTEMPTING_USER_REFRESH_FOR_PURCHASE" });
@@ -182,7 +184,7 @@ export default function* rootSaga() {
     ),
 
     // Purchasing Then Sending
-    takeEvery("PURCHASE_THEN_SEND_BEVEGRAM", function*(action) {
+    tryEvery("PURCHASE_THEN_SEND_BEVEGRAM", function*(action) {
       const successfulRoute = yield call(goToRoute, action);
 
       if (!successfulRoute) {
@@ -196,7 +198,7 @@ export default function* rootSaga() {
     }),
 
     // Receive Bevegrams
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "FETCH_RECEIVED_BEVEGRAMS",
       function*(action) {
         yield put({ type: "ATTEMPTING_UPDATE_RECEIVED_BEVEGRAMS" });
@@ -213,36 +215,36 @@ export default function* rootSaga() {
     ),
 
     // Redeem Bevegram
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "ON_REDEEMABLE_BEVEGRAM_PRESS",
       redeem.onRedeemableBevegramPress,
       "banner",
     ),
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "ON_REDEEM_LOCATION_SELECTION",
       redeem.onRedeemLocationSelected,
       "banner",
     ),
-    takeEveryIfInternetConnected("REDEEM_BEVEGRAM", redeem.redeem, "alert"),
+    tryEveryIfInternetConnected("REDEEM_BEVEGRAM", redeem.redeem, "alert"),
 
     // Routes
-    takeEvery("GO_TO_ROUTE", goToRoute),
-    takeEvery("GO_BACK_ROUTE", goBackRoute),
+    tryEvery("GO_TO_ROUTE", goToRoute),
+    tryEvery("GO_BACK_ROUTE", goBackRoute),
     // Dispatch actions based on router events
-    takeEvery(ActionConst.FOCUS, onFocusRoute),
+    tryEvery(ActionConst.FOCUS, onFocusRoute),
 
     // Notifications
-    takeEvery("START_NOTIFICATION_LISTENER", notifications.startListener),
-    takeEvery("STOP_NOTIFICATION_LISTENER", notifications.stopListener),
-    takeEvery("NOTIFICATION_CLICKED_WHILE_APP_IS_CLOSED", function*(action) {
+    tryEvery("START_NOTIFICATION_LISTENER", notifications.startListener),
+    tryEvery("STOP_NOTIFICATION_LISTENER", notifications.stopListener),
+    tryEvery("NOTIFICATION_CLICKED_WHILE_APP_IS_CLOSED", function*(action) {
       yield call(notifications.onNotificationClickedWhileAppIsClosed, action);
     }),
-    takeEvery("SAVE_FCM_TOKEN", function*(action) {
+    tryEvery("SAVE_FCM_TOKEN", function*(action) {
       yield call(notifications.saveFcmToken, action);
     }),
 
     // History
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "REFRESH_HISTORY",
       function*(action) {
         yield call(updateHistory);
@@ -251,14 +253,14 @@ export default function* rootSaga() {
     ),
 
     // Locations Near User
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "REQUEST_LOCATIONS_NEAR_USER",
       function*(action) {
         yield call(getLocationsNearUser);
       },
       "banner",
     ),
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "REQUEST_BAR_AT_USER_LOCATION",
       function*(action) {
         yield call(getLocationsAtUserLocation);
@@ -267,14 +269,14 @@ export default function* rootSaga() {
     ),
 
     // Settings
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "TOGGLE_NOTIFICATION_SETTING",
       function*() {
         yield call(settings.toggleNotification);
       },
       "banner",
     ),
-    takeEveryIfInternetConnected(
+    tryEveryIfInternetConnected(
       "VERIFY_VENDOR_ID",
       function*(action) {
         yield call(redeem.verifyVendorId, action);

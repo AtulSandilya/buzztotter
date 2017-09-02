@@ -21,6 +21,7 @@ const firebase = RNFirebase.initializeApp({
   // the server don't actually get updated!
   persistence: false,
 });
+export default firebase;
 
 const firebaseUserDb = new FirebaseDb(firebase.database());
 

@@ -2,6 +2,8 @@ import { Alert } from "react-native";
 
 import { call, fork, put, select, take } from "redux-saga/effects";
 
+import firebase from "../api/firebase";
+
 type internetErrorMessageTypes = "banner" | "alert" | "none";
 
 export function* isConnected(
@@ -35,7 +37,7 @@ export function* isConnected(
 }
 
 // Based on https://redux-saga.js.org/docs/api/#takeeverypattern-saga-args
-export const takeEveryIfInternetConnected = (
+export const tryEveryIfInternetConnected = (
   pattern: string,
   saga: any,
   errorType: internetErrorMessageTypes,
@@ -47,7 +49,13 @@ export const takeEveryIfInternetConnected = (
 
       const thisIsConnected = yield call(isConnected, errorType, prettyAction);
       if (thisIsConnected) {
-        yield fork(saga, action);
+        try {
+          yield fork(saga, action);
+        } catch (e) {
+          firebase
+            .crash()
+            .log(`Error executing saga "${pattern}": ${e.toString()}`);
+        }
       }
     }
   });
