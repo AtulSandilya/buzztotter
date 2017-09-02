@@ -15,6 +15,7 @@
     "writePurchasePackages": "ts-node --no-cache -P tsconfig-admin.json src/admin/writePurchasePackages.ts"
   },
   "dependencies": {
+    "buffer": "^5.0.7",
     "color": "^2.0.0",
     "create-react-class": "^15.6.0",
     "dotenv": "^4.0.0",
