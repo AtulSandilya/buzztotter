@@ -477,6 +477,8 @@ const RedeemQueue = new Queue(
 
       const status: RedeemTransactionStatus = {
         connectionEstablished: "complete",
+        locationVerified: "complete",
+        vendorVerified: "complete",
         updatingDatabase: "pending",
       };
 
