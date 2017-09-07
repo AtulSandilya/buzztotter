@@ -54,11 +54,20 @@ export const redeemInProgressView = (
     case "FAILED_REDEEM_VENDOR_VERIFICATION":
       return updateStatus(state, "vendorVerified", "failed");
     case "UPDATE_REDEEM_TRANSACTION_STATUS":
+      if (action.payload.error && !action.payload.data) {
+        return {
+          ...state,
+          status: {
+            ...state.status,
+            error: action.payload.error,
+          },
+        };
+      }
       return {
         ...state,
         status: {
           ...state.status,
-          ...action.payload.redeemTransactionStatus,
+          ...action.payload.data,
         },
       };
     case "FINISHED_REDEEM":

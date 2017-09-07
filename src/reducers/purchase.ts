@@ -135,9 +135,19 @@ export const purchase = (state = initialPurchaseState, action) => {
         purchasePackages: action.payload.purchasePackages,
       };
     case "UPDATE_PURCHASE_TRANSACTION_STATUS":
+      if (action.payload.error && !action.payload.data) {
+        return {
+          ...state,
+          purchaseTransactionStatus: {
+            ...state.purchaseTransactionStatus,
+            error: action.payload.error,
+          },
+        };
+      }
+
       return {
         ...state,
-        purchaseTransactionStatus: action.payload.purchaseTransactionStatus,
+        purchaseTransactionStatus: action.payload.data,
       };
     case "FAILED_PURCHASE_TRANSACTION":
       const purchaseTransactionStatus = {
