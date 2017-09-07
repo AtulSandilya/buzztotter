@@ -133,6 +133,7 @@ PODS:
   - Yoga (0.47.1.React)
 
 DEPENDENCIES:
+  - Bolts
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Crash
@@ -198,6 +199,6 @@ SPEC CHECKSUMS:
   RNFirebase: 9fb46a533f320441d8097e21e7b5b765e8c082d1
   Yoga: 13a12502dfabb4c75b914071dcb542af800deed4
 
-PODFILE CHECKSUM: 4f14354ee7f7906d748fbc36d18265a20c1736f8
+PODFILE CHECKSUM: ad056de5d07e643bdfd81112548b6ec7ea6e2b62
 
 COCOAPODS: 1.3.1
