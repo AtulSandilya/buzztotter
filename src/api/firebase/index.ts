@@ -97,6 +97,19 @@ export const OnNextUrlNodeChange = (url: string) => {
   return OnNextNodeEvent(url, "child_changed");
 };
 
+export const StartListenerOnUrl = (url: string, callback: (data) => void) => {
+  const ref = firebaseUserDb.getRef(url);
+  ref.on("child_changed", (dataSnapshot: any) => {
+    // Resolve the whole node instead of just the updated data (data.val())
+    firebaseUserDb.readNode(url).then(newValue => callback(newValue));
+  });
+};
+
+export const StopListenerOnUrl = (url: string) => {
+  const ref = firebaseUserDb.getRef(url);
+  ref.off("child_changed");
+};
+
 //  End Utilities ------------------------------------------------------}}}
 //  User -------------------------------------------------------{{{
 
