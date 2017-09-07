@@ -1,13 +1,13 @@
 import { delay } from "redux-saga";
-import { call, put, race, select } from "redux-saga/effects";
+import { call, put, race, select, take } from "redux-saga/effects";
 
 import { batchActions } from "redux-batched-actions";
 
-import { FirebaseUser, User } from "../db/tables";
-
-import { EventStatus, TransactionStatus } from "../db/tables";
-
+import firebase from "../api/firebase";
 import { StringifyDate } from "../CommonUtilities";
+import store from "../configureStore";
+import { FirebaseUser, User } from "../db/tables";
+import { TransactionStatus } from "../db/tables";
 
 import {
   firebaseLoginViaFacebookToken,
@@ -22,6 +22,8 @@ import {
   readReceivedBevegrams,
   readRedeemedBevegrams,
   readSentBevegrams,
+  StartListenerOnUrl,
+  StopListenerOnUrl,
   updateFirebaseUser as apiUpdateFirebaseUser,
 } from "../api/firebase";
 
@@ -243,6 +245,7 @@ export function* updateHistory() {
 }
 
 //  End Update History --------------------------------------------------}}}
+//  One Time Listeners -------------------------------------------------{{{
 
 interface ListenForChange {
   timeout: any;
@@ -338,61 +341,8 @@ export function* updateUserStateOnNextChange(
   }
 }
 
-function* handleNextPurchaseTransactionStatusChange(): object {
-  const user: User = yield select<{ user: User }>(state => state.user);
-  const userFirebaseId: string = user.firebase.uid;
-  const url = DbSchema.GetPurchaseTransactionStatusDbUrl(userFirebaseId);
-  const purchaseTransactionStatus: ListenForChange = yield call(
-    listenForChangeOnUrl,
-    url,
-  );
-
-  if (purchaseTransactionStatus.timeout) {
-    yield put({
-      type: "FAILED_PURCHASE_TRANSACTION",
-      payload: {
-        error: "Server Timeout",
-      },
-    });
-    return;
-  } else {
-    yield put({
-      type: "UPDATE_PURCHASE_TRANSACTION_STATUS",
-      payload: {
-        purchaseTransactionStatus: purchaseTransactionStatus.changedNode,
-      },
-    });
-    return purchaseTransactionStatus.changedNode;
-  }
-}
-
-function* handleNextRedeemTransactionStatusChange(): object {
-  const user: User = yield select<{ user: User }>(state => state.user);
-  const userFirebaseId: string = user.firebase.uid;
-  const url = DbSchema.GetRedeemTransactionStatusDbUrl(userFirebaseId);
-  const redeemTransactionStatus: ListenForChange = yield call(
-    listenForChangeOnUrl,
-    url,
-  );
-
-  if (redeemTransactionStatus.timeout) {
-    yield put({
-      type: "FAILED_REDEEM_TRANSACTION",
-      payload: {
-        error: "Server Timeout",
-      },
-    });
-    return;
-  } else {
-    yield put({
-      type: "UPDATE_REDEEM_TRANSACTION_STATUS",
-      payload: {
-        redeemTransactionStatus: redeemTransactionStatus.changedNode,
-      },
-    });
-    return redeemTransactionStatus.changedNode;
-  }
-}
+//  End One Time Listeners ---------------------------------------------}}}
+//  Transaction Status Parser Functions --------------------------------{{{
 
 export const transactionFailed = <T>(transaction: T): boolean => {
   for (const key of Object.keys(transaction)) {
@@ -424,31 +374,106 @@ export const transactionFinished = <T extends TransactionStatus>(
   );
 };
 
-function* listenUntilTransactionSuccessOrFailure(transactionFunction) {
-  while (true) {
-    const transactionResult: { [name: string]: EventStatus } = yield call(
-      transactionFunction,
-    );
-    if (
-      !transactionResult ||
-      transactionComplete(transactionResult) ||
-      transactionFailed(transactionResult)
-    ) {
-      break;
+//  End Transaction Status Parser Functions ----------------------------}}}
+//  Status Watching Listeners ------------------------------------------{{{
+
+// Start a lister on a transaction status node, listen until the transaction
+// is finished, stop the listener
+function* listenUntilTransactionSuccessOrFailure(
+  url: string,
+  onUpdateActionName: string,
+) {
+  const actionName = "TRANSACTION_UPDATE";
+
+  StartListenerOnUrl(url, data => {
+    store.dispatch({
+      type: actionName,
+      payload: {
+        data,
+      },
+    });
+  });
+
+  try {
+    const serverTimeout = 10000;
+    const serverResponse = yield race({
+      changedNode: call(function*() {
+        while (true) {
+          const actionResult = yield take(actionName);
+
+          const isTransactionFinished = transactionFinished(
+            actionResult.payload.data,
+          );
+
+          yield put({
+            ...actionResult,
+            type: onUpdateActionName,
+          });
+
+          if (isTransactionFinished) {
+            break;
+          }
+        }
+      }),
+      timeout: call(delay, serverTimeout),
+    });
+
+    if (serverResponse.timeout) {
+      // Make a last ditch effort to read the url
+      const transaction = yield call(readNode, url);
+
+      if (transactionFinished(transaction)) {
+        yield put({
+          type: onUpdateActionName,
+          data: transaction,
+        });
+      } else {
+        yield put({
+          type: onUpdateActionName,
+          payload: {
+            error: "Server Timeout",
+          },
+        });
+      }
     }
+  } catch (e) {
+    yield put({
+      type: onUpdateActionName,
+      payload: {
+        error: `Could not process transaction: ${e.toString()}`,
+      },
+    });
+
+    firebase
+      .crash()
+      .log(
+        `Failed while listening for changes on url "${url}". ${e.toString()}`,
+      );
+  } finally {
+    StopListenerOnUrl(url);
   }
 }
 
 export function* listenUntilPurchaseSuccessOrFailure() {
+  const user: User = yield select<{ user: User }>(state => state.user);
+  const url = DbSchema.GetPurchaseTransactionStatusDbUrl(user.firebase.uid);
+
   yield call(
     listenUntilTransactionSuccessOrFailure,
-    handleNextPurchaseTransactionStatusChange,
+    url,
+    "UPDATE_PURCHASE_TRANSACTION_STATUS",
   );
 }
 
 export function* listenUntilRedeemSuccessOrFailure() {
+  const user: User = yield select<{ user: User }>(state => state.user);
+  const url = DbSchema.GetRedeemTransactionStatusDbUrl(user.firebase.uid);
+
   yield call(
     listenUntilTransactionSuccessOrFailure,
-    handleNextRedeemTransactionStatusChange,
+    url,
+    "UPDATE_REDEEM_TRANSACTION_STATUS",
   );
 }
+
+//  End Status Watching Listeners --------------------------------------}}}
