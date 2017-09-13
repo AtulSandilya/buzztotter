@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Image, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import BevButton from "./BevButton";
 import BevUiText from "./BevUiText";
@@ -83,9 +77,9 @@ const Contact: React.StatelessComponent<ContactProps> = ({
           label="Send Bevegram Button"
           onPress={() =>
             openPurchaseRoute({
-              facebookId: facebookId,
+              facebookId,
               firstName: name.first,
-              fullName: fullName,
+              fullName,
               imageUri: imagePath,
             })}
           rightIcon={true}
