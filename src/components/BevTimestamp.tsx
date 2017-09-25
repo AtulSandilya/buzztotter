@@ -17,10 +17,8 @@ interface BevTimestampProps {
 }
 
 const BevTimestamp: React.StatelessComponent<BevTimestampProps> = props => {
-  const millisPerSecond = 1000;
-  const secondsPerMinute = 60;
-  const maxPeriodMinutes = 2;
-  const maxPeriod = millisPerSecond * secondsPerMinute * maxPeriodMinutes;
+  // One minute
+  const maxPeriod = 60;
   return (
     <View style={[{ flex: -1 }, props.style]}>
       <TimeAgo
