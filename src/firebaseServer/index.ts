@@ -39,8 +39,6 @@ import SetupAdminDb from "./SetupAdminDb";
 
 const db = new FirebaseServerDb(SetupAdminDb());
 
-const SERVER_TIMEOUT_DURATION = 500;
-
 //  Add Card To Customer ------------------------------------------------{{{
 
 /* tslint:disable:no-console */
@@ -434,10 +432,8 @@ const PurchaseQueue = new Queue(
           const notifResult = await sendNotification(notif);
           console.log("notifResult: ", notifResult);
 
-          setTimeout(() => {
-            status.sendingNotification = "complete";
-            updateStatus();
-          }, SERVER_TIMEOUT_DURATION);
+          status.sendingNotification = "complete";
+          updateStatus();
         }
 
         log.successMessage();
@@ -560,20 +556,15 @@ const RedeemQueue = new Queue(
 
         await db.redeemVendorBevegram(loc.vendorId, vendorRedeemedBevegram);
 
-        setTimeout(() => {
-          // Allow time for the listener on the client to setup
-          status.updatingDatabase = "complete";
-          updateStatus();
-          log.successMessage();
-        }, SERVER_TIMEOUT_DURATION);
+        // Allow time for the listener on the client to setup
+        status.updatingDatabase = "complete";
+        updateStatus();
+        log.successMessage();
       } catch (e) {
-        setTimeout(() => {
-          // Allow time for the listener on the client to setup
-          status.error = e.message;
-          status.updatingDatabase = "failed";
-          updateStatus();
-          log.failMessage(e);
-        }, SERVER_TIMEOUT_DURATION);
+        status.error = e.message;
+        status.updatingDatabase = "failed";
+        updateStatus();
+        log.failMessage(e);
       }
       resolve();
     };
