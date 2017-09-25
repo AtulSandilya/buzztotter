@@ -49,7 +49,8 @@ const scenes = (showLogin: boolean | undefined) => {
       <RNRF.Scene
         key={RouteNames.SendBevegram}
         component={CPurchaseBevegram}
-        navBar={() => <CBranding showBack={true} navBarText="Send Bevegrams" />}
+        navBar={() =>
+          <CBranding showBack={true} navBarText="Send Bevegram(s)" />}
       />
       <RNRF.Scene
         key={RouteNames.PurchaseInProgress}
