@@ -115,5 +115,10 @@
   "engines": {
     "node": "8.4.0",
     "npm": "5.4.0"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts"
+    ]
   }
 }
