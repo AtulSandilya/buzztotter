@@ -1,7 +1,8 @@
 {
     "env": {
         "development": {
-            "presets": ["react-native"]
+            "presets": ["react-native"],
+            "plugins": ["functional-hmr"]
         },
         "production": {
             "presets": ["react-native"]
