@@ -4,11 +4,6 @@ import PurchaseBevegram from "../components/PurchaseBevegram";
 
 /* tslint:disable:object-literal-sort-keys */
 const mapStateToProps = state => {
-  const routeData = {
-    ...state.routes.PurchaseBevegram.data,
-    ...state.routes.SendBevegram.data,
-  };
-
   return {
     fullName: state.routes.SendBevegram.data.fullName,
     firstName: state.routes.SendBevegram.data.firstName,
@@ -46,7 +41,7 @@ const mapDispatchToProps = dispatch => {
       dispatch({
         type: "PURCHASE_BEVEGRAM",
         payload: {
-          purchaseData: purchaseData,
+          purchaseData,
           routeData: inProgressData,
           route: "PurchaseInProgress",
         },
@@ -56,7 +51,7 @@ const mapDispatchToProps = dispatch => {
       dispatch({
         type: "SEND_BEVEGRAM",
         payload: {
-          sendBevegramData: sendBevegramData,
+          sendBevegramData,
           routeData: inProgressData,
           route: "SendInProgress",
         },
@@ -66,8 +61,8 @@ const mapDispatchToProps = dispatch => {
       dispatch({
         type: "PURCHASE_THEN_SEND_BEVEGRAM",
         payload: {
-          purchaseData: purchaseData,
-          sendBevegramData: sendBevegramData,
+          purchaseData,
+          sendBevegramData,
           routeData: inProgressData,
           route: "SendInProgress",
         },
@@ -81,7 +76,7 @@ const mapDispatchToProps = dispatch => {
         type: "REQUEST_REMOVE_CARD",
         payload: {
           cardToDelete: cardId,
-          cardIndex: cardIndex,
+          cardIndex,
         },
       });
     },
@@ -97,7 +92,7 @@ const mapDispatchToProps = dispatch => {
       dispatch({
         type: "SELECT_PURCHASE_PACKAGE",
         payload: {
-          newSelectedPurchasePackageIndex: newSelectedPurchasePackageIndex,
+          newSelectedPurchasePackageIndex,
         },
       });
     },
