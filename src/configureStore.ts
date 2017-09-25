@@ -1,6 +1,7 @@
 import { applyMiddleware, createStore } from "redux";
 import { enableBatching } from "redux-batched-actions";
 
+import { createNetworkMiddleware } from "react-native-offline";
 import createSagaMiddleware from "redux-saga";
 
 import * as persistentStorage from "redux-storage";
@@ -39,11 +40,12 @@ const storageMiddleware = persistentStorage.createMiddleware(engine);
 const storageReducer = persistentStorage.reducer(appReducers);
 
 const sagaMiddleware = createSagaMiddleware();
+const networkMiddleware = createNetworkMiddleware();
 
 function configureStore(reducers) {
   const store = createStore(
     enableBatching(reducers),
-    applyMiddleware(sagaMiddleware, storageMiddleware),
+    applyMiddleware(networkMiddleware, sagaMiddleware, storageMiddleware),
   );
   sagaMiddleware.run(rootSaga);
 
