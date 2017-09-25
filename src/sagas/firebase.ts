@@ -382,6 +382,7 @@ export const transactionFinished = <T extends TransactionStatus>(
 function* listenUntilTransactionSuccessOrFailure(
   url: string,
   onUpdateActionName: string,
+  prettyName: string,
 ) {
   const actionName = "TRANSACTION_UPDATE";
 
@@ -435,6 +436,13 @@ function* listenUntilTransactionSuccessOrFailure(
           },
         });
       }
+    } else {
+      yield put({
+        type: "SET_BRANDING_TEXT",
+        payload: {
+          text: `${prettyName} Successful!`,
+        },
+      });
     }
   } catch (e) {
     yield put({
@@ -462,6 +470,7 @@ export function* listenUntilPurchaseSuccessOrFailure() {
     listenUntilTransactionSuccessOrFailure,
     url,
     "UPDATE_PURCHASE_TRANSACTION_STATUS",
+    "Purchase",
   );
 }
 
@@ -473,6 +482,7 @@ export function* listenUntilRedeemSuccessOrFailure() {
     listenUntilTransactionSuccessOrFailure,
     url,
     "UPDATE_REDEEM_TRANSACTION_STATUS",
+    "Redeem",
   );
 }
 

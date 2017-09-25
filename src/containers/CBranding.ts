@@ -5,11 +5,13 @@ import { BannerProps } from "../reducers/banner";
 
 interface StateProps {
   bannerProps?: BannerProps;
+  brandingOverrideText: string;
 }
 
 const mapStateToProps = (state): StateProps => {
   return {
     bannerProps: state.banner,
+    brandingOverrideText: state.brandingText.text,
   };
 };
 

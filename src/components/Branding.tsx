@@ -116,7 +116,7 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
   goBackRoute,
   onHideBanner,
 }) => {
-  const centerText = navBarText;
+  const centerText = showLogo ? "" : brandingOverrideText !== "" ? brandingOverrideText : navBarText;
   const hitSlop = 20;
   return (
     <View style={styles.wrapper}>

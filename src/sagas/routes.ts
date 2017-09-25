@@ -160,6 +160,7 @@ export function* onFocusRoute(action) {
             { type: "RESET_REDEEM_PICKER_VIEW" },
             { type: "RESET_REDEEM_IN_PROGRESS" },
             { type: "RESET_MESSAGE" },
+            { type: "RESET_BRANDING_TEXT" },
           ]),
         );
         break;

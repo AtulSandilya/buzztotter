@@ -8,6 +8,7 @@ import { badges } from "./badges";
 import { banner } from "./banner";
 import { bevegrams } from "./bevegrams";
 import { bevegramsTab } from "./bevegramsTab";
+import { brandingText } from "./brandingText";
 import { contacts } from "./contacts";
 import { contactsView } from "./contactsView";
 import { historyView } from "./historyView";
@@ -38,6 +39,7 @@ const appReducer = combineReducers({
   banner,
   bevegrams,
   bevegramsTab,
+  brandingText,
   contacts,
   contactsView,
   historyView,
