@@ -297,7 +297,9 @@ const PurchaseQueue = new Queue(
           DbSchema.GetFirebaseIdDbUrl(receiverFacebookId),
         );
         if (!receiverFirebaseId) {
-          throw new QueueServerError("Sender does not exist in our records");
+          throw new QueueServerError(
+            `Receiver is not a registered BuzzOtter user`,
+          );
         }
 
         const receiver: User = await db.readNode(
