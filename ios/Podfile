@@ -6,6 +6,7 @@ target 'Bevegram' do
   # use_frameworks!
 
   # Pods for Bevegram
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   # https://github.com/facebook/react-native-fbsdk/pull/353
   pod 'Bolts'
   pod 'react-native-fbsdk', :subspecs => [
