@@ -33,7 +33,7 @@ const parseBirthday = (inputDate: string): Birthday => {
       throw Error;
     }
 
-    const dateStr = bday.format("MMMM Do"); // November 29th
+    const dateStr = bday.format("MMMM D"); // November 29
     const dayOfYear = bday.dayOfYear();
 
     if (dateStr === "Invalid date" || Number.isNaN(dayOfYear)) {
