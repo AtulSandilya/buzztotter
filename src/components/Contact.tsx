@@ -1,8 +1,12 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
+import BevAvatar from "./BevAvatar";
 import BevButton from "./BevButton";
+import BevText from "./BevText";
 import BevUiText from "./BevUiText";
+
+import theme from "../theme";
 
 interface Styles {
   parentContainer: ViewStyle;
@@ -15,24 +19,25 @@ const styles = StyleSheet.create<Styles>({
   buttonContainer: {
     alignItems: "center",
     alignSelf: "center",
-    flex: 1,
+    flex: -1,
     flexDirection: "row",
     justifyContent: "flex-end",
   },
   infoContainer: {
     alignItems: "center",
     alignSelf: "center",
-    flex: -1,
+    flex: 1,
     flexDirection: "row",
-    paddingLeft: 10,
   },
   infoTextContainer: {
     flex: -1,
     flexDirection: "column",
+    paddingLeft: theme.padding.normal,
   },
   parentContainer: {
     flex: 1,
     flexDirection: "row",
+    padding: theme.padding.extraSmall,
   },
 });
 
@@ -62,19 +67,23 @@ const Contact: React.StatelessComponent<ContactProps> = ({
   return (
     <View style={styles.parentContainer}>
       <View style={styles.infoContainer}>
-        <Image source={{ uri: imagePath }} style={{ height: 50, width: 50 }} />
+        <BevAvatar imageUrl={imagePath} />
         <View style={styles.infoTextContainer}>
-          <Text style={{ paddingLeft: 15, paddingBottom: 5 }}>{fullName}</Text>
-          <BevUiText icon="birthday-cake" style={{ paddingLeft: 15 }}>
+          <BevText>
+            {fullName}
+          </BevText>
+          <BevUiText icon="birthday">
             {birthday}
           </BevUiText>
         </View>
       </View>
       <View style={styles.buttonContainer}>
         <BevButton
+          iconType="send"
           text={"Send Bevegram"}
-          shortText="Send Bevegram"
+          shortText="Bevegram"
           label="Send Bevegram Button"
+          isListButton={true}
           onPress={() =>
             openPurchaseRoute({
               facebookId,
@@ -82,7 +91,6 @@ const Contact: React.StatelessComponent<ContactProps> = ({
               fullName,
               imageUri: imagePath,
             })}
-          rightIcon={true}
         />
       </View>
     </View>
