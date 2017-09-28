@@ -42,8 +42,9 @@ class RedeemComplete extends React.Component<RedeemCompleteProps, {}> {
 
   private showConfirmRedeemAlert() {
     Alert.alert(
-      "Confirm",
-      `Did you recieve your drink${Pluralize(this.props.quantity)}?`,
+      `Drink${Pluralize(this.props.quantity)} Received?`,
+      `Did you recieve your drink${Pluralize(this.props.quantity)}?` +
+        `\n\nAlso don't forget to tip your bartender or server!`,
       // Always put the positive button last
       [
         {
