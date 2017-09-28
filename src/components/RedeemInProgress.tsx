@@ -8,7 +8,7 @@ import { transactionFailed } from "../sagas/firebase";
 
 import { globalStyles } from "./GlobalStyles";
 
-import BevUiButton from "./BevUiButton";
+import BevButton from "./BevButton";
 import LocationHero from "./LocationHero";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 import StatusLine from "./StatusLine";
@@ -29,10 +29,10 @@ class RedeemInProgress extends React.Component<RedeemInProgressProps, {}> {
           style={{
             flex: 1,
             flexDirection: "column",
-            padding: theme.padding.default,
+            padding: theme.padding.normal,
           }}
         >
-          <View style={{ marginBottom: theme.padding.default }}>
+          <View style={{ marginBottom: theme.padding.normal }}>
             <LocationHero loc={this.props.loc} />
           </View>
           <StatusLine
@@ -67,10 +67,10 @@ class RedeemInProgress extends React.Component<RedeemInProgressProps, {}> {
                     {this.props.status.error}
                   </Text>
                 </View>
-                <BevUiButton
-                  text="Back"
-                  icon="chevron-left"
-                  left={true}
+                <BevButton
+                  text="Done"
+                  shortText="Done"
+                  iconType="success"
                   onPress={this.props.onClose}
                 />
               </View>
