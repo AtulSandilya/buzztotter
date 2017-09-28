@@ -1,7 +1,12 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
+import { PrettyFormatFullName } from "../CommonUtilities";
+import theme from "../theme";
+
+import BevAvatar from "./BevAvatar";
 import BevButton from "./BevButton";
+import BevText from "./BevText";
 import BevTimestamp from "./BevTimestamp";
 
 interface Style {
@@ -13,7 +18,7 @@ interface Style {
 
 const styles = StyleSheet.create<Style>({
   buttonContainer: {
-    alignItems: "flex-end",
+    alignItems: "center",
     alignSelf: "center",
     flex: -1,
     flexDirection: "row",
@@ -48,9 +53,18 @@ export interface BevegramProps {
   date: number;
   id: string;
   imagePath: string;
+  message: string;
   quantity: number;
   displayAsUnseen: boolean;
   goToRedeem?(routeData: SelectedBevegramPackage): void;
+  openMessage?(data: MessageData): void;
+}
+
+export interface MessageData {
+  date: number;
+  from: string;
+  message: string;
+  photoUrl: string;
 }
 
 const Bevegram: React.StatelessComponent<BevegramProps> = ({
@@ -60,37 +74,50 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({
   quantity,
   goToRedeem,
   imagePath,
+  message,
   displayAsUnseen,
+  openMessage,
 }) =>
   <View style={styles.parentContainer}>
     <View style={styles.infoContainer}>
-      <Image
-        source={
-          imagePath
-            ? { uri: imagePath }
-            : require("../../img/icons/bev-contact.png")
-        }
-        style={{ height: 50, width: 50 }}
-      />
+      <BevAvatar imageUrl={imagePath} />
       <View style={styles.infoTextContainer}>
-        <Text
-          style={[
-            { paddingBottom: 5 },
-            displayAsUnseen ? { fontWeight: "bold" } : {},
-          ]}
+        <BevText
+          fontWeight={displayAsUnseen ? "bold" : "normal"}
+          textStyle={{
+            paddingBottom: theme.padding.extraExtraSmall,
+          }}
         >
-          {from}
-        </Text>
+          {PrettyFormatFullName(from)}
+        </BevText>
         <BevTimestamp date={date} />
       </View>
     </View>
     <View style={styles.buttonContainer}>
+      {message !== undefined
+        ? <BevButton
+            text="Read"
+            shortText=""
+            onPress={() => {
+              openMessage({
+                date,
+                from,
+                message,
+                photoUrl: imagePath,
+              });
+            }}
+            iconType="messageUnread"
+            isListButton={true}
+            type="secondary"
+          />
+        : null}
       <BevButton
-        text={`Redeem ${quantity} Bevegram${quantity === 1 ? "" : "s"}`}
+        text="Redeem"
         shortText="Redeem"
         label="Redeem Bevegram Button"
-        onPress={() => goToRedeem({ id: id, from: from, quantity: quantity })}
-        rightIcon={true}
+        onPress={() => goToRedeem({ id, from, quantity })}
+        iconType={message === undefined ? "beer" : undefined}
+        isListButton={true}
       />
     </View>
   </View>;
