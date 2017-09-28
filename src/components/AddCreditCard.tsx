@@ -16,6 +16,8 @@ import { isNarrow } from "../ReactNativeUtilities";
 import { CardDataForVerification } from "../reducers/addCreditCard";
 
 import BevButton from "./BevButton";
+import {BevLargerTextInputStyle} from "./BevLargerText";
+import BevLargerTitleText from "./BevLargerTitleText";
 import { globalStyles } from "./GlobalStyles";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 
@@ -172,9 +174,9 @@ export default class AddCreditCard extends Component<
         <View style={globalStyles.bevContainer}>
           <View style={globalStyles.bevLine}>
             <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>
-                {`${!isNarrow ? "Card " : ""}`}Number:
-              </Text>
+              <BevLargerTitleText>
+                {`${!isNarrow ? "Card " : ""} Number:`}
+              </BevLargerTitleText>
             </View>
             <View
               style={[
@@ -249,7 +251,7 @@ export default class AddCreditCard extends Component<
           </View>
           <View style={globalStyles.bevLine}>
             <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>Exp Date:</Text>
+              <BevLargerTitleText>Exp Date:</BevLargerTitleText>
             </View>
             <View
               style={[
@@ -313,7 +315,7 @@ export default class AddCreditCard extends Component<
           </View>
           <View style={globalStyles.bevLine}>
             <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>CVC:</Text>
+              <BevLargerTitleText>CVC:</BevLargerTitleText>
             </View>
             <View
               style={[
@@ -382,8 +384,8 @@ export default class AddCreditCard extends Component<
                 shortText="Cancel"
                 label="Cancel Add Credit Card Button"
                 onPress={this.props.goBackToPurchase}
-                buttonFontSize={20}
-                margin={0}
+                type="tertiary"
+      iconType="leftArrow"
               />
             </View>
             <View style={globalStyles.bevLineRight}>
@@ -398,9 +400,9 @@ export default class AddCreditCard extends Component<
                 }
                 label="Verify Credit Card Button"
                 onPress={this.verifyCard}
-                buttonFontSize={20}
-                margin={0}
                 showSpinner={this.props.attemptingVerification}
+                type="primaryPositive"
+                iconType="verify"
               />
             </View>
           </View>
@@ -493,11 +495,7 @@ class CreditCardInput extends Component<CreditCardInputProps, {}> {
         }
       >
         <TextInput
-          style={{
-            height: 45,
-            textAlign: "center",
-            width: this.props.maxChars * oneCharWidth,
-          }}
+          style={BevLargerTextInputStyle(this.props.maxChars * oneCharWidth)}
           autoFocus={this.props.autoFocus}
           ref="textInput"
           value={this.props.value}
