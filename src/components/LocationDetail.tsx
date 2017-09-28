@@ -1,13 +1,16 @@
 import * as React from "react";
-import { Linking, StyleSheet, Text, View } from "react-native";
+import { Linking, StyleSheet, View } from "react-native";
 
 import MapView from "react-native-maps";
 
+import { PrettyFormatAddress } from "../CommonUtilities";
 import { Location, LocationViewport } from "../db/tables";
 import { isAndroid, isIOS } from "../ReactNativeUtilities";
-import { globalColors, globalStyles } from "./GlobalStyles";
+import theme from "../theme";
+import { globalColors } from "./GlobalStyles";
 
 import BevPressableLine from "./BevPressableLine";
+import BevText from "./BevText";
 import BevUiText from "./BevUiText";
 import LocationHero from "./LocationHero";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
@@ -76,23 +79,22 @@ const LocationDetail: React.StatelessComponent<LocationDetailProps> = props => {
             borderTopWidth: StyleSheet.hairlineWidth,
             flex: -1,
             flexDirection: "row",
-            marginTop: 10,
-            paddingVertical: 10,
+            marginTop: theme.margin.normal,
+            paddingVertical: theme.padding.normal,
           }}
         >
           <View style={{ flex: -1, paddingRight: 15 }}>
-            <Text style={[globalStyles.sectionStartText, { paddingBottom: 8 }]}>
+            <BevText textStyle={{ paddingBottom: theme.padding.small }}>
               Typical Hours:
-            </Text>
+            </BevText>
             {loc.typicalHours.map((dayHours, index) => {
               const isToday = index === new Date().getDay();
               return (
                 <BevUiText
-                  icon={isToday ? "chevron-right" : "clock-o"}
+                  icon={isToday ? "rightArrow" : "businessHours"}
                   key={dayHours}
-                  fontSize="large"
                   style={{ paddingBottom: 8 }}
-                  iconBold={isToday}
+                  iconWidth={theme.font.size.large}
                 >
                   {FormatDayHours(dayHours)}
                 </BevUiText>
@@ -119,21 +121,21 @@ const LocationDetail: React.StatelessComponent<LocationDetailProps> = props => {
           onPress={() =>
             OpenMapsAppToAddress(loc.latitude, loc.longitude, loc.name)}
         >
-          <BevUiText icon="map" fontSize="large" morePaddingAfterIcon={true}>
-            Show in Maps App
+          <BevUiText icon="map" hero={true} morePaddingAfterIcon={true}>
+            {`${PrettyFormatAddress(loc.address)}`}
           </BevUiText>
         </BevPressableLine>
         <BevPressableLine onPress={() => CallPhoneNumber(loc.phoneNumber)}>
-          <BevUiText icon="phone" fontSize="large" morePaddingAfterIcon={true}>
-            {`Call`}
+          <BevUiText icon="phone" hero={true} morePaddingAfterIcon={true}>
+            {`${loc.phoneNumber}`}
           </BevUiText>
         </BevPressableLine>
         <BevPressableLine
           onPress={() =>
-            OpenLink(loc.url, `Cannot open the website for ${loc.name}!`)}
+            OpenLink(loc.url, `Cannot open the website "${loc.url}"!`)}
         >
-          <BevUiText icon="link" fontSize="large" morePaddingAfterIcon={true}>
-            Go To Website
+          <BevUiText icon="link" hero={true} morePaddingAfterIcon={true}>
+            {`${loc.url}`}
           </BevUiText>
         </BevPressableLine>
       </View>

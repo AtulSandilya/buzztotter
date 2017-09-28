@@ -164,9 +164,14 @@ export const Capitalize = (input: string): string => {
   return input.charAt(0).toUpperCase() + input.slice(1);
 };
 
-export const PrettyFormatAddress = (name: string, address: string): string => {
+export const PrettyFormatAddress = (
+  address: string,
+  businessName?: string,
+): string => {
   const splitAddress = address.split(",");
-  return [name, splitAddress[0], splitAddress[1]].join("\n");
+  const firstPart = splitAddress[0];
+  const remaining = splitAddress.slice(1).join(",");
+  return `${businessName ? businessName + "\n" : ""}${firstPart}\n${remaining}`;
 };
 
 export const ParseIntAsDecimal = (input: string): number => {
