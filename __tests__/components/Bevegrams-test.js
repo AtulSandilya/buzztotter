@@ -5,12 +5,20 @@ import { shallow } from 'enzyme';
 
 import Bevegrams from '../../build/components/Bevegrams';
 
+const messageModalData = {
+  date: 1,
+  from: "Test Person",
+  message: "test",
+  photoUrl: "test",
+}
+
 describe('Bevegrams component', () => {
   it('renders with no bevegrams', () => {
     const wrapper = shallow(
       <Bevegrams
         bevegramsList={[]}
         closeModal={(input) => {return input}}
+        messageModalData={messageModalData}
         isLoadingBevegrams={false}
       />
     )
@@ -34,6 +42,7 @@ describe('Bevegrams component', () => {
             id: "test",
           }
         ]}
+        messageModalData={messageModalData}
         closeModal={(input) => {return input}}
         isLoadingBevegrams={false}
       />
