@@ -14,6 +14,7 @@ export const routeKeys = {
   SendBevegram: "SendBevegram",
   SendInProgress: "SendInProgress",
   Settings: "Settings",
+  TermsAndConditions: "TermsAndConditions",
 };
 
 export interface RouteState {
@@ -33,6 +34,7 @@ export interface RouteState {
   RedeemComplete: RouteData;
   RedeemVendorIdInput: RouteData;
   RedeemInProgress: RouteData;
+  TermsAndConditions: RouteData;
 }
 
 interface RouteData {
@@ -133,6 +135,11 @@ const defaultRouteState: RouteState = {
     prettyAction: "Redeeming",
   },
   RedeemComplete: {
+    isActive: false,
+    data: {},
+    requiresInternetConnection: false,
+  },
+  TermsAndConditions: {
     isActive: false,
     data: {},
     requiresInternetConnection: false,

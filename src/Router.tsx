@@ -7,6 +7,7 @@ import * as RNRF from "react-native-router-flux";
 
 import Loading from "./components/Loading";
 import MainUi from "./components/MainUi";
+import TermsAndConditions from "./components/TermsAndConditions";
 import CAddCreditCard from "./containers/CAddCreditCard";
 import CBranding from "./containers/CBranding";
 import CLocationDetail from "./containers/CLocationDetail";
@@ -39,6 +40,13 @@ const scenes = (showLogin: boolean | undefined) => {
         initial={!showLogin}
         hideNavBar={false}
         navBar={() => <CBranding showLogo={true} showSettings={true} />}
+      />
+      <RNRF.Scene
+        key={RouteNames.TermsAndConditions}
+        component={TermsAndConditions}
+        hideNavBar={false}
+        navBar={() =>
+          <CBranding showBack={true} navBarText="Terms And Conditions" />}
       />
       <RNRF.Scene
         key={RouteNames.PurchaseBevegram}
