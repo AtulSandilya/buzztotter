@@ -1,17 +1,22 @@
 import * as React from "react";
 
-import Ionicon from "react-native-vector-icons/Ionicons";
-
 import theme from "../theme";
+import BevIcon from "./BevIcon";
 
-const RightArrow: React.StatelessComponent<{}> = () =>
-  <Ionicon
-    name="ios-arrow-forward"
-    style={{
-      color: theme.colors.uiLight,
-      fontSize: 35,
-      paddingLeft: 15,
-    }}
-  />;
+class RightArrow extends React.Component<{}, {}> {
+  public render() {
+    return (
+      <BevIcon
+        iconType="rightArrow"
+        size="extraExtraLarge"
+        color={theme.colors.uiLight}
+        style={{
+          paddingLeft: 15,
+          paddingVertical: 0,
+        }}
+      />
+    );
+  }
+}
 
 export default RightArrow;
