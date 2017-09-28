@@ -6,12 +6,24 @@ exports[`fails with no props 1`] = `"received is not a function"`;
 
 exports[`renders correctly 1`] = `
 <View
-  accessibilityLabel={undefined}
   style={
-    Object {
-      "flex": -1,
-      "flexDirection": "row-reverse",
-    }
+    Array [
+      Object {
+        "elevation": 3,
+        "margin": 4.888888888888888,
+        "shadowColor": "#000000",
+        "shadowOffset": Object {
+          "height": 2,
+          "width": 0,
+        },
+        "shadowOpacity": 0.18,
+        "shadowRadius": 2,
+      },
+      Object {},
+      Object {
+        "borderRadius": 3,
+      },
+    ]
   }
 >
   <View
@@ -35,7 +47,13 @@ exports[`renders correctly 1`] = `
         Object {
           "backgroundColor": "transparent",
         },
-        undefined,
+        Object {
+          "backgroundColor": "#8B5E3C",
+          "borderColor": "#8B5E3C",
+          "borderRadius": 3,
+          "borderWidth": 0.5,
+          "flex": -1,
+        },
       ]
     }
     testID={undefined}
@@ -43,56 +61,57 @@ exports[`renders correctly 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "#8B5E3C",
-            "borderColor": "#000000",
-            "borderRadius": 10,
-            "elevation": 5,
-            "flex": -1,
-            "flexDirection": "row",
-            "justifyContent": "center",
-            "margin": 15,
-            "padding": 15,
-            "shadowColor": "#333333",
-            "shadowOffset": Object {
-              "height": 1,
-              "width": 2,
-            },
-            "shadowOpacity": 0.5,
-            "shadowRadius": 0.95,
-          },
-          Object {
-            "margin": 12,
-          },
-          null,
-          null,
-          null,
-          Object {
-            "height": 44,
-          },
-        ]
+        Object {
+          "alignItems": "center",
+          "flex": -1,
+          "flexDirection": "row",
+        }
       }
     >
       <Text
         accessible={true}
+        allCaps={false}
         allowFontScaling={true}
+        color="#ffffff"
         disabled={false}
         ellipsizeMode="tail"
-        numberOfLines={1}
+        fontWeight="bold"
+        isCondensed={true}
+        showTextShadow={true}
+        size="largeNormal"
         style={
-          Array [
-            Object {
-              "backgroundColor": "rgba(0, 0, 0, 0)",
-              "color": "#ffffff",
+          Object {
+            "backgroundColor": "transparent",
+            "color": "#ffffff",
+            "fontFamily": "Roboto",
+            "fontSize": 18.371173070873834,
+            "fontWeight": "bold",
+            "letterSpacing": undefined,
+            "lineHeight": 25.312499999999996,
+            "paddingLeft": 11,
+            "paddingRight": 11,
+            "paddingVertical": 7.333333333333333,
+            "textAlignVertical": "center",
+            "textShadowColor": "rgba(0, 0, 0, 0.25)",
+            "textShadowOffset": Object {
+              "height": 1,
+              "width": 0,
             },
-            Object {
-              "fontSize": 12,
-            },
-          ]
+            "textShadowRadius": 2,
+            "top": 0,
+          }
         }
-      />
+        textStyle={
+          Object {
+            "paddingLeft": 11,
+            "paddingRight": 11,
+            "paddingVertical": 7.333333333333333,
+            "top": 0,
+          }
+        }
+      >
+        
+      </Text>
     </View>
   </View>
 </View>
@@ -100,12 +119,24 @@ exports[`renders correctly 1`] = `
 
 exports[`renders correctly with button size 1`] = `
 <View
-  accessibilityLabel={undefined}
   style={
-    Object {
-      "flex": -1,
-      "flexDirection": "row-reverse",
-    }
+    Array [
+      Object {
+        "elevation": 3,
+        "margin": 4.888888888888888,
+        "shadowColor": "#000000",
+        "shadowOffset": Object {
+          "height": 2,
+          "width": 0,
+        },
+        "shadowOpacity": 0.18,
+        "shadowRadius": 2,
+      },
+      Object {},
+      Object {
+        "borderRadius": 3,
+      },
+    ]
   }
 >
   <View
@@ -129,7 +160,13 @@ exports[`renders correctly with button size 1`] = `
         Object {
           "backgroundColor": "transparent",
         },
-        undefined,
+        Object {
+          "backgroundColor": "#8B5E3C",
+          "borderColor": "#8B5E3C",
+          "borderRadius": 3,
+          "borderWidth": 0.5,
+          "flex": -1,
+        },
       ]
     }
     testID={undefined}
@@ -137,56 +174,57 @@ exports[`renders correctly with button size 1`] = `
   >
     <View
       style={
-        Array [
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "#8B5E3C",
-            "borderColor": "#000000",
-            "borderRadius": 10,
-            "elevation": 5,
-            "flex": -1,
-            "flexDirection": "row",
-            "justifyContent": "center",
-            "margin": 15,
-            "padding": 15,
-            "shadowColor": "#333333",
-            "shadowOffset": Object {
-              "height": 1,
-              "width": 2,
-            },
-            "shadowOpacity": 0.5,
-            "shadowRadius": 0.95,
-          },
-          Object {
-            "margin": 12,
-          },
-          null,
-          null,
-          null,
-          Object {
-            "height": 50,
-          },
-        ]
+        Object {
+          "alignItems": "center",
+          "flex": -1,
+          "flexDirection": "row",
+        }
       }
     >
       <Text
         accessible={true}
+        allCaps={false}
         allowFontScaling={true}
+        color="#ffffff"
         disabled={false}
         ellipsizeMode="tail"
-        numberOfLines={1}
+        fontWeight="bold"
+        isCondensed={true}
+        showTextShadow={true}
+        size="largeNormal"
         style={
-          Array [
-            Object {
-              "backgroundColor": "rgba(0, 0, 0, 0)",
-              "color": "#ffffff",
+          Object {
+            "backgroundColor": "transparent",
+            "color": "#ffffff",
+            "fontFamily": "Roboto",
+            "fontSize": 18.371173070873834,
+            "fontWeight": "bold",
+            "letterSpacing": undefined,
+            "lineHeight": 25.312499999999996,
+            "paddingLeft": 11,
+            "paddingRight": 11,
+            "paddingVertical": 7.333333333333333,
+            "textAlignVertical": "center",
+            "textShadowColor": "rgba(0, 0, 0, 0.25)",
+            "textShadowOffset": Object {
+              "height": 1,
+              "width": 0,
             },
-            Object {
-              "fontSize": 18,
-            },
-          ]
+            "textShadowRadius": 2,
+            "top": 0,
+          }
         }
-      />
+        textStyle={
+          Object {
+            "paddingLeft": 11,
+            "paddingRight": 11,
+            "paddingVertical": 7.333333333333333,
+            "top": 0,
+          }
+        }
+      >
+        
+      </Text>
     </View>
   </View>
 </View>

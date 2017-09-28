@@ -6,6 +6,7 @@ exports[`Contact component renders correctly 1`] = `
     Object {
       "flex": 1,
       "flexDirection": "row",
+      "padding": 4.888888888888888,
     }
   }
 >
@@ -14,30 +15,54 @@ exports[`Contact component renders correctly 1`] = `
       Object {
         "alignItems": "center",
         "alignSelf": "center",
-        "flex": -1,
+        "flex": 1,
         "flexDirection": "row",
-        "paddingLeft": 10,
       }
     }
   >
-    <Image
-      source={
-        Object {
-          "uri": "test.jpg",
-        }
-      }
+    <View
       style={
-        Object {
-          "height": 50,
-          "width": 50,
-        }
+        Array [
+          Object {
+            "elevation": 3,
+            "margin": 4.888888888888888,
+            "shadowColor": "#000000",
+            "shadowOffset": Object {
+              "height": 2,
+              "width": 0,
+            },
+            "shadowOpacity": 0.18,
+            "shadowRadius": 2,
+          },
+          Object {},
+          Object {
+            "borderRadius": 22.734326675206372,
+          },
+        ]
       }
-    />
+    >
+      <Image
+        source={
+          Object {
+            "uri": "test.jpg",
+          }
+        }
+        style={
+          Object {
+            "borderRadius": 22.734326675206372,
+            "height": 45.468653350412744,
+            "width": 45.468653350412744,
+            "zIndex": 1000,
+          }
+        }
+      />
+    </View>
     <View
       style={
         Object {
           "flex": -1,
           "flexDirection": "column",
+          "paddingLeft": 11,
         }
       }
     >
@@ -48,8 +73,14 @@ exports[`Contact component renders correctly 1`] = `
         ellipsizeMode="tail"
         style={
           Object {
-            "paddingBottom": 5,
-            "paddingLeft": 15,
+            "backgroundColor": "transparent",
+            "color": "#333333",
+            "fontFamily": undefined,
+            "fontSize": 15,
+            "fontWeight": "normal",
+            "letterSpacing": undefined,
+            "lineHeight": 22.5,
+            "textAlignVertical": "center",
           }
         }
       >
@@ -62,21 +93,22 @@ exports[`Contact component renders correctly 1`] = `
               "alignItems": "center",
               "flex": -1,
               "flexDirection": "row",
+              "margin": 0,
+              "padding": 0,
             },
-            Object {
-              "paddingLeft": 15,
-            },
-            Object {},
+            undefined,
           ]
         }
       >
         <View
           style={
-            Object {
-              "alignItems": "center",
-              "marginRight": 4,
-              "width": 11.25,
-            }
+            Array [
+              Object {
+                "alignItems": "center",
+                "paddingRight": 7.333333333333333,
+                "width": undefined,
+              },
+            ]
           }
         >
           <Text
@@ -91,8 +123,9 @@ exports[`Contact component renders correctly 1`] = `
                   "fontSize": 12,
                 },
                 Object {
-                  "color": "#999999",
-                  "fontSize": 9,
+                  "color": "#8D8D9D",
+                  "fontSize": 15,
+                  "lineHeight": 15,
                 },
                 Object {
                   "fontFamily": "FontAwesome",
@@ -107,20 +140,35 @@ exports[`Contact component renders correctly 1`] = `
         </View>
         <Text
           accessible={true}
+          allCaps={true}
           allowFontScaling={true}
+          color="#51515E"
           disabled={false}
           ellipsizeMode="tail"
+          fontWeight="bold"
+          isCondensed={true}
+          size="small"
           style={
-            Array [
-              Object {
-                "fontSize": 9,
-              },
-              Object {},
-              Object {
-                "color": "#999999",
-              },
-              undefined,
-            ]
+            Object {
+              "backgroundColor": "transparent",
+              "color": "#51515E",
+              "fontFamily": "Roboto",
+              "fontSize": 10,
+              "fontWeight": "bold",
+              "letterSpacing": 0.5,
+              "lineHeight": 10,
+              "margin": 0,
+              "paddingBottom": 0,
+              "paddingTop": 2,
+              "textAlignVertical": "center",
+            }
+          }
+          textStyle={
+            Object {
+              "margin": 0,
+              "paddingBottom": 0,
+              "paddingTop": 2,
+            }
           }
         >
           12/12
@@ -134,19 +182,31 @@ exports[`Contact component renders correctly 1`] = `
       Object {
         "alignItems": "center",
         "alignSelf": "center",
-        "flex": 1,
+        "flex": -1,
         "flexDirection": "row",
         "justifyContent": "flex-end",
       }
     }
   >
     <View
-      accessibilityLabel="Send Bevegram Button"
       style={
-        Object {
-          "flex": -1,
-          "flexDirection": "row-reverse",
-        }
+        Array [
+          Object {
+            "elevation": 3,
+            "margin": 4.888888888888888,
+            "shadowColor": "#000000",
+            "shadowOffset": Object {
+              "height": 2,
+              "width": 0,
+            },
+            "shadowOpacity": 0.18,
+            "shadowRadius": 2,
+          },
+          Object {},
+          Object {
+            "borderRadius": 3,
+          },
+        ]
       }
     >
       <View
@@ -170,7 +230,13 @@ exports[`Contact component renders correctly 1`] = `
             Object {
               "backgroundColor": "transparent",
             },
-            undefined,
+            Object {
+              "backgroundColor": "#8B5E3C",
+              "borderColor": "#8B5E3C",
+              "borderRadius": 3,
+              "borderWidth": 0.5,
+              "flex": -1,
+            },
           ]
         }
         testID={undefined}
@@ -178,94 +244,98 @@ exports[`Contact component renders correctly 1`] = `
       >
         <View
           style={
-            Array [
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#8B5E3C",
-                "borderColor": "#000000",
-                "borderRadius": 10,
-                "elevation": 5,
-                "flex": -1,
-                "flexDirection": "row",
-                "justifyContent": "center",
-                "margin": 15,
-                "padding": 15,
-                "shadowColor": "#333333",
-                "shadowOffset": Object {
-                  "height": 1,
-                  "width": 2,
-                },
-                "shadowOpacity": 0.5,
-                "shadowRadius": 0.95,
-              },
-              Object {
-                "margin": 12,
-              },
-              null,
-              Object {
-                "paddingVertical": 11,
-              },
-              null,
-              Object {
-                "height": 44,
-              },
-            ]
+            Object {
+              "alignItems": "center",
+              "flex": -1,
+              "flexDirection": "row",
+            }
           }
         >
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            disabled={false}
-            ellipsizeMode="tail"
-            numberOfLines={1}
+          <View
             style={
               Array [
                 Object {
-                  "backgroundColor": "rgba(0, 0, 0, 0)",
-                  "color": "#ffffff",
-                },
-                Object {
-                  "fontSize": 12,
+                  "paddingHorizontal": 11,
                 },
               ]
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={false}
+              disabled={false}
+              ellipsizeMode="tail"
+              style={
+                Array [
+                  Object {
+                    "color": undefined,
+                    "fontSize": 12,
+                  },
+                  Object {
+                    "color": "#ffffff",
+                    "fontSize": 15,
+                    "lineHeight": 15,
+                    "textShadowColor": "rgba(0, 0, 0, 0.25)",
+                    "textShadowOffset": Object {
+                      "height": 1,
+                      "width": 0,
+                    },
+                    "textShadowRadius": 2,
+                  },
+                  Object {
+                    "fontFamily": "FontAwesome",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+          <Text
+            accessible={true}
+            allCaps={false}
+            allowFontScaling={true}
+            color="#ffffff"
+            disabled={false}
+            ellipsizeMode="tail"
+            fontWeight="bold"
+            isCondensed={true}
+            showTextShadow={true}
+            size="normal"
+            style={
+              Object {
+                "backgroundColor": "transparent",
+                "color": "#ffffff",
+                "fontFamily": "Roboto",
+                "fontSize": 15,
+                "fontWeight": "bold",
+                "letterSpacing": undefined,
+                "lineHeight": 22.5,
+                "paddingLeft": 0,
+                "paddingRight": 11,
+                "paddingVertical": 7.333333333333333,
+                "textAlignVertical": "center",
+                "textShadowColor": "rgba(0, 0, 0, 0.25)",
+                "textShadowOffset": Object {
+                  "height": 1,
+                  "width": 0,
+                },
+                "textShadowRadius": 2,
+                "top": 0,
+              }
+            }
+            textStyle={
+              Object {
+                "paddingLeft": 0,
+                "paddingRight": 11,
+                "paddingVertical": 7.333333333333333,
+                "top": 0,
+              }
             }
           >
             Send Bevegram
-          </Text>
-          <Text
-            accessible={true}
-            allowFontScaling={false}
-            disabled={false}
-            ellipsizeMode="tail"
-            style={
-              Array [
-                Object {
-                  "color": undefined,
-                  "fontSize": 12,
-                },
-                Array [
-                  Object {
-                    "backgroundColor": "rgba(0, 0, 0, 0)",
-                    "color": "#ffffff",
-                  },
-                  Object {
-                    "fontSize": 24,
-                    "paddingTop": 2,
-                  },
-                  Object {
-                    "flex": -1,
-                    "paddingLeft": 10,
-                  },
-                ],
-                Object {
-                  "fontFamily": "Ionicons",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
-                },
-              ]
-            }
-          >
-            
           </Text>
         </View>
       </View>

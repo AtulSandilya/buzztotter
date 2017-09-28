@@ -67,23 +67,46 @@ exports[`CenteredModal component renders correctly 1`] = `
       </View>
     </View>
     <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       style={
-        Object {
-          "backgroundColor": "#ffffff",
-          "height": 1067.2,
-          "left": 37.5,
-          "position": "absolute",
-          "top": 133.39999999999998,
-          "width": 675,
-          "zIndex": 100,
-        }
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          Object {
+            "backgroundColor": "#ffffff",
+            "height": 1067.2,
+            "left": 37.5,
+            "position": "absolute",
+            "top": 133.39999999999998,
+            "width": 675,
+            "zIndex": 100,
+          },
+        ]
       }
+      testID={undefined}
+      tvParallaxProperties={undefined}
     >
       <RCTScrollView
         style={
           Object {
+            "borderRadius": 3,
             "height": 1067.2,
-            "zIndex": 100,
+            "zIndex": 110,
           }
         }
       >

@@ -31,17 +31,38 @@ exports[`renders correctly 1`] = `
     <Text
       accessible={true}
       allowFontScaling={true}
+      color="#ffffff"
       disabled={false}
       ellipsizeMode="tail"
+      size="extraLarge"
       style={
         Object {
-          "color": "#333",
-          "fontSize": 25,
-          "marginTop": 35,
+          "backgroundColor": "transparent",
+          "color": "#ffffff",
+          "fontFamily": undefined,
+          "fontSize": 33.75,
+          "fontWeight": "normal",
+          "letterSpacing": undefined,
+          "lineHeight": 51.25781249999999,
+          "marginTop": 24.75,
+          "textAlign": "center",
+          "textAlignVertical": "center",
+          "textShadowColor": "rgba(0, 0, 0, 0.25)",
+          "textShadowOffset": Object {
+            "height": 1,
+            "width": 0,
+          },
+          "textShadowRadius": 2,
+        }
+      }
+      textStyle={
+        Object {
+          "marginTop": 24.75,
+          "textAlign": "center",
         }
       }
     >
-      Sending Drinks Made Easy!
+      Sending & Receiving Drinks Made Easy!
     </Text>
   </View>
   <View
@@ -63,12 +84,23 @@ exports[`renders correctly 1`] = `
     >
       <View
         style={
-          Object {
-            "alignItems": "center",
-            "flex": -1,
-            "justifyContent": "center",
-            "marginTop": 0,
-          }
+          Array [
+            Object {
+              "elevation": 3,
+              "margin": 4.888888888888888,
+              "shadowColor": "#000000",
+              "shadowOffset": Object {
+                "height": 2,
+                "width": 0,
+              },
+              "shadowOpacity": 0.18,
+              "shadowRadius": 2,
+            },
+            Object {},
+            Object {
+              "borderRadius": 3,
+            },
+          ]
         }
       >
         <View
@@ -92,15 +124,13 @@ exports[`renders correctly 1`] = `
               Object {
                 "backgroundColor": "transparent",
               },
-              Array [
-                Object {
-                  "overflow": "hidden",
-                },
-                Object {
-                  "backgroundColor": "#3b5998",
-                  "borderRadius": 5,
-                },
-              ],
+              Object {
+                "backgroundColor": "#3b5988",
+                "borderColor": undefined,
+                "borderRadius": 3,
+                "borderWidth": 0,
+                "flex": -1,
+              },
             ]
           }
           testID={undefined}
@@ -108,57 +138,94 @@ exports[`renders correctly 1`] = `
         >
           <View
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "flex-start",
-                  "padding": 8,
-                },
-                Object {
-                  "backgroundColor": "#3b5998",
-                  "borderRadius": 5,
-                },
-                undefined,
-              ]
+              Object {
+                "alignItems": "center",
+                "flex": -1,
+                "flexDirection": "row",
+              }
             }
           >
-            <Text
-              accessible={true}
-              allowFontScaling={false}
-              disabled={false}
-              ellipsizeMode="tail"
-              onPress={undefined}
+            <View
               style={
                 Array [
                   Object {
-                    "color": "white",
-                    "fontSize": 24,
-                  },
-                  Object {
-                    "marginRight": 10,
-                  },
-                  Object {
-                    "fontFamily": "Ionicons",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
+                    "paddingHorizontal": 11,
                   },
                 ]
               }
             >
-              
-            </Text>
+              <Text
+                accessible={true}
+                allowFontScaling={false}
+                disabled={false}
+                ellipsizeMode="tail"
+                style={
+                  Array [
+                    Object {
+                      "color": undefined,
+                      "fontSize": 12,
+                    },
+                    Object {
+                      "color": "#ffffff",
+                      "fontSize": 18.371173070873834,
+                      "lineHeight": 18.371173070873834,
+                      "textShadowColor": "rgba(0, 0, 0, 0.25)",
+                      "textShadowOffset": Object {
+                        "height": 1,
+                        "width": 0,
+                      },
+                      "textShadowRadius": 2,
+                    },
+                    Object {
+                      "fontFamily": "FontAwesome",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                  ]
+                }
+              >
+                
+              </Text>
+            </View>
             <Text
               accessible={true}
+              allCaps={false}
               allowFontScaling={true}
+              color="#ffffff"
               disabled={false}
               ellipsizeMode="tail"
+              fontWeight="bold"
+              isCondensed={true}
+              showTextShadow={true}
+              size="largeNormal"
               style={
                 Object {
                   "backgroundColor": "transparent",
                   "color": "#ffffff",
-                  "fontSize": 16,
-                  "fontWeight": "600",
+                  "fontFamily": "Roboto",
+                  "fontSize": 18.371173070873834,
+                  "fontWeight": "bold",
+                  "letterSpacing": undefined,
+                  "lineHeight": 25.312499999999996,
+                  "paddingLeft": 0,
+                  "paddingRight": 11,
+                  "paddingVertical": 7.333333333333333,
+                  "textAlignVertical": "center",
+                  "textShadowColor": "rgba(0, 0, 0, 0.25)",
+                  "textShadowOffset": Object {
+                    "height": 1,
+                    "width": 0,
+                  },
+                  "textShadowRadius": 2,
+                  "top": 0,
+                }
+              }
+              textStyle={
+                Object {
+                  "paddingLeft": 0,
+                  "paddingRight": 11,
+                  "paddingVertical": 7.333333333333333,
+                  "top": 0,
                 }
               }
             >
@@ -169,23 +236,87 @@ exports[`renders correctly 1`] = `
       </View>
     </View>
     <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       style={
-        Object {
-          "alignItems": "center",
-          "flex": -1,
-          "marginHorizontal": 30,
-          "marginTop": 30,
-        }
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          undefined,
+        ]
       }
+      testID={undefined}
+      tvParallaxProperties={undefined}
     >
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        disabled={false}
-        ellipsizeMode="tail"
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": -1,
+            "marginHorizontal": 16.5,
+            "marginTop": 7.333333333333333,
+          }
+        }
       >
-        * We only use your Contacts to send and receive Bevegrams. Your privacy is important to us. We promise to never share your information with anyone for any reason.
-      </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          disabled={false}
+          ellipsizeMode="tail"
+          size="smallNormal"
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "color": "#333333",
+              "fontFamily": undefined,
+              "fontSize": 12.24744871391589,
+              "fontWeight": "normal",
+              "letterSpacing": undefined,
+              "lineHeight": 14.999999999999998,
+              "textAlignVertical": "center",
+            }
+          }
+        >
+          By logging in, you agree to our
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          disabled={false}
+          ellipsizeMode="tail"
+          size="smallNormal"
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "color": "#333333",
+              "fontFamily": undefined,
+              "fontSize": 12.24744871391589,
+              "fontWeight": "normal",
+              "letterSpacing": undefined,
+              "lineHeight": 14.999999999999998,
+              "textAlignVertical": "center",
+              "textDecorationLine": "underline",
+            }
+          }
+          underline={true}
+        >
+          Terms & Privacy Policy
+        </Text>
+      </View>
     </View>
   </View>
 </View>

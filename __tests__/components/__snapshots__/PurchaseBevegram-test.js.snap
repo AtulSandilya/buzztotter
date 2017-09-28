@@ -36,7 +36,7 @@ exports[`renders correctly 1`] = `
       style={
         Object {
           "flex": 1,
-          "height": 1197,
+          "height": 1200,
           "left": 0,
           "top": 85,
           "width": 750,
@@ -49,9 +49,9 @@ exports[`renders correctly 1`] = `
             Array [
               Object {
                 "flex": 1,
-                "paddingBottom": 5,
-                "paddingHorizontal": 20,
-                "paddingTop": 15,
+                "paddingBottom": 7.333333333333333,
+                "paddingHorizontal": 13.472193585307478,
+                "paddingTop": 11,
               },
             ]
           }
@@ -70,8 +70,8 @@ exports[`renders correctly 1`] = `
                   "borderColor": "#dddddd",
                   "flex": -1,
                   "flexDirection": "row",
-                  "marginBottom": 15,
-                  "paddingBottom": 10,
+                  "marginBottom": 7.333333333333333,
+                  "paddingBottom": 7.333333333333333,
                 }
               }
             >
@@ -89,14 +89,28 @@ exports[`renders correctly 1`] = `
                   allowFontScaling={true}
                   disabled={false}
                   ellipsizeMode="tail"
+                  fontWeight="bold"
+                  size="largeNormal"
                   style={
                     Object {
-                      "fontSize": 20,
+                      "backgroundColor": "transparent",
+                      "color": "#333333",
+                      "fontFamily": undefined,
+                      "fontSize": 18.371173070873834,
                       "fontWeight": "bold",
+                      "letterSpacing": undefined,
+                      "lineHeight": 25.312499999999996,
+                      "marginLeft": 7.333333333333333,
+                      "textAlignVertical": "center",
+                    }
+                  }
+                  textStyle={
+                    Object {
+                      "marginLeft": 7.333333333333333,
                     }
                   }
                 >
-                  Receipent:
+                  To:
                 </Text>
               </View>
               <View
@@ -109,28 +123,65 @@ exports[`renders correctly 1`] = `
                   }
                 }
               >
-                <Image
-                  source={
-                    Object {
-                      "uri": undefined,
-                    }
-                  }
+                <View
                   style={
-                    Object {
-                      "height": 40,
-                      "marginRight": 10,
-                      "width": 40,
-                    }
+                    Array [
+                      Object {
+                        "elevation": 3,
+                        "margin": 4.888888888888888,
+                        "shadowColor": "#000000",
+                        "shadowOffset": Object {
+                          "height": 2,
+                          "width": 0,
+                        },
+                        "shadowOpacity": 0.18,
+                        "shadowRadius": 2,
+                      },
+                      Object {},
+                      Object {
+                        "borderRadius": 18.5625,
+                      },
+                    ]
                   }
-                />
+                >
+                  <Image
+                    source={
+                      Object {
+                        "uri": undefined,
+                      }
+                    }
+                    style={
+                      Object {
+                        "borderRadius": 18.5625,
+                        "height": 37.125,
+                        "width": 37.125,
+                        "zIndex": 1000,
+                      }
+                    }
+                  />
+                </View>
                 <Text
                   accessible={true}
                   allowFontScaling={true}
                   disabled={false}
                   ellipsizeMode="tail"
+                  size="largeNormal"
                   style={
                     Object {
-                      "fontSize": 20,
+                      "backgroundColor": "transparent",
+                      "color": "#333333",
+                      "fontFamily": undefined,
+                      "fontSize": 18.371173070873834,
+                      "fontWeight": "normal",
+                      "letterSpacing": undefined,
+                      "lineHeight": 25.312499999999996,
+                      "paddingLeft": 11,
+                      "textAlignVertical": "center",
+                    }
+                  }
+                  textStyle={
+                    Object {
+                      "paddingLeft": 11,
                     }
                   }
                 >
@@ -172,8 +223,8 @@ exports[`renders correctly 1`] = `
                     "borderColor": "#dddddd",
                     "flex": -1,
                     "flexDirection": "row",
-                    "marginBottom": 15,
-                    "paddingBottom": 10,
+                    "marginBottom": 7.333333333333333,
+                    "paddingBottom": 7.333333333333333,
                   },
                 ]
               }
@@ -197,46 +248,72 @@ exports[`renders correctly 1`] = `
                         "justifyContent": "center",
                       },
                       Object {
+                        "alignItems": "center",
                         "flexDirection": "row",
                       },
                     ]
                   }
                 >
-                  <Text
-                    accessible={true}
-                    allowFontScaling={false}
-                    disabled={false}
-                    ellipsizeMode="tail"
+                  <View
                     style={
                       Array [
                         Object {
-                          "color": "#999",
-                          "fontSize": 25,
-                        },
-                        Object {
-                          "flex": -1,
-                          "height": 28,
-                          "width": 28,
-                        },
-                        Object {
-                          "fontFamily": "FontAwesome",
-                          "fontStyle": "normal",
-                          "fontWeight": "normal",
+                          "paddingLeft": 4.888888888888888,
+                          "width": 53.50925925925926,
                         },
                       ]
                     }
                   >
-                    
-                  </Text>
+                    <Text
+                      accessible={true}
+                      allowFontScaling={false}
+                      disabled={false}
+                      ellipsizeMode="tail"
+                      style={
+                        Array [
+                          Object {
+                            "color": undefined,
+                            "fontSize": 12,
+                          },
+                          Object {
+                            "color": "#555555",
+                            "fontSize": 33.75,
+                            "lineHeight": 33.75,
+                          },
+                          Object {
+                            "fontFamily": "FontAwesome",
+                            "fontStyle": "normal",
+                            "fontWeight": "normal",
+                          },
+                        ]
+                      }
+                    >
+                      
+                    </Text>
+                  </View>
                   <Text
                     accessible={true}
                     allowFontScaling={true}
                     disabled={false}
                     ellipsizeMode="tail"
+                    fontWeight="bold"
+                    size="largeNormal"
                     style={
                       Object {
-                        "fontSize": 20,
+                        "backgroundColor": "transparent",
+                        "color": "#333333",
+                        "fontFamily": undefined,
+                        "fontSize": 18.371173070873834,
                         "fontWeight": "bold",
+                        "letterSpacing": undefined,
+                        "lineHeight": 25.312499999999996,
+                        "marginLeft": 0,
+                        "textAlignVertical": "center",
+                      }
+                    }
+                    textStyle={
+                      Object {
+                        "marginLeft": 0,
                       }
                     }
                   >
@@ -258,11 +335,20 @@ exports[`renders correctly 1`] = `
                     allowFontScaling={true}
                     disabled={false}
                     ellipsizeMode="tail"
+                    size="largeNormal"
                     style={
                       Object {
-                        "fontSize": 20,
+                        "backgroundColor": "transparent",
+                        "color": "#333333",
+                        "fontFamily": undefined,
+                        "fontSize": 18.371173070873834,
+                        "fontWeight": "normal",
+                        "letterSpacing": undefined,
+                        "lineHeight": 25.312499999999996,
+                        "textAlignVertical": "center",
                       }
                     }
+                    textStyle={undefined}
                   >
                     $ 0.07
                   </Text>
@@ -276,18 +362,19 @@ exports[`renders correctly 1`] = `
                   "borderColor": "#dddddd",
                   "flex": -1,
                   "flexDirection": "row",
-                  "marginBottom": 15,
-                  "paddingBottom": 10,
+                  "marginBottom": 7.333333333333333,
+                  "paddingBottom": 7.333333333333333,
                 }
               }
             >
               <View
                 style={
-                  Object {
-                    "alignItems": "flex-start",
-                    "flex": -1,
-                    "justifyContent": "center",
-                  }
+                  Array [
+                    Object {
+                      "alignItems": "flex-start",
+                      "justifyContent": "center",
+                    },
+                  ]
                 }
               >
                 <Text
@@ -295,10 +382,24 @@ exports[`renders correctly 1`] = `
                   allowFontScaling={true}
                   disabled={false}
                   ellipsizeMode="tail"
+                  fontWeight="bold"
+                  size="largeNormal"
                   style={
                     Object {
-                      "fontSize": 20,
+                      "backgroundColor": "transparent",
+                      "color": "#333333",
+                      "fontFamily": undefined,
+                      "fontSize": 18.371173070873834,
                       "fontWeight": "bold",
+                      "letterSpacing": undefined,
+                      "lineHeight": 25.312499999999996,
+                      "marginLeft": 7.333333333333333,
+                      "textAlignVertical": "center",
+                    }
+                  }
+                  textStyle={
+                    Object {
+                      "marginLeft": 7.333333333333333,
                     }
                   }
                 >
@@ -324,8 +425,16 @@ exports[`renders correctly 1`] = `
                   placeholderTextColor="#cccccc"
                   style={
                     Object {
+                      "backgroundColor": "transparent",
+                      "color": "#333333",
+                      "fontFamily": undefined,
+                      "fontSize": 18.371173070873834,
+                      "fontWeight": "normal",
                       "height": 40,
+                      "letterSpacing": undefined,
+                      "lineHeight": 25.312499999999996,
                       "textAlign": "center",
+                      "textAlignVertical": "center",
                       "width": 65,
                     }
                   }
@@ -340,8 +449,8 @@ exports[`renders correctly 1`] = `
                     "borderColor": "#dddddd",
                     "flex": -1,
                     "flexDirection": "row",
-                    "marginBottom": 15,
-                    "paddingBottom": 10,
+                    "marginBottom": 7.333333333333333,
+                    "paddingBottom": 7.333333333333333,
                   },
                 ]
               }
@@ -403,16 +512,25 @@ exports[`renders correctly 1`] = `
                       allowFontScaling={true}
                       disabled={false}
                       ellipsizeMode="tail"
+                      fontWeight="bold"
+                      size="largeNormal"
                       style={
-                        Array [
-                          Object {
-                            "fontSize": 20,
-                            "fontWeight": "bold",
-                          },
-                          Object {
-                            "fontWeight": "normal",
-                          },
-                        ]
+                        Object {
+                          "backgroundColor": "transparent",
+                          "color": "#333333",
+                          "fontFamily": undefined,
+                          "fontSize": 18.371173070873834,
+                          "fontWeight": "bold",
+                          "letterSpacing": undefined,
+                          "lineHeight": 25.312499999999996,
+                          "marginLeft": 7.333333333333333,
+                          "textAlignVertical": "center",
+                        }
+                      }
+                      textStyle={
+                        Object {
+                          "marginLeft": 7.333333333333333,
+                        }
                       }
                     >
                       Add Credit Card
@@ -428,28 +546,43 @@ exports[`renders correctly 1`] = `
                       }
                     }
                   >
-                    <Text
-                      accessible={true}
-                      allowFontScaling={false}
-                      disabled={false}
-                      ellipsizeMode="tail"
+                    <View
                       style={
                         Array [
                           Object {
-                            "color": undefined,
-                            "fontSize": 35,
-                          },
-                          undefined,
-                          Object {
-                            "fontFamily": "Ionicons",
-                            "fontStyle": "normal",
-                            "fontWeight": "normal",
+                            "paddingLeft": 15,
+                            "paddingVertical": 0,
                           },
                         ]
                       }
                     >
-                      
-                    </Text>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={false}
+                        disabled={false}
+                        ellipsizeMode="tail"
+                        style={
+                          Array [
+                            Object {
+                              "color": undefined,
+                              "fontSize": 12,
+                            },
+                            Object {
+                              "color": "#cccccc",
+                              "fontSize": 50.625,
+                              "lineHeight": 50.625,
+                            },
+                            Object {
+                              "fontFamily": "FontAwesome",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
+                            },
+                          ]
+                        }
+                      >
+                        
+                      </Text>
+                    </View>
                   </View>
                 </View>
               </View>
@@ -463,8 +596,8 @@ exports[`renders correctly 1`] = `
                   "borderColor": "#dddddd",
                   "flex": -1,
                   "flexDirection": "row",
-                  "marginBottom": 15,
-                  "paddingBottom": 10,
+                  "marginBottom": 7.333333333333333,
+                  "paddingBottom": 7.333333333333333,
                 },
               ]
             }
@@ -526,16 +659,25 @@ exports[`renders correctly 1`] = `
                     allowFontScaling={true}
                     disabled={false}
                     ellipsizeMode="tail"
+                    fontWeight="bold"
+                    size="largeNormal"
                     style={
-                      Array [
-                        Object {
-                          "fontSize": 20,
-                          "fontWeight": "bold",
-                        },
-                        Object {
-                          "fontWeight": "normal",
-                        },
-                      ]
+                      Object {
+                        "backgroundColor": "transparent",
+                        "color": "#333333",
+                        "fontFamily": undefined,
+                        "fontSize": 18.371173070873834,
+                        "fontWeight": "bold",
+                        "letterSpacing": undefined,
+                        "lineHeight": 25.312499999999996,
+                        "marginLeft": 7.333333333333333,
+                        "textAlignVertical": "center",
+                      }
+                    }
+                    textStyle={
+                      Object {
+                        "marginLeft": 7.333333333333333,
+                      }
                     }
                   >
                     Add Message
@@ -551,28 +693,43 @@ exports[`renders correctly 1`] = `
                     }
                   }
                 >
-                  <Text
-                    accessible={true}
-                    allowFontScaling={false}
-                    disabled={false}
-                    ellipsizeMode="tail"
+                  <View
                     style={
                       Array [
                         Object {
-                          "color": undefined,
-                          "fontSize": 35,
-                        },
-                        undefined,
-                        Object {
-                          "fontFamily": "Ionicons",
-                          "fontStyle": "normal",
-                          "fontWeight": "normal",
+                          "paddingLeft": 15,
+                          "paddingVertical": 0,
                         },
                       ]
                     }
                   >
-                    
-                  </Text>
+                    <Text
+                      accessible={true}
+                      allowFontScaling={false}
+                      disabled={false}
+                      ellipsizeMode="tail"
+                      style={
+                        Array [
+                          Object {
+                            "color": undefined,
+                            "fontSize": 12,
+                          },
+                          Object {
+                            "color": "#cccccc",
+                            "fontSize": 50.625,
+                            "lineHeight": 50.625,
+                          },
+                          Object {
+                            "fontFamily": "FontAwesome",
+                            "fontStyle": "normal",
+                            "fontWeight": "normal",
+                          },
+                        ]
+                      }
+                    >
+                      
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
@@ -580,7 +737,7 @@ exports[`renders correctly 1`] = `
           <View
             style={
               Object {
-                "height": 72,
+                "height": 69,
                 "width": 750,
               }
             }
@@ -607,9 +764,9 @@ exports[`renders correctly 1`] = `
         Array [
           Object {
             "flex": 1,
-            "paddingBottom": 5,
-            "paddingHorizontal": 20,
-            "paddingTop": 15,
+            "paddingBottom": 7.333333333333333,
+            "paddingHorizontal": 13.472193585307478,
+            "paddingTop": 11,
           },
           Object {
             "flex": -1,
@@ -630,7 +787,7 @@ exports[`renders correctly 1`] = `
             },
             Object {
               "alignItems": "center",
-              "height": 52,
+              "height": 49,
               "justifyContent": "center",
               "paddingBottom": 0,
             },
@@ -649,12 +806,14 @@ exports[`renders correctly 1`] = `
           }
         >
           <View
-            accessibilityLabel="Cancel Purchase Button"
             style={
-              Object {
-                "flex": -1,
-                "flexDirection": "row-reverse",
-              }
+              Array [
+                Object {},
+                Object {},
+                Object {
+                  "borderRadius": 3,
+                },
+              ]
             }
           >
             <View
@@ -678,7 +837,13 @@ exports[`renders correctly 1`] = `
                   Object {
                     "backgroundColor": "transparent",
                   },
-                  undefined,
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderColor": undefined,
+                    "borderRadius": 3,
+                    "borderWidth": 0,
+                    "flex": -1,
+                  },
                 ]
               }
               testID={undefined}
@@ -686,71 +851,50 @@ exports[`renders correctly 1`] = `
             >
               <View
                 style={
-                  Array [
-                    Object {
-                      "alignItems": "center",
-                      "backgroundColor": "#8B5E3C",
-                      "borderColor": "#000000",
-                      "borderRadius": 10,
-                      "elevation": 5,
-                      "flex": -1,
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "margin": 15,
-                      "padding": 15,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 2,
-                      },
-                      "shadowOpacity": 0.5,
-                      "shadowRadius": 0.95,
-                    },
-                    Object {
-                      "margin": 0,
-                    },
-                    null,
-                    null,
-                    null,
-                    Object {
-                      "height": 52,
-                    },
-                  ]
+                  Object {
+                    "alignItems": "center",
+                    "flex": -1,
+                    "flexDirection": "row",
+                  }
                 }
               >
                 <Text
                   accessible={true}
-                  allowFontScaling={false}
+                  allCaps={false}
+                  allowFontScaling={true}
+                  color="#51515E"
                   disabled={false}
                   ellipsizeMode="tail"
+                  fontWeight="bold"
+                  isCondensed={true}
+                  showTextShadow={false}
+                  size="largeNormal"
                   style={
-                    Array [
-                      Object {
-                        "color": undefined,
-                        "fontSize": 12,
-                      },
-                      Array [
-                        Object {
-                          "backgroundColor": "rgba(0, 0, 0, 0)",
-                          "color": "#ffffff",
-                        },
-                        Object {
-                          "fontSize": 30,
-                          "paddingTop": 2,
-                        },
-                        Object {
-                          "paddingRight": 0,
-                        },
-                      ],
-                      Object {
-                        "fontFamily": "FontAwesome",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
-                      },
-                    ]
+                    Object {
+                      "backgroundColor": "transparent",
+                      "color": "#51515E",
+                      "fontFamily": "Roboto",
+                      "fontSize": 18.371173070873834,
+                      "fontWeight": "bold",
+                      "letterSpacing": undefined,
+                      "lineHeight": 25.312499999999996,
+                      "paddingLeft": 11,
+                      "paddingRight": 11,
+                      "paddingVertical": 7.333333333333333,
+                      "textAlignVertical": "center",
+                      "top": 0,
+                    }
+                  }
+                  textStyle={
+                    Object {
+                      "paddingLeft": 11,
+                      "paddingRight": 11,
+                      "paddingVertical": 7.333333333333333,
+                      "top": 0,
+                    }
                   }
                 >
-                  
+                  Back
                 </Text>
               </View>
             </View>
@@ -767,12 +911,24 @@ exports[`renders correctly 1`] = `
           }
         >
           <View
-            accessibilityLabel="Purchase & Send Button"
             style={
-              Object {
-                "flex": -1,
-                "flexDirection": "row-reverse",
-              }
+              Array [
+                Object {
+                  "elevation": 3,
+                  "margin": 4.888888888888888,
+                  "shadowColor": "#000000",
+                  "shadowOffset": Object {
+                    "height": 2,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.18,
+                  "shadowRadius": 2,
+                },
+                Object {},
+                Object {
+                  "borderRadius": 3,
+                },
+              ]
             }
           >
             <View
@@ -796,7 +952,13 @@ exports[`renders correctly 1`] = `
                   Object {
                     "backgroundColor": "transparent",
                   },
-                  undefined,
+                  Object {
+                    "backgroundColor": "#8B5E3C",
+                    "borderColor": "#8B5E3C",
+                    "borderRadius": 3,
+                    "borderWidth": 0.5,
+                    "flex": -1,
+                  },
                 ]
               }
               testID={undefined}
@@ -804,92 +966,141 @@ exports[`renders correctly 1`] = `
             >
               <View
                 style={
-                  Array [
-                    Object {
-                      "alignItems": "center",
-                      "backgroundColor": "#8B5E3C",
-                      "borderColor": "#000000",
-                      "borderRadius": 10,
-                      "elevation": 5,
-                      "flex": -1,
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "margin": 15,
-                      "padding": 15,
-                      "shadowColor": "#333333",
-                      "shadowOffset": Object {
-                        "height": 1,
-                        "width": 2,
-                      },
-                      "shadowOpacity": 0.5,
-                      "shadowRadius": 0.95,
-                    },
-                    Object {
-                      "margin": 0,
-                    },
-                    null,
-                    null,
-                    null,
-                    Object {
-                      "height": 52,
-                    },
-                  ]
+                  Object {
+                    "alignItems": "center",
+                    "flex": -1,
+                    "flexDirection": "row",
+                  }
                 }
               >
-                <Text
-                  accessible={true}
-                  allowFontScaling={false}
-                  disabled={false}
-                  ellipsizeMode="tail"
+                <View
                   style={
                     Array [
                       Object {
-                        "color": undefined,
-                        "fontSize": 12,
-                      },
-                      Array [
-                        Object {
-                          "backgroundColor": "rgba(0, 0, 0, 0)",
-                          "color": "#ffffff",
-                        },
-                        Object {
-                          "fontSize": 30,
-                          "paddingTop": 2,
-                        },
-                        Object {
-                          "paddingRight": 10,
-                        },
-                      ],
-                      Object {
-                        "fontFamily": "FontAwesome",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
+                        "paddingHorizontal": 11,
                       },
                     ]
                   }
                 >
-                  
-                </Text>
+                  <Text
+                    accessible={true}
+                    allowFontScaling={false}
+                    disabled={false}
+                    ellipsizeMode="tail"
+                    style={
+                      Array [
+                        Object {
+                          "color": undefined,
+                          "fontSize": 12,
+                        },
+                        Object {
+                          "color": "#ffffff",
+                          "fontSize": 18.371173070873834,
+                          "lineHeight": 18.371173070873834,
+                          "textShadowColor": "rgba(0, 0, 0, 0.25)",
+                          "textShadowOffset": Object {
+                            "height": 1,
+                            "width": 0,
+                          },
+                          "textShadowRadius": 2,
+                        },
+                        Object {
+                          "fontFamily": "FontAwesome",
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                      ]
+                    }
+                  >
+                    
+                  </Text>
+                </View>
                 <Text
                   accessible={true}
+                  allCaps={false}
                   allowFontScaling={true}
+                  color="#ffffff"
                   disabled={false}
                   ellipsizeMode="tail"
-                  numberOfLines={1}
+                  fontWeight="bold"
+                  isCondensed={true}
+                  showTextShadow={true}
+                  size="largeNormal"
                   style={
-                    Array [
-                      Object {
-                        "backgroundColor": "rgba(0, 0, 0, 0)",
-                        "color": "#ffffff",
+                    Object {
+                      "backgroundColor": "transparent",
+                      "color": "#ffffff",
+                      "fontFamily": "Roboto",
+                      "fontSize": 18.371173070873834,
+                      "fontWeight": "bold",
+                      "letterSpacing": undefined,
+                      "lineHeight": 25.312499999999996,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingVertical": 7.333333333333333,
+                      "textAlignVertical": "center",
+                      "textShadowColor": "rgba(0, 0, 0, 0.25)",
+                      "textShadowOffset": Object {
+                        "height": 1,
+                        "width": 0,
                       },
-                      Object {
-                        "fontSize": 20,
-                      },
-                    ]
+                      "textShadowRadius": 2,
+                      "top": 0,
+                    }
+                  }
+                  textStyle={
+                    Object {
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingVertical": 7.333333333333333,
+                      "top": 0,
+                    }
                   }
                 >
                   Purchase & Send
                 </Text>
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "paddingHorizontal": 11,
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    accessible={true}
+                    allowFontScaling={false}
+                    disabled={false}
+                    ellipsizeMode="tail"
+                    style={
+                      Array [
+                        Object {
+                          "color": undefined,
+                          "fontSize": 12,
+                        },
+                        Object {
+                          "color": "#ffffff",
+                          "fontSize": 18.371173070873834,
+                          "lineHeight": 18.371173070873834,
+                          "textShadowColor": "rgba(0, 0, 0, 0.25)",
+                          "textShadowOffset": Object {
+                            "height": 1,
+                            "width": 0,
+                          },
+                          "textShadowRadius": 2,
+                        },
+                        Object {
+                          "fontFamily": "FontAwesome",
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                      ]
+                    }
+                  >
+                    
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
