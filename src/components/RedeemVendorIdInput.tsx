@@ -1,11 +1,12 @@
 import * as React from "react";
 
-import { Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 
 import theme from "../theme";
 
 import { Location, VENDOR_ID_LENGTH } from "../db/tables";
 
+import { BevLargerTextInputStyle } from "./BevLargerText";
 import BevUiText from "./BevUiText";
 import LocationHero from "./LocationHero";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
@@ -28,25 +29,39 @@ const RedeemVendorIdInput: React.StatelessComponent<
     : props.failed ? theme.colors.failureBg : theme.colors.uiLight;
   const uiTextColor = props.successful
     ? theme.colors.successBg
-    : props.failed ? theme.colors.failureBg : theme.colors.text;
+    : props.failed ? theme.colors.failureBg : undefined;
   const uiIcon = props.successful
-    ? "thumbs-up"
-    : props.failed ? "thumbs-down" : "lock";
+    ? "thumbsUp"
+    : props.failed ? "thumbsDown" : "lock";
 
   const locName = props.loc ? props.loc.name : "";
+  const textInputWidth = 100;
 
   return (
     <RouteWithNavBarWrapper>
       <View style={{ flex: 1, padding: 15 }}>
         <LocationHero loc={props.loc} />
-        <Text style={{ paddingTop: 30 }}>
+        <BevUiText
+          icon="notice"
+          fontSize="normal"
+          preserveCase={true}
+          style={{
+            paddingRight: theme.padding.large,
+            paddingVertical: theme.padding.normal,
+          }}
+        >
           {`Your server/bartender must enter the vendor id for ${locName}`}
-        </Text>
+        </BevUiText>
         <View
           style={[globalStyles.bevLine, { borderBottomColor: underlineColor }]}
         >
           <View style={globalStyles.bevLineLeft}>
-            <BevUiText icon={uiIcon} fontSize="large" color={uiTextColor}>
+            <BevUiText
+              icon={uiIcon}
+              fontSize="large"
+              color={uiTextColor}
+              iconColor={uiTextColor}
+            >
               Vendor Id:
             </BevUiText>
           </View>
@@ -58,15 +73,14 @@ const RedeemVendorIdInput: React.StatelessComponent<
               onChangeText={text => props.verifyVendorId(text)}
               returnKeyType="done"
               secureTextEntry={true}
-              style={{
-                color: props.successful
-                  ? theme.colors.successBg
-                  : theme.colors.text,
-                fontSize: 24,
-                fontWeight: "300",
-                height: 44,
-                width: 100,
-              }}
+              style={[
+                BevLargerTextInputStyle(textInputWidth),
+                {
+                  color: props.successful
+                    ? theme.colors.successBg
+                    : theme.colors.text,
+                },
+              ]}
               value={props.inputVendorId}
             />
           </View>
