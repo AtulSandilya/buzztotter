@@ -15,9 +15,9 @@ import RightArrow from "./RightArrow";
 
 interface BevPressableLineProps {
   onPress: () => void;
-  children?: React.ReactChild;
+  children: any;
+  hideRightArrow?: boolean;
   showTopBorder?: boolean;
-  showRightArrow?: boolean;
   showLoading?: boolean;
   noHorizontalPadding?: boolean;
 }
@@ -43,8 +43,10 @@ const BevPressableLine: React.StatelessComponent<
           justifyContent: "center",
           paddingHorizontal: props.noHorizontalPadding
             ? 0
-            : theme.padding.default,
-          paddingVertical: 10,
+            : theme.padding.normal,
+          paddingVertical: props.hideRightArrow || props.showLoading
+            ? theme.padding.normal
+            : theme.padding.small,
         }}
       >
         <View style={{ flex: 1 }}>
@@ -53,7 +55,7 @@ const BevPressableLine: React.StatelessComponent<
         <View style={{ flex: -1 }}>
           {props.showLoading
             ? <ActivityIndicator />
-            : props.showRightArrow ? <RightArrow /> : null}
+            : !props.hideRightArrow ? <RightArrow /> : null}
         </View>
       </View>
     </TouchableHighlight>
