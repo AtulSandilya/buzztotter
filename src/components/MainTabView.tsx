@@ -1,12 +1,13 @@
 import * as React from "react";
 import { Component } from "react";
-import { BackHandler, Text, TouchableHighlight, View } from "react-native";
+import { BackHandler, TouchableHighlight, View } from "react-native";
 
 import ScrollableTabView, { DefaultTabBar } from "react-native-scrollable-tab-view";
 
 import Icon from "react-native-vector-icons/Ionicons";
 
 import { isIOS, WindowWidth } from "../ReactNativeUtilities";
+import theme from "../theme";
 
 import { globalColors } from "../components/GlobalStyles";
 
@@ -16,6 +17,8 @@ import CContacts from "../containers/CContacts";
 import CHistory from "../containers/CHistory";
 import { TabIconBadges } from "../containers/CMainTabView";
 import IconBadge from "./IconBadge";
+
+import BevText from "./BevText";
 
 export interface MainViewRouterProps {
   currentPage?: string;
@@ -51,7 +54,6 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
     const buttonSeparatorColor = globalColors.bevActiveSecondary;
     const buttonActiveColor = globalColors.bevActiveSecondary;
     const textSize = 12;
-    const textColor = "#ffffff";
     const iconPrefix = isIOS ? "ios-" : "md-";
     const iconSizeMultiplier = 3;
     /* tslint:disable:object-literal-sort-keys */
@@ -78,7 +80,7 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
               renderTab={(name, page, isTabActive, onPressHandler) => {
                 return (
                   <TouchableHighlight
-                    underlayColor={"rgba(0, 0, 0, 0)"}
+                    underlayColor={"rgba(255, 255, 255, 0.2)"}
                     key={name}
                     style={{
                       flex: 1,
@@ -114,15 +116,13 @@ export default class MainViewRouter extends Component<MainViewRouterProps, {}> {
                           backgroundColor: "rgba(0, 0, 0, 0)",
                         }}
                       />
-                      <Text
-                        style={{
-                          backgroundColor: "rgba(0, 0, 0, 0.0)",
-                          color: textColor,
-                          fontSize: textSize,
-                        }}
+                      <BevText
+                        color={theme.colors.white}
+                        size={"smallNormal"}
+                        showTextShadow={true}
                       >
                         {name}
-                      </Text>
+                      </BevText>
                     </View>
                   </TouchableHighlight>
                 );
