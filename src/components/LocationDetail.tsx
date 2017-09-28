@@ -138,7 +138,12 @@ const LocationDetail: React.StatelessComponent<LocationDetailProps> = props => {
           onPress={() =>
             OpenLink(loc.url, `Cannot open the website "${loc.url}"!`)}
         >
-          <BevUiText icon="link" hero={true} morePaddingAfterIcon={true}>
+          <BevUiText
+            icon="link"
+            hero={true}
+            morePaddingAfterIcon={true}
+            underlineText={true}
+          >
             {`${loc.url}`}
           </BevUiText>
         </BevPressableLine>

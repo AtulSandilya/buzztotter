@@ -24,6 +24,7 @@ export interface BevUiTextProps {
   preserveCase?: boolean;
   calculatedColor?: () => string;
   hero?: boolean;
+  underlineText?: boolean;
 }
 
 const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
@@ -76,6 +77,7 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
         isCondensed={props.hero ? false : true}
         size={fontSize}
         fontWeight={props.hero || props.preserveCase ? "normal" : "bold"}
+        underline={props.underlineText || false}
         textStyle={{
           margin: 0,
           // Android renders text with a small margin above, is enough to make
