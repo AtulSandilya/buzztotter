@@ -4,7 +4,6 @@ import {
   Dimensions,
   Keyboard,
   StyleSheet,
-  Text,
   TextInput,
   TextStyle,
   TouchableHighlight,
@@ -21,8 +20,13 @@ import { isIOS, StatusBarHeight } from "../ReactNativeUtilities";
 import { BannerProps } from "../reducers/banner";
 import Banner from "./Banner";
 
+import BevText, {textShadowForWhiteText} from "./BevText";
+
+import theme from "../theme";
+
 import { globalColors } from "./GlobalStyles";
 
+/* tslint:disable:no-magic-numbers */
 export const BrandingHeight = (isIOS ? 75 : 75) + 10;
 export const BrandingZIndex = 100;
 export const NavBarHeight = BrandingHeight;
@@ -46,18 +50,8 @@ interface Style {
 }
 
 const styles = StyleSheet.create<Style>({
-  wrapper: {
-    backgroundColor: globalColors.bevPrimary,
-    flexDirection: "row",
-    height: BrandingHeight,
-    left: 0,
-    position: "absolute",
-    top: 0,
-    width: Dimensions.get("window").width,
-    zIndex: BrandingZIndex,
-  },
-  section: {
-    flex: 1,
+  centerContainer: {
+    overflow: "visible",
   },
   content: {
     backgroundColor: globalColors.bevPrimary,
@@ -70,24 +64,35 @@ const styles = StyleSheet.create<Style>({
     paddingVertical: verticalPadding,
     zIndex: BrandingZIndex,
   },
+  icon: {
+    ...textShadowForWhiteText,
+    alignSelf: "center",
+    color: "#ffffff",
+    paddingTop: 3,
+  },
   leftContainer: {
     alignItems: "flex-start",
-  },
-  centerContainer: {
-    overflow: "visible",
   },
   rightContainer: {
     alignItems: "flex-end",
   },
-  icon: {
-    alignSelf: "center",
-    color: "#ffffff",
-    paddingTop: 3,
+  section: {
+    flex: 1,
   },
   text: {
     alignSelf: "center",
     color: "#ffffff",
     fontSize: logoHeight * textSizeMultiplier,
+  },
+  wrapper: {
+    backgroundColor: globalColors.bevPrimary,
+    flexDirection: "row",
+    height: BrandingHeight,
+    left: 0,
+    position: "absolute",
+    top: 0,
+    width: Dimensions.get("window").width,
+    zIndex: BrandingZIndex,
   },
 });
 
@@ -99,6 +104,7 @@ export interface BrandingProps {
   backText?: string;
   navBarText?: string;
   showSettings?: boolean;
+  brandingOverrideText?: string;
   bannerProps?: BannerProps;
   goToSettings?(): void;
   goBackRoute?(): void;
@@ -112,6 +118,7 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
   backText = "",
   bannerProps,
   navBarText = "",
+  brandingOverrideText,
   goToSettings,
   goBackRoute,
   onHideBanner,
@@ -163,9 +170,9 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
                   />
                   {/* Only show back text if there is no center text */}
                   {centerText.length !== 0
-                    ? <Text style={styles.text}>
+                    ? <BevText size={"large"} color={theme.colors.white} showTextShadow={true} style={styles.text}>
                         {backText}
-                      </Text>
+                      </BevText>
                     : null}
                 </View>
               </TouchableHighlight>
@@ -182,18 +189,18 @@ const Branding: React.StatelessComponent<BrandingProps> = ({
             centerText.length > 0 ? { flex: 3 } : null,
           ]}
         >
-          <Text
-            style={[
-              styles.text,
-              {
-                alignSelf: "center",
-                overflow: "visible",
-              },
-            ]}
+          <BevText
+            color={theme.colors.white}
+            size={"large"}
+            textStyle={{
+              alignSelf: "center",
+              overflow: "visible",
+            }}
             numberOfLines={1}
+            showTextShadow={true}
           >
             {centerText}
-          </Text>
+          </BevText>
         </View>
         <View style={[styles.section, styles.rightContainer]}>
           {showSettings
