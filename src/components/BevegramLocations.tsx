@@ -5,19 +5,21 @@ import {
   Alert,
   ListView,
   RefreshControl,
-  Text,
   TouchableHighlight,
   View,
 } from "react-native";
 
 import MapView from "react-native-maps";
 
-import { ParseIntAsDecimal, PrettyFormatDistance } from "../CommonUtilities";
+import { ParseIntAsDecimal } from "../CommonUtilities";
 import { GpsCoordinates, Location } from "../db/tables";
-import { FormatDayHours } from "./LocationDetail";
+
+import theme from "../theme";
 
 import BevPressableLine from "./BevPressableLine";
+import BevText from "./BevText";
 import BevUiText from "./BevUiText";
+import LocationAddressAndDistance from "./LocationAddressAndDistance";
 
 import { globalColors, globalStyles } from "./GlobalStyles";
 
@@ -174,10 +176,18 @@ export default class BevegramLocations extends Component<
                         flexDirection: "column",
                       }}
                     >
-                      <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                        {numMarkers - index}. {markerData.name}
-                      </Text>
-                      <BevUiText icon="clock-o" color="#000000">
+                      <BevText
+                        size="largeNormal"
+                        fontWeight="bold"
+                        color="#000000"
+                      >
+                        {`${numMarkers - index}. ${markerData.name}`}
+                      </BevText>
+                      <BevUiText
+                        icon="businessHours"
+                        iconColor="#000000"
+                        color="#000000"
+                      >
                         {
                           markerData.typicalHours[todayAsNumber]
                             .split(": ")
@@ -270,8 +280,7 @@ export default class BevegramLocations extends Component<
                   borderBottomColor: globalColors.subtleSeparator,
                   borderBottomWidth: 1,
                   flex: 1,
-                  margin: 6,
-                  marginBottom: 0,
+                  marginHorizontal: theme.padding.small,
                 }}
               >
                 <View
@@ -283,14 +292,17 @@ export default class BevegramLocations extends Component<
                   }}
                 >
                   <View style={{ flex: -1 }}>
-                    <Text
-                      style={[
-                        globalStyles.titleText,
-                        { flex: -1, alignSelf: "flex-start" },
-                      ]}
+                    <BevText
+                      size="extraLarge"
+                      fontWeight="light"
+                      color={theme.colors.bevPrimary}
+                      textStyle={{
+                        flex: -1,
+                        alignSelf: "flex-start",
+                      }}
                     >
                       Buzz Otter Bars
-                    </Text>
+                    </BevText>
                   </View>
                   <View
                     style={{
@@ -317,19 +329,14 @@ export default class BevegramLocations extends Component<
               <BevPressableLine
                 onPress={() => this.props.goToLocationDetail(rowData)}
               >
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                  {ParseIntAsDecimal(rowId as string) + 1}. {rowData.name}
-                </Text>
-                <BevUiText icon="map-marker" style={{ marginTop: 3 }}>
-                  {PrettyFormatDistance(
-                    rowData.distanceFromUser,
-                    "imperial",
-                    rowData.squareFootage,
-                  )}
-                </BevUiText>
-                <BevUiText icon="clock-o" style={{ paddingTop: 5 }}>
-                  {FormatDayHours(rowData.typicalHours[todayAsNumber])}
-                </BevUiText>
+                <BevText size="large" fontWeight="bold">
+                  {`${ParseIntAsDecimal(rowId as string) + 1}. ${rowData.name}`}
+                </BevText>
+                <LocationAddressAndDistance
+                  loc={rowData}
+                  showHours={true}
+                  paddingTop={0}
+                />
               </BevPressableLine>}
             renderSeparator={(sectionId, rowId) =>
               <View key={rowId} style={globalStyles.listRowSeparator} />}
