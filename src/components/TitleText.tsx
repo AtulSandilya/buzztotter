@@ -7,11 +7,10 @@ interface TitleTextProps {
   title: string;
 }
 
-const TitleText: React.StatelessComponent<TitleTextProps> = ({ title }) =>
+const TitleText: React.StatelessComponent<TitleTextProps> = ({ title }) => (
   <View style={globalStyles.titleTextContainer}>
-    <Text style={globalStyles.titleText}>
-      {title}
-    </Text>
-  </View>;
+    <Text style={globalStyles.titleText}>{title}</Text>
+  </View>
+);
 
 export default TitleText;

@@ -1,4 +1,4 @@
-import {PurchasePackage} from "../db/tables";
+import { PurchasePackage } from "../db/tables";
 
 // Order packages from smallest to largest.
 const PurchasePackages: PurchasePackage[] = [

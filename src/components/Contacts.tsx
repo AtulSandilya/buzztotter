@@ -174,68 +174,74 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
                 hideSortOptions();
               }}
             />
-            {isSearching
-              ? <TouchableHighlight
-                  underlayColor={"rgba(255, 255, 255, 1)"}
-                  onPress={() => {
-                    exitedSearchInput();
-                    updateSearchQuery("");
-                    Keyboard.dismiss();
-                    changeSortMethod("Upcoming Birthday");
-                  }}
-                >
-                  <View>
-                    <QueryBarIcon iconType="close" />
-                  </View>
-                </TouchableHighlight>
-              : <View />}
+            {isSearching ? (
+              <TouchableHighlight
+                underlayColor={"rgba(255, 255, 255, 1)"}
+                onPress={() => {
+                  exitedSearchInput();
+                  updateSearchQuery("");
+                  Keyboard.dismiss();
+                  changeSortMethod("Upcoming Birthday");
+                }}
+              >
+                <View>
+                  <QueryBarIcon iconType="close" />
+                </View>
+              </TouchableHighlight>
+            ) : (
+              <View />
+            )}
           </View>
         </TouchableHighlight>
-        {!isSearching
-          ? <TouchableHighlight
-              underlayColor={"rgba(255, 255, 255, 1)"}
-              style={{
-                alignItems: "flex-end",
-                flex: 1,
-                justifyContent: "center",
-              }}
-              onPress={() => {
-                LayoutAnimation.easeInEaseOut(undefined);
-                if (isSortOptionsVisible) {
-                  hideSortOptions();
-                } else {
-                  showSortOptions();
-                }
-              }}
+        {!isSearching ? (
+          <TouchableHighlight
+            underlayColor={"rgba(255, 255, 255, 1)"}
+            style={{
+              alignItems: "flex-end",
+              flex: 1,
+              justifyContent: "center",
+            }}
+            onPress={() => {
+              LayoutAnimation.easeInEaseOut(undefined);
+              if (isSortOptionsVisible) {
+                hideSortOptions();
+              } else {
+                showSortOptions();
+              }
+            }}
+          >
+            <View
+              style={[
+                {
+                  alignItems: "center",
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  paddingLeft: 4,
+                  paddingRight: 8,
+                },
+              ]}
             >
-              <View
-                style={[
-                  {
-                    alignItems: "center",
-                    flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    paddingLeft: 4,
-                    paddingRight: 8,
-                  },
-                ]}
+              <QueryBarIcon iconType="sort" />
+              <BevText
+                color={QueryBarColor}
+                size={QueryBarFontSize}
+                textStyle={{
+                  paddingTop: Utils.isIOS ? theme.padding.extraExtraSmall : 0,
+                }}
               >
-                <QueryBarIcon iconType="sort" />
-                <BevText
-                  color={QueryBarColor}
-                  size={QueryBarFontSize}
-                  textStyle={{
-                    paddingTop: Utils.isIOS ? theme.padding.extraExtraSmall : 0,
-                  }}
-                >
-                  SORT BY
-                </BevText>
-                {isSortOptionsVisible
-                  ? <QueryBarIcon iconType="close" />
-                  : <View />}
-              </View>
-            </TouchableHighlight>
-          : <View />}
+                SORT BY
+              </BevText>
+              {isSortOptionsVisible ? (
+                <QueryBarIcon iconType="close" />
+              ) : (
+                <View />
+              )}
+            </View>
+          </TouchableHighlight>
+        ) : (
+          <View />
+        )}
         {/*
           A modal is used here because zIndex and position "absolute" don't play well on android.
           Weird Modal hacks include:
@@ -284,19 +290,20 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
                 shadowRadius: 0.95,
                 top:
                   BrandingHeight -
-                    (isAndroid ? StatusBarHeight : 0) +
-                    QueryBarHeight,
+                  (isAndroid ? StatusBarHeight : 0) +
+                  QueryBarHeight,
                 width: 150,
               }}
             >
-              {sortingMethodsList.map((sortingMethod, id) =>
+              {sortingMethodsList.map((sortingMethod, id) => (
                 <TouchableHighlight
                   underlayColor={"rgba(255, 255, 255, 1)"}
                   style={{
                     alignItems: "center",
-                    backgroundColor: sortingMethod.name === activeSortingMethod
-                      ? "#cccccc"
-                      : "#ffffff",
+                    backgroundColor:
+                      sortingMethod.name === activeSortingMethod
+                        ? "#cccccc"
+                        : "#ffffff",
                     flex: -1,
                     flexDirection: "row",
                     height: QueryBarHeight,
@@ -324,8 +331,8 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
                       {sortingMethod.name.toUpperCase()}
                     </BevText>
                   </View>
-                </TouchableHighlight>,
-              )}
+                </TouchableHighlight>
+              ))}
             </View>
           </TouchableHighlight>
         </Modal>
@@ -342,7 +349,7 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
             hideSortOptions();
           }
         }}
-        renderRow={rowData =>
+        renderRow={rowData => (
           <CContact
             name={rowData.name}
             birthday={rowData.birthday}
@@ -350,9 +357,11 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
               rowData.facebookId,
             )}
             facebookId={rowData.facebookId}
-          />}
-        renderSeparator={(sectionId, rowId) =>
-          <View key={rowId} style={globalStyles.listRowSeparator} />}
+          />
+        )}
+        renderSeparator={(sectionId, rowId) => (
+          <View key={rowId} style={globalStyles.listRowSeparator} />
+        )}
         refreshControl={
           <RefreshControl
             refreshing={reloading || loading}

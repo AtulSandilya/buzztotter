@@ -65,9 +65,10 @@ export const purchase = (state = initialPurchaseState, action) => {
         failed: true,
         // Only update failMessage if there is no message, other messages are
         // more specific
-        failMessage: state.failMessage.length > 0
-          ? state.failMessage
-          : action.payload.error,
+        failMessage:
+          state.failMessage.length > 0
+            ? state.failMessage
+            : action.payload.error,
       };
     case "ATTEMPTING_STRIPE_DEFAULT_CARD_UPDATE":
       return {

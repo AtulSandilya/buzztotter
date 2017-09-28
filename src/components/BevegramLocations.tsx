@@ -238,14 +238,14 @@ export default class BevegramLocations extends Component<
             );
           })}
           {/* Draw this last to ensure it is rendered on top */}
-          {this.props.userCoords
-            ? <MapView.Marker coordinate={this.props.userCoords} />
-            : null}
+          {this.props.userCoords ? (
+            <MapView.Marker coordinate={this.props.userCoords} />
+          ) : null}
         </MapView>
         <View style={{ flex: 4 }}>
           <ListView
             dataSource={locationDS.cloneWithRows(this.props.markers)}
-            renderHeader={() =>
+            renderHeader={() => (
               <TouchableHighlight
                 underlayColor={"#ffffff"}
                 onPress={() => {
@@ -312,20 +312,21 @@ export default class BevegramLocations extends Component<
                       paddingRight: 8,
                     }}
                   >
-                    {this.props.isReloading
-                      ? <View style={{ flexDirection: "row" }}>
-                          <ActivityIndicator style={{ paddingRight: 8 }} />
-                          <BevUiText>
-                            Refreshing
-                          </BevUiText>
-                        </View>
-                      : <BevUiText icon="refresh" iconSize="large">
-                          Refresh
-                        </BevUiText>}
+                    {this.props.isReloading ? (
+                      <View style={{ flexDirection: "row" }}>
+                        <ActivityIndicator style={{ paddingRight: 8 }} />
+                        <BevUiText>Refreshing</BevUiText>
+                      </View>
+                    ) : (
+                      <BevUiText icon="refresh" iconSize="large">
+                        Refresh
+                      </BevUiText>
+                    )}
                   </View>
                 </View>
-              </TouchableHighlight>}
-            renderRow={(rowData, sectionId, rowId) =>
+              </TouchableHighlight>
+            )}
+            renderRow={(rowData, sectionId, rowId) => (
               <BevPressableLine
                 onPress={() => this.props.goToLocationDetail(rowData)}
               >
@@ -337,9 +338,11 @@ export default class BevegramLocations extends Component<
                   showHours={true}
                   paddingTop={0}
                 />
-              </BevPressableLine>}
-            renderSeparator={(sectionId, rowId) =>
-              <View key={rowId} style={globalStyles.listRowSeparator} />}
+              </BevPressableLine>
+            )}
+            renderSeparator={(sectionId, rowId) => (
+              <View key={rowId} style={globalStyles.listRowSeparator} />
+            )}
             refreshControl={
               <RefreshControl
                 refreshing={this.props.isReloading}

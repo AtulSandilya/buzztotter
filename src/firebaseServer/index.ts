@@ -324,7 +324,7 @@ const PurchaseQueue = new Queue(
 
         /* tslint:disable:max-line-length */
         const purchaseDescription = `BuzzOtter: Sent ${purchaseQuantity} bevegram${purchaseQuantity !==
-          1
+        1
           ? "s"
           : ""} to ${receiver.fullName}`;
         const chargeResponse = await stripe.promiseCreditCardPurchase(
@@ -421,7 +421,7 @@ const PurchaseQueue = new Queue(
             receiverGCMId,
             action: NotificationActions.ShowNewReceivedBevegrams,
             body: `${user.fullName} sent you ${purchaseQuantity} Bevegram${purchaseQuantity !==
-              1
+            1
               ? " s"
               : ""}`,
             data: {},

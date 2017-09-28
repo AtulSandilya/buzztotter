@@ -197,9 +197,7 @@ const HeroLine: React.StatelessComponent<HeroLineProps> = props => {
         <View style={globalStyles.bevLineLeft}>
           <BevIcon iconType={props.icon} size={heroTextSize} />
         </View>
-        <View style={globalStyles.bevLineRight}>
-          {props.children}
-        </View>
+        <View style={globalStyles.bevLineRight}>{props.children}</View>
       </View>
     );
   } else {

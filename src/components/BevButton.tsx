@@ -102,7 +102,7 @@ const BevButton: React.StatelessComponent<BevButtonProps> = props => {
 
   const buttonTypeProps = buildButtonTypeProps(props.type);
 
-  const ButtonIcon = (buttonIconProps: { iconType: IconType }) =>
+  const ButtonIcon = (buttonIconProps: { iconType: IconType }) => (
     <BevIcon
       iconType={buttonIconProps.iconType}
       size={iconSize}
@@ -110,7 +110,8 @@ const BevButton: React.StatelessComponent<BevButtonProps> = props => {
       style={{
         paddingHorizontal: theme.padding.normal,
       }}
-    />;
+    />
+  );
 
   return (
     <BevShadow

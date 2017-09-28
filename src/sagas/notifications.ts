@@ -147,7 +147,7 @@ export function* stopListener() {
   // This is called when the MainView is unmounted and if the user is already
   // logged out this will fail, so we check the users logged in status before
   // continuing
-  const user: User = yield select<{user: User}>(state => state.user);
+  const user: User = yield select<{ user: User }>(state => state.user);
   if (user.firebase && user.isLoggedIn) {
     yield call(queue.turnOffNotifications);
   }

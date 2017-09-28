@@ -36,9 +36,10 @@ export const buildBevTextStyle = (props: BevTextStyleProps): TextStyle => {
       fontWeight: props.fontWeight
         ? theme.font.weight[props.fontWeight]
         : props.isCondensed ? theme.font.weight.bold : theme.font.weight.normal,
-      letterSpacing: props.allCaps && fontSize < theme.font.size.smallNormal
-        ? theme.font.allCapsLetterSpacing
-        : undefined,
+      letterSpacing:
+        props.allCaps && fontSize < theme.font.size.smallNormal
+          ? theme.font.allCapsLetterSpacing
+          : undefined,
       get lineHeight() {
         const lineHeight = props.lineHeight
           ? theme.font.lineHeight[props.lineHeight]
@@ -68,9 +69,12 @@ export const textShadowForWhiteText = {
 };
 
 const BevText: React.StatelessComponent<BevTextProps> = props => {
-  const text = typeof props.children !== "string"
-    ? ""
-    : props.allCaps ? props.children.toString().toUpperCase() : props.children;
+  const text =
+    typeof props.children !== "string"
+      ? ""
+      : props.allCaps
+        ? props.children.toString().toUpperCase()
+        : props.children;
 
   return (
     <Text style={buildBevTextStyle(props)} {...props}>

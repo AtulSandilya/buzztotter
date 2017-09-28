@@ -44,9 +44,10 @@ const buildSizes = (
 ): SizeNameGroup => {
   const result = { ...sizeNames };
   Object.keys(result).map(key => {
-    const largeSizeReduction = largeSizeReductionFactor && result[key] > 0
-      ? largeSizeReductionFactor - result[key] * 0.2
-      : 1;
+    const largeSizeReduction =
+      largeSizeReductionFactor && result[key] > 0
+        ? largeSizeReductionFactor - result[key] * 0.2
+        : 1;
     result[key] =
       base * Math.pow(growthFactor, result[key]) * largeSizeReduction;
   });
@@ -130,7 +131,10 @@ const theme: Theme = {
     bg: {
       white: "#ffffff",
       get offWhite() {
-        return Color(this.white).darken(0.05).hex().toString();
+        return Color(this.white)
+          .darken(0.05)
+          .hex()
+          .toString();
       },
     },
     brands: {
@@ -143,9 +147,15 @@ const theme: Theme = {
     shadow: "#000000",
     text: "#222222",
     icon: "#AAAAAA",
-    uiTextColor: Color("#555555").mix(Color("blue"), 0.05).hex().toString(),
+    uiTextColor: Color("#555555")
+      .mix(Color("blue"), 0.05)
+      .hex()
+      .toString(),
     get uiIconColor() {
-      return Color(this.uiTextColor).lighten(0.7).hex().toString();
+      return Color(this.uiTextColor)
+        .lighten(0.7)
+        .hex()
+        .toString();
     },
     uiBoldTextColor: "#555555",
     uiLight: "#cccccc",

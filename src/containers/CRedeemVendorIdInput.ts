@@ -2,7 +2,9 @@ import { connect } from "react-redux";
 
 import { Location } from "../db/tables";
 
-import RedeemVendorIdInput, { RedeemVendorIdInputProps } from "../components/RedeemVendorIdInput";
+import RedeemVendorIdInput, {
+  RedeemVendorIdInputProps,
+} from "../components/RedeemVendorIdInput";
 
 interface MapStateProps {
   failed: boolean;

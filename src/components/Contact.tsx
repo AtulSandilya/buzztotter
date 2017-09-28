@@ -72,9 +72,7 @@ const Contact: React.StatelessComponent<ContactProps> = ({
           <BevText style={{ paddingBottom: theme.padding.extraExtraSmall }}>
             {fullName}
           </BevText>
-          <BevUiText icon="birthday">
-            {birthday}
-          </BevUiText>
+          <BevUiText icon="birthday">{birthday}</BevUiText>
         </View>
       </View>
       <View style={styles.buttonContainer}>

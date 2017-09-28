@@ -115,9 +115,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
           <View
             style={[globalStyles.bevLineLeft, { justifyContent: "flex-start" }]}
           >
-            <BevLargerTitleText>
-              Summary:
-            </BevLargerTitleText>
+            <BevLargerTitleText>Summary:</BevLargerTitleText>
           </View>
           <View
             style={[
@@ -125,9 +123,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
               { paddingLeft: theme.padding.normal },
             ]}
           >
-            <BevLargerText>
-              {summaryText}
-            </BevLargerText>
+            <BevLargerText>{summaryText}</BevLargerText>
           </View>
         </View>
         <View>
@@ -156,128 +152,116 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
   return (
     <RouteWithNavBarWrapper>
       <View style={globalStyles.bevContainer}>
-        {userIsPurchasing
-          ? <View style={globalStyles.bevLine}>
+        {userIsPurchasing ? (
+          <View style={globalStyles.bevLine}>
+            <View style={globalStyles.bevLineLeft}>
+              <BevLargerTitleText>Purchasing:</BevLargerTitleText>
+            </View>
+            <View style={globalStyles.bevLineRight}>
+              <BevLargerText>{purchaseQuantityText}</BevLargerText>
+            </View>
+          </View>
+        ) : null}
+        {userIsPurchasing ? (
+          <View style={{ flex: 1 }}>
+            <View style={globalStyles.bevLine}>
               <View style={globalStyles.bevLineLeft}>
-                <BevLargerTitleText>
-                  Purchasing:
-                </BevLargerTitleText>
+                <BevLargerTitleText>Card Used:</BevLargerTitleText>
               </View>
               <View style={globalStyles.bevLineRight}>
-                <BevLargerText>
-                  {purchaseQuantityText}
-                </BevLargerText>
-              </View>
-            </View>
-          : null}
-        {userIsPurchasing
-          ? <View style={{ flex: 1 }}>
-              <View style={globalStyles.bevLine}>
-                <View style={globalStyles.bevLineLeft}>
-                  <BevLargerTitleText>Card Used:</BevLargerTitleText>
-                </View>
-                <View style={globalStyles.bevLineRight}>
-                  <View
-                    style={{
-                      alignItems: "center",
-                      flex: -1,
-                      flexDirection: "row",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <BevIcon
-                      iconType={cardFontAwesomeIcon}
-                      size="large"
-                      style={{ paddingRight: 10 }}
-                    />
-                    <BevLargerText>
-                      {`.... ${cardLast4}`}
-                    </BevLargerText>
-                  </View>
-                </View>
-              </View>
-              <StatusLine
-                title="Verifying Purchase"
-                statusObject={purchaseTransactionStatus}
-                statusKey="creditCardTransaction"
-              />
-            </View>
-          : null}
-        {userIsSending
-          ? <View style={{ flex: 1 }}>
-              <View style={globalStyles.bevLine}>
-                <View style={globalStyles.bevLineLeft}>
-                  <BevLargerTitleText>
-                    Sending:
-                  </BevLargerTitleText>
-                </View>
-                <View style={globalStyles.bevLineRight}>
-                  <BevLargerText>
-                    {sendQuantityText}
-                  </BevLargerText>
-                </View>
-              </View>
-              <View style={globalStyles.bevLine}>
-                <View style={globalStyles.bevLineLeft}>
-                  <BevLargerTitleText>
-                    Recipient:
-                  </BevLargerTitleText>
-                </View>
-                <View style={globalStyles.bevLineRight}>
-                  <BevAvatar imageUrl={recipentImage} size="extraExtraLarge" />
-                  <BevLargerText>
-                    {recipentFullName}
-                  </BevLargerText>
-                </View>
-              </View>
-            </View>
-          : null}
-        {userIsSending
-          ? <StatusLine
-              title="Sending Bevegram"
-              statusObject={purchaseTransactionStatus}
-              statusKey="sendingNotification"
-            />
-          : null}
-        {purchaseTransactionStatus.error
-          ? <View>
-              <View style={globalStyles.bevLineNoSep}>
-                <Text style={[globalStyles.bevLineTextTitle, { color: "red" }]}>
-                  Purchase Error:
-                </Text>
-              </View>
-              <View style={globalStyles.bevLine}>
-                <Text style={globalStyles.bevLineText} numberOfLines={Infinity}>
-                  {purchaseTransactionStatus.error}
-                </Text>
-              </View>
-              <View>
                 <View
                   style={{
-                    flex: 1,
+                    alignItems: "center",
+                    flex: -1,
                     flexDirection: "row",
+                    justifyContent: "center",
                   }}
                 >
-                  <View
-                    style={{
-                      alignItems: "flex-start",
-                      flex: 1,
-                      paddingTop: 10,
-                    }}
-                  >
-                    <BevButton
-                      onPress={closeRoute}
-                      text={"Close"}
-                      shortText="Close"
-                      label="Close Purchase Button"
-                      iconType="close"
-                      type="primaryNegative"
-                    />
-                  </View>
+                  <BevIcon
+                    iconType={cardFontAwesomeIcon}
+                    size="large"
+                    style={{ paddingRight: 10 }}
+                  />
+                  <BevLargerText>{`.... ${cardLast4}`}</BevLargerText>
                 </View>
               </View>
             </View>
-          : <View />}
+            <StatusLine
+              title="Verifying Purchase"
+              statusObject={purchaseTransactionStatus}
+              statusKey="creditCardTransaction"
+            />
+          </View>
+        ) : null}
+        {userIsSending ? (
+          <View style={{ flex: 1 }}>
+            <View style={globalStyles.bevLine}>
+              <View style={globalStyles.bevLineLeft}>
+                <BevLargerTitleText>Sending:</BevLargerTitleText>
+              </View>
+              <View style={globalStyles.bevLineRight}>
+                <BevLargerText>{sendQuantityText}</BevLargerText>
+              </View>
+            </View>
+            <View style={globalStyles.bevLine}>
+              <View style={globalStyles.bevLineLeft}>
+                <BevLargerTitleText>Recipient:</BevLargerTitleText>
+              </View>
+              <View style={globalStyles.bevLineRight}>
+                <BevAvatar imageUrl={recipentImage} size="extraExtraLarge" />
+                <BevLargerText>{recipentFullName}</BevLargerText>
+              </View>
+            </View>
+          </View>
+        ) : null}
+        {userIsSending ? (
+          <StatusLine
+            title="Sending Bevegram"
+            statusObject={purchaseTransactionStatus}
+            statusKey="sendingNotification"
+          />
+        ) : null}
+        {purchaseTransactionStatus.error ? (
+          <View>
+            <View style={globalStyles.bevLineNoSep}>
+              <Text style={[globalStyles.bevLineTextTitle, { color: "red" }]}>
+                Purchase Error:
+              </Text>
+            </View>
+            <View style={globalStyles.bevLine}>
+              <Text style={globalStyles.bevLineText} numberOfLines={Infinity}>
+                {purchaseTransactionStatus.error}
+              </Text>
+            </View>
+            <View>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                }}
+              >
+                <View
+                  style={{
+                    alignItems: "flex-start",
+                    flex: 1,
+                    paddingTop: 10,
+                  }}
+                >
+                  <BevButton
+                    onPress={closeRoute}
+                    text={"Close"}
+                    shortText="Close"
+                    label="Close Purchase Button"
+                    iconType="close"
+                    type="primaryNegative"
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+        ) : (
+          <View />
+        )}
         {renderPurchaseOrSendOrBothComplete()}
       </View>
     </RouteWithNavBarWrapper>

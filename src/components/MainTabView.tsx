@@ -2,7 +2,9 @@ import * as React from "react";
 import { Component } from "react";
 import { BackHandler, TouchableHighlight, View } from "react-native";
 
-import ScrollableTabView, { DefaultTabBar } from "react-native-scrollable-tab-view";
+import ScrollableTabView, {
+  DefaultTabBar,
+} from "react-native-scrollable-tab-view";
 
 import Icon from "react-native-vector-icons/Ionicons";
 

@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 
 import Login, { LoginProps } from "../components/Login";
-import {routeKeys} from "../reducers/routes";
+import { routeKeys } from "../reducers/routes";
 
 interface StateProps {
   loginInProgress: boolean;
@@ -21,9 +21,12 @@ interface DispatchProps {
 const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
     goToTermsAndConditions: () => {
-      dispatch({type: "GO_TO_ROUTE", payload: {
-        route: routeKeys.TermsAndConditions,
-      }});
+      dispatch({
+        type: "GO_TO_ROUTE",
+        payload: {
+          route: routeKeys.TermsAndConditions,
+        },
+      });
     },
     requestLogin: () => {
       dispatch({ type: "LOGIN" });

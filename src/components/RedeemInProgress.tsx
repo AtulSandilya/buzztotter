@@ -50,31 +50,26 @@ class RedeemInProgress extends React.Component<RedeemInProgressProps, {}> {
             statusKey="updatingDatabase"
             statusObject={this.props.status}
           />
-          {transactionFailed<RedeemTransactionStatus>(this.props.status)
-            ? <View>
-                <View style={globalStyles.bevLineNoSep}>
-                  <Text
-                    style={[globalStyles.bevLineTextTitle, { color: "red" }]}
-                  >
-                    Redeem Error:
-                  </Text>
-                </View>
-                <View style={globalStyles.bevLine}>
-                  <Text
-                    style={globalStyles.bevLineText}
-                    numberOfLines={Infinity}
-                  >
-                    {this.props.status.error}
-                  </Text>
-                </View>
-                <BevButton
-                  text="Done"
-                  shortText="Done"
-                  iconType="success"
-                  onPress={this.props.onClose}
-                />
+          {transactionFailed<RedeemTransactionStatus>(this.props.status) ? (
+            <View>
+              <View style={globalStyles.bevLineNoSep}>
+                <Text style={[globalStyles.bevLineTextTitle, { color: "red" }]}>
+                  Redeem Error:
+                </Text>
               </View>
-            : null}
+              <View style={globalStyles.bevLine}>
+                <Text style={globalStyles.bevLineText} numberOfLines={Infinity}>
+                  {this.props.status.error}
+                </Text>
+              </View>
+              <BevButton
+                text="Done"
+                shortText="Done"
+                iconType="success"
+                onPress={this.props.onClose}
+              />
+            </View>
+          ) : null}
         </View>
       </RouteWithNavBarWrapper>
     );

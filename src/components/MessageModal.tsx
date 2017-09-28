@@ -82,9 +82,7 @@ const MessageModal: React.StatelessComponent<MessageModalProps> = props => {
             padding: outerPadding,
           }}
         >
-          <BevText>
-            {props.message}
-          </BevText>
+          <BevText>{props.message}</BevText>
         </View>
         <View
           style={{

@@ -48,8 +48,8 @@ const stripeRequest = (
   return fetch(stripeUrl + url, {
     body: uriEncodeObjectToString(requestDetails),
     headers: {
-      "Accept": "application/json",
-      "Authorization": "Bearer " + stripeApiKey,
+      Accept: "application/json",
+      Authorization: "Bearer " + stripeApiKey,
       "Content-Type": "application/x-www-form-urlencoded",
     },
     method: method,

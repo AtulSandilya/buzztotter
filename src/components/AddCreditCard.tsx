@@ -16,7 +16,7 @@ import { isNarrow } from "../ReactNativeUtilities";
 import { CardDataForVerification } from "../reducers/addCreditCard";
 
 import BevButton from "./BevButton";
-import {BevLargerTextInputStyle} from "./BevLargerText";
+import { BevLargerTextInputStyle } from "./BevLargerText";
 import BevLargerTitleText from "./BevLargerTitleText";
 import { globalStyles } from "./GlobalStyles";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
@@ -350,33 +350,31 @@ export default class AddCreditCard extends Component<
               />
             </View>
           </View>
-          {this.props.failed && !this.props.attemptingVerification
-            ? <View style={globalStyles.bevLine}>
-                <View
+          {this.props.failed && !this.props.attemptingVerification ? (
+            <View style={globalStyles.bevLine}>
+              <View
+                style={[
+                  globalStyles.bevLineLeft,
+                  { justifyContent: "flex-start" },
+                ]}
+              >
+                <Text
                   style={[
-                    globalStyles.bevLineLeft,
-                    { justifyContent: "flex-start" },
+                    {
+                      color: "red",
+                      paddingRight: 10,
+                    },
+                    globalStyles.bevLineTextTitle,
                   ]}
                 >
-                  <Text
-                    style={[
-                      {
-                        color: "red",
-                        paddingRight: 10,
-                      },
-                      globalStyles.bevLineTextTitle,
-                    ]}
-                  >
-                    Error:
-                  </Text>
-                </View>
-                <View style={globalStyles.bevLineWideRight}>
-                  <Text numberOfLines={Infinity}>
-                    {this.props.failMessage}
-                  </Text>
-                </View>
+                  Error:
+                </Text>
               </View>
-            : null}
+              <View style={globalStyles.bevLineWideRight}>
+                <Text numberOfLines={Infinity}>{this.props.failMessage}</Text>
+              </View>
+            </View>
+          ) : null}
           <View style={globalStyles.bevLastLine}>
             <View style={globalStyles.bevLineLeft}>
               <BevButton
@@ -385,7 +383,7 @@ export default class AddCreditCard extends Component<
                 label="Cancel Add Credit Card Button"
                 onPress={this.props.goBackToPurchase}
                 type="tertiary"
-      iconType="leftArrow"
+                iconType="leftArrow"
               />
             </View>
             <View style={globalStyles.bevLineRight}>

@@ -73,7 +73,7 @@ const CenteredModal: React.StatelessComponent<CenteredModalProps> = ({
             underlayColor={"#222222"}
             onPress={() => onRequestClose()}
           >
-            <Text>{" "}</Text>
+            <Text> </Text>
           </TouchableHighlight>
         </View>
         <TouchableHighlight

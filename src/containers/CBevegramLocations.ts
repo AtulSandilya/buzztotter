@@ -1,6 +1,8 @@
 import { connect } from "react-redux";
 
-import BevegramLocations, { BevegramLocationsProps } from "../components/BevegramLocations";
+import BevegramLocations, {
+  BevegramLocationsProps,
+} from "../components/BevegramLocations";
 import { settingsKeys } from "../reducers/settings";
 import { sceneKeys } from "../reducers/view";
 

@@ -137,13 +137,11 @@ const BevIcon: React.StatelessComponent<BevIconProps> = props => {
   const thisIcon = iconMap[props.iconType];
 
   const iconName = typeof thisIcon === "string" ? thisIcon : thisIcon.icon;
-  const iconSet = typeof thisIcon === "string"
-    ? "fontAwesome"
-    : thisIcon.iconSet;
+  const iconSet =
+    typeof thisIcon === "string" ? "fontAwesome" : thisIcon.iconSet;
   const iconCustomStyle = typeof thisIcon === "string" ? {} : thisIcon.style;
-  const iconLineHeight = typeof thisIcon === "string"
-    ? 1
-    : thisIcon.lineHeight || 1;
+  const iconLineHeight =
+    typeof thisIcon === "string" ? 1 : thisIcon.lineHeight || 1;
   const color = props.color ? props.color : theme.colors.uiIconColor;
 
   const iconTextStyle = StyleSheet.flatten([
@@ -158,15 +156,17 @@ const BevIcon: React.StatelessComponent<BevIconProps> = props => {
 
   return (
     <View style={[props.style]}>
-      {props.iconType === "spinner"
-        ? <View
-            style={{ alignItems: "center", height: fontSize, width: fontSize }}
-          >
-            <ActivityIndicator color={color} />
-          </View>
-        : iconSet === "fontAwesome" || iconSet === undefined
-          ? <FontAwesome name={iconName} style={iconTextStyle} />
-          : <Ionicons name={iconName} style={iconTextStyle} />}
+      {props.iconType === "spinner" ? (
+        <View
+          style={{ alignItems: "center", height: fontSize, width: fontSize }}
+        >
+          <ActivityIndicator color={color} />
+        </View>
+      ) : iconSet === "fontAwesome" || iconSet === undefined ? (
+        <FontAwesome name={iconName} style={iconTextStyle} />
+      ) : (
+        <Ionicons name={iconName} style={iconTextStyle} />
+      )}
     </View>
   );
 };

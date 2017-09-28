@@ -31,8 +31,8 @@ export const sendNotification = async (notif: NotificationPackage) => {
       to: notif.receiverGCMId,
     }),
     headers: {
-      "Accept": "application/json",
-      "Authorization": `key=${process.env.FIREBASE_GCM_KEY}`,
+      Accept: "application/json",
+      Authorization: `key=${process.env.FIREBASE_GCM_KEY}`,
       "Content-Type": "application/json",
     },
     method: "POST",

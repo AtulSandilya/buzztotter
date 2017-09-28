@@ -54,15 +54,15 @@ const LocationAddressAndDistance: React.StatelessComponent<
 
   return (
     <View style={{ flex: -1, paddingLeft: props.paddingLeft || 0 }}>
-      {!props.showHours
-        ? <BevUiText
-            icon="address"
-            iconWidth={theme.padding.extraLarge}
-            style={firstItemPadding}
-          >
-            {addressText}
-          </BevUiText>
-        : null}
+      {!props.showHours ? (
+        <BevUiText
+          icon="address"
+          iconWidth={theme.padding.extraLarge}
+          style={firstItemPadding}
+        >
+          {addressText}
+        </BevUiText>
+      ) : null}
       <BevUiText
         icon="location"
         iconWidth={theme.padding.extraLarge}
@@ -75,11 +75,11 @@ const LocationAddressAndDistance: React.StatelessComponent<
       >
         {distanceText}
       </BevUiText>
-      {props.showHours
-        ? <BevUiText icon="time" iconWidth={theme.padding.extraLarge}>
-            {FormatDayHours(props.loc.typicalHours[todayAsNumber])}
-          </BevUiText>
-        : null}
+      {props.showHours ? (
+        <BevUiText icon="time" iconWidth={theme.padding.extraLarge}>
+          {FormatDayHours(props.loc.typicalHours[todayAsNumber])}
+        </BevUiText>
+      ) : null}
     </View>
   );
 };

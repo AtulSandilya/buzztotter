@@ -45,20 +45,23 @@ const scenes = (showLogin: boolean | undefined) => {
         key={RouteNames.TermsAndConditions}
         component={TermsAndConditions}
         hideNavBar={false}
-        navBar={() =>
-          <CBranding showBack={true} navBarText="Terms And Conditions" />}
+        navBar={() => (
+          <CBranding showBack={true} navBarText="Terms And Conditions" />
+        )}
       />
       <RNRF.Scene
         key={RouteNames.PurchaseBevegram}
         component={CPurchaseBevegram}
-        navBar={() =>
-          <CBranding showBack={true} navBarText="Purchase Bevegrams" />}
+        navBar={() => (
+          <CBranding showBack={true} navBarText="Purchase Bevegrams" />
+        )}
       />
       <RNRF.Scene
         key={RouteNames.SendBevegram}
         component={CPurchaseBevegram}
-        navBar={() =>
-          <CBranding showBack={true} navBarText="Send Bevegram(s)" />}
+        navBar={() => (
+          <CBranding showBack={true} navBarText="Send Bevegram(s)" />
+        )}
       />
       <RNRF.Scene
         key={RouteNames.PurchaseInProgress}
@@ -82,8 +85,9 @@ const scenes = (showLogin: boolean | undefined) => {
       <RNRF.Scene
         key={RouteNames.RedeemBeer}
         component={CRedeemBeer}
-        navBar={() =>
-          <CBranding showBack={true} navBarText="Redeem Bevegrams" />}
+        navBar={() => (
+          <CBranding showBack={true} navBarText="Redeem Bevegrams" />
+        )}
       />
       <RNRF.Scene
         key={RouteNames.RedeemVendorIdInput}
@@ -100,20 +104,23 @@ const scenes = (showLogin: boolean | undefined) => {
         key={RouteNames.RedeemComplete}
         component={CRedeemComplete}
         panHandlers={null}
-        navBar={() =>
-          <CBranding showBack={false} navBarText="Redeem Successful!" />}
+        navBar={() => (
+          <CBranding showBack={false} navBarText="Redeem Successful!" />
+        )}
       />
       <RNRF.Scene
         key={RouteNames.AddCreditCard}
         component={CAddCreditCard}
-        navBar={() =>
-          <CBranding showBack={true} navBarText="Add Credit Card" />}
+        navBar={() => (
+          <CBranding showBack={true} navBarText="Add Credit Card" />
+        )}
       />
       <RNRF.Scene
         key={RouteNames.LocationDetail}
         component={CLocationDetail}
-        navBar={() =>
-          <CBranding showBack={true} navBarText="Location Detail" />}
+        navBar={() => (
+          <CBranding showBack={true} navBarText="Location Detail" />
+        )}
       />
       <RNRF.Scene
         key={RouteNames.Message}

@@ -99,7 +99,10 @@ export class FirebaseDb {
       const ref = this.db.ref(url);
       const newNode = ref.push();
       newNode.set(sanitizedPushInput);
-      return newNode.toString().split("/").slice(-1)[0];
+      return newNode
+        .toString()
+        .split("/")
+        .slice(-1)[0];
     } catch (e) {
       console.error(e);
     }

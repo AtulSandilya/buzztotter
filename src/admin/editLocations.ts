@@ -127,7 +127,8 @@ interface GoogleMapsApiPlaceReview {
   time: number;
 }
 
-interface GoogleMapsApiPlaceDetailLocation extends GoogleMapsApiGeocodeLocation {
+interface GoogleMapsApiPlaceDetailLocation
+  extends GoogleMapsApiGeocodeLocation {
   adr_address: string;
   formatted_phone_number: string;
   icon: string;

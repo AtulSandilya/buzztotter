@@ -30,9 +30,13 @@ const CalculateTwoColorShift = (
   endColor: string,
 ) => {
   if (input < startColorShift) {
-    return Color(startColor).desaturate(input / startColorShift).hex();
+    return Color(startColor)
+      .desaturate(input / startColorShift)
+      .hex();
   } else {
-    return Color(endColor).desaturate(startColorShift / input).hex();
+    return Color(endColor)
+      .desaturate(startColorShift / input)
+      .hex();
   }
 };
 

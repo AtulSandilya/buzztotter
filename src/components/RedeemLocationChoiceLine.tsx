@@ -25,22 +25,22 @@ const RedeemLocationChoiceLine: React.StatelessComponent<
     ? isLoadingText
     : props.loc ? `${props.index}. ${props.loc.name}` : errorText;
 
-  const content = props.other
-    ? <BevLargerTitleText>
-        {`${props.index}. ${props.isLoading ? "" : "Other"}`}
-      </BevLargerTitleText>
-    : <View>
-        <BevLargerTitleText>
-          {titleText}
-        </BevLargerTitleText>
-        {!props.isLoading
-          ? <LocationAddressAndDistance
-              loc={props.loc}
-              paddingLeft={theme.padding.small}
-              calcColorFromDistance={true}
-            />
-          : null}
-      </View>;
+  const content = props.other ? (
+    <BevLargerTitleText>
+      {`${props.index}. ${props.isLoading ? "" : "Other"}`}
+    </BevLargerTitleText>
+  ) : (
+    <View>
+      <BevLargerTitleText>{titleText}</BevLargerTitleText>
+      {!props.isLoading ? (
+        <LocationAddressAndDistance
+          loc={props.loc}
+          paddingLeft={theme.padding.small}
+          calcColorFromDistance={true}
+        />
+      ) : null}
+    </View>
+  );
 
   return (
     <BevPressableLine

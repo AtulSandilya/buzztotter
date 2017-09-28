@@ -52,7 +52,11 @@ const CallPhoneNumber = (phoneNumber: string) => {
 export const FormatDayHours = (dayHour: string): string => {
   const dayChars = 3;
   const day = dayHour.split(" ")[0].slice(0, dayChars);
-  const hours = dayHour.split(" ").slice(1).join(" ").replace(/:00/g, "");
+  const hours = dayHour
+    .split(" ")
+    .slice(1)
+    .join(" ")
+    .replace(/:00/g, "");
   return `${day}: ${hours}`;
 };
 

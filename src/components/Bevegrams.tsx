@@ -35,7 +35,7 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
   reloadBevegrams,
   receivedBevegrams,
   unseenBevegrams,
-}) =>
+}) => (
   <View
     style={{
       flex: 1,
@@ -62,8 +62,9 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
           />
         );
       }}
-      renderSeparator={(sectionId, rowId) =>
-        <View key={rowId} style={globalStyles.listRowSeparator} />}
+      renderSeparator={(sectionId, rowId) => (
+        <View key={rowId} style={globalStyles.listRowSeparator} />
+      )}
       refreshControl={
         <RefreshControl
           refreshing={isLoadingBevegrams}
@@ -92,9 +93,7 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
                 },
               ]}
             >
-              <BevText>
-                You have 0 bevegrams!
-              </BevText>
+              <BevText>You have 0 bevegrams!</BevText>
             </View>
           );
         }
@@ -108,6 +107,7 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
       photoUrl={messageModalData.photoUrl}
       message={messageModalData.message}
     />
-  </View>;
+  </View>
+);
 
 export default Bevegrams;

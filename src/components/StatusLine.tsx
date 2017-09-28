@@ -20,8 +20,9 @@ const StatusLineIcon = (iconName: IconType, color: string) => {
   );
 };
 
-const StatusLineActivityIndicator = () =>
-  <BevIcon style={{ marginRight: 10 }} iconType={"spinner"} />;
+const StatusLineActivityIndicator = () => (
+  <BevIcon style={{ marginRight: 10 }} iconType={"spinner"} />
+);
 
 interface StatusLineProps {
   statusKey: string;
@@ -69,13 +70,9 @@ const StatusLine = (props: StatusLineProps) => {
   return (
     <View style={globalStyles.bevLine}>
       <View style={globalStyles.bevLineLeft}>
-        <BevLargerTitleText>
-          {`${props.title}:`}
-        </BevLargerTitleText>
+        <BevLargerTitleText>{`${props.title}:`}</BevLargerTitleText>
       </View>
-      <View style={globalStyles.bevLineRight}>
-        {component}
-      </View>
+      <View style={globalStyles.bevLineRight}>{component}</View>
     </View>
   );
 };

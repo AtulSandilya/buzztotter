@@ -7,7 +7,7 @@ import { BrandingHeight } from "./Branding";
 
 import { WindowHeight, WindowWidth } from "../ReactNativeUtilities";
 
-const MainUi = () =>
+const MainUi = () => (
   <View
     style={{
       flex: 1,
@@ -21,6 +21,7 @@ const MainUi = () =>
     <View style={{ flex: 1 }}>
       <CMainTabView />
     </View>
-  </View>;
+  </View>
+);
 
 export default MainUi;

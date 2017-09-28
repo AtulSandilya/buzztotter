@@ -17,9 +17,7 @@ const BevUiButton: React.StatelessComponent<BevUiButtonProps> = props => {
       style={{ padding: theme.padding.small }}
     >
       <View style={{ flex: -1 }}>
-        <BevUiText {...props}>
-          {props.children}
-        </BevUiText>
+        <BevUiText {...props}>{props.children}</BevUiText>
       </View>
     </TouchableHighlight>
   );

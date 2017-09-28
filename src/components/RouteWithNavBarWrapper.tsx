@@ -31,8 +31,9 @@ const RouteWithNavBarWrapper: React.StatelessComponent<
   };
 
   const refreshControlMargin = 50;
-  const thisRefreshControl = props.refreshAction !== undefined
-    ? <RefreshControl
+  const thisRefreshControl =
+    props.refreshAction !== undefined ? (
+      <RefreshControl
         refreshing={props.isRefreshing}
         onRefresh={() => {
           if (!props.isRefreshing) {
@@ -44,7 +45,7 @@ const RouteWithNavBarWrapper: React.StatelessComponent<
         progressViewOffset={refreshControlMargin}
         colors={[theme.colors.bevPrimary]}
       />
-    : null;
+    ) : null;
 
   return (
     <KeyboardAwareScrollView

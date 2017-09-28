@@ -94,36 +94,38 @@ export default class RedeemBeer extends Component<
           ]}
         >
           <BevLargerText>{this.state.numDrinks.toString()}</BevLargerText>
-          {allowIncrement
-            ? <View style={{ flexDirection: "row" }}>
-                <TouchableHighlight
-                  onPress={() => this.updateQuantity(-1)}
-                  underlayColor="#ffffff"
-                >
-                  <FontAwesome
-                    name="minus-circle"
-                    style={{
-                      color: "#999",
-                      fontSize: 20,
-                      marginLeft: 30,
-                    }}
-                  />
-                </TouchableHighlight>
-                <TouchableHighlight
-                  onPress={() => this.updateQuantity(1)}
-                  underlayColor="#ffffff"
-                >
-                  <FontAwesome
-                    name="plus-circle"
-                    style={{
-                      color: "#999",
-                      fontSize: 20,
-                      marginLeft: 30,
-                    }}
-                  />
-                </TouchableHighlight>
-              </View>
-            : <View />}
+          {allowIncrement ? (
+            <View style={{ flexDirection: "row" }}>
+              <TouchableHighlight
+                onPress={() => this.updateQuantity(-1)}
+                underlayColor="#ffffff"
+              >
+                <FontAwesome
+                  name="minus-circle"
+                  style={{
+                    color: "#999",
+                    fontSize: 20,
+                    marginLeft: 30,
+                  }}
+                />
+              </TouchableHighlight>
+              <TouchableHighlight
+                onPress={() => this.updateQuantity(1)}
+                underlayColor="#ffffff"
+              >
+                <FontAwesome
+                  name="plus-circle"
+                  style={{
+                    color: "#999",
+                    fontSize: 20,
+                    marginLeft: 30,
+                  }}
+                />
+              </TouchableHighlight>
+            </View>
+          ) : (
+            <View />
+          )}
         </View>
       </View>
     );
@@ -164,9 +166,7 @@ export default class RedeemBeer extends Component<
           ]}
         >
           <View style={globalStyles.bevLineLeft}>
-            <BevLargerTitleText>
-              Select Your Location:
-            </BevLargerTitleText>
+            <BevLargerTitleText>Select Your Location:</BevLargerTitleText>
           </View>
           <View style={globalStyles.bevLineRight}>
             <TouchableHighlight
@@ -185,44 +185,46 @@ export default class RedeemBeer extends Component<
             </TouchableHighlight>
           </View>
         </View>
-        {this.hasValidPickerLocations() || this.props.isRefreshingLocation
-          ? <View>
-              {this.props.pickerLocations.map((l: Location, i: number) => {
-                return (
-                  <RedeemLocationChoiceLine
-                    loc={l}
-                    index={i + 1}
-                    isLoading={this.props.isRefreshingLocation}
-                    onPress={() => {
-                      if (!this.props.isRefreshingLocation || l) {
-                        this.props.selectLocation(l, this.state.numDrinks);
-                      }
-                    }}
-                    key={i}
-                  />
-                );
-              })}
-              <RedeemLocationChoiceLine
-                loc={undefined}
-                index={DEFAULT_REDEEM_PICKER_LOCATIONS + 1}
-                other={true}
-                onPress={this.goToMapAlert}
-                isLoading={this.props.isRefreshingLocation}
-              />
-            </View>
-          : <View style={{ alignItems: "center", justifyContent: "center" }}>
-              <Text
-                style={[
-                  globalStyles.smallerHeroText,
-                  { paddingVertical: theme.padding.normal },
-                ]}
-              >
-                Unable to determine your location!
-              </Text>
-              <BevUiButton icon="refresh" onPress={this.props.updateLocation}>
-                {"Refresh"}
-              </BevUiButton>
-            </View>}
+        {this.hasValidPickerLocations() || this.props.isRefreshingLocation ? (
+          <View>
+            {this.props.pickerLocations.map((l: Location, i: number) => {
+              return (
+                <RedeemLocationChoiceLine
+                  loc={l}
+                  index={i + 1}
+                  isLoading={this.props.isRefreshingLocation}
+                  onPress={() => {
+                    if (!this.props.isRefreshingLocation || l) {
+                      this.props.selectLocation(l, this.state.numDrinks);
+                    }
+                  }}
+                  key={i}
+                />
+              );
+            })}
+            <RedeemLocationChoiceLine
+              loc={undefined}
+              index={DEFAULT_REDEEM_PICKER_LOCATIONS + 1}
+              other={true}
+              onPress={this.goToMapAlert}
+              isLoading={this.props.isRefreshingLocation}
+            />
+          </View>
+        ) : (
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <Text
+              style={[
+                globalStyles.smallerHeroText,
+                { paddingVertical: theme.padding.normal },
+              ]}
+            >
+              Unable to determine your location!
+            </Text>
+            <BevUiButton icon="refresh" onPress={this.props.updateLocation}>
+              {"Refresh"}
+            </BevUiButton>
+          </View>
+        )}
       </View>
     );
   }

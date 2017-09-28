@@ -1,6 +1,8 @@
 import { connect } from "react-redux";
 
-import BevegramStatusBar, { BevegramStatusBarProps } from "../components/BevegramStatusBar";
+import BevegramStatusBar, {
+  BevegramStatusBarProps,
+} from "../components/BevegramStatusBar";
 
 interface MapState {
   userBevegrams?: number;

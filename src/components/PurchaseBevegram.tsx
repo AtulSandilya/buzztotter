@@ -102,8 +102,8 @@ const CheckBox = (props: { isChecked: boolean; isLoading?: boolean }) => {
         paddingLeft: theme.padding.extraSmall,
         width:
           theme.font.size[PurchaseBevegram.IconSize] +
-            theme.padding.large +
-            theme.padding.extraExtraSmall,
+          theme.padding.large +
+          theme.padding.extraExtraSmall,
       }}
     />
   );
@@ -333,9 +333,7 @@ export default class PurchaseBevegram extends Component<
       <View style={{ flex: 1 }}>
         <View style={globalStyles.bevLine}>
           <View style={globalStyles.bevLineLeft}>
-            <BevLargerTitleText>
-              To:
-            </BevLargerTitleText>
+            <BevLargerTitleText>To:</BevLargerTitleText>
           </View>
           <View style={globalStyles.bevLineRight}>
             <BevAvatar imageUrl={this.props.imageUri} size="extraExtraLarge" />
@@ -365,17 +363,17 @@ export default class PurchaseBevegram extends Component<
               ]}
             >
               {this.props.selectedPurchasePackageIndex === index &&
-                this.userIsPurchasing()
-                ? <CheckBox isChecked={true} />
-                : <CheckBox isChecked={false} />}
+              this.userIsPurchasing() ? (
+                <CheckBox isChecked={true} />
+              ) : (
+                <CheckBox isChecked={false} />
+              )}
               <BevLargerTitleText noPadding={true}>
                 {pack.name}
               </BevLargerTitleText>
             </View>
             <View style={globalStyles.bevLineRight}>
-              <BevLargerText>
-                {this.formatPrice(pack.price)}
-              </BevLargerText>
+              <BevLargerText>{this.formatPrice(pack.price)}</BevLargerText>
             </View>
           </View>
         </TouchableHighlight>
@@ -428,9 +426,7 @@ export default class PurchaseBevegram extends Component<
               },
             ]}
           >
-            <BevLargerTitleText>
-              Promo Code:
-            </BevLargerTitleText>
+            <BevLargerTitleText>Promo Code:</BevLargerTitleText>
           </View>
           <View style={globalStyles.bevLineRight}>
             <TextInput
@@ -447,90 +443,88 @@ export default class PurchaseBevegram extends Component<
             />
           </View>
         </View>
-        {this.props.creditCards
-          ? this.props.creditCards.map((card, index) => {
-              return (
-                <View style={globalStyles.bevLine} key={card.id}>
+        {this.props.creditCards ? (
+          this.props.creditCards.map((card, index) => {
+            return (
+              <View style={globalStyles.bevLine} key={card.id}>
+                <TouchableHighlight
+                  underlayColor={"transparent"}
+                  onPress={() => {
+                    if (
+                      !this.props.attemptingUpdate &&
+                      this.props.creditCards.length > 1 &&
+                      card.id !== this.getActiveCard().id
+                    ) {
+                      this.props.updateDefaultCard(card.id);
+                    }
+                  }}
+                  style={[
+                    globalStyles.bevLineLeft,
+                    {
+                      alignItems: "flex-start",
+                      flexDirection: "row",
+                      justifyContent: "flex-start",
+                    },
+                  ]}
+                >
+                  <View style={{ flex: -1, flexDirection: "row" }}>
+                    <View
+                      style={{
+                        alignItems: "center",
+                        flex: -1,
+                        justifyContent: "center",
+                      }}
+                    >
+                      <CheckBox
+                        isChecked={card.id === this.getActiveCard().id}
+                        isLoading={this.props.attemptingUpdate}
+                      />
+                    </View>
+                    <View
+                      style={{
+                        alignItems: "center",
+                        flex: -1,
+                        flexDirection: "row",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <BevIcon
+                        size={"large"}
+                        color={theme.colors.uiBoldTextColor}
+                        iconType={MapCreditCardBrandToIcon(card)}
+                        style={{
+                          paddingRight: theme.padding.normal,
+                        }}
+                      />
+                      <BevLargerText>{`.... ${card.last4}`}</BevLargerText>
+                    </View>
+                  </View>
+                </TouchableHighlight>
+                <View style={globalStyles.bevLineRight}>
                   <TouchableHighlight
                     underlayColor={"transparent"}
                     onPress={() => {
-                      if (
-                        !this.props.attemptingUpdate &&
-                        this.props.creditCards.length > 1 &&
-                        card.id !== this.getActiveCard().id
-                      ) {
-                        this.props.updateDefaultCard(card.id);
+                      if (!this.props.attemptingUpdate) {
+                        this.props.removeCard(card.id, index);
                       }
                     }}
-                    style={[
-                      globalStyles.bevLineLeft,
-                      {
-                        alignItems: "flex-start",
-                        flexDirection: "row",
-                        justifyContent: "flex-start",
-                      },
-                    ]}
+                    style={{
+                      paddingRight: 10,
+                    }}
                   >
-                    <View style={{ flex: -1, flexDirection: "row" }}>
-                      <View
-                        style={{
-                          alignItems: "center",
-                          flex: -1,
-                          justifyContent: "center",
-                        }}
-                      >
-                        <CheckBox
-                          isChecked={card.id === this.getActiveCard().id}
-                          isLoading={this.props.attemptingUpdate}
-                        />
-                      </View>
-                      <View
-                        style={{
-                          alignItems: "center",
-                          flex: -1,
-                          flexDirection: "row",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <BevIcon
-                          size={"large"}
-                          color={theme.colors.uiBoldTextColor}
-                          iconType={MapCreditCardBrandToIcon(card)}
-                          style={{
-                            paddingRight: theme.padding.normal,
-                          }}
-                        />
-                        <BevLargerText>
-                          {`.... ${card.last4}`}
-                        </BevLargerText>
-                      </View>
+                    <View>
+                      <BevText color={theme.colors.uiIconColor}>
+                        {this.props.attemptingUpdate ? "Updating..." : "Remove"}
+                      </BevText>
                     </View>
                   </TouchableHighlight>
-                  <View style={globalStyles.bevLineRight}>
-                    <TouchableHighlight
-                      underlayColor={"transparent"}
-                      onPress={() => {
-                        if (!this.props.attemptingUpdate) {
-                          this.props.removeCard(card.id, index);
-                        }
-                      }}
-                      style={{
-                        paddingRight: 10,
-                      }}
-                    >
-                      <View>
-                        <BevText color={theme.colors.uiIconColor}>
-                          {this.props.attemptingUpdate
-                            ? "Updating..."
-                            : "Remove"}
-                        </BevText>
-                      </View>
-                    </TouchableHighlight>
-                  </View>
                 </View>
-              );
-            })
-          : <View />}
+              </View>
+            );
+          })
+        ) : (
+          <View />
+        )}
         <View style={[globalStyles.bevLine]}>
           <TouchableHighlight
             underlayColor={"transparent"}

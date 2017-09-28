@@ -147,75 +147,75 @@ export const rules: DatabaseRules<DatabaseSchema> = {
     addCreditCardToCustomerQueue: {
       tasks: {
         ".indexOn": "_state",
-        "$pushId": {
+        $pushId: {
           ".read": false,
           ".write": "auth !== null",
           ".validate":
             "newData.hasChildren(['stripeCreditCardToken', 'userFirebaseId', 'verificationToken'])" +
-              " && newData.child('userFirebaseId').isString()" +
-              " && newData.child('verificationToken').isString()" +
-              " && newData.child('stripeCreditCardToken').isString()" +
-              " && newData.child('stripeCreditCardToken').val().beginsWith('tok_')" +
-              " && newData.child('stripeCreditCardToken').val().length === 28",
+            " && newData.child('userFirebaseId').isString()" +
+            " && newData.child('verificationToken').isString()" +
+            " && newData.child('stripeCreditCardToken').isString()" +
+            " && newData.child('stripeCreditCardToken').val().beginsWith('tok_')" +
+            " && newData.child('stripeCreditCardToken').val().length === 28",
         },
       },
     },
     removeCreditCardFromCustomerQueue: {
       tasks: {
         ".indexOn": "_state",
-        "$pushId": stripeQueueRule,
+        $pushId: stripeQueueRule,
       },
     },
     updateDefaultCreditCardQueue: {
       tasks: {
         ".indexOn": "_state",
-        "$pushId": stripeQueueRule,
+        $pushId: stripeQueueRule,
       },
     },
     purchaseQueue: {
       tasks: {
         ".indexOn": "_state",
-        "$pushId": {
+        $pushId: {
           ".read": false,
           ".write": "auth !== null",
           ".validate":
             "newData.hasChildren([" +
-              "'userFirebaseId', 'receiverFacebookId', 'purchaseQuantity', 'purchasePrice', 'verificationToken'])" +
-              " && newData.child('userFirebaseId').isString()" +
-              " && newData.child('receiverFacebookId').isString()" +
-              " && newData.child('purchaseQuantity').isNumber()" +
-              " && newData.child('purchasePrice').isNumber()" +
-              " && newData.child('verificationToken').isString()",
+            "'userFirebaseId', 'receiverFacebookId', 'purchaseQuantity', 'purchasePrice', 'verificationToken'])" +
+            " && newData.child('userFirebaseId').isString()" +
+            " && newData.child('receiverFacebookId').isString()" +
+            " && newData.child('purchaseQuantity').isNumber()" +
+            " && newData.child('purchasePrice').isNumber()" +
+            " && newData.child('verificationToken').isString()",
         },
       },
     },
     redeemQueue: {
       tasks: {
         ".indexOn": "_state",
-        "$pushId": {
+        $pushId: {
           ".read": false,
           ".write": "auth !== null",
           ".validate":
             "newData.hasChildren([" +
-              "'userFirebaseId', 'receivedId', 'location', 'quantity', 'verificationToken'])" +
-              " && newData.child('userFirebaseId').isString()" +
-              " && newData.child('receivedId').isString()" +
-              " && newData.child('quantity').isNumber()" +
-              " && newData.child('verificationToken').isString()",
+            "'userFirebaseId', 'receivedId', 'location', 'quantity', 'verificationToken'])" +
+            " && newData.child('userFirebaseId').isString()" +
+            " && newData.child('receivedId').isString()" +
+            " && newData.child('quantity').isNumber()" +
+            " && newData.child('verificationToken').isString()",
         },
       },
     },
     toggleNotificationSettingQueue: {
       tasks: {
         ".indexOn": "_state",
-        "$pushId": {
+        $pushId: {
           ".read": false,
           ".write": "auth !== null",
           ".validate":
             "newData.hasChildren([" +
-              "'userFirebaseId', 'verificationToken'])" +
-              " && newData.child('userFirebaseId').isString()" +
-              " && newData.child('verificationToken').isString()",
+            "'userFirebaseId', 'verificationToken'])" +
+            " && newData.child('userFirebaseId').isString()" +
+            " && newData.child('verificationToken').isString()",
         },
       },
     },

@@ -18,7 +18,7 @@ const Login: React.StatelessComponent<LoginProps> = ({
   loginInProgress,
   goToTermsAndConditions,
   requestLogin,
-}) =>
+}) => (
   <View
     style={{
       flex: 1,
@@ -81,5 +81,6 @@ const Login: React.StatelessComponent<LoginProps> = ({
         </View>
       </TouchableHighlight>
     </View>
-  </View>;
+  </View>
+);
 export default Login;

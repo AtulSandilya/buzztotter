@@ -138,9 +138,10 @@ export function* updateFirebaseUser(action) {
 
   let user: User = yield select<{ user: User }>(state => state.user);
 
-  const userInDb: User = user && user.firebase
-    ? yield call(getFirebaseUser, user.firebase.uid)
-    : undefined;
+  const userInDb: User =
+    user && user.firebase
+      ? yield call(getFirebaseUser, user.firebase.uid)
+      : undefined;
   if (userInDb && userInDb.stripe) {
     user = {
       ...userInDb,

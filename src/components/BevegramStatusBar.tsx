@@ -31,9 +31,7 @@ const BevegramStatusBar: React.StatelessComponent<BevegramStatusBarProps> = ({
           paddingLeft: 10,
         }}
       >
-        <Text style={globalStyles.bevLineTextTitle}>
-          Your Bevegrams :
-        </Text>
+        <Text style={globalStyles.bevLineTextTitle}>Your Bevegrams :</Text>
         <Text style={globalStyles.bevLineText}>
           {" " + userBevegrams.toString()}
         </Text>

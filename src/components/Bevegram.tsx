@@ -77,7 +77,7 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({
   message,
   displayAsUnseen,
   openMessage,
-}) =>
+}) => (
   <View style={styles.parentContainer}>
     <View style={styles.infoContainer}>
       <BevAvatar imageUrl={imagePath} />
@@ -94,23 +94,23 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({
       </View>
     </View>
     <View style={styles.buttonContainer}>
-      {message !== undefined
-        ? <BevButton
-            text="Read"
-            shortText=""
-            onPress={() => {
-              openMessage({
-                date,
-                from,
-                message,
-                photoUrl: imagePath,
-              });
-            }}
-            iconType="messageUnread"
-            isListButton={true}
-            type="secondary"
-          />
-        : null}
+      {message !== undefined ? (
+        <BevButton
+          text="Read"
+          shortText=""
+          onPress={() => {
+            openMessage({
+              date,
+              from,
+              message,
+              photoUrl: imagePath,
+            });
+          }}
+          iconType="messageUnread"
+          isListButton={true}
+          type="secondary"
+        />
+      ) : null}
       <BevButton
         text="Redeem"
         shortText="Redeem"
@@ -120,6 +120,7 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({
         isListButton={true}
       />
     </View>
-  </View>;
+  </View>
+);
 
 export default Bevegram;

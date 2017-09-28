@@ -1,6 +1,8 @@
 import { connect } from "react-redux";
 
-import RedeemInProgress, { RedeemInProgressProps } from "../components/RedeemInProgress";
+import RedeemInProgress, {
+  RedeemInProgressProps,
+} from "../components/RedeemInProgress";
 import { Location, RedeemTransactionStatus } from "../db/tables";
 
 interface MapStateProps {

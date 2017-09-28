@@ -1,6 +1,8 @@
 import { connect } from "react-redux";
 
-import RedeemComplete, { RedeemCompleteProps } from "../components/RedeemComplete";
+import RedeemComplete, {
+  RedeemCompleteProps,
+} from "../components/RedeemComplete";
 import { Location } from "../db/tables";
 
 interface MapStateProps {

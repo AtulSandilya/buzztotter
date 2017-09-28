@@ -44,18 +44,19 @@ const BevPressableLine: React.StatelessComponent<
           paddingHorizontal: props.noHorizontalPadding
             ? 0
             : theme.padding.normal,
-          paddingVertical: props.hideRightArrow || props.showLoading
-            ? theme.padding.normal
-            : theme.padding.small,
+          paddingVertical:
+            props.hideRightArrow || props.showLoading
+              ? theme.padding.normal
+              : theme.padding.small,
         }}
       >
-        <View style={{ flex: 1 }}>
-          {props.children}
-        </View>
+        <View style={{ flex: 1 }}>{props.children}</View>
         <View style={{ flex: -1 }}>
-          {props.showLoading
-            ? <ActivityIndicator />
-            : !props.hideRightArrow ? <RightArrow /> : null}
+          {props.showLoading ? (
+            <ActivityIndicator />
+          ) : !props.hideRightArrow ? (
+            <RightArrow />
+          ) : null}
         </View>
       </View>
     </TouchableHighlight>

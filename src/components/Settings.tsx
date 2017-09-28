@@ -139,7 +139,7 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({
   );
 };
 
-const SettingLeft = props =>
+const SettingLeft = props => (
   <View
     style={{
       alignItems: "flex-start",
@@ -148,9 +148,10 @@ const SettingLeft = props =>
     }}
   >
     {props.children}
-  </View>;
+  </View>
+);
 
-const SettingRight = props =>
+const SettingRight = props => (
   <View
     style={{
       alignItems: "flex-end",
@@ -159,15 +160,21 @@ const SettingRight = props =>
     }}
   >
     {props.children}
-  </View>;
+  </View>
+);
 
-const SettingLine = props =>
+const SettingLine = props => (
   <View style={[styles.settingLine, props.style ? props.style : {}]}>
     {props.children}
-  </View>;
+  </View>
+);
 
-const SettingName = props =>
-  <BevText size="largeNormal" fontWeight="bold">{props.children}</BevText>;
+const SettingName = props => (
+  <BevText size="largeNormal" fontWeight="bold">
+    {props.children}
+  </BevText>
+);
 
-const SettingNameLight = props =>
-  <BevText size="largeNormal">{props.children}</BevText>;
+const SettingNameLight = props => (
+  <BevText size="largeNormal">{props.children}</BevText>
+);

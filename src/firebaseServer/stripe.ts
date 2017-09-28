@@ -55,8 +55,8 @@ const stripeRequest = async (
   const response = await fetch(stripeUrl + url, {
     body: uriEncodeObjectToString(requestDetails),
     headers: {
-      "Accept": "application/json",
-      "Authorization": "Bearer " + stripePrivateApiKey,
+      Accept: "application/json",
+      Authorization: "Bearer " + stripePrivateApiKey,
       "Content-Type": "application/x-www-form-urlencoded",
     },
     method: method,

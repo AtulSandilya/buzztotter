@@ -45,9 +45,10 @@ export const addCreditCard = (state = initialAddCreditCardState, action) => {
       return {
         ...state,
         attemptingVerification: false,
-        failMessage: state.failMessage.length > 0
-          ? state.failMessage
-          : action.payload.error,
+        failMessage:
+          state.failMessage.length > 0
+            ? state.failMessage
+            : action.payload.error,
         failed: true,
       };
     case "END_CREDIT_CARD_VERIFICATION_IF_NOT_ATTEMPTING":

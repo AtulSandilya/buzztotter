@@ -34,7 +34,6 @@ export default class Bevegram extends Component<{}, BevegramState> {
     //   const perfMonitorStartDelay = 500;
     //   const perfMonitorLen = 10000;
     //   PerfMonitor.toggle();
-
     //   setTimeout(() => {
     //     PerfMonitor.start();
     //     setTimeout(() => {

@@ -32,13 +32,14 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
     : props.hero ? "largeNormal" : "small";
   const text = props.children;
 
-  const color = typeof props.calculatedColor === "function"
-    ? props.calculatedColor()
-    : props.color
-      ? props.color
-      : props.iconBold
-        ? theme.colors.uiBoldTextColor
-        : theme.colors.uiTextColor;
+  const color =
+    typeof props.calculatedColor === "function"
+      ? props.calculatedColor()
+      : props.color
+        ? props.color
+        : props.iconBold
+          ? theme.colors.uiBoldTextColor
+          : theme.colors.uiTextColor;
 
   return (
     <View
@@ -53,20 +54,22 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
         props.style,
       ]}
     >
-      {props.icon && !props.iconRight
-        ? <BevIcon
-            color={props.iconColor || theme.colors.uiIconColor}
-            iconType={props.icon}
-            size={props.hero ? "largeNormal" : props.fontSize || "normal"}
-            style={{
-              alignItems: "center",
-              paddingRight: props.morePaddingAfterIcon
-                ? theme.padding.largeNormal
-                : theme.padding[fontSize],
-              width: props.iconWidth || undefined,
-            }}
-          />
-        : <View />}
+      {props.icon && !props.iconRight ? (
+        <BevIcon
+          color={props.iconColor || theme.colors.uiIconColor}
+          iconType={props.icon}
+          size={props.hero ? "largeNormal" : props.fontSize || "normal"}
+          style={{
+            alignItems: "center",
+            paddingRight: props.morePaddingAfterIcon
+              ? theme.padding.largeNormal
+              : theme.padding[fontSize],
+            width: props.iconWidth || undefined,
+          }}
+        />
+      ) : (
+        <View />
+      )}
       <BevText
         allCaps={props.hero || props.preserveCase ? false : true}
         color={color}
@@ -79,29 +82,30 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
           // the text and the icon look like they are misaligned, this
           // corrects the alignment by moving the text up a little
           /* tslint:disable:no-magic-numbers */
-          paddingBottom: Utils.isAndroid && props.icon && !props.iconRight
-            ? 1
-            : 0,
+          paddingBottom:
+            Utils.isAndroid && props.icon && !props.iconRight ? 1 : 0,
           // iOS has the opposite problem
           paddingTop: Utils.isIOS && props.icon ? 2 : 0,
         }}
       >
         {text}
       </BevText>
-      {props.icon && props.iconRight
-        ? <BevIcon
-            color={theme.colors.uiIconColor}
-            iconType={props.icon}
-            size={props.hero ? "large" : "normal"}
-            style={{
-              marginLeft: props.morePaddingAfterIcon
-                ? theme.padding.normal
-                : theme.padding.extraSmall,
-              padding: 0,
-              width: props.iconWidth || undefined,
-            }}
-          />
-        : <View />}
+      {props.icon && props.iconRight ? (
+        <BevIcon
+          color={theme.colors.uiIconColor}
+          iconType={props.icon}
+          size={props.hero ? "large" : "normal"}
+          style={{
+            marginLeft: props.morePaddingAfterIcon
+              ? theme.padding.normal
+              : theme.padding.extraSmall,
+            padding: 0,
+            width: props.iconWidth || undefined,
+          }}
+        />
+      ) : (
+        <View />
+      )}
     </View>
   );
 };
