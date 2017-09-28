@@ -209,6 +209,10 @@ export default class BevegramLocations extends Component<
               </MapView.Marker>
             );
           })}
+          {/* Draw this last to ensure it is rendered on top */}
+          {this.props.userCoords
+            ? <MapView.Marker coordinate={this.props.userCoords} />
+            : null}
         </MapView>
         <View style={{ flex: 4 }}>
           <ListView
