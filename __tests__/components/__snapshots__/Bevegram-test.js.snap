@@ -187,6 +187,7 @@ exports[`renders correctly 1`] = `
                 "paddingTop": 2,
               }
             }
+            underline={false}
           >
             2 YEARS AGO
           </Text>

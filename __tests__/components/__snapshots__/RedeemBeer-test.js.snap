@@ -398,6 +398,7 @@ exports[`RedeemBeer component renders correctly 1`] = `
                         "paddingTop": 2,
                       }
                     }
+                    underline={false}
                   >
                     REFRESH
                   </Text>
@@ -555,6 +556,7 @@ exports[`RedeemBeer component renders correctly 1`] = `
                       "paddingTop": 2,
                     }
                   }
+                  underline={false}
                 >
                   REFRESH
                 </Text>

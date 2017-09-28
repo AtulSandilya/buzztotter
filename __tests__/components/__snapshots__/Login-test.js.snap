@@ -45,6 +45,7 @@ exports[`renders correctly 1`] = `
           "letterSpacing": undefined,
           "lineHeight": 51.25781249999999,
           "marginTop": 24.75,
+          "paddingHorizontal": 16.5,
           "textAlign": "center",
           "textAlignVertical": "center",
           "textShadowColor": "rgba(0, 0, 0, 0.25)",
@@ -58,6 +59,7 @@ exports[`renders correctly 1`] = `
       textStyle={
         Object {
           "marginTop": 24.75,
+          "paddingHorizontal": 16.5,
           "textAlign": "center",
         }
       }
