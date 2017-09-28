@@ -1,15 +1,13 @@
 import * as React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import {
-  Pluralize,
-  PrettyFormatCentsToDollars,
-} from "../CommonUtilities";
-import { globalColors, globalStyles } from "./GlobalStyles";
+import { Pluralize, PrettyFormatCentsToDollars } from "../CommonUtilities";
+import { globalColors } from "./GlobalStyles";
 
 import BevFlatList from "./BevFlatList";
+import BevText from "./BevText";
 import BevTimestamp from "./BevTimestamp";
 
 import {
@@ -230,18 +228,17 @@ class PureHistoryItem extends React.PureComponent<PureHistoryItemProps, {}> {
               paddingBottom: 5,
             }}
           >
-            <Text style={[globalStyles.importantText, { fontSize: 14 }]}>
+            <BevText size="largeNormal" fontWeight="bold">
               {this.props.item.label}
-            </Text>
+            </BevText>
             <BevTimestamp
               date={this.props.item.date}
               style={{
                 paddingRight: 8,
-                alignItems: "flex-end",
               }}
             />
           </View>
-          <Text>{this.props.item.info}</Text>
+          <BevText>{this.props.item.info}</BevText>
         </View>
       </View>
     );
