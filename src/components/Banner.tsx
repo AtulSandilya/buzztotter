@@ -88,7 +88,7 @@ class Banner extends Component<BannerComponentProps, BannerState> {
     // Currently react-native (0.45.1) on Android doesn't support clipped
     // views, a necessary requirement of `Banner`. The workaround is to
     // use ToastAndroid and wait until Android supports `overflow: visible`
-    if (isAndroid) {
+    if (isAndroid && nextProps.message !== "") {
       ToastAndroid.show(nextProps.message, ToastAndroid.LONG);
       return;
     }
