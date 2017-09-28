@@ -34,8 +34,8 @@ const MessageModal: React.StatelessComponent<MessageModalProps> = props => {
         <View
           style={{
             backgroundColor: theme.colors.bevPrimary,
-            flex: 1,
-            flexDirection: "row",
+            borderTopLeftRadius: theme.borderRadius,
+            borderTopRightRadius: theme.borderRadius,
             paddingHorizontal: outerPadding,
             paddingVertical: theme.padding.extraSmall,
           }}
