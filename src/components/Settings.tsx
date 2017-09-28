@@ -1,16 +1,10 @@
 import * as React from "react";
-import {
-  Linking,
-  StyleSheet,
-  Switch,
-  Text,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Linking, StyleSheet, Switch, View, ViewStyle } from "react-native";
 
 import { settingsKeys } from "../reducers/settings";
 
 import BevButton from "./BevButton";
+import BevText from "./BevText";
 import FacebookButton from "./FacebookButton";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 
@@ -125,9 +119,9 @@ export const Settings: React.StatelessComponent<SettingsProps> = ({
               text={"Email Support"}
               shortText={"Email Support"}
               label={"Email Support Button"}
-              fontAwesomeLeftIcon={"life-ring"}
-              margin={linePadding}
-              rightIcon={true}
+              iconType={"support"}
+              rightArrow={true}
+              isListButton={true}
               onPress={() => {
                 Linking.canOpenURL(emailLink).then(supported => {
                   if (supported) {
@@ -173,7 +167,7 @@ const SettingLine = props =>
   </View>;
 
 const SettingName = props =>
-  <Text style={{ fontSize: 20, fontWeight: "bold" }}>{props.children}</Text>;
+  <BevText size="largeNormal" fontWeight="bold">{props.children}</BevText>;
 
 const SettingNameLight = props =>
-  <Text style={{ fontSize: 20 }}>{props.children}</Text>;
+  <BevText size="largeNormal">{props.children}</BevText>;
