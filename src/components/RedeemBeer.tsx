@@ -12,6 +12,8 @@ import {
   ReceivedBevegram,
 } from "../db/tables";
 
+import BevLargerText from "./BevLargerText";
+import BevLargerTitleText from "./BevLargerTitleText";
 import BevUiButton from "./BevUiButton";
 import BevUiText from "./BevUiText";
 import RedeemLocationChoiceLine from "./RedeemLocationChoiceLine";
@@ -83,7 +85,7 @@ export default class RedeemBeer extends Component<
     return (
       <View style={globalStyles.bevLine}>
         <View style={[globalStyles.bevLineLeft, { flex: 1 }]}>
-          <Text style={globalStyles.bevLineTextTitle}>Quantity:</Text>
+          <BevLargerTitleText>Quantity:</BevLargerTitleText>
         </View>
         <View
           style={[
@@ -91,7 +93,7 @@ export default class RedeemBeer extends Component<
             { flex: 1, justifyContent: "flex-end" },
           ]}
         >
-          <Text style={globalStyles.bevLineText}>{this.state.numDrinks}</Text>
+          <BevLargerText>{this.state.numDrinks.toString()}</BevLargerText>
           {allowIncrement
             ? <View style={{ flexDirection: "row" }}>
                 <TouchableHighlight
@@ -162,9 +164,9 @@ export default class RedeemBeer extends Component<
           ]}
         >
           <View style={globalStyles.bevLineLeft}>
-            <Text style={globalStyles.bevLineTextTitle}>
+            <BevLargerTitleText>
               Select Your Location:
-            </Text>
+            </BevLargerTitleText>
           </View>
           <View style={globalStyles.bevLineRight}>
             <TouchableHighlight
@@ -212,16 +214,14 @@ export default class RedeemBeer extends Component<
               <Text
                 style={[
                   globalStyles.smallerHeroText,
-                  { paddingVertical: theme.padding.default },
+                  { paddingVertical: theme.padding.normal },
                 ]}
               >
                 Unable to determine your location!
               </Text>
-              <BevUiButton
-                icon="refresh"
-                text="Try Again"
-                onPress={this.props.updateLocation}
-              />
+              <BevUiButton icon="refresh" onPress={this.props.updateLocation}>
+                {"Refresh"}
+              </BevUiButton>
             </View>}
       </View>
     );
@@ -233,10 +233,10 @@ export default class RedeemBeer extends Component<
         <View style={globalStyles.bevContainer}>
           <View style={globalStyles.bevLine}>
             <View style={globalStyles.bevLineLeft}>
-              <Text style={globalStyles.bevLineTextTitle}>From:</Text>
+              <BevLargerTitleText>From:</BevLargerTitleText>
             </View>
             <View style={globalStyles.bevLineRight}>
-              <Text style={globalStyles.bevLineText}>{this.props.name}</Text>
+              <BevLargerText>{this.props.name}</BevLargerText>
             </View>
           </View>
           {this.renderQuantityLine()}
