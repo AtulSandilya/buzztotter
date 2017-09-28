@@ -73,14 +73,7 @@ exports[`Contact component renders correctly 1`] = `
         ellipsizeMode="tail"
         style={
           Object {
-            "backgroundColor": "transparent",
-            "color": "#333333",
-            "fontFamily": undefined,
-            "fontSize": 15,
-            "fontWeight": "normal",
-            "letterSpacing": undefined,
-            "lineHeight": 22.5,
-            "textAlignVertical": "center",
+            "paddingBottom": 3.259259259259259,
           }
         }
       >
