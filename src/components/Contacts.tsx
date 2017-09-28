@@ -6,14 +6,11 @@ import {
   Modal,
   RefreshControl,
   StyleSheet,
-  Text,
   TextInput,
   ToastAndroid,
   TouchableHighlight,
   View,
 } from "react-native";
-
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import {
   isAndroid,
@@ -25,11 +22,15 @@ import { BrandingHeight } from "./Branding";
 import { globalColors, globalStyles } from "./GlobalStyles.js";
 
 import { buildFacebookProfilePicUrlFromFacebookId } from "../api/facebook";
+import BevText, { buildBevTextStyle } from "./BevText";
 
 import CContact from "../containers/CContact";
 import theme from "../theme";
+
+import BevIcon from "./BevIcon";
 import FacebookButton from "./FacebookButton";
 
+import * as Utils from "../ReactNativeUtilities";
 import { Contact } from "../reducers/contacts";
 import {
   ContactsSortingMethod,
@@ -94,7 +95,21 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
 
   const QueryBarColor = theme.colors.uiBoldTextColor;
   const QueryBarHeight = 44;
+  const QueryBarFontSize = "small";
   const isSearching = searchInputIsFocused || "" !== searchQuery;
+
+  const QueryBarIcon = (props: { iconType: any; isBold?: boolean }) => {
+    return (
+      <BevIcon
+        color={props.isBold ? QueryBarColor : undefined}
+        iconType={props.iconType}
+        size={"normal"}
+        style={{
+          paddingRight: theme.padding.extraSmall,
+        }}
+      />
+    );
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -117,25 +132,26 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
           underlayColor={"rgba(255, 255, 255, 1)"}
         >
           <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-            <FontAwesome
-              name={"search"}
-              size={14}
-              color={QueryBarColor}
-              style={{
-                paddingRight: 7,
-              }}
-            />
+            <QueryBarIcon iconType="search" />
             <TextInput
-              style={{
-                color: QueryBarColor,
-                fontSize: 10,
-                height: QueryBarHeight,
-                width: 150,
-              }}
+              style={[
+                buildBevTextStyle({
+                  size: QueryBarFontSize,
+                  textStyle: {
+                    color: QueryBarColor,
+                    height: QueryBarHeight,
+                    paddingTop: Utils.isIOS
+                      ? theme.padding.extraExtraSmall
+                      : Utils.isAndroid ? theme.padding.normal : 0,
+                    width: 150,
+                  },
+                }),
+              ]}
               autoCorrect={false}
               placeholder={"SEARCH"}
               placeholderTextColor={QueryBarColor}
               value={searchQuery}
+              underlineColorAndroid="transparent"
               onChangeText={text => {
                 updateSearchQuery(text);
               }}
@@ -168,14 +184,9 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
                     changeSortMethod("Upcoming Birthday");
                   }}
                 >
-                  <FontAwesome
-                    name="times-circle"
-                    size={14}
-                    color={QueryBarColor}
-                    style={{
-                      paddingRight: 7,
-                    }}
-                  />
+                  <View>
+                    <QueryBarIcon iconType="close" />
+                  </View>
                 </TouchableHighlight>
               : <View />}
           </View>
@@ -209,33 +220,18 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
                   },
                 ]}
               >
-                <FontAwesome
-                  name={"signal"}
-                  size={14}
+                <QueryBarIcon iconType="sort" />
+                <BevText
                   color={QueryBarColor}
-                  style={{
-                    paddingRight: 10,
-                    top: -4,
-                    transform: [{ rotate: "270deg" }],
-                  }}
-                />
-                <Text
-                  style={{
-                    color: QueryBarColor,
-                    fontSize: 10,
+                  size={QueryBarFontSize}
+                  textStyle={{
+                    paddingTop: Utils.isIOS ? theme.padding.extraExtraSmall : 0,
                   }}
                 >
                   SORT BY
-                </Text>
+                </BevText>
                 {isSortOptionsVisible
-                  ? <FontAwesome
-                      name={"times-circle"}
-                      size={14}
-                      color={QueryBarColor}
-                      style={{
-                        paddingLeft: 10,
-                      }}
-                    />
+                  ? <QueryBarIcon iconType="close" />
                   : <View />}
               </View>
             </TouchableHighlight>
@@ -272,38 +268,38 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
           >
             <View
               style={{
-                position: "absolute",
                 backgroundColor: "#ffffff",
+                elevation: 10,
                 flex: -1,
                 // Android Window Width includes the status bar and doesn't
-                top:
-                  BrandingHeight -
-                    (isAndroid ? StatusBarHeight : 0) +
-                    QueryBarHeight,
-                right: 0,
-                width: 150,
                 flexDirection: "column",
+                position: "absolute",
+                right: 0,
                 shadowColor: "#333333",
-                shadowOpacity: 0.25,
-                shadowRadius: 0.95,
                 shadowOffset: {
                   height: 2,
                   width: -2,
                 },
-                elevation: 10,
+                shadowOpacity: 0.25,
+                shadowRadius: 0.95,
+                top:
+                  BrandingHeight -
+                    (isAndroid ? StatusBarHeight : 0) +
+                    QueryBarHeight,
+                width: 150,
               }}
             >
               {sortingMethodsList.map((sortingMethod, id) =>
                 <TouchableHighlight
                   underlayColor={"rgba(255, 255, 255, 1)"}
                   style={{
-                    height: QueryBarHeight,
-                    flexDirection: "row",
-                    flex: -1,
                     alignItems: "center",
                     backgroundColor: sortingMethod.name === activeSortingMethod
                       ? "#cccccc"
                       : "#ffffff",
+                    flex: -1,
+                    flexDirection: "row",
+                    height: QueryBarHeight,
                     padding: 8,
                     zIndex: 6,
                   }}
@@ -313,23 +309,20 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
                     changeSortMethod(sortingMethod.name);
                   }}
                 >
-                  <View style={{ flex: 1, flexDirection: "row" }}>
-                    <FontAwesome
-                      name={sortingMethod.icon}
-                      size={14}
-                      color={QueryBarColor}
-                      style={{
-                        paddingRight: 10,
-                      }}
+                  <View
+                    style={{
+                      alignItems: "center",
+                      flex: 1,
+                      flexDirection: "row",
+                    }}
+                  >
+                    <QueryBarIcon
+                      iconType={sortingMethod.icon}
+                      isBold={sortingMethod.name === activeSortingMethod}
                     />
-                    <Text
-                      style={{
-                        color: QueryBarColor,
-                        fontSize: 10,
-                      }}
-                    >
+                    <BevText color={QueryBarColor} size={QueryBarFontSize}>
                       {sortingMethod.name.toUpperCase()}
-                    </Text>
+                    </BevText>
                   </View>
                 </TouchableHighlight>,
               )}
@@ -370,19 +363,27 @@ const Contacts: React.StatelessComponent<ContactsProps> = ({
             }}
             title="Updating..."
             tintColor={globalColors.bevPrimary}
-            progressViewOffset={50}
+            progressViewOffset={theme.padding.hero}
             colors={[globalColors.bevPrimary]}
           />
         }
         renderFooter={() => {
           return (
-            <FacebookButton
-              text="Invite Friends"
-              size="normal"
-              onPress={showAppInvite}
-              showActivityIndicator={inviteInProgress}
-              marginTop={15}
-            />
+            <View
+              style={{
+                alignItems: "center",
+                flex: 1,
+                paddingTop: theme.padding.normal,
+              }}
+            >
+              <FacebookButton
+                text="Invite Friends"
+                size="normal"
+                onPress={showAppInvite}
+                showActivityIndicator={inviteInProgress}
+                marginTop={theme.padding.large}
+              />
+            </View>
           );
         }}
       />
