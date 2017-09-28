@@ -2,12 +2,14 @@ import { connect } from "react-redux";
 
 import Bevegrams, { BevegramsProps } from "../components/Bevegrams";
 
-import { ReceivedBevegram } from "../db/tables";
+import { MessageData } from "../components/Bevegram";
+import { modalKeys } from "../reducers/modals";
 
 interface StateProps {
   bevegramsList?: string[];
   receivedBevegrams?: any;
-  redeemModalIsOpen?: boolean;
+  messageModalIsOpen?: boolean;
+  messageModalData?: MessageData;
   isLoadingBevegrams?: boolean;
   unseenBevegrams?: number;
 }
@@ -22,21 +24,22 @@ const mapStateToProps = (state): StateProps => {
       .sort()
       .reverse(),
     isLoadingBevegrams: state.bevegramsTab.isLoadingBevegrams,
+    messageModalData: state.modals.messageModal.data,
+    messageModalIsOpen: state.modals.messageModal.isOpen,
     receivedBevegrams: state.receivedBevegrams,
-    redeemModalIsOpen: state.modals.redeemBevegramModal.isOpen,
     unseenBevegrams: state.badges.unseenReceivedBevegrams,
   };
 };
 
 interface DispatchProps {
-  closeModal?(input: string): void;
+  closeMessage?(): void;
   reloadBevegrams?(): void;
 }
 
 const mapDispatchToProps = (dispatch): DispatchProps => {
   return {
-    closeModal: inputKey => {
-      dispatch({ type: "CLOSE_MODAL", modalKey: inputKey });
+    closeMessage: () => {
+      dispatch({ type: "CLOSE_MODAL", modalKey: modalKeys.messageModal });
     },
     reloadBevegrams: () => {
       dispatch({ type: "FETCH_RECEIVED_BEVEGRAMS" });

@@ -1,11 +1,14 @@
 import * as React from "react";
-import { ListView, RefreshControl, Text, View } from "react-native";
+import { ListView, RefreshControl, View } from "react-native";
 
 import { buildFacebookProfilePicUrlFromFacebookId } from "../api/facebook";
 import { ParseIntAsDecimal } from "../CommonUtilities";
 import { ReceivedBevegram } from "../db/tables";
 
 import CBevegram from "../containers/CBevegram";
+import { MessageData } from "./Bevegram";
+import BevText from "./BevText";
+import MessageModal from "./MessageModal";
 
 import { globalColors, globalStyles } from "./GlobalStyles";
 
@@ -13,19 +16,21 @@ const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export interface BevegramsProps {
   bevegramsList?: string[];
-  redeemModalIsOpen?: boolean;
+  messageModalIsOpen?: boolean;
+  messageModalData?: MessageData;
   isLoadingBevegrams?: boolean;
   tabLabel?: string;
   receivedBevegrams?: any;
   unseenBevegrams?: number;
-  closeModal?(input: string): void;
-  reloadBevegrams?(): void;
+  closeMessage: () => void;
+  reloadBevegrams: () => void;
 }
 
 const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
   bevegramsList,
-  redeemModalIsOpen,
-  closeModal,
+  messageModalIsOpen,
+  messageModalData,
+  closeMessage,
   isLoadingBevegrams,
   reloadBevegrams,
   receivedBevegrams,
@@ -45,6 +50,7 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
           <CBevegram
             from={thisBevegram.sentFromName}
             date={thisBevegram.receivedDate}
+            message={thisBevegram.message}
             quantity={thisBevegram.quantity - thisBevegram.quantityRedeemed}
             imagePath={buildFacebookProfilePicUrlFromFacebookId(
               thisBevegram.sentFromFacebookId,
@@ -86,13 +92,21 @@ const Bevegrams: React.StatelessComponent<BevegramsProps> = ({
                 },
               ]}
             >
-              <Text style={{ color: "#666", padding: 15 }}>
+              <BevText>
                 You have 0 bevegrams!
-              </Text>
+              </BevText>
             </View>
           );
         }
       }}
+    />
+    <MessageModal
+      isVisible={messageModalIsOpen}
+      onRequestClose={closeMessage}
+      date={messageModalData.date}
+      from={messageModalData.from}
+      photoUrl={messageModalData.photoUrl}
+      message={messageModalData.message}
     />
   </View>;
 

@@ -8,12 +8,15 @@ import {
   View,
 } from "react-native";
 
+import theme from "../theme";
+
+/* tslint:disable:no-magic-numbers */
 const calcDimensions = (dimensionProperty, innerSize) => {
   const full = Dimensions.get("window")[dimensionProperty];
   return {
-    full: full,
-    inner: full * innerSize,
     edge: (full - full * innerSize) / 2,
+    full,
+    inner: full * innerSize,
   };
 };
 
@@ -23,7 +26,9 @@ interface CenteredModalProps {
   heightPercent?: number;
   widthPercent?: number;
   children?: React.ReactChild;
-  closeFromParent?(): void;
+  backgroundColor?: string;
+  tappingAnywhereCloses?: boolean;
+  onRequestClose?(): void;
 }
 
 const CenteredModal: React.StatelessComponent<CenteredModalProps> = ({
@@ -32,7 +37,9 @@ const CenteredModal: React.StatelessComponent<CenteredModalProps> = ({
   bgOpacity = 0.6,
   heightPercent = 0.8,
   widthPercent = 0.9,
-  closeFromParent,
+  backgroundColor,
+  tappingAnywhereCloses,
+  onRequestClose,
 }) => {
   const width = calcDimensions("width", widthPercent);
   const height = calcDimensions("height", heightPercent);
@@ -42,7 +49,7 @@ const CenteredModal: React.StatelessComponent<CenteredModalProps> = ({
       animationType={"fade"}
       transparent={true}
       visible={isVisible}
-      onRequestClose={() => closeFromParent()}
+      onRequestClose={() => onRequestClose()}
     >
       <View
         style={{
@@ -52,9 +59,9 @@ const CenteredModal: React.StatelessComponent<CenteredModalProps> = ({
       >
         <View
           style={{
+            backgroundColor: "rgba(34, 34, 34, " + bgOpacity.toString() + ")",
             height: height.full,
             width: width.full,
-            backgroundColor: "rgba(34, 34, 34, " + bgOpacity.toString() + ")",
             zIndex: 1,
           }}
         >
@@ -64,26 +71,34 @@ const CenteredModal: React.StatelessComponent<CenteredModalProps> = ({
               width: width.full,
             }}
             underlayColor={"#222222"}
-            onPress={() => closeFromParent()}
+            onPress={() => onRequestClose()}
           >
-            <Text> </Text>
+            <Text>{" "}</Text>
           </TouchableHighlight>
         </View>
-        <View
+        <TouchableHighlight
+          onPress={tappingAnywhereCloses ? onRequestClose : undefined}
+          underlayColor="transparent"
           style={{
+            backgroundColor: backgroundColor || "#ffffff",
             height: height.inner,
-            width: width.inner,
-            backgroundColor: "#ffffff",
+            left: width.edge,
             position: "absolute",
             top: height.edge,
-            left: width.edge,
+            width: width.inner,
             zIndex: 100,
           }}
         >
-          <ScrollView style={{ zIndex: 100, height: height.inner }}>
+          <ScrollView
+            style={{
+              borderRadius: theme.borderRadius,
+              height: height.inner,
+              zIndex: 110,
+            }}
+          >
             {children}
           </ScrollView>
-        </View>
+        </TouchableHighlight>
       </View>
     </Modal>
   );

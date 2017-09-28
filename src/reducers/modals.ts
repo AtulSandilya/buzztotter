@@ -1,10 +1,15 @@
 export const modalKeys = {
+  messageModal: "messageModal",
   purchaseBeerModal: "purchaseBeerModal",
   redeemBevegramModal: "redeemBevegramModal",
   settingsModal: "settingsModal",
 };
 
 const defaultModalState = {
+  messageModal: {
+    data: {},
+    isOpen: false,
+  },
   purchaseBeerModal: {
     confirmed: false,
     data: {},

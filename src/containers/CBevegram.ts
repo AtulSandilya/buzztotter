@@ -5,8 +5,11 @@ import Bevegram, {
   SelectedBevegramPackage,
 } from "../components/Bevegram";
 
+import {modalKeys} from "../reducers/modals";
+
 interface DispatchProps {
   goToRedeem?(routeData: object): void;
+  openMessage?(data: object): void;
 }
 
 const mapDispatchToProps = (dispatch): DispatchProps => {
@@ -17,6 +20,9 @@ const mapDispatchToProps = (dispatch): DispatchProps => {
         type: "ON_REDEEMABLE_BEVEGRAM_PRESS",
         payload: selectedBevegramPackage,
       });
+    },
+    openMessage: (data) => {
+      dispatch({type: "OPEN_MODAL", modalKey: modalKeys.messageModal, dataForModal: data});
     },
   };
 };
