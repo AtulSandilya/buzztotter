@@ -1,187 +1,161 @@
 import * as React from "react";
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TextStyle,
-  TouchableHighlight,
-  View,
-  ViewStyle,
-} from "react-native";
+import { StyleSheet, TouchableHighlight, View } from "react-native";
 
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Ionicon from "react-native-vector-icons/Ionicons";
+import Color from "color";
 
-import { isAndroid, isNarrow } from "../ReactNativeUtilities";
-import { globalColors } from "./GlobalStyles";
+import theme, { SizeName } from "../theme";
 
-interface Style {
-  button: ViewStyle;
-  greenButton: ViewStyle;
-  buttonContainer: ViewStyle;
-  buttonText: TextStyle;
-  greenButtonText: TextStyle;
-}
+import BevIcon, { IconType } from "./BevIcon";
+import BevShadow from "./BevShadow";
+import BevText from "./BevText";
 
-const styles = StyleSheet.create<Style>({
-  button: {
-    alignItems: "center",
-    backgroundColor: globalColors.bevSecondary,
-    borderColor: "#000000",
-    borderRadius: 10,
-    elevation: 5,
-    flex: -1,
-    flexDirection: "row",
-    justifyContent: "center",
-    margin: 15,
-    padding: 15,
-    shadowColor: "#333333",
-    shadowOffset: {
-      height: 1,
-      width: 2,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 0.95,
-  },
-  buttonContainer: {
-    flex: -1,
-    flexDirection: "row-reverse",
-  },
-  buttonText: {
-    backgroundColor: "rgba(0, 0, 0, 0)",
-    color: "#ffffff",
-  },
-  greenButton: {
-    backgroundColor: globalColors.bevPrimary,
-  },
-  greenButtonText: {
-    color: "#333333",
-  },
-});
+import * as Utils from "../ReactNativeUtilities";
 
 // A button should be at least 44dp tall, and taller if the font size is
 // larger than the default 12
-export const getButtonHeight = (buttonFontSize = 12) => {
-  const buttonHeight = 44 + (buttonFontSize - 12);
+export const getButtonHeight = (buttonFontSize = theme.font.size.normal) => {
+  const minButtonHeight = 44;
+  const buttonHeight =
+    minButtonHeight + (buttonFontSize - theme.font.size.normal);
 
-  return buttonHeight > 44 ? buttonHeight : 44;
+  return buttonHeight > minButtonHeight ? buttonHeight : minButtonHeight;
 };
 
-const BevButton = ({
-  text,
-  shortText,
-  // Accessibility label and test label (Espresso accesses this with
-  // "withContentDescription" )
-  label,
-  buttonFontSize = 12,
-  onPress,
-  rightIcon = false,
-  margin = 12,
-  showSpinner = false,
-  showDisabled = false,
-  isGreen = false,
-  // In a row with two buttons if one has an icon it will be taller than the
-  // button without the icon, this prop makes the icon button shorter, trying
-  // to match the height of the adjacentButton
-  leftIcon = "",
-  fontAwesomeLeftIcon = "",
-  style = {},
-}) => {
-  const useShortText = isNarrow;
-  const iconStyle = isAndroid
-    ? {
-        fontSize: buttonFontSize * 2,
-        paddingVertical: 0,
-      }
-    : {
-        fontSize: buttonFontSize * 2,
-        paddingTop: 2,
-      };
-  const smallIconStyle = isAndroid
-    ? {
-        fontSize: buttonFontSize * 1.5,
-      }
-    : {
-        fontSize: buttonFontSize * 1.5,
-        paddingTop: 2,
-      };
+type ButtonType =
+  | "primaryPositive"
+  | "primaryNegative"
+  | "secondary"
+  | "secondaryNegative"
+  | "tertiary"
+  | "facebook";
 
-  const buttonHeight = getButtonHeight(buttonFontSize);
+/* tslint:disable:ban-types */
+interface BevButtonProps {
+  onPress: Function;
+  shortText: string;
+  text: string;
+  children?: any;
+  isListButton?: boolean;
+  label?: string;
+  fontSize?: SizeName;
+  showSpinner?: boolean;
+  iconType?: IconType;
+  type?: ButtonType;
+  rightArrow?: boolean;
+}
 
-  const buttonStyle = StyleSheet.flatten([
-    styles.button,
-    style,
-    isGreen ? styles.greenButton : {},
-  ]);
-  const buttonTextStyle = isGreen ? styles.greenButtonText : styles.buttonText;
-  const leftIconPadding = text !== "" ? 10 : 0;
+interface BevButtonTypeProps {
+  backgroundColor: string;
+  borderColor?: string;
+  textColor: string;
+}
+
+const BevButton: React.StatelessComponent<BevButtonProps> = props => {
+  const buttonTouchedOpacity = 0.15;
+  const text = Utils.isNarrow ? props.shortText : props.text;
+  const fontSize =
+    props.fontSize || (props.isListButton ? "normal" : "largeNormal");
+  const iconSize = fontSize;
+  const borderRadius = theme.borderRadius;
+  const iconLeft = props.iconType !== undefined && props.type !== "tertiary";
+  const iconRight = props.rightArrow !== undefined;
+
+  const buildButtonTypeProps = (type: ButtonType): BevButtonTypeProps => {
+    switch (type) {
+      case "primaryPositive":
+      default:
+        return {
+          backgroundColor: theme.colors.bevSecondary,
+          borderColor: theme.colors.bevSecondary,
+          textColor: theme.colors.white,
+        };
+      case "primaryNegative":
+        return {
+          backgroundColor: theme.colors.failureBg,
+          borderColor: theme.colors.failureBg,
+          textColor: theme.colors.white,
+        };
+      case "secondary":
+        return {
+          backgroundColor: theme.colors.bevPrimary,
+          borderColor: theme.colors.bevPrimary,
+          textColor: theme.colors.white,
+        };
+      case "secondaryNegative":
+        return {
+          backgroundColor: theme.colors.white,
+          borderColor: theme.colors.uiLight,
+          textColor: theme.colors.failureBg,
+        };
+      case "tertiary":
+        return {
+          backgroundColor: "transparent",
+          textColor: theme.colors.uiTextColor,
+        };
+      case "facebook":
+        return {
+          backgroundColor: theme.colors.brands.facebook,
+          textColor: theme.colors.white,
+        };
+    }
+  };
+
+  const buttonTypeProps = buildButtonTypeProps(props.type);
+
+  const ButtonIcon = (buttonIconProps: { iconType: IconType }) =>
+    <BevIcon
+      iconType={buttonIconProps.iconType}
+      size={iconSize}
+      color={buttonTypeProps.textColor}
+      style={{
+        paddingHorizontal: theme.padding.normal,
+      }}
+    />;
 
   return (
-    <View style={styles.buttonContainer} accessibilityLabel={label}>
-      <TouchableHighlight onPress={onPress} underlayColor={"#ffffff"}>
-        <View
-          style={[
-            buttonStyle,
-            { margin: margin },
-            showDisabled
-              ? { backgroundColor: "rgba(128, 128, 128, 0.5)" }
-              : null,
-            rightIcon || leftIcon.length !== 0 ? { paddingVertical: 11 } : null,
-            isNarrow ? { paddingVertical: 11 } : null,
-            { height: buttonHeight },
-          ]}
-        >
-          {leftIcon.length !== 0
-            ? <Ionicon
-                name={leftIcon}
-                style={[
-                  buttonTextStyle,
-                  smallIconStyle,
-                  { paddingRight: leftIconPadding },
-                ]}
-              />
-            : null}
-          {fontAwesomeLeftIcon.length !== 0
-            ? <FontAwesome
-                name={fontAwesomeLeftIcon}
-                style={[
-                  buttonTextStyle,
-                  smallIconStyle,
-                  { paddingRight: leftIconPadding },
-                ]}
-              />
-            : null}
-          {showSpinner
-            ? <ActivityIndicator
-                color="#ffffff"
-                animating={true}
-                style={{
-                  flex: -1,
-                  paddingRight: 10,
-                }}
-              />
-            : null}
-          {text !== ""
-            ? <Text
-                numberOfLines={1}
-                style={[buttonTextStyle, { fontSize: buttonFontSize }]}
-              >
-                {useShortText ? shortText : text}
-              </Text>
-            : null}
-          {rightIcon
-            ? <Ionicon
-                name={"ios-arrow-forward"}
-                style={[
-                  buttonTextStyle,
-                  iconStyle,
-                  { paddingLeft: 10, flex: -1 },
-                ]}
-              />
-            : null}
+    <BevShadow
+      borderRadius={borderRadius}
+      hasShadow={props.type ? props.type.indexOf("tertiary") !== 0 : true}
+    >
+      <TouchableHighlight
+        underlayColor={Color(buttonTypeProps.backgroundColor)
+          .lighten(buttonTouchedOpacity)
+          .hex()
+          .toString()}
+        onPress={() => props.onPress()}
+        style={{
+          backgroundColor: buttonTypeProps.backgroundColor,
+          borderColor: buttonTypeProps.borderColor || undefined,
+          borderRadius,
+          borderWidth: buttonTypeProps.borderColor
+            ? StyleSheet.hairlineWidth
+            : 0,
+          flex: -1,
+        }}
+      >
+        <View style={{ flex: -1, flexDirection: "row", alignItems: "center" }}>
+          {iconLeft ? <ButtonIcon iconType={props.iconType} /> : null}
+          <BevText
+            allCaps={false}
+            color={buttonTypeProps.textColor}
+            fontWeight="bold"
+            isCondensed={true}
+            size={fontSize}
+            showTextShadow={theme.colors.white === buttonTypeProps.textColor}
+            textStyle={{
+              paddingLeft: iconLeft ? 0 : theme.padding.normal,
+              paddingRight: iconRight ? 0 : theme.padding.normal,
+              paddingVertical: theme.padding.small,
+              top: Utils.isAndroid ? -1 : 0,
+            }}
+          >
+            {text}
+          </BevText>
+          {props.showSpinner ? <ButtonIcon iconType={"spinner"} /> : null}
+          {props.rightArrow ? <ButtonIcon iconType={"rightArrow"} /> : null}
         </View>
       </TouchableHighlight>
-    </View>
+    </BevShadow>
   );
 };
 
