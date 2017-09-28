@@ -76,34 +76,34 @@ const initialState = {
   toastContactsReloaded: false,
 };
 
-const sortContactsByBirthday = contacts => {
-  const dayOfYear = moment().dayOfYear();
+// const sortContactsByBirthday = contacts => {
+//   const dayOfYear = moment().dayOfYear();
 
-  const newContacts = contacts.map(contact => {
-    const daysInYear = 365;
-    if (contact.birthDayOfYear < dayOfYear) {
-      contact.birthDayOfYear += daysInYear;
-    }
-    return contact;
-  });
+//   const newContacts = contacts.map(contact => {
+//     const daysInYear = 365;
+//     if (contact.birthDayOfYear < dayOfYear) {
+//       contact.birthDayOfYear += daysInYear;
+//     }
+//     return contact;
+//   });
 
-  newContacts.sort((a, b) => {
-    if (a.birthDayOfYear > b.birthDayOfYear) {
-      return 1;
-    }
-    if (a.birthDayOfYear < b.birthDayOfYear) {
-      return -1;
-    }
-    if (a.birthDayOfYear === b.birthDayOfYear) {
-      return 0;
-    }
-  });
+//   newContacts.sort((a, b) => {
+//     if (a.birthDayOfYear > b.birthDayOfYear) {
+//       return 1;
+//     }
+//     if (a.birthDayOfYear < b.birthDayOfYear) {
+//       return -1;
+//     }
+//     if (a.birthDayOfYear === b.birthDayOfYear) {
+//       return 0;
+//     }
+//   });
 
-  return newContacts;
-};
+//   return newContacts;
+// };
 
 const addContactsFromFacebook = (state, contacts) => {
-  const newContacts = contacts.data.map((contact) => {
+  const newContacts = contacts.data.map(contact => {
     let birthday = "unknown";
     if (contact.birthday) {
       birthday = contact.birthday;
