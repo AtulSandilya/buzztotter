@@ -28,15 +28,15 @@ export interface ContactsSortOptionsViewLine {
 export const ContactsSortOptionsViewList: ContactsSortOptionsViewLine[] = [
   {
     name: ContactsSort.UpcomingBirthday,
-    icon: "birthday-cake",
+    icon: "birthday",
   },
   {
     name: ContactsSort.FirstName,
-    icon: "sort-alpha-asc",
+    icon: "sortAlphabetical",
   },
   {
     name: ContactsSort.LastName,
-    icon: "sort-alpha-asc",
+    icon: "sortAlphabetical",
   },
 ];
 
