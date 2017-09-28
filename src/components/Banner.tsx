@@ -7,6 +7,7 @@ import * as ReactMixin from "react-mixin";
 import * as TimerMixin from "react-timer-mixin";
 
 import theme from "../theme";
+import { IconType } from "./BevIcon";
 import BevUiText from "./BevUiText";
 
 import { isAndroid } from "../ReactNativeUtilities";
@@ -22,7 +23,7 @@ interface BannerState {
 
 interface BannerTheme {
   color: string;
-  icon?: string;
+  icon?: IconType;
 }
 
 interface BannerComponentProps extends BannerProps {
@@ -56,12 +57,12 @@ class Banner extends Component<BannerComponentProps, BannerState> {
       case "alert":
         return {
           color: theme.colors.failureBg,
-          icon: "exclamation-circle",
+          icon: "alert",
         };
       case "success":
         return {
           color: theme.colors.successBg,
-          icon: "bell",
+          icon: "notification",
         };
       default:
         return {
@@ -138,12 +139,12 @@ class Banner extends Component<BannerComponentProps, BannerState> {
       return null;
     }
 
-    const theme = this.getBannerTheme();
+    const bannerTheme = this.getBannerTheme();
     return (
       <Animated.View
         style={{
           alignItems: "center",
-          backgroundColor: theme.color,
+          backgroundColor: bannerTheme.color,
           height: this.openHeight,
           justifyContent: "center",
           opacity: 0.95,
@@ -154,13 +155,11 @@ class Banner extends Component<BannerComponentProps, BannerState> {
         }}
       >
         <BevUiText
-          color="#ffffff"
-          icon={
-            this.props.fontAwesomeIcon ? this.props.fontAwesomeIcon : theme.icon
-          }
-          fontSize="huge"
-          iconSize="huge"
-          preserveCase={true}
+          color={theme.colors.white}
+          iconColor={theme.colors.white}
+          icon={bannerTheme.icon}
+          fontSize="normal"
+          iconSize="normal"
         >
           {this.props.message}
         </BevUiText>

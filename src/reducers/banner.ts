@@ -2,7 +2,6 @@ export type BannerStyle = "alert" | "success" | "message";
 
 export interface BannerProps {
   dismiss: boolean;
-  fontAwesomeIcon?: string;
   message: string;
   show: boolean;
   style: BannerStyle;
