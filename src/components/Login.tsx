@@ -45,6 +45,7 @@ const Login: React.StatelessComponent<LoginProps> = ({
         size={"extraLarge"}
         textStyle={{
           marginTop: theme.padding.extraLarge,
+          paddingHorizontal: theme.padding.large,
           textAlign: "center",
         }}
       >
