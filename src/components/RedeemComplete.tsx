@@ -144,7 +144,7 @@ class RedeemComplete extends React.Component<RedeemCompleteProps, {}> {
               <BevTimestamp
                 colorThreshold={this.startRedTime}
                 date={this.props.redeemCompletedTime}
-                size={"extraLarge"}
+                size={"large"}
                 preserveCase={true}
                 hero={true}
                 hideIcon={true}
@@ -177,7 +177,7 @@ interface HeroLineProps {
 
 const HeroLine: React.StatelessComponent<HeroLineProps> = props => {
   const heroMargin = 15;
-  const heroTextSize = "extraLarge";
+  const heroTextSize = "large";
 
   if (props.text && props.icon) {
     return (
