@@ -1,29 +1,27 @@
 import * as React from "react";
-import { ActivityIndicator, Text, View } from "react-native";
-
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { View } from "react-native";
 
 import { EventStatus } from "../db/tables";
 
 import theme from "../theme";
+import BevIcon, { IconType } from "./BevIcon";
+import BevLargerTitleText from "./BevLargerTitleText";
 
 import { globalStyles } from "./GlobalStyles";
 
-const iconSize = 30;
-
-const StatusLineIcon = (iconName: string, color: string) => {
+const StatusLineIcon = (iconName: IconType, color: string) => {
   return (
-    <FontAwesome
-      name={iconName}
-      size={iconSize}
+    <BevIcon
+      iconType={iconName}
+      size={"largeNormal"}
       color={color}
       style={{ paddingRight: 7 }}
     />
   );
 };
 
-const StatusLineActivityIndicator = (isSpinning: boolean = true) =>
-  <ActivityIndicator style={{ marginRight: 10 }} animating={isSpinning} />;
+const StatusLineActivityIndicator = () =>
+  <BevIcon style={{ marginRight: 10 }} iconType={"spinner"} />;
 
 interface StatusLineProps {
   statusKey: string;
@@ -42,13 +40,13 @@ const StatusLine = (props: StatusLineProps) => {
   const status: EventStatus = props.statusObject[props.statusKey];
 
   let component;
-  const successIcon = "check-circle-o";
+  const successIcon = "success";
   const successColor = theme.colors.success;
 
-  const failureIcon = "times-circle-o";
+  const failureIcon = "failure";
   const failureColor = theme.colors.failure;
 
-  const indifferentIcon = "minus";
+  const indifferentIcon = "indifferent";
   const indifferentColor = "#999";
 
   if (status === "complete") {
@@ -71,9 +69,9 @@ const StatusLine = (props: StatusLineProps) => {
   return (
     <View style={globalStyles.bevLine}>
       <View style={globalStyles.bevLineLeft}>
-        <Text style={globalStyles.bevLineTextTitle}>
-          {props.title}:
-        </Text>
+        <BevLargerTitleText>
+          {`${props.title}:`}
+        </BevLargerTitleText>
       </View>
       <View style={globalStyles.bevLineRight}>
         {component}

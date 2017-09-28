@@ -1,19 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import {
-  ActivityIndicator,
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TextStyle,
-  TouchableHighlight,
-  View,
-  ViewStyle,
-} from "react-native";
-
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Ionicon from "react-native-vector-icons/Ionicons";
+import { TextInput, TouchableHighlight, View } from "react-native";
 
 import { WindowWidth } from "../ReactNativeUtilities";
 
@@ -29,28 +16,37 @@ import { PurchaseState } from "../reducers/purchase";
 
 import { InProgressData } from "./PurchaseAndOrSendInProgress";
 
+import theme, { SizeName } from "../theme";
+
+import BevAvatar from "./BevAvatar";
 import BevButton, { getButtonHeight } from "./BevButton";
+import BevIcon from "./BevIcon";
+import BevLargerText, { BevLargerTextInputStyle } from "./BevLargerText";
+import BevLargerTitleText from "./BevLargerTitleText";
+import BevText from "./BevText";
+import RightArrow from "./RightArrow";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 
-import { BevLayoutAnimation, globalColors, globalStyles } from "./GlobalStyles";
+import { BevLayoutAnimation, globalStyles } from "./GlobalStyles";
 
-export const FormatCreditCardBrandForFontAwesomeIcon = (card: CreditCard) => {
+/* tslint:disable:no-magic-numbers */
+/* tslint:disable:jsx-no-string-ref */
+/* tslint:disable:object-literal-key-quotes */
+export const MapCreditCardBrandToIcon = (card: CreditCard) => {
   const cardMap = {
     "American Express": "amex",
-    "Diners Club": "diners-club",
-    "Discover": "discover",
-    "JCB": "jcb",
-    "MasterCard": "mastercard",
-    "Visa": "visa",
+    "Diners Club": "dinersClub",
+    Discover: "discover",
+    JCB: "jcb",
+    MasterCard: "masterCard",
+    Visa: "visa",
   };
 
-  const cardPrefix = "cc-";
-
   if (card && cardMap[card.brand]) {
-    return cardPrefix + cardMap[card.brand];
+    return cardMap[card.brand];
   }
 
-  return "credit-card";
+  return "creditCard";
 };
 
 interface PurchaseBevegramProps {
@@ -89,10 +85,36 @@ interface PurchaseBevegramState {
   bevegramsToSend: number;
 }
 
+const CheckBox = (props: { isChecked: boolean; isLoading?: boolean }) => {
+  const icon = props.isLoading
+    ? "spinner"
+    : props.isChecked ? "checkboxChecked" : "checkboxUnchecked";
+  const color = props.isLoading
+    ? theme.colors.bevPrimary
+    : props.isChecked ? theme.colors.success : theme.colors.uiBoldTextColor;
+
+  return (
+    <BevIcon
+      iconType={icon}
+      color={color}
+      size={PurchaseBevegram.IconSize}
+      style={{
+        paddingLeft: theme.padding.extraSmall,
+        width:
+          theme.font.size[PurchaseBevegram.IconSize] +
+            theme.padding.large +
+            theme.padding.extraExtraSmall,
+      }}
+    />
+  );
+};
+
 export default class PurchaseBevegram extends Component<
   PurchaseBevegramProps,
   PurchaseBevegramState
 > {
+  public static IconSize: SizeName = "extraLarge";
+  public static FontSize: SizeName = "largeNormal";
   public buttonFontSize = 20;
 
   constructor(props) {
@@ -220,7 +242,7 @@ export default class PurchaseBevegram extends Component<
       bevegramsUserIsPurchasing: this.packPurchaseData().quantity,
       bevegramsUserIsSending: this.state.bevegramsToSend,
       buttonFontSize: this.buttonFontSize,
-      cardFontAwesomeIcon: FormatCreditCardBrandForFontAwesomeIcon(activeCard),
+      cardFontAwesomeIcon: MapCreditCardBrandToIcon(activeCard),
       cardLast4: activeCard.last4,
       recipentFullName: this.props.fullName,
       recipentImage: this.props.imageUri,
@@ -246,55 +268,61 @@ export default class PurchaseBevegram extends Component<
     return activeCard;
   }
 
-  private renderBevegramsIncreaseDecreaseLine() {
-    return (
-      <View style={globalStyles.bevLine}>
-        <View style={globalStyles.bevLineLeft}>
-          <Text style={globalStyles.bevLineTextTitle}>Bevegrams:</Text>
-        </View>
-        <View style={globalStyles.bevLineRight}>
-          <View
-            style={{
-              alignItems: "center",
-              flex: 1,
-              flexDirection: "row",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Text style={globalStyles.bevLineTextTitle}>
-              {this.state.bevegramsToSend}
-            </Text>
-            <TouchableHighlight
-              underlayColor={"transparent"}
-              onPress={() => this.increaseBevegramsToSend()}
-              hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
-              style={{ marginLeft: 15 }}
-            >
-              <FontAwesome
-                name="plus-circle"
-                style={globalStyles.bevIcon}
-                color="#555555"
-                size={28}
-              />
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor={"transparent"}
-              onPress={() => this.decreaseBevegramsToSend()}
-              hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
-              style={{ marginLeft: 15 }}
-            >
-              <FontAwesome
-                name="minus-circle"
-                style={globalStyles.bevIcon}
-                color="#555555"
-                size={28}
-              />
-            </TouchableHighlight>
-          </View>
-        </View>
-      </View>
-    );
-  }
+  // private renderBevegramsIncreaseDecreaseLine() {
+  //   return (
+  //     <View style={globalStyles.bevLine}>
+  //       <View style={globalStyles.bevLineLeft}>
+  //         <Text style={globalStyles.bevLineTextTitle}>Bevegrams:</Text>
+  //       </View>
+  //       <View style={globalStyles.bevLineRight}>
+  //         <View
+  //           style={{
+  //             alignItems: "center",
+  //             flex: 1,
+  //             flexDirection: "row",
+  //             justifyContent: "flex-end",
+  //           }}
+  //         >
+  //           <Text style={globalStyles.bevLineTextTitle}>
+  //             {this.state.bevegramsToSend}
+  //           </Text>
+  //           <TouchableHighlight
+  //             underlayColor={"transparent"}
+  //             onPress={() => this.increaseBevegramsToSend()}
+  //             hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
+  //             style={{ marginLeft: 15 }}
+  //           >
+  //             <View>
+  //               <BevIcon iconType="increase" size={PurchaseBevegram.IconSize} />
+  //             </View>
+  //             <FontAwesome
+  //               name="plus-circle"
+  //               style={globalStyles.bevIcon}
+  //               color="#555555"
+  //               size={28}
+  //             />
+  //           </TouchableHighlight>
+  //           <TouchableHighlight
+  //             underlayColor={"transparent"}
+  //             onPress={() => this.decreaseBevegramsToSend()}
+  //             hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
+  //             style={{ marginLeft: 15 }}
+  //           >
+  //             <View>
+  //               <BevIcon iconType="increase" size={PurchaseBevegram.IconSize} />
+  //             </View>
+  //             <FontAwesome
+  //               name="minus-circle"
+  //               style={globalStyles.bevIcon}
+  //               color="#555555"
+  //               size={28}
+  //             />
+  //           </TouchableHighlight>
+  //         </View>
+  //       </View>
+  //     </View>
+  //   );
+  // }
 
   private renderSendOptions() {
     if (!this.userIsSending()) {
@@ -305,18 +333,15 @@ export default class PurchaseBevegram extends Component<
       <View style={{ flex: 1 }}>
         <View style={globalStyles.bevLine}>
           <View style={globalStyles.bevLineLeft}>
-            <Text style={globalStyles.bevLineTextTitle}>Receipent:</Text>
+            <BevLargerTitleText>
+              To:
+            </BevLargerTitleText>
           </View>
           <View style={globalStyles.bevLineRight}>
-            <Image
-              source={{ uri: this.props.imageUri }}
-              style={{
-                height: 40,
-                marginRight: 10,
-                width: 40,
-              }}
-            />
-            <Text style={globalStyles.bevLineText}>{this.props.fullName}</Text>
+            <BevAvatar imageUrl={this.props.imageUri} size="extraExtraLarge" />
+            <BevLargerText style={{ paddingLeft: theme.padding.normal }}>
+              {this.props.fullName}
+            </BevLargerText>
           </View>
         </View>
       </View>
@@ -333,30 +358,24 @@ export default class PurchaseBevegram extends Component<
           onPress={() => this.onSelectPackage(index)}
         >
           <View style={{ flex: 1, flexDirection: "row" }}>
-            <View style={[globalStyles.bevLineLeft, { flexDirection: "row" }]}>
+            <View
+              style={[
+                globalStyles.bevLineLeft,
+                { flexDirection: "row", alignItems: "center" },
+              ]}
+            >
               {this.props.selectedPurchasePackageIndex === index &&
                 this.userIsPurchasing()
-                ?
-                  <FontAwesome
-                    name="check-square-o"
-                    color="green"
-                    size={25}
-                    style={globalStyles.bevIcon}
-                  />
-                : <FontAwesome
-                    name="square-o"
-                    size={25}
-                    color="#999"
-                    style={globalStyles.bevIcon}
-                  />}
-              <Text style={globalStyles.bevLineTextTitle}>
+                ? <CheckBox isChecked={true} />
+                : <CheckBox isChecked={false} />}
+              <BevLargerTitleText noPadding={true}>
                 {pack.name}
-              </Text>
+              </BevLargerTitleText>
             </View>
             <View style={globalStyles.bevLineRight}>
-              <Text style={globalStyles.bevLineText}>
+              <BevLargerText>
                 {this.formatPrice(pack.price)}
-              </Text>
+              </BevLargerText>
             </View>
           </View>
         </TouchableHighlight>
@@ -379,19 +398,12 @@ export default class PurchaseBevegram extends Component<
         >
           <View style={{ flex: 1, flexDirection: "row" }}>
             <View style={[globalStyles.bevLineLeft, { flex: 2 }]}>
-              <Text
-                style={[
-                  globalStyles.bevLineTextTitle,
-                  {
-                    fontWeight: "normal",
-                  },
-                ]}
-              >
+              <BevLargerTitleText>
                 {!this.props.message ? "Add Message" : "Edit Message..."}
-              </Text>
+              </BevLargerTitleText>
             </View>
             <View style={globalStyles.bevLineRight}>
-              <Ionicon name="ios-arrow-forward" size={35} />
+              <RightArrow />
             </View>
           </View>
         </TouchableHighlight>
@@ -408,16 +420,21 @@ export default class PurchaseBevegram extends Component<
       <View style={{ flex: 1 }}>
         {this.renderPurchasePackages()}
         <View style={globalStyles.bevLine}>
-          <View style={globalStyles.bevLineLeft}>
-            <Text style={globalStyles.bevLineTextTitle}>Promo Code:</Text>
+          <View
+            style={[
+              {
+                alignItems: "flex-start",
+                justifyContent: "center",
+              },
+            ]}
+          >
+            <BevLargerTitleText>
+              Promo Code:
+            </BevLargerTitleText>
           </View>
           <View style={globalStyles.bevLineRight}>
             <TextInput
-              style={{
-                height: 40,
-                textAlign: "center",
-                width: 65,
-              }}
+              style={BevLargerTextInputStyle(65)}
               autoCorrect={false}
               autoCapitalize="none"
               ref="promoCodeInput"
@@ -460,27 +477,12 @@ export default class PurchaseBevegram extends Component<
                           alignItems: "center",
                           flex: -1,
                           justifyContent: "center",
-                          marginTop: 4,
-                          paddingRight: 15,
                         }}
                       >
-                        {this.props.attemptingUpdate
-                          ? <ActivityIndicator
-                              style={{ height: 28, width: 28 }}
-                            />
-                          : card.id === this.getActiveCard().id
-                            ? <FontAwesome
-                                name="check-square-o"
-                                size={25}
-                                color="green"
-                                style={globalStyles.bevIcon}
-                              />
-                            : <FontAwesome
-                                name="square-o"
-                                size={25}
-                                color="#999"
-                                style={globalStyles.bevIcon}
-                              />}
+                        <CheckBox
+                          isChecked={card.id === this.getActiveCard().id}
+                          isLoading={this.props.attemptingUpdate}
+                        />
                       </View>
                       <View
                         style={{
@@ -490,14 +492,17 @@ export default class PurchaseBevegram extends Component<
                           justifyContent: "center",
                         }}
                       >
-                        <FontAwesome
-                          name={"cc-" + card.brand.toLowerCase()}
-                          size={30}
-                          style={{ paddingRight: 10 }}
+                        <BevIcon
+                          size={"large"}
+                          color={theme.colors.uiBoldTextColor}
+                          iconType={MapCreditCardBrandToIcon(card)}
+                          style={{
+                            paddingRight: theme.padding.normal,
+                          }}
                         />
-                        <Text style={globalStyles.bevLineText}>
-                          .... {card.last4}
-                        </Text>
+                        <BevLargerText>
+                          {`.... ${card.last4}`}
+                        </BevLargerText>
                       </View>
                     </View>
                   </TouchableHighlight>
@@ -513,9 +518,13 @@ export default class PurchaseBevegram extends Component<
                         paddingRight: 10,
                       }}
                     >
-                      <Text style={{ color: "#999" }}>
-                        {this.props.attemptingUpdate ? "Updating..." : "Remove"}
-                      </Text>
+                      <View>
+                        <BevText color={theme.colors.uiIconColor}>
+                          {this.props.attemptingUpdate
+                            ? "Updating..."
+                            : "Remove"}
+                        </BevText>
+                      </View>
                     </TouchableHighlight>
                   </View>
                 </View>
@@ -544,21 +553,14 @@ export default class PurchaseBevegram extends Component<
           >
             <View style={{ flex: 1, flexDirection: "row" }}>
               <View style={[globalStyles.bevLineLeft, { flex: 2 }]}>
-                <Text
-                  style={[
-                    globalStyles.bevLineTextTitle,
-                    {
-                      fontWeight: "normal",
-                    },
-                  ]}
-                >
+                <BevLargerTitleText>
                   {this.props.attemptingVerification
                     ? "Adding Credit Card..."
                     : "Add Credit Card"}
-                </Text>
+                </BevLargerTitleText>
               </View>
               <View style={globalStyles.bevLineRight}>
-                <Ionicon name="ios-arrow-forward" size={35} />
+                <RightArrow />
               </View>
             </View>
           </TouchableHighlight>
@@ -581,8 +583,8 @@ export default class PurchaseBevegram extends Component<
       buttonText = sendText;
     }
     const purchaseButtonIcon = this.userIsPurchasing()
-      ? FormatCreditCardBrandForFontAwesomeIcon(this.getActiveCard())
-      : "paper-plane";
+      ? MapCreditCardBrandToIcon(this.getActiveCard())
+      : "send";
     const viewBelowHeight = getButtonHeight(this.buttonFontSize);
 
     return (
@@ -642,12 +644,11 @@ export default class PurchaseBevegram extends Component<
               <View style={[globalStyles.bevLineLeft]}>
                 <BevButton
                   onPress={this.props.closePurchaseRoute}
-                  text={this.userIsPurchasingAndSending() ? "" : "Cancel"}
-                  shortText={""}
-                  fontAwesomeLeftIcon="ban"
+                  text={"Back"}
+                  shortText={"Back"}
+                  iconType="leftArrow"
                   label="Cancel Purchase Button"
-                  buttonFontSize={this.buttonFontSize}
-                  margin={0}
+                  type="tertiary"
                 />
               </View>
               <View style={globalStyles.bevLineRight}>
@@ -656,9 +657,9 @@ export default class PurchaseBevegram extends Component<
                   text={buttonText}
                   shortText={buttonText}
                   label={buttonText + " Button"}
-                  buttonFontSize={this.buttonFontSize}
-                  fontAwesomeLeftIcon={purchaseButtonIcon}
-                  margin={0}
+                  iconType={purchaseButtonIcon}
+                  rightArrow={true}
+                  type="primaryPositive"
                 />
               </View>
             </View>
@@ -669,33 +670,33 @@ export default class PurchaseBevegram extends Component<
   }
 }
 
-interface Style {
-  numBeersContainer: ViewStyle;
-  numBeersButtonContainer: ViewStyle;
-  numBeersButton: ViewStyle;
-  numBeersButtonText: TextStyle;
-}
+// interface Style {
+//   numBeersContainer: ViewStyle;
+//   numBeersButtonContainer: ViewStyle;
+//   numBeersButton: ViewStyle;
+//   numBeersButtonText: TextStyle;
+// }
 
-const styles = StyleSheet.create<Style>({
-  numBeersButton: {
-    alignItems: "center",
-    alignSelf: "center",
-    backgroundColor: globalColors.bevPrimary,
-    borderRadius: 100,
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  numBeersButtonContainer: {
-    flex: -1,
-    flexDirection: "row",
-  },
-  numBeersButtonText: {
-    fontSize: 25,
-    fontWeight: "bold",
-  },
-  numBeersContainer: {
-    flex: 1,
-    flexDirection: "row",
-  },
-});
+// const styles = StyleSheet.create<Style>({
+//   numBeersButton: {
+//     alignItems: "center",
+//     alignSelf: "center",
+//     backgroundColor: globalColors.bevPrimary,
+//     borderRadius: 100,
+//     flex: 1,
+//     flexDirection: "row",
+//     justifyContent: "center",
+//   },
+//   numBeersButtonContainer: {
+//     flex: -1,
+//     flexDirection: "row",
+//   },
+//   numBeersButtonText: {
+//     fontSize: 25,
+//     fontWeight: "bold",
+//   },
+//   numBeersContainer: {
+//     flex: 1,
+//     flexDirection: "row",
+//   },
+// });
