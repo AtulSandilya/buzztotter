@@ -90,8 +90,11 @@ export default class BevegramLocations extends Component<
 
   public componentWillReceiveProps(nextProps: BevegramLocationsProps) {
     const userLocationHasChanged =
+      nextProps.userCoords &&
+      this.props.userCoords &&
       nextProps.userCoords.latitude !== this.props.userCoords.latitude;
     const mapCenterHasChanged =
+      this.props.userCoords &&
       this.state.region &&
       this.props.userCoords.latitude !== this.state.region.latitude;
 
