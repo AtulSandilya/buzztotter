@@ -5,6 +5,8 @@ import {
   ViewStyle,
 } from "react-native";
 
+import theme from "../theme";
+
 /* tslint:disable:object-literal-sort-keys */
 export const globalColors = {
   // Tealish Green
@@ -105,17 +107,17 @@ export const globalStyles = StyleSheet.create<Styles>({
   },
   bevContainer: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 15,
-    paddingBottom: 5,
+    paddingHorizontal: theme.padding.largeNormal,
+    paddingTop: theme.padding.normal,
+    paddingBottom: theme.padding.small,
   },
   bevLine: {
     flex: -1,
     flexDirection: "row",
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: globalColors.subtleSeparator,
-    paddingBottom: 10,
-    marginBottom: 15,
+    paddingBottom: theme.padding.small,
+    marginBottom: theme.padding.small,
   },
   bevLineNoSep: {
     flex: -1,
