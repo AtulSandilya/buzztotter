@@ -1,15 +1,19 @@
 import * as React from "react";
-import { Image, Text, View } from "react-native";
-
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { Text, View } from "react-native";
 
 import { PurchaseTransactionStatus } from "../db/tables";
+import theme from "../theme";
 
+import BevAvatar from "./BevAvatar";
 import BevButton from "./BevButton";
+import BevIcon, { IconType } from "./BevIcon";
+import BevLargerText from "./BevLargerText";
+import BevLargerTitleText from "./BevLargerTitleText";
 import { globalStyles } from "./GlobalStyles";
 import RouteWithNavBarWrapper from "./RouteWithNavBarWrapper";
 import StatusLine from "./StatusLine";
 
+import { Pluralize } from "../CommonUtilities";
 import { transactionFailed, transactionFinished } from "../sagas/firebase";
 
 export interface InProgressData {
@@ -17,7 +21,7 @@ export interface InProgressData {
   bevegramsUserIsPurchasing: number;
   bevegramsPurchasePrice: string;
   cardLast4: string;
-  cardFontAwesomeIcon: string;
+  cardFontAwesomeIcon: IconType;
   userIsPurchasing: boolean;
   userIsSending: boolean;
   recipentFullName: string;
@@ -33,7 +37,7 @@ export interface PurchaseOrSendInProgressProps {
   bevegramsUserIsPurchasing: number;
   bevegramsPurchasePrice: string;
   cardLast4: string;
-  cardFontAwesomeIcon: string;
+  cardFontAwesomeIcon: IconType;
   userIsPurchasing: boolean;
   userIsSending: boolean;
   recipentFullName: string;
@@ -111,24 +115,29 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
           <View
             style={[globalStyles.bevLineLeft, { justifyContent: "flex-start" }]}
           >
-            <Text style={[globalStyles.bevLineTextTitle, { paddingRight: 10 }]}>
+            <BevLargerTitleText>
               Summary:
-            </Text>
+            </BevLargerTitleText>
           </View>
-          <View style={globalStyles.bevLineRight}>
-            <Text style={globalStyles.bevLineText} numberOfLines={Infinity}>
+          <View
+            style={[
+              globalStyles.bevLineRight,
+              { paddingLeft: theme.padding.normal },
+            ]}
+          >
+            <BevLargerText>
               {summaryText}
-            </Text>
+            </BevLargerText>
           </View>
         </View>
         <View>
           <View style={{ alignItems: "flex-end", paddingTop: 10 }}>
             <BevButton
               onPress={closeRoute}
-              text={"Close"}
-              shortText={"Close"}
+              text={"Done"}
+              shortText={"Done"}
+              iconType={"success"}
               label="Close Purchase Button"
-              buttonFontSize={buttonFontSize}
             />
           </View>
         </View>
@@ -136,21 +145,28 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
     );
   };
 
+  const purchaseQuantityText = `${bevegramsUserIsPurchasing} Bevegram${Pluralize(
+    bevegramsUserIsPurchasing,
+  )}`;
+
+  const sendQuantityText = `${bevegramsUserIsSending} Bevegram${Pluralize(
+    bevegramsUserIsSending,
+  )}`;
+
   return (
     <RouteWithNavBarWrapper>
       <View style={globalStyles.bevContainer}>
         {userIsPurchasing
           ? <View style={globalStyles.bevLine}>
               <View style={globalStyles.bevLineLeft}>
-                <Text style={globalStyles.bevLineTextTitle}>
+                <BevLargerTitleText>
                   Purchasing:
-                </Text>
+                </BevLargerTitleText>
               </View>
               <View style={globalStyles.bevLineRight}>
-                <Text style={globalStyles.bevLineText} numberOfLines={Infinity}>
-                  {bevegramsUserIsPurchasing}{" "}
-                  {bevegramsUserIsPurchasing > 1 ? "Bevegrams" : "Bevegram"}
-                </Text>
+                <BevLargerText>
+                  {purchaseQuantityText}
+                </BevLargerText>
               </View>
             </View>
           : null}
@@ -158,7 +174,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
           ? <View style={{ flex: 1 }}>
               <View style={globalStyles.bevLine}>
                 <View style={globalStyles.bevLineLeft}>
-                  <Text style={globalStyles.bevLineTextTitle}>Card Used:</Text>
+                  <BevLargerTitleText>Card Used:</BevLargerTitleText>
                 </View>
                 <View style={globalStyles.bevLineRight}>
                   <View
@@ -169,14 +185,14 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
                       justifyContent: "center",
                     }}
                   >
-                    <FontAwesome
-                      name={cardFontAwesomeIcon}
-                      size={30}
+                    <BevIcon
+                      iconType={cardFontAwesomeIcon}
+                      size="large"
                       style={{ paddingRight: 10 }}
                     />
-                    <Text style={globalStyles.bevLineText}>
-                      .... {cardLast4}
-                    </Text>
+                    <BevLargerText>
+                      {`.... ${cardLast4}`}
+                    </BevLargerText>
                   </View>
                 </View>
               </View>
@@ -191,42 +207,33 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
           ? <View style={{ flex: 1 }}>
               <View style={globalStyles.bevLine}>
                 <View style={globalStyles.bevLineLeft}>
-                  <Text style={globalStyles.bevLineTextTitle}>
+                  <BevLargerTitleText>
                     Sending:
-                  </Text>
+                  </BevLargerTitleText>
                 </View>
                 <View style={globalStyles.bevLineRight}>
-                  <Text style={globalStyles.bevLineText}>
-                    {bevegramsUserIsSending}{" "}
-                    {bevegramsUserIsSending > 1 ? "Bevegrams" : "Bevegram"}
-                  </Text>
+                  <BevLargerText>
+                    {sendQuantityText}
+                  </BevLargerText>
                 </View>
               </View>
               <View style={globalStyles.bevLine}>
                 <View style={globalStyles.bevLineLeft}>
-                  <Text style={globalStyles.bevLineTextTitle}>
+                  <BevLargerTitleText>
                     Recipient:
-                  </Text>
+                  </BevLargerTitleText>
                 </View>
                 <View style={globalStyles.bevLineRight}>
-                  <Image
-                    source={{ uri: recipentImage }}
-                    style={{
-                      height: 40,
-                      marginRight: 10,
-                      width: 40,
-                    }}
-                  />
-                  <Text style={globalStyles.bevLineText}>
+                  <BevAvatar imageUrl={recipentImage} size="extraExtraLarge" />
+                  <BevLargerText>
                     {recipentFullName}
-                  </Text>
+                  </BevLargerText>
                 </View>
               </View>
             </View>
           : null}
         {userIsSending
-          ?
-            <StatusLine
+          ? <StatusLine
               title="Sending Bevegram"
               statusObject={purchaseTransactionStatus}
               statusKey="sendingNotification"
@@ -240,7 +247,7 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
                 </Text>
               </View>
               <View style={globalStyles.bevLine}>
-                <Text style={globalStyles.bevLineText} numberOfLines={5}>
+                <Text style={globalStyles.bevLineText} numberOfLines={Infinity}>
                   {purchaseTransactionStatus.error}
                 </Text>
               </View>
@@ -263,7 +270,8 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
                       text={"Close"}
                       shortText="Close"
                       label="Close Purchase Button"
-                      buttonFontSize={buttonFontSize}
+                      iconType="close"
+                      type="primaryNegative"
                     />
                   </View>
                 </View>
