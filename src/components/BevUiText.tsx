@@ -1,23 +1,23 @@
 import * as React from "react";
-import { StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
+import { TextStyle, View, ViewStyle } from "react-native";
 
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import * as Utils from "../ReactNativeUtilities";
+import theme, { SizeName } from "../theme";
 
-import theme from "../theme";
-import { globalStyles } from "./GlobalStyles";
+import BevIcon, { IconType } from "./BevIcon";
+import BevText from "./BevText";
 
-type BevUiSizeType = "massive" | "huge" | "large" | "normal" | "small";
-
-interface BevUiTextProps {
+export interface BevUiTextProps {
   children?: React.ReactChild;
   text?: string;
-  fontSize?: BevUiSizeType;
+  fontSize?: SizeName;
   fontStyle?: TextStyle;
-  icon?: string;
-  iconSize?: BevUiSizeType;
+  icon?: IconType;
+  iconColor?: string;
+  iconSize?: SizeName;
   iconRight?: boolean;
   iconBold?: boolean;
-  isButton?: boolean;
+  iconWidth?: number;
   morePaddingAfterIcon?: boolean;
   style?: ViewStyle;
   color?: string;
@@ -26,54 +26,11 @@ interface BevUiTextProps {
   hero?: boolean;
 }
 
-const baseSize = 9;
-const multiplier = 1.25;
-const iconMultiplier = 0.75;
-
-const calcSize = (
-  size: BevUiSizeType = "normal",
-  context: "font" | "icon",
-): number => {
-  let result: number;
-
-  /* tslint:disable:no-magic-numbers */
-  switch (size) {
-    case "massive":
-      result = baseSize * Math.pow(multiplier, 4);
-      break;
-    case "huge":
-      result = baseSize * Math.pow(multiplier, 3);
-      break;
-    case "large":
-      result = baseSize * Math.pow(multiplier, 2);
-      break;
-    case "small":
-      result = baseSize / Math.pow(multiplier, 2);
-      break;
-    default:
-    case "normal":
-      result = baseSize;
-      break;
-  }
-
-  const shouldUseIconMultiplier =
-    context === "icon" && (size === "massive" || size === "huge");
-
-  return Math.round(result * (shouldUseIconMultiplier ? iconMultiplier : 1));
-};
-
 const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
-  const fontSize = calcSize(props.fontSize, "font");
-  const iconSize = calcSize(
-    props.iconSize ? props.iconSize : props.fontSize,
-    "icon",
-  );
-
-  const text = props.text
-    ? props.text
-    : typeof props.children !== "string"
-      ? ""
-      : props.preserveCase ? props.children : props.children.toUpperCase();
+  const fontSize = props.fontSize
+    ? props.fontSize
+    : props.hero ? "largeNormal" : "small";
+  const text = props.children;
 
   const color = typeof props.calculatedColor === "function"
     ? props.calculatedColor()
@@ -86,64 +43,64 @@ const BevUiText: React.StatelessComponent<BevUiTextProps> = props => {
   return (
     <View
       style={[
-        { flex: -1, flexDirection: "row", alignItems: "center" },
+        {
+          alignItems: "center",
+          flex: -1,
+          flexDirection: "row",
+          margin: 0,
+          padding: 0,
+        },
         props.style,
-        props.isButton
-          ? {
-              borderColor: color,
-              borderRadius: 3,
-              borderWidth: StyleSheet.hairlineWidth,
-              padding: 7,
-              paddingLeft: props.iconRight ? 13 : undefined,
-            }
-          : {},
       ]}
     >
-      {props.icon && !props.iconRight && !props.hero
-        ? <View
+      {props.icon && !props.iconRight
+        ? <BevIcon
+            color={props.iconColor || theme.colors.uiIconColor}
+            iconType={props.icon}
+            size={props.hero ? "largeNormal" : props.fontSize || "normal"}
             style={{
               alignItems: "center",
-              marginRight: props.morePaddingAfterIcon ? 10 : 4,
-              width: fontSize * multiplier,
+              paddingRight: props.morePaddingAfterIcon
+                ? theme.padding.largeNormal
+                : theme.padding[fontSize],
+              width: props.iconWidth || undefined,
             }}
-          >
-            <FontAwesome
-              name={props.icon}
-              style={{
-                color,
-                fontSize: iconSize,
-              }}
-            />
-          </View>
+          />
         : <View />}
-      <Text
-        style={[
-          { fontSize },
-          props.hero ? globalStyles.smallerHeroText : {},
-          {
-            color: props.color ? props.color : color,
-          },
-          props.fontStyle,
-        ]}
+      <BevText
+        allCaps={props.hero || props.preserveCase ? false : true}
+        color={color}
+        isCondensed={props.hero ? false : true}
+        size={fontSize}
+        fontWeight={props.hero || props.preserveCase ? "normal" : "bold"}
+        textStyle={{
+          margin: 0,
+          // Android renders text with a small margin above, is enough to make
+          // the text and the icon look like they are misaligned, this
+          // corrects the alignment by moving the text up a little
+          /* tslint:disable:no-magic-numbers */
+          paddingBottom: Utils.isAndroid && props.icon && !props.iconRight
+            ? 1
+            : 0,
+          // iOS has the opposite problem
+          paddingTop: Utils.isIOS && props.icon ? 2 : 0,
+        }}
       >
         {text}
-      </Text>
-      {props.icon && props.iconRight && !props.hero
-        ? <View
+      </BevText>
+      {props.icon && props.iconRight
+        ? <BevIcon
+            color={theme.colors.uiIconColor}
+            iconType={props.icon}
+            size={props.hero ? "large" : "normal"}
             style={{
-              alignItems: "center",
-              marginLeft: props.morePaddingAfterIcon ? 10 : 4,
-              width: fontSize * multiplier,
+              marginLeft: props.morePaddingAfterIcon
+                ? theme.padding.normal
+                : theme.padding.extraSmall,
+              padding: 0,
+              width: props.iconWidth || undefined,
             }}
-          >
-            <FontAwesome
-              name={props.icon}
-              style={{
-                color,
-                fontSize: iconSize,
-              }}
-            />
-          </View>
+          />
         : <View />}
     </View>
   );
