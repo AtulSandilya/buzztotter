@@ -1,11 +1,11 @@
 import * as React from "react";
-import { ActivityIndicator, Text, View } from "react-native";
 
-import Icon from "react-native-vector-icons/Ionicons";
+import { SizeName } from "../theme";
+import BevButton from "./BevButton";
 
 export interface FacebookLoginButtonProps {
   text: string;
-  size: "large" | "normal";
+  size: SizeName;
   onPress: () => void;
   showActivityIndicator?: boolean;
   marginTop?: number;
@@ -14,37 +14,16 @@ export interface FacebookLoginButtonProps {
 const FacebookButton: React.StatelessComponent<
   FacebookLoginButtonProps
 > = props => {
-  /* tslint:disable:no-magic-numbers */
   return (
-    <View
-      style={{
-        alignItems: "center",
-        flex: -1,
-        justifyContent: "center",
-        marginTop: props.marginTop ? props.marginTop : 0,
-      }}
-    >
-      <Icon.Button
-        name="logo-facebook"
-        backgroundColor="#3b5998"
-        size={props.size === "large" ? 24 : 18}
-        onPress={props.onPress}
-      >
-        <Text
-          style={{
-            backgroundColor: "transparent",
-            color: "#ffffff",
-            fontSize: props.size === "large" ? 16 : 14,
-            fontWeight: "600",
-          }}
-        >
-          {props.text}
-        </Text>
-        {props.showActivityIndicator
-          ? <ActivityIndicator color="#ffffff" style={{ paddingLeft: 15 }} />
-          : null}
-      </Icon.Button>
-    </View>
+    <BevButton
+      onPress={props.onPress}
+      text={props.text}
+      shortText={props.text}
+      iconType={"facebook"}
+      fontSize={props.size}
+      showSpinner={props.showActivityIndicator}
+      type="facebook"
+    />
   );
 };
 
