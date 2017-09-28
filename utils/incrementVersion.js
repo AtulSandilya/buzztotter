@@ -11,7 +11,7 @@ incrementChoices["patch '" + semver.inc(currentVersion, "patch") + "'"] = "patch
 incrementChoices["minor '" + semver.inc(currentVersion, "minor") + "'"] = "minor"
 incrementChoices["major '" + semver.inc(currentVersion, "major") + "'"] = "major"
 
-var filesToCommit = ["package.json", versionIOS.infoPlistFilename];
+var filesToCommit = ["package.json", "package-lock.json", versionIOS.infoPlistFilename];
 
 function hasCleanGitStatus() {
   var status = exec("git status --porcelain", {encoding: 'utf8'}).trim();
