@@ -136,11 +136,15 @@ export const purchase = (state = initialPurchaseState, action) => {
       };
     case "UPDATE_PURCHASE_TRANSACTION_STATUS":
       if (action.payload.error && !action.payload.data) {
+        const newPurchaseTransactionStatus: PurchaseTransactionStatus = {
+          ...state.purchaseTransactionStatus,
+          error: action.payload.error,
+        };
+
         return {
           ...state,
           purchaseTransactionStatus: {
-            ...state.purchaseTransactionStatus,
-            error: action.payload.error,
+            newPurchaseTransactionStatus,
           },
         };
       }
