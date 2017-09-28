@@ -209,7 +209,9 @@ const PurchaseOrSendInProgess: React.StatelessComponent<
               </View>
               <View style={globalStyles.bevLineRight}>
                 <BevAvatar imageUrl={recipentImage} size="extraExtraLarge" />
-                <BevLargerText>{recipentFullName}</BevLargerText>
+                <BevLargerText style={{ paddingLeft: theme.padding.normal }}>
+                  {recipentFullName}
+                </BevLargerText>
               </View>
             </View>
           </View>
