@@ -13,6 +13,15 @@ incrementChoices["major '" + semver.inc(currentVersion, "major") + "'"] = "major
 
 var filesToCommit = ["package.json", "package-lock.json", versionIOS.infoPlistFilename];
 
+const updatePackageVersionInFile = (fname, versionNumber) => {
+  var currentPackage = require(`../${fname}`);
+  var packageWithUpdatedVersion = Object.assign({}, currentPackage, {
+    version: versionNumber
+  });
+
+  jsonfile.writeFileSync(fname, packageWithUpdatedVersion, {spaces: 2});
+}
+
 function hasCleanGitStatus() {
   var status = exec("git status --porcelain", {encoding: 'utf8'}).trim();
   return status === "";
@@ -34,14 +43,9 @@ if(hasCleanGitStatus()){
       message: 'What features are included in version ' + newVersion + ':'
     })
     .then(function(nextAnswer) {
-      console.log(nextAnswer.commitNote);
-      console.log(newVersion);
-      var currentPackage = require('../package');
-      var packageWithUpdatedVersion = Object.assign({}, currentPackage, {
-        version: newVersion
-      });
+      updatePackageVersionInFile("package.json", newVersion);
+      updatePackageVersionInFile("package-lock.json", newVersion);
 
-      jsonfile.writeFileSync("package.json", packageWithUpdatedVersion, {spaces: 2});
       versionIOS.run(newVersion);
 
       exec("git add " + filesToCommit.join(" "), {encoding: 'utf8'});
