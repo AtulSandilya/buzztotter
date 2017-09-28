@@ -14,6 +14,7 @@ interface BevTimestampProps {
   style?: ViewStyle;
   preserveCase?: boolean;
   hero?: boolean;
+  hideIcon?: boolean;
 }
 
 const BevTimestamp: React.StatelessComponent<BevTimestampProps> = props => {
@@ -37,7 +38,7 @@ const BevTimestamp: React.StatelessComponent<BevTimestampProps> = props => {
         component={BevUiText}
         fontSize={props.size}
         style={props.style}
-        icon="clock-o"
+        icon={props.hideIcon ? undefined : "time"}
         formatter={(value, unit, suffix) => {
           if (unit === "second") {
             return "A few seconds ago";
