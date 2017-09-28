@@ -12,6 +12,9 @@ it('renders correctly', () => {
       date="2016-01-16T20:39:47.966Z"
       imagePath="test.jpg"
       openModal={undefined}
+      message="test"
+      quantity="1"
+      displayAsUnseen={false}
     />
   ).toJSON();
   expect(tree).toMatchSnapshot();
