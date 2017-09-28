@@ -69,7 +69,7 @@ const Contact: React.StatelessComponent<ContactProps> = ({
       <View style={styles.infoContainer}>
         <BevAvatar imageUrl={imagePath} />
         <View style={styles.infoTextContainer}>
-          <BevText style={{ paddingBottom: theme.padding.extraExtraSmall }}>
+          <BevText textStyle={{ paddingBottom: theme.padding.extraExtraSmall }}>
             {fullName}
           </BevText>
           <BevUiText icon="birthday">{birthday}</BevUiText>
