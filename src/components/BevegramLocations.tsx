@@ -52,6 +52,13 @@ export default class BevegramLocations extends Component<
   BevegramLocationsProps,
   BevegramLocationState
 > {
+  // How zoomed in/out the map is
+  /* tslint:disable:no-magic-numbers */
+  private defaultDelta = {
+    latitudeDelta: 0.0922 * 1.75,
+    longitudeDelta: 0.0421 * 1.75,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -77,6 +84,23 @@ export default class BevegramLocations extends Component<
         region,
       };
     });
+  }
+
+  public componentWillReceiveProps(nextProps: BevegramLocationsProps) {
+    const userLocationHasChanged =
+      nextProps.userCoords.latitude !== this.props.userCoords.latitude;
+    const mapCenterHasChanged =
+      this.state.region &&
+      this.props.userCoords.latitude !== this.state.region.latitude;
+
+    if (userLocationHasChanged || mapCenterHasChanged) {
+      this.setState(prevState => {
+        return {
+          delta: undefined,
+          region: undefined,
+        };
+      });
+    }
   }
 
   /* tslint:disable:object-literal-sort-keys */
@@ -105,13 +129,7 @@ export default class BevegramLocations extends Component<
       ? this.props.userCoords
       : defaultCoords;
 
-    // How zoomed in/out the map is
-    const defaultDelta = {
-      latitudeDelta: 0.0922 * 1.75,
-      longitudeDelta: 0.0421 * 1.75,
-    };
-
-    const mapDelta = this.state.delta ? this.state.delta : defaultDelta;
+    const mapDelta = this.state.delta ? this.state.delta : this.defaultDelta;
 
     return (
       <View style={{ flex: 1 }}>
