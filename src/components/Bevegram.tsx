@@ -1,7 +1,6 @@
 import * as React from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
-import { PrettyFormatFullName } from "../CommonUtilities";
 import theme from "../theme";
 
 import BevAvatar from "./BevAvatar";
@@ -88,7 +87,7 @@ const Bevegram: React.StatelessComponent<BevegramProps> = ({
             paddingBottom: theme.padding.extraExtraSmall,
           }}
         >
-          {PrettyFormatFullName(from)}
+          {from}
         </BevText>
         <BevTimestamp date={date} />
       </View>

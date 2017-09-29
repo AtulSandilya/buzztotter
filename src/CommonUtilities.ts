@@ -184,17 +184,3 @@ export const PrettyFormatCentsToDollars = (cents: number): string => {
   const decimalPlaces = 2;
   return `$${(cents / centsPerDollar).toFixed(decimalPlaces)}`;
 };
-
-export const PrettyFormatFullName = (fullName: string) => {
-  const nameParts = fullName.split(" ");
-
-  if (nameParts.length === 2) {
-    return fullName;
-  }
-
-  if (nameParts[0].length <= 1) {
-    return `${nameParts[0]} ${nameParts[1]} ${nameParts.slice(-1)}`;
-  } else {
-    return `${nameParts[0]} ${nameParts.slice(-1)}`;
-  }
-};
