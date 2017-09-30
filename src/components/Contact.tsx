@@ -6,6 +6,7 @@ import BevButton from "./BevButton";
 import BevText from "./BevText";
 import BevUiText from "./BevUiText";
 
+import * as RNUtils from "../ReactNativeUtilities";
 import theme from "../theme";
 
 interface Styles {
@@ -15,7 +16,7 @@ interface Styles {
   buttonContainer: ViewStyle;
 }
 
-const styles = StyleSheet.create<Styles>({
+export const styles = StyleSheet.create<Styles>({
   buttonContainer: {
     alignItems: "center",
     alignSelf: "center",
@@ -32,12 +33,14 @@ const styles = StyleSheet.create<Styles>({
   infoTextContainer: {
     flex: -1,
     flexDirection: "column",
-    paddingLeft: theme.padding.normal,
+    paddingLeft: RNUtils.isNarrow ? theme.padding.small : theme.padding.normal,
   },
   parentContainer: {
     flex: 1,
     flexDirection: "row",
-    padding: theme.padding.extraSmall,
+    padding: RNUtils.isNarrow
+      ? theme.padding.extraExtraSmall
+      : theme.padding.extraSmall,
   },
 });
 

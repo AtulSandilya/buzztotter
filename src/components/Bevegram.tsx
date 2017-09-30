@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { View } from "react-native";
 
 import theme from "../theme";
 
@@ -7,39 +7,7 @@ import BevAvatar from "./BevAvatar";
 import BevButton from "./BevButton";
 import BevText from "./BevText";
 import BevTimestamp from "./BevTimestamp";
-
-interface Style {
-  parentContainer: ViewStyle;
-  infoContainer: ViewStyle;
-  infoTextContainer: ViewStyle;
-  buttonContainer: ViewStyle;
-}
-
-const styles = StyleSheet.create<Style>({
-  buttonContainer: {
-    alignItems: "center",
-    alignSelf: "center",
-    flex: -1,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
-  infoContainer: {
-    alignItems: "center",
-    alignSelf: "center",
-    flex: 2,
-    flexDirection: "row",
-    paddingLeft: 10,
-  },
-  infoTextContainer: {
-    flex: 1,
-    flexDirection: "column",
-    paddingLeft: 15,
-  },
-  parentContainer: {
-    flex: 1,
-    flexDirection: "row",
-  },
-});
+import { styles } from "./Contact";
 
 export interface SelectedBevegramPackage {
   id: string;
