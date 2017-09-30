@@ -109,6 +109,7 @@ const BevButton: React.StatelessComponent<BevButtonProps> = props => {
       color={buttonTypeProps.textColor}
       style={{
         paddingHorizontal: theme.padding.normal,
+        paddingVertical: theme.padding.small,
       }}
     />
   );
@@ -145,7 +146,8 @@ const BevButton: React.StatelessComponent<BevButtonProps> = props => {
             showTextShadow={theme.colors.white === buttonTypeProps.textColor}
             textStyle={{
               paddingLeft: iconLeft ? 0 : theme.padding.normal,
-              paddingRight: iconRight ? 0 : theme.padding.normal,
+              paddingRight:
+                iconRight || text.length === 0 ? 0 : theme.padding.normal,
               paddingVertical: theme.padding.small,
               top: Utils.isAndroid ? -1 : 0,
             }}
