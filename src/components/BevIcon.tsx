@@ -60,7 +60,6 @@ type IconSet = "fontAwesome" | "ionicons";
 interface CustomIcon {
   icon: string;
   iconSet?: IconSet;
-  lineHeight?: number;
   style?: any;
 }
 
@@ -127,6 +126,7 @@ interface BevIconProps {
   size?: SizeName;
   color?: string;
   style?: ViewStyle;
+  useTextLineHeight?: boolean;
 }
 
 const BevIcon: React.StatelessComponent<BevIconProps> = props => {
@@ -140,8 +140,9 @@ const BevIcon: React.StatelessComponent<BevIconProps> = props => {
   const iconSet =
     typeof thisIcon === "string" ? "fontAwesome" : thisIcon.iconSet;
   const iconCustomStyle = typeof thisIcon === "string" ? {} : thisIcon.style;
-  const iconLineHeight =
-    typeof thisIcon === "string" ? 1 : thisIcon.lineHeight || 1;
+  const iconLineHeight = props.useTextLineHeight
+    ? theme.font.lineHeight[props.size]
+    : 1;
   const color = props.color ? props.color : theme.colors.uiIconColor;
 
   const iconTextStyle = StyleSheet.flatten([
