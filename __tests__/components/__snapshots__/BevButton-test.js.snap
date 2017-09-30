@@ -1,9 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`fails with no buttonText 1`] = `"received is not a function"`;
-
-exports[`fails with no props 1`] = `"received is not a function"`;
-
 exports[`renders correctly 1`] = `
 <View
   style={
@@ -110,7 +106,7 @@ exports[`renders correctly 1`] = `
           }
         }
       >
-        
+        Test
       </Text>
     </View>
   </View>
@@ -223,7 +219,7 @@ exports[`renders correctly with button size 1`] = `
           }
         }
       >
-        
+        Test
       </Text>
     </View>
   </View>
