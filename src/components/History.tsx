@@ -4,6 +4,7 @@ import { View } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import { Pluralize, PrettyFormatCentsToDollars } from "../CommonUtilities";
+import * as RNUtils from "../ReactNativeUtilities";
 import { globalColors } from "./GlobalStyles";
 
 import BevFlatList from "./BevFlatList";
@@ -97,7 +98,7 @@ const History: React.StatelessComponent<HistoryProps> = ({
     const quantity = purchasedBevegram.quantity;
     const sentBevegram = sentBevegrams[bevegramHistoryKeys[index]];
     return {
-      label: "Purchased & Sent",
+      label: RNUtils.isNarrow ? "Purchased \n& Sent" : "Purchased & Sent",
       icon: "paper-plane",
       date: purchasedBevegram.purchaseDate,
       info: `${quantity} Bevegram${quantity !== 1
