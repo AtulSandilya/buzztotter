@@ -31,6 +31,23 @@
 		6380F73C1F3E6DCC0067E18B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6380F7391F3E68970067E18B /* GoogleService-Info.plist */; };
 		6380F73D1F3E6DCD0067E18B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6380F7391F3E68970067E18B /* GoogleService-Info.plist */; };
 		638BBDB51F1D339F00A31B41 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBDA91F1D32C300A31B41 /* libAirMaps.a */; };
+		638BBDB61F1D339F00A31B41 /* libcxxreact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD441F1D31B200A31B41 /* libcxxreact.a */; };
+		638BBDB71F1D339F00A31B41 /* libdouble-conversion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD4E1F1D31B200A31B41 /* libdouble-conversion.a */; };
+		638BBDB81F1D339F00A31B41 /* libjschelpers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD481F1D31B200A31B41 /* libjschelpers.a */; };
+		638BBDB91F1D339F00A31B41 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD541F1D31C800A31B41 /* libRCTActionSheet.a */; };
+		638BBDBA1F1D339F00A31B41 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBDA11F1D32BA00A31B41 /* libRCTAnimation.a */; };
+		638BBDBB1F1D339F00A31B41 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD5A1F1D31DC00A31B41 /* libRCTGeolocation.a */; };
+		638BBDBC1F1D339F00A31B41 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD611F1D31F200A31B41 /* libRCTImage.a */; };
+		638BBDBD1F1D339F00A31B41 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD6A1F1D320600A31B41 /* libRCTLinking.a */; };
+		638BBDBE1F1D339F00A31B41 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD731F1D322100A31B41 /* libRCTNetwork.a */; };
+		638BBDBF1F1D339F00A31B41 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD7D1F1D323600A31B41 /* libRCTSettings.a */; };
+		638BBDC01F1D339F00A31B41 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBDB01F1D32C900A31B41 /* libRCTText.a */; };
+		638BBDC11F1D339F00A31B41 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD851F1D324C00A31B41 /* libRCTVibration.a */; };
+		638BBDC21F1D339F00A31B41 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD8C1F1D325F00A31B41 /* libRCTWebSocket.a */; };
+		638BBDC31F1D339F00A31B41 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD3C1F1D31B200A31B41 /* libReact.a */; };
+		638BBDC41F1D339F00A31B41 /* libthird-party.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD4C1F1D31B200A31B41 /* libthird-party.a */; };
+		638BBDC51F1D339F00A31B41 /* libyoga.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD401F1D31B200A31B41 /* libyoga.a */; };
+		638BBDC61F1D339F00A31B41 /* libyoga.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD421F1D31B200A31B41 /* libyoga.a */; };
 		63961A851E85DD0D0010F3E5 /* logo-just-otter.png in Resources */ = {isa = PBXBuildFile; fileRef = 63961A841E85DD0D0010F3E5 /* logo-just-otter.png */; };
 		63B280741F72E7B700BF3DF6 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63B280721F72E7B700BF3DF6 /* FontAwesome.ttf */; };
 		63B280751F72E7B700BF3DF6 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63B280731F72E7B700BF3DF6 /* Ionicons.ttf */; };
@@ -365,6 +382,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				638BBDB51F1D339F00A31B41 /* libAirMaps.a in Frameworks */,
+				638BBDB61F1D339F00A31B41 /* libcxxreact.a in Frameworks */,
+				638BBDB71F1D339F00A31B41 /* libdouble-conversion.a in Frameworks */,
+				638BBDB81F1D339F00A31B41 /* libjschelpers.a in Frameworks */,
+				638BBDB91F1D339F00A31B41 /* libRCTActionSheet.a in Frameworks */,
+				638BBDBA1F1D339F00A31B41 /* libRCTAnimation.a in Frameworks */,
+				638BBDBB1F1D339F00A31B41 /* libRCTGeolocation.a in Frameworks */,
+				638BBDBC1F1D339F00A31B41 /* libRCTImage.a in Frameworks */,
+				638BBDBD1F1D339F00A31B41 /* libRCTLinking.a in Frameworks */,
+				638BBDBE1F1D339F00A31B41 /* libRCTNetwork.a in Frameworks */,
+				638BBDBF1F1D339F00A31B41 /* libRCTSettings.a in Frameworks */,
+				638BBDC01F1D339F00A31B41 /* libRCTText.a in Frameworks */,
+				638BBDC11F1D339F00A31B41 /* libRCTVibration.a in Frameworks */,
+				638BBDC21F1D339F00A31B41 /* libRCTWebSocket.a in Frameworks */,
+				638BBDC31F1D339F00A31B41 /* libReact.a in Frameworks */,
+				638BBDC41F1D339F00A31B41 /* libthird-party.a in Frameworks */,
+				638BBDC51F1D339F00A31B41 /* libyoga.a in Frameworks */,
+				638BBDC61F1D339F00A31B41 /* libyoga.a in Frameworks */,
 				C479458B7A12C5ABD725B2B3 /* libPods-Bevegram.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
