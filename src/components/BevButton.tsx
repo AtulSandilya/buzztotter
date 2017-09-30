@@ -111,6 +111,7 @@ const BevButton: React.StatelessComponent<BevButtonProps> = props => {
         paddingHorizontal: theme.padding.normal,
         paddingVertical: theme.padding.small,
       }}
+      useTextLineHeight={Utils.isNarrow && !Utils.isAndroid}
     />
   );
 
