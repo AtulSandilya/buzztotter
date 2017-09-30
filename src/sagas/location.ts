@@ -207,7 +207,7 @@ export function* userIsNearLastLocation() {
     return false;
   }
 
-  const closeTogetherMeters = 75;
+  const closeTogetherMeters = 300;
   return (
     MetersBetweenCoordinates(lastUserCoords, currentLocation) <
     closeTogetherMeters
