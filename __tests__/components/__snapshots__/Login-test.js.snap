@@ -152,6 +152,7 @@ exports[`renders correctly 1`] = `
                 Array [
                   Object {
                     "paddingHorizontal": 11,
+                    "paddingVertical": 7.333333333333333,
                   },
                 ]
               }

@@ -29,213 +29,27 @@ exports[`RedeemBeer component renders correctly 1`] = `
   }
 >
   <View>
-    <View
-      style={
-        Object {
-          "flex": 1,
-          "paddingBottom": 7.333333333333333,
-          "paddingHorizontal": 13.472193585307478,
-          "paddingTop": 11,
-        }
-      }
-    >
+    <View>
       <View
         style={
           Object {
-            "borderBottomWidth": 0.5,
-            "borderColor": "#dddddd",
-            "flex": -1,
-            "flexDirection": "row",
-            "marginBottom": 7.333333333333333,
+            "flex": 1,
             "paddingBottom": 7.333333333333333,
+            "paddingHorizontal": 13.472193585307478,
+            "paddingTop": 11,
           }
         }
       >
         <View
           style={
             Object {
-              "alignItems": "flex-start",
+              "borderBottomWidth": 0.5,
+              "borderColor": "#dddddd",
               "flex": -1,
-              "justifyContent": "center",
-            }
-          }
-        >
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            disabled={false}
-            ellipsizeMode="tail"
-            fontWeight="bold"
-            size="largeNormal"
-            style={
-              Object {
-                "backgroundColor": "transparent",
-                "color": "#333333",
-                "fontFamily": undefined,
-                "fontSize": 18.371173070873834,
-                "fontWeight": "bold",
-                "letterSpacing": undefined,
-                "lineHeight": 25.312499999999996,
-                "marginLeft": 7.333333333333333,
-                "textAlignVertical": "center",
-              }
-            }
-            textStyle={
-              Object {
-                "marginLeft": 7.333333333333333,
-              }
-            }
-          >
-            From:
-          </Text>
-        </View>
-        <View
-          style={
-            Object {
-              "alignItems": "center",
-              "flex": 1,
               "flexDirection": "row",
-              "justifyContent": "flex-end",
+              "marginBottom": 7.333333333333333,
+              "paddingBottom": 7.333333333333333,
             }
-          }
-        >
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            disabled={false}
-            ellipsizeMode="tail"
-            size="largeNormal"
-            style={
-              Object {
-                "backgroundColor": "transparent",
-                "color": "#333333",
-                "fontFamily": undefined,
-                "fontSize": 18.371173070873834,
-                "fontWeight": "normal",
-                "letterSpacing": undefined,
-                "lineHeight": 25.312499999999996,
-                "textAlignVertical": "center",
-              }
-            }
-            textStyle={undefined}
-          >
-            Testy
-          </Text>
-        </View>
-      </View>
-      <View
-        style={
-          Object {
-            "borderBottomWidth": 0.5,
-            "borderColor": "#dddddd",
-            "flex": -1,
-            "flexDirection": "row",
-            "marginBottom": 7.333333333333333,
-            "paddingBottom": 7.333333333333333,
-          }
-        }
-      >
-        <View
-          style={
-            Array [
-              Object {
-                "alignItems": "flex-start",
-                "flex": -1,
-                "justifyContent": "center",
-              },
-              Object {
-                "flex": 1,
-              },
-            ]
-          }
-        >
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            disabled={false}
-            ellipsizeMode="tail"
-            fontWeight="bold"
-            size="largeNormal"
-            style={
-              Object {
-                "backgroundColor": "transparent",
-                "color": "#333333",
-                "fontFamily": undefined,
-                "fontSize": 18.371173070873834,
-                "fontWeight": "bold",
-                "letterSpacing": undefined,
-                "lineHeight": 25.312499999999996,
-                "marginLeft": 7.333333333333333,
-                "textAlignVertical": "center",
-              }
-            }
-            textStyle={
-              Object {
-                "marginLeft": 7.333333333333333,
-              }
-            }
-          >
-            Quantity:
-          </Text>
-        </View>
-        <View
-          style={
-            Array [
-              Object {
-                "alignItems": "center",
-                "flex": 1,
-                "flexDirection": "row",
-                "justifyContent": "flex-end",
-              },
-              Object {
-                "flex": 1,
-                "justifyContent": "flex-end",
-              },
-            ]
-          }
-        >
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            disabled={false}
-            ellipsizeMode="tail"
-            size="largeNormal"
-            style={
-              Object {
-                "backgroundColor": "transparent",
-                "color": "#333333",
-                "fontFamily": undefined,
-                "fontSize": 18.371173070873834,
-                "fontWeight": "normal",
-                "letterSpacing": undefined,
-                "lineHeight": 25.312499999999996,
-                "textAlignVertical": "center",
-              }
-            }
-            textStyle={undefined}
-          >
-            1
-          </Text>
-          <View />
-        </View>
-      </View>
-      <View>
-        <View
-          style={
-            Array [
-              Object {
-                "borderBottomWidth": 0.5,
-                "borderColor": "#dddddd",
-                "flex": -1,
-                "flexDirection": "row",
-                "marginBottom": 7.333333333333333,
-                "paddingBottom": 7.333333333333333,
-              },
-              Object {
-                "borderBottomWidth": 0,
-                "marginBottom": 0,
-              },
-            ]
           }
         >
           <View
@@ -273,7 +87,7 @@ exports[`RedeemBeer component renders correctly 1`] = `
                 }
               }
             >
-              Select Your Location:
+              From:
             </Text>
           </View>
           <View
@@ -286,6 +100,343 @@ exports[`RedeemBeer component renders correctly 1`] = `
               }
             }
           >
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              disabled={false}
+              ellipsizeMode="tail"
+              size="largeNormal"
+              style={
+                Object {
+                  "backgroundColor": "transparent",
+                  "color": "#333333",
+                  "fontFamily": undefined,
+                  "fontSize": 18.371173070873834,
+                  "fontWeight": "normal",
+                  "letterSpacing": undefined,
+                  "lineHeight": 25.312499999999996,
+                  "textAlignVertical": "center",
+                }
+              }
+              textStyle={undefined}
+            >
+              Testy
+            </Text>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "borderBottomWidth": 0.5,
+              "borderColor": "#dddddd",
+              "flex": -1,
+              "flexDirection": "row",
+              "marginBottom": 7.333333333333333,
+              "paddingBottom": 7.333333333333333,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "flex-start",
+                  "flex": -1,
+                  "justifyContent": "center",
+                },
+                Object {
+                  "flex": 1,
+                },
+              ]
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              disabled={false}
+              ellipsizeMode="tail"
+              fontWeight="bold"
+              size="largeNormal"
+              style={
+                Object {
+                  "backgroundColor": "transparent",
+                  "color": "#333333",
+                  "fontFamily": undefined,
+                  "fontSize": 18.371173070873834,
+                  "fontWeight": "bold",
+                  "letterSpacing": undefined,
+                  "lineHeight": 25.312499999999996,
+                  "marginLeft": 7.333333333333333,
+                  "textAlignVertical": "center",
+                }
+              }
+              textStyle={
+                Object {
+                  "marginLeft": 7.333333333333333,
+                }
+              }
+            >
+              Quantity:
+            </Text>
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-end",
+                },
+                Object {
+                  "flex": 1,
+                  "justifyContent": "flex-end",
+                },
+              ]
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              disabled={false}
+              ellipsizeMode="tail"
+              size="largeNormal"
+              style={
+                Object {
+                  "backgroundColor": "transparent",
+                  "color": "#333333",
+                  "fontFamily": undefined,
+                  "fontSize": 18.371173070873834,
+                  "fontWeight": "normal",
+                  "letterSpacing": undefined,
+                  "lineHeight": 25.312499999999996,
+                  "textAlignVertical": "center",
+                }
+              }
+              textStyle={undefined}
+            >
+              1
+            </Text>
+            <View />
+          </View>
+        </View>
+        <View>
+          <View
+            style={
+              Array [
+                Object {
+                  "borderBottomWidth": 0.5,
+                  "borderColor": "#dddddd",
+                  "flex": -1,
+                  "flexDirection": "row",
+                  "marginBottom": 7.333333333333333,
+                  "paddingBottom": 7.333333333333333,
+                },
+                Object {
+                  "borderBottomWidth": 0,
+                  "marginBottom": 0,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "flex-start",
+                  "flex": -1,
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                disabled={false}
+                ellipsizeMode="tail"
+                fontWeight="bold"
+                size="largeNormal"
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "color": "#333333",
+                    "fontFamily": undefined,
+                    "fontSize": 18.371173070873834,
+                    "fontWeight": "bold",
+                    "letterSpacing": undefined,
+                    "lineHeight": 25.312499999999996,
+                    "marginLeft": 7.333333333333333,
+                    "textAlignVertical": "center",
+                  }
+                }
+                textStyle={
+                  Object {
+                    "marginLeft": 7.333333333333333,
+                  }
+                }
+              >
+                Select Your Location:
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "flex-end",
+                }
+              }
+            >
+              <View
+                accessibilityComponentType={undefined}
+                accessibilityLabel={undefined}
+                accessibilityTraits={undefined}
+                accessible={true}
+                hasTVPreferredFocus={undefined}
+                hitSlop={undefined}
+                isTVSelectable={true}
+                nativeID={undefined}
+                onLayout={undefined}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                    },
+                    undefined,
+                  ]
+                }
+                testID={undefined}
+                tvParallaxProperties={undefined}
+              >
+                <View>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "flex": -1,
+                          "flexDirection": "row",
+                          "margin": 0,
+                          "padding": 0,
+                        },
+                        undefined,
+                      ]
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "alignItems": "center",
+                            "paddingRight": 7.333333333333333,
+                            "width": undefined,
+                          },
+                        ]
+                      }
+                    >
+                      <Text
+                        accessible={true}
+                        allowFontScaling={false}
+                        disabled={false}
+                        ellipsizeMode="tail"
+                        style={
+                          Array [
+                            Object {
+                              "color": undefined,
+                              "fontSize": 12,
+                            },
+                            Object {
+                              "color": "#8D8D9D",
+                              "fontSize": 15,
+                              "lineHeight": 15,
+                            },
+                            Object {
+                              "fontFamily": "FontAwesome",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
+                            },
+                          ]
+                        }
+                      >
+                        
+                      </Text>
+                    </View>
+                    <Text
+                      accessible={true}
+                      allCaps={true}
+                      allowFontScaling={true}
+                      color="#51515E"
+                      disabled={false}
+                      ellipsizeMode="tail"
+                      fontWeight="bold"
+                      isCondensed={true}
+                      size="small"
+                      style={
+                        Object {
+                          "backgroundColor": "transparent",
+                          "color": "#51515E",
+                          "fontFamily": "Roboto",
+                          "fontSize": 10,
+                          "fontWeight": "bold",
+                          "letterSpacing": 0.5,
+                          "lineHeight": 10,
+                          "margin": 0,
+                          "paddingBottom": 0,
+                          "paddingTop": 2,
+                          "textAlignVertical": "center",
+                        }
+                      }
+                      textStyle={
+                        Object {
+                          "margin": 0,
+                          "paddingBottom": 0,
+                          "paddingTop": 2,
+                        }
+                      }
+                      underline={false}
+                    >
+                      REFRESH
+                    </Text>
+                    <View />
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "justifyContent": "center",
+              }
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              disabled={false}
+              ellipsizeMode="tail"
+              style={
+                Array [
+                  Object {
+                    "color": "#555555",
+                    "fontSize": 30,
+                    "fontWeight": "300",
+                  },
+                  Object {
+                    "paddingVertical": 11,
+                  },
+                ]
+              }
+            >
+              Unable to determine your location!
+            </Text>
             <View
               accessibilityComponentType={undefined}
               accessibilityLabel={undefined}
@@ -307,13 +458,21 @@ exports[`RedeemBeer component renders correctly 1`] = `
                   Object {
                     "backgroundColor": "transparent",
                   },
-                  undefined,
+                  Object {
+                    "padding": 7.333333333333333,
+                  },
                 ]
               }
               testID={undefined}
               tvParallaxProperties={undefined}
             >
-              <View>
+              <View
+                style={
+                  Object {
+                    "flex": -1,
+                  }
+                }
+              >
                 <View
                   style={
                     Array [
@@ -408,164 +567,14 @@ exports[`RedeemBeer component renders correctly 1`] = `
             </View>
           </View>
         </View>
-        <View
-          style={
-            Object {
-              "alignItems": "center",
-              "justifyContent": "center",
-            }
-          }
-        >
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            disabled={false}
-            ellipsizeMode="tail"
-            style={
-              Array [
-                Object {
-                  "color": "#555555",
-                  "fontSize": 30,
-                  "fontWeight": "300",
-                },
-                Object {
-                  "paddingVertical": 11,
-                },
-              ]
-            }
-          >
-            Unable to determine your location!
-          </Text>
-          <View
-            accessibilityComponentType={undefined}
-            accessibilityLabel={undefined}
-            accessibilityTraits={undefined}
-            accessible={true}
-            hasTVPreferredFocus={undefined}
-            hitSlop={undefined}
-            isTVSelectable={true}
-            nativeID={undefined}
-            onLayout={undefined}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            style={
-              Array [
-                Object {
-                  "backgroundColor": "transparent",
-                },
-                Object {
-                  "padding": 7.333333333333333,
-                },
-              ]
-            }
-            testID={undefined}
-            tvParallaxProperties={undefined}
-          >
-            <View
-              style={
-                Object {
-                  "flex": -1,
-                }
-              }
-            >
-              <View
-                style={
-                  Array [
-                    Object {
-                      "alignItems": "center",
-                      "flex": -1,
-                      "flexDirection": "row",
-                      "margin": 0,
-                      "padding": 0,
-                    },
-                    undefined,
-                  ]
-                }
-              >
-                <View
-                  style={
-                    Array [
-                      Object {
-                        "alignItems": "center",
-                        "paddingRight": 7.333333333333333,
-                        "width": undefined,
-                      },
-                    ]
-                  }
-                >
-                  <Text
-                    accessible={true}
-                    allowFontScaling={false}
-                    disabled={false}
-                    ellipsizeMode="tail"
-                    style={
-                      Array [
-                        Object {
-                          "color": undefined,
-                          "fontSize": 12,
-                        },
-                        Object {
-                          "color": "#8D8D9D",
-                          "fontSize": 15,
-                          "lineHeight": 15,
-                        },
-                        Object {
-                          "fontFamily": "FontAwesome",
-                          "fontStyle": "normal",
-                          "fontWeight": "normal",
-                        },
-                      ]
-                    }
-                  >
-                    
-                  </Text>
-                </View>
-                <Text
-                  accessible={true}
-                  allCaps={true}
-                  allowFontScaling={true}
-                  color="#51515E"
-                  disabled={false}
-                  ellipsizeMode="tail"
-                  fontWeight="bold"
-                  isCondensed={true}
-                  size="small"
-                  style={
-                    Object {
-                      "backgroundColor": "transparent",
-                      "color": "#51515E",
-                      "fontFamily": "Roboto",
-                      "fontSize": 10,
-                      "fontWeight": "bold",
-                      "letterSpacing": 0.5,
-                      "lineHeight": 10,
-                      "margin": 0,
-                      "paddingBottom": 0,
-                      "paddingTop": 2,
-                      "textAlignVertical": "center",
-                    }
-                  }
-                  textStyle={
-                    Object {
-                      "margin": 0,
-                      "paddingBottom": 0,
-                      "paddingTop": 2,
-                    }
-                  }
-                  underline={false}
-                >
-                  REFRESH
-                </Text>
-                <View />
-              </View>
-            </View>
-          </View>
-        </View>
       </View>
+      <View
+        style={
+          Object {
+            "height": 85,
+          }
+        }
+      />
     </View>
   </View>
 </RCTScrollView>

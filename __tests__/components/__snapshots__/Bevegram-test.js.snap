@@ -6,6 +6,7 @@ exports[`renders correctly 1`] = `
     Object {
       "flex": 1,
       "flexDirection": "row",
+      "padding": 4.888888888888888,
     }
   }
 >
@@ -14,9 +15,8 @@ exports[`renders correctly 1`] = `
       Object {
         "alignItems": "center",
         "alignSelf": "center",
-        "flex": 2,
+        "flex": 1,
         "flexDirection": "row",
-        "paddingLeft": 10,
       }
     }
   >
@@ -60,9 +60,9 @@ exports[`renders correctly 1`] = `
     <View
       style={
         Object {
-          "flex": 1,
+          "flex": -1,
           "flexDirection": "column",
-          "paddingLeft": 15,
+          "paddingLeft": 11,
         }
       }
     >
@@ -91,7 +91,7 @@ exports[`renders correctly 1`] = `
           }
         }
       >
-        Person Person
+        Person
       </Text>
       <View
         style={
@@ -275,6 +275,7 @@ exports[`renders correctly 1`] = `
               Array [
                 Object {
                   "paddingHorizontal": 11,
+                  "paddingVertical": 7.333333333333333,
                 },
               ]
             }
