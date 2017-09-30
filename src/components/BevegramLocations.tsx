@@ -13,6 +13,7 @@ import MapView from "react-native-maps";
 
 import { ParseIntAsDecimal } from "../CommonUtilities";
 import { GpsCoordinates, Location } from "../db/tables";
+import * as RNUtils from "../ReactNativeUtilities";
 
 import theme from "../theme";
 
@@ -304,7 +305,7 @@ export default class BevegramLocations extends Component<
                         alignSelf: "flex-start",
                       }}
                     >
-                      Buzz Otter Bars
+                      {RNUtils.isNarrow ? "Bars" : "Buzz Otter Bars"}
                     </BevText>
                   </View>
                   <View
