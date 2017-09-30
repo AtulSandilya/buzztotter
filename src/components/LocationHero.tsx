@@ -16,7 +16,7 @@ const LocationHero: React.StatelessComponent<LocationHeroProps> = props => {
     <View>
       <BevText
         fontWeight="light"
-        size="extraExtraLarge"
+        size="extraLarge"
         color={theme.colors.uiTextColor}
       >
         {props.loc.name}
