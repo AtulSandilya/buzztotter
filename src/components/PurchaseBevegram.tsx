@@ -2,8 +2,6 @@ import * as React from "react";
 import { Component } from "react";
 import { TextInput, TouchableHighlight, View } from "react-native";
 
-import { WindowWidth } from "../ReactNativeUtilities";
-
 import {
   PurchaseActionData,
   PurchasePackage,
@@ -631,16 +629,6 @@ export default class PurchaseBevegram extends Component<
                 },
               ]}
             >
-              <View style={[globalStyles.bevLineLeft]}>
-                <BevButton
-                  onPress={this.props.closePurchaseRoute}
-                  text={"Back"}
-                  shortText={"Back"}
-                  iconType="leftArrow"
-                  label="Cancel Purchase Button"
-                  type="tertiary"
-                />
-              </View>
               <View style={globalStyles.bevLineRight}>
                 <BevButton
                   onPress={this.initiatePurchaseOrSendOrBoth}
