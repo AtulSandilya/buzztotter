@@ -128,7 +128,10 @@ class RedeemComplete extends React.Component<RedeemCompleteProps, {}> {
                 fontSize="largeNormal"
                 icon="alert"
                 preserveCase={true}
-                style={{ marginBottom: theme.padding.normal }}
+                style={{
+                  marginBottom: theme.padding.normal,
+                  paddingHorizontal: theme.padding.normal,
+                }}
               >
                 {"Don't forget to tip your bartender or server!"}
               </BevUiText>
