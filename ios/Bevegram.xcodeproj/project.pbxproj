@@ -44,10 +44,7 @@
 		638BBDC01F1D339F00A31B41 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBDB01F1D32C900A31B41 /* libRCTText.a */; };
 		638BBDC11F1D339F00A31B41 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD851F1D324C00A31B41 /* libRCTVibration.a */; };
 		638BBDC21F1D339F00A31B41 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD8C1F1D325F00A31B41 /* libRCTWebSocket.a */; };
-		638BBDC31F1D339F00A31B41 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD3C1F1D31B200A31B41 /* libReact.a */; };
-		638BBDC41F1D339F00A31B41 /* libthird-party.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD4C1F1D31B200A31B41 /* libthird-party.a */; };
 		638BBDC51F1D339F00A31B41 /* libyoga.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD401F1D31B200A31B41 /* libyoga.a */; };
-		638BBDC61F1D339F00A31B41 /* libyoga.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BBD421F1D31B200A31B41 /* libyoga.a */; };
 		63961A851E85DD0D0010F3E5 /* logo-just-otter.png in Resources */ = {isa = PBXBuildFile; fileRef = 63961A841E85DD0D0010F3E5 /* logo-just-otter.png */; };
 		63B280741F72E7B700BF3DF6 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63B280721F72E7B700BF3DF6 /* FontAwesome.ttf */; };
 		63B280751F72E7B700BF3DF6 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63B280731F72E7B700BF3DF6 /* Ionicons.ttf */; };
@@ -395,10 +392,7 @@
 				638BBDC01F1D339F00A31B41 /* libRCTText.a in Frameworks */,
 				638BBDC11F1D339F00A31B41 /* libRCTVibration.a in Frameworks */,
 				638BBDC21F1D339F00A31B41 /* libRCTWebSocket.a in Frameworks */,
-				638BBDC31F1D339F00A31B41 /* libReact.a in Frameworks */,
-				638BBDC41F1D339F00A31B41 /* libthird-party.a in Frameworks */,
 				638BBDC51F1D339F00A31B41 /* libyoga.a in Frameworks */,
-				638BBDC61F1D339F00A31B41 /* libyoga.a in Frameworks */,
 				C479458B7A12C5ABD725B2B3 /* libPods-Bevegram.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

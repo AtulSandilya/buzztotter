@@ -36,21 +36,6 @@ target 'Bevegram' do
   pod 'React', :path => '../node_modules/react-native', :subspecs => [
     'BatchedBridge',
     'Core',
-    'jschelpers_legacy',
-    'ART',
-    'RCTActionSheet',
-    'RCTAdSupport',
-    'RCTAnimation',
-    'RCTCameraRoll',
-    'RCTGeolocation',
-    'RCTImage',
-    'RCTNetwork',
-    'RCTPushNotification',
-    'RCTSettings',
-    'RCTText',
-    'RCTVibration',
-    'RCTWebSocket',
-    'RCTLinkingIOS',
   ]
 
 
@@ -73,3 +58,12 @@ target 'Bevegram-tvOS' do
   end
 
 end
+
+# # Get archive builds working again
+# post_install do |installer|
+#   installer.pods_project.targets.each do |target|
+#     if target.name == "React"
+#       target.remove_from_project
+#     end
+#   end
+# end
