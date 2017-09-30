@@ -595,10 +595,6 @@ export default class PurchaseBevegram extends Component<
               {this.renderSendOptions()}
               {this.renderPurchaseOptions()}
               {this.renderMessageLine()}
-              {/* Add empty view to ensure elements above are viewable */}
-              <View
-                style={{ height: viewBelowHeight + 20, width: WindowWidth }}
-              />
             </View>
           </RouteWithNavBarWrapper>
         </View>

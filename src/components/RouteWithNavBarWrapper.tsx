@@ -1,5 +1,5 @@
 import * as React from "react";
-import { RefreshControl, ViewStyle } from "react-native";
+import { RefreshControl, View, ViewStyle } from "react-native";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -56,7 +56,10 @@ const RouteWithNavBarWrapper: React.StatelessComponent<
         props.dismissKeyboardOnTouchOutsideKeyboard ? "never" : "always"
       }
     >
-      {props.children}
+      <View>
+        {props.children}
+        <View style={{ height: NavBarHeight }} />
+      </View>
     </KeyboardAwareScrollView>
   );
 };

@@ -164,8 +164,6 @@ class RedeemComplete extends React.Component<RedeemCompleteProps, {}> {
               </View>
             </View>
           </View>
-          {/* Ensure the Button can be scrolled to */}
-          <View style={{ height: 150 }} />
         </View>
       </RouteWithNavBarWrapper>
     );
