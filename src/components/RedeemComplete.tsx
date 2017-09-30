@@ -61,7 +61,7 @@ class RedeemComplete extends React.Component<RedeemCompleteProps, {}> {
   public render() {
     const containerPadding = 15;
     return (
-      <RouteWithNavBarWrapper>
+      <RouteWithNavBarWrapper hasNavBar={false}>
         <View>
           <View
             style={{

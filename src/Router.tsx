@@ -104,9 +104,7 @@ const scenes = (showLogin: boolean | undefined) => {
         key={RouteNames.RedeemComplete}
         component={CRedeemComplete}
         panHandlers={null}
-        navBar={() => (
-          <CBranding showBack={false} navBarText="Redeem Successful!" />
-        )}
+        hideNavBar={true}
       />
       <RNRF.Scene
         key={RouteNames.AddCreditCard}

@@ -4,7 +4,11 @@ import { RefreshControl, View, ViewStyle } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { NavBarHeight } from "../components/Branding";
-import { WindowHeight, WindowWidth } from "../ReactNativeUtilities";
+import {
+  StatusBarHeight,
+  WindowHeight,
+  WindowWidth,
+} from "../ReactNativeUtilities";
 
 import theme from "../theme";
 
@@ -14,6 +18,7 @@ interface RouteWithNavBarWrapperProps {
   isRefreshing?: boolean;
   refreshText?: string;
   dismissKeyboardOnTouchOutsideKeyboard?: boolean;
+  hasNavBar?: boolean;
   refreshAction?: () => void;
 }
 
@@ -24,9 +29,12 @@ const RouteWithNavBarWrapper: React.StatelessComponent<
   const leftOffset = 0;
   const containerStyle: ViewStyle = {
     flex: 1,
-    height: WindowHeight - NavBarHeight - props.viewBelowHeight,
+    height:
+      WindowHeight -
+      (props.hasNavBar === false ? StatusBarHeight : NavBarHeight) -
+      props.viewBelowHeight,
     left: leftOffset,
-    top: NavBarHeight,
+    top: props.hasNavBar === false ? StatusBarHeight : NavBarHeight,
     width: WindowWidth,
   };
 
