@@ -20,6 +20,7 @@ it('renders correctly', () => {
       creditCards={[]}
       selectedPurchasePackage={purchasePackages[0]}
       purchasePackages={purchasePackages}
+      imageUri="test.jpg"
     />
   ).toJSON();
   expect(tree).toMatchSnapshot();
