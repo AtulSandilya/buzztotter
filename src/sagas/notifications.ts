@@ -18,7 +18,7 @@ export function* startListener() {
   const currentNotificationSetting = yield select<{ settings: Settings }>(
     state => state.settings.notifications,
   );
-  const user = yield select<{ user: User }>(state => state.user);
+  const user: User = yield select<{ user: User }>(state => state.user);
 
   const shouldTurnOnListener =
     currentNotificationSetting &&
@@ -29,7 +29,23 @@ export function* startListener() {
     FCM.requestPermissions();
 
     FCM.getFCMToken().then(token => {
-      store.dispatch({ type: "SAVE_FCM_TOKEN", payload: token });
+      if (token) {
+        store.dispatch({
+          payload: { fcmToken: token },
+          type: "STORE_FCM_TOKEN",
+        });
+      }
+
+      const shouldSaveTokenToDb =
+        token !== undefined &&
+        user !== undefined &&
+        user.isLoggedIn &&
+        user.fcmToken !== undefined;
+
+      if (shouldSaveTokenToDb) {
+        store.dispatch({ type: "SAVE_FCM_TOKEN", payload: token });
+        store.dispatch({ type: "UPDATE_USER" });
+      }
     });
 
     notificationListener = FCM.on(

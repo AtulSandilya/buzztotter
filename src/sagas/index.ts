@@ -10,6 +10,7 @@ import {
   firebaseLogOut,
   getUser,
   listenUntilPurchaseSuccessOrFailure,
+  updateFirebaseUser,
   updateHistory,
   updatePurchasePackages,
   updateReceivedBevegrams,
@@ -239,8 +240,12 @@ export default function* rootSaga() {
     tryEvery("NOTIFICATION_CLICKED_WHILE_APP_IS_CLOSED", function*(action) {
       yield call(notifications.onNotificationClickedWhileAppIsClosed, action);
     }),
+
     tryEvery("SAVE_FCM_TOKEN", function*(action) {
       yield call(notifications.saveFcmToken, action);
+    }),
+    tryEvery("UPDATE_USER", function*(action) {
+      yield call(updateFirebaseUser, action);
     }),
 
     // History
