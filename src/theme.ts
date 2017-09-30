@@ -1,4 +1,7 @@
-import Color from "color";
+// import * as Color from "color";
+
+/* tslint:disable:no-var-requires */
+const Color = require("color");
 
 //  Font Weight, Line Height, and Padding Functions --------------------{{{
 
