@@ -21,6 +21,11 @@ const BevAvatar: React.StatelessComponent<BevAvatarProps> = props => {
   const half = 0.5;
   const borderRadius = avatarSize * half;
 
+  const imageSource =
+    props.imageUrl.indexOf("BuzzOtter") !== -1
+      ? require("../../img/logos/android-just-otter-icon.png")
+      : { uri: props.imageUrl };
+
   const styles = StyleSheet.create<Styles>({
     avatarImage: {
       borderRadius,
@@ -32,7 +37,7 @@ const BevAvatar: React.StatelessComponent<BevAvatarProps> = props => {
 
   return (
     <BevShadow borderRadius={borderRadius}>
-      <Image source={{ uri: props.imageUrl }} style={styles.avatarImage} />
+      <Image source={imageSource} style={styles.avatarImage} />
     </BevShadow>
   );
 };

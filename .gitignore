@@ -57,6 +57,9 @@ firebase.json
 firebaseDbRules.json
 GoogleService-Info.plist
 
+# Misc
+users.json
+
 # Typescript
 build/
 typings/

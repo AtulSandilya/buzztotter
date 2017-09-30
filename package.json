@@ -12,7 +12,9 @@
     "deployFirebaseDbRules": "ts-node --no-cache -P tsconfig-admin.json src/admin/deployFirebaseDbRules.ts",
     "buildProductionRelease": "ts-node --no-cache -P tsconfig-admin.json src/admin/buildProductionRelease.ts",
     "editLocations": "ts-node --no-cache -P tsconfig-admin.json src/admin/editLocations.ts",
-    "writePurchasePackages": "ts-node --no-cache -P tsconfig-admin.json src/admin/writePurchasePackages.ts"
+    "writePurchasePackages": "ts-node --no-cache -P tsconfig-admin.json src/admin/writePurchasePackages.ts",
+    "getUserList": "ts-node --no-cache -P tsconfig-admin.json src/admin/getUserList.ts",
+    "sendBevegramsToUsers": "ts-node --no-cache -P tsconfig-admin.json src/admin/sendBevegramsToUsers.ts"
   },
   "dependencies": {
     "buffer": "^5.0.7",

@@ -190,6 +190,10 @@ class FirebaseAdminDb extends FirebaseDb {
   }
 
   //  End Purchase Packages -----------------------------------------------}}}
+
+  public async getAllUsers() {
+    return await this.readNode("users");
+  }
 }
 
 export default FirebaseAdminDb;
