@@ -182,11 +182,16 @@ const HeroLine: React.StatelessComponent<HeroLineProps> = props => {
   if (props.text && props.icon) {
     return (
       <View style={[globalStyles.bevLine, { marginBottom: heroMargin }]}>
-        <View style={globalStyles.bevLineLeft}>
+        <View
+          style={[
+            globalStyles.bevLineLeft,
+            { paddingRight: theme.padding.small },
+          ]}
+        >
           <BevIcon iconType={props.icon} size={heroTextSize} />
         </View>
         <View style={globalStyles.bevLineRight}>
-          <BevText size={heroTextSize} fontWeight="light" numberOfLines={1}>
+          <BevText size={heroTextSize} fontWeight="light">
             {props.text}
           </BevText>
         </View>
