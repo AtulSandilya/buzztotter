@@ -5,9 +5,9 @@ config();
 
 import theme from "../theme";
 
-import { NotificationActions, NotificationPackage } from "../db/tables";
+import { NotificationPackage } from "../db/tables";
 
-export const sendNotification = async (notif: NotificationPackage) => {
+export const sendNotification = async (notif: NotificationPackage, gcmKey?: string) => {
   const fullNotif = {
     body: notif.body,
     click_action: "fcm.ACTION.HELLO",
@@ -32,7 +32,7 @@ export const sendNotification = async (notif: NotificationPackage) => {
     }),
     headers: {
       Accept: "application/json",
-      Authorization: `key=${process.env.FIREBASE_GCM_KEY}`,
+      Authorization: `key=${gcmKey || process.env.FIREBASE_GCM_KEY}`,
       "Content-Type": "application/json",
     },
     method: "POST",
