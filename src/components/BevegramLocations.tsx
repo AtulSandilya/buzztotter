@@ -296,9 +296,9 @@ export default class BevegramLocations extends Component<
                 >
                   <View style={{ flex: -1 }}>
                     <BevText
-                      size="extraLarge"
-                      fontWeight="light"
-                      color={theme.colors.bevPrimary}
+                      size={"extraLarge"}
+                      fontWeight={"bold"}
+                      color={theme.colors.uiTextColor}
                       textStyle={{
                         flex: -1,
                         alignSelf: "flex-start",
