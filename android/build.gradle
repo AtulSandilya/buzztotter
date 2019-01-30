@@ -14,13 +14,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-<<<<<<< ours
-        classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'com.google.gms:google-services:3.0.0'
-=======
         classpath 'com.android.tools.build:gradle:3.2.1'
->>>>>>> theirs
-
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -38,7 +33,6 @@ allprojects {
     }
 }
 
-<<<<<<< ours
 // From https://github.com/AndrewJack/versioning-react-native-app
 subprojects {
     ext {
@@ -58,10 +52,9 @@ def getNpmVersion() {
 def getNpmVersionArray() {
     def (major, minor, patch) = getNpmVersion().tokenize(".")
     return [Integer.parseInt(major), Integer.parseInt(minor), Integer.parseInt(patch)] as int[]
-=======
+}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.7'
     distributionUrl = distributionUrl.replace("bin", "all")
->>>>>>> theirs
 }
