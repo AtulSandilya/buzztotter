@@ -21,7 +21,6 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-ios/Pods
 
 # Android/IntelliJ
 #
@@ -29,7 +28,6 @@ build/
 .idea
 .gradle
 local.properties
-*.keystore
 *.iml
 
 # node.js
@@ -41,28 +39,6 @@ yarn-error.log
 # BUCK
 buck-out/
 \.buckd/
-android/app/libs
-android/keystores/debug.keystore
-
-# Builds
-ReleaseBuilds/
-
-# Api keys
-src/publicApiKeys*.ts
-buzzotter*.json
-android/app/google-services*.json
-.env
-.firebaserc
-firebase.json
-firebaseDbRules.json
-GoogleService-Info.plist
-
-# Misc
-users.json
-
-# Typescript
-build/
-typings/
 *.keystore
 
 # fastlane

@@ -89,49 +89,18 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 
-def buildKeyType = project.hasProperty("build_key_type") ? build_key_type : "dev"
-
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.0'
-
-    configurations.all {
-        resolutionStrategy {
-            force 'com.google.code.findbugs:jsr305:1.3.9'
-            force 'com.android.support:support-annotations:23.0.1'
-        }
-    }
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.buzzotter"
+        applicationId "com.bevegram"
         minSdkVersion 16
         targetSdkVersion 22
-        // From https://github.com/AndrewJack/versioning-react-native-app
-        versionCode versionMajor * 1000 + versionMinor * 100 + versionPatch
-        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        versionCode 1
+        versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
-        }
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        // Store any api keys for the manifest in gradle.properties
-        if(buildKeyType == "production") {
-            manifestPlaceholders = [
-                mapsApiKey: BEVEGRAM_MAPS_API_KEY,
-                facebookApiKey: BUZZOTTER_PRODUCTION_FACEBOOK_KEY
-            ]
-        } else {
-            manifestPlaceholders = [
-                mapsApiKey: BEVEGRAM_MAPS_API_KEY,
-                facebookApiKey: BUZZOTTER_DEV_FACEBOOK_KEY
-            ]
-        }
-    }
-    signingConfigs {
-        release {
-            storeFile file(BEVEGRAM_RELEASE_STORE_FILE)
-            storePassword BEVEGRAM_RELEASE_STORE_PASSWORD
-            keyAlias BEVEGRAM_RELEASE_KEY_ALIAS
-            keyPassword BEVEGRAM_RELEASE_KEY_PASSWORD
         }
     }
     splits {
@@ -146,7 +115,6 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -162,39 +130,12 @@ android {
             }
         }
     }
-
-    testBuildType "release"
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
-    compile project(':react-native-fbsdk')
-    compile project(':react-native-fcm')
-    compile project(':react-native-maps')
-    compile 'com.google.firebase:firebase-core:11.0.4'
-    compile project(':react-native-vector-icons')
-    compile 'com.android.support:support-annotations:23.0.1'
-    compile 'com.facebook.android:facebook-android-sdk:4.22.1'
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
-    compile 'com.google.android.gms:play-services-base:11.0.4'
-    compile 'com.google.android.gms:play-services-maps:11.0.4'
-
-    // react-native-firebase things
-    compile(project(':react-native-firebase')) {
-        transitive = false
-    }
-    compile "com.google.firebase:firebase-database:11.0.4"
-    compile "com.google.firebase:firebase-auth:11.0.4"
-    compile "com.google.firebase:firebase-crash:11.0.4"
-
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support:support-annotations:23.0.1'
 }
 
 // Run this once to be able to run the application with BUCK
@@ -203,5 +144,3 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
-
-apply plugin: "com.google.gms.google-services"
