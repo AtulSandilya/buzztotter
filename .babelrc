@@ -1,3 +1,23 @@
 {
-  "presets": ["react-native"]
+    "env": {
+        "development": {
+            "presets": ["react-native"],
+            "plugins": ["functional-hmr"]
+        },
+        "production": {
+            "presets": ["react-native"]
+        },
+        "test": {
+            "presets": ["react-native"]
+        },
+        "queue-server": {
+            "presets": ["react-native"],
+            "plugins": [
+                ["transform-runtime", {
+                    "polyfill": false,
+                    "regenerator": true
+                }]
+            ]
+        }
+    }
 }
